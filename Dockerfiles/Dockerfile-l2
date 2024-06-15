@@ -1,0 +1,5 @@
+FROM track-a-tron-l1
+WORKDIR /track_a_tron
+COPY requirements requirements
+RUN pip install -r requirements/production.txt
+ENTRYPOINT ["/bin/sh"]

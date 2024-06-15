@@ -1,0 +1,15 @@
+hypercorn
+quart
+quart-rpc
+sqlalchemy
+psycopg2
+python-dotenv
+pytz
+more_itertools
+requests
+flask-orjson
+vite-transporter
+mail-parser
+flask-imp
+huey
+supervisor

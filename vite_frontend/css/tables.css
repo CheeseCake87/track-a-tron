@@ -1,0 +1,64 @@
+.-clickable {
+    @apply cursor-pointer;
+}
+
+a.-flex-table-row, a.-grid-table-row {
+    @apply no-underline cursor-pointer;
+    color: inherit;
+}
+
+.-flex-table-bg-wrapper {
+    @apply rounded-md;
+    background: #e3e3e3;
+}
+
+.-flex-table {
+    @apply flex flex-col w-full p-4 rounded-md;
+    background: var(--table-bg);
+}
+
+.-flex-table-header {
+    @apply flex flex-row gap-2 rounded-md p-2 pt-0 font-bold;
+}
+
+.-flex-table-body {
+    @apply flex flex-col overflow-auto;
+}
+
+.-flex-table-row {
+    @apply flex flex-row gap-2 rounded-md p-2;
+}
+
+.-flex-table-row:hover {
+    background-color: var(--table-row-hover);
+}
+
+.-flex-table-cell-group {
+    @apply flex flex-row gap-2;
+}
+
+.-flex-table-cell-min {
+    @apply inline-block min-w-24;
+}
+
+.-flex-table-cell {
+    @apply inline-block;
+}
+
+.-flex-table-cell-header {
+    @apply inline-block;
+    font-weight: bold;
+}
+
+.-grid-table-header {
+    @apply grid gap-2 rounded-md p-2 pt-0 font-bold;
+    background: var(--table-bg);
+}
+
+.-grid-table-row {
+    @apply grid gap-2 rounded-md p-2;
+}
+
+.-grid-table-row:hover {
+    background-color: var(--table-row-hover);
+}

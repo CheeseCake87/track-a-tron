@@ -1,0 +1,49 @@
+
+h1 {
+    @apply text-5xl;
+    margin-top: 1.8rem;
+    margin-bottom: 1rem;
+    color: var(--h1-color)
+}
+
+h2 {
+    @apply text-4xl;
+    margin-top: 1.4rem;
+    margin-bottom: 0.8rem;
+    color: var(--h2-color)
+}
+
+h3 {
+    @apply text-3xl;
+    margin-top: 1rem;
+    margin-bottom: 0.4rem;
+    color: var(--h3-color)
+}
+
+h4 {
+    @apply text-2xl font-semibold;
+    margin-top: 0.8rem;
+    margin-bottom: 0.4rem;
+    color: var(--h4-color)
+}
+
+h5 {
+    @apply text-xl font-semibold;
+    margin-top: 0.8rem;
+    margin-bottom: 0.4rem;
+    color: var(--h5-color)
+}
+
+h6 {
+    @apply text-lg;
+    margin-top: 0.8rem;
+    margin-bottom: 0.4rem;
+    color: var(--h6-color)
+}
+
+.page-header {
+    @apply text-2xl font-semibold;
+    margin-top: 0.2rem;
+    margin-bottom: 0.8rem;
+    color: var(--h4-color)
+}

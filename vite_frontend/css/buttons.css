@@ -1,0 +1,119 @@
+input[type="submit"],
+button,
+.btn,
+.btn-confirm,
+.btn-good,
+.btn-warning,
+.btn-danger,
+a.btn,
+a.btn-confirm,
+a.btn-good,
+a.btn-warning,
+a.btn-danger {
+    @apply rounded-md text-sm justify-center
+    inline-flex gap-1 py-2 px-4 no-underline
+    cursor-pointer capitalize shadow items-center
+    select-none;
+}
+
+.btn-like {
+    @apply rounded-md text-sm justify-center
+    inline-flex gap-1 py-2 px-4 no-underline
+    cursor-pointer capitalize items-center
+    select-none;
+}
+
+.btn {
+    background-color: var(--button-default-bg);
+    color: var(--button-default-text-color);
+    border: 1px solid var(--button-default-border-color);
+}
+
+.btn:hover, .a-btn:hover {
+    background-color: var(--button-default-bg-hover);
+    color: var(--button-default-text-color-hover);
+}
+
+.btn-a {
+    @apply py-1 px-2 text-center;
+}
+
+.btn-a:hover {
+    @apply underline;
+}
+
+.btn-confirm {
+    background-color: var(--button-confirm-bg);
+    color: var(--button-confirm-text-color);
+    border: 1px solid var(--button-confirm-border-color);
+}
+
+.btn-confirm:disabled {
+    @apply cursor-not-allowed opacity-60;
+    background-color: var(--button-confirm-bg);
+    color: var(--button-confirm-text-color);
+    border: 1px solid var(--button-confirm-border-color);
+}
+
+.btn-confirm:hover {
+    background-color: var(--button-confirm-bg-hover);
+    color: var(--button-confirm-text-color-hover);
+}
+
+.btn-good {
+    background-color: var(--button-good-bg);
+    color: var(--button-good-text-color);
+    border: 1px solid var(--button-good-border-color);
+}
+
+.btn-good:hover {
+    background-color: var(--button-good-bg-hover);
+    color: var(--button-good-text-color-hover);
+}
+
+.btn-warning {
+    background-color: var(--button-warning-bg);
+    color: var(--button-warning-text-color);
+    border: 1px solid var(--button-warning-border-color);
+}
+
+.btn-warning:hover {
+    background-color: var(--button-warning-bg-hover);
+    color: var(--button-warning-text-color-hover);
+}
+
+.btn-danger {
+    background-color: var(--button-danger-bg);
+    color: var(--button-danger-text-color);
+    border: 1px solid var(--button-danger-border-color);
+}
+
+.btn-danger:hover {
+    background-color: var(--button-danger-bg-hover);
+    color: var(--button-danger-text-color-hover);
+}
+
+.btn-slim {
+    @apply py-1 px-2;
+}
+
+.btn-tab-group {
+    @apply flex gap-1 w-full border-b px-4;
+}
+
+.btn-tab {
+    @apply rounded-b-none shadow-none;
+    background-color: var(--button-default-bg);
+    color: var(--button-default-text-color);
+}
+
+.btn-tab:hover {
+    background-color: var(--button-default-bg-hover);
+    color: var(--button-default-text-color-hover);
+}
+
+.btn-tab-active {
+    @apply rounded-b-none shadow-none;
+    background-color: var(--button-confirm-bg-hover);
+    color: var(--button-confirm-text-color-hover);
+}

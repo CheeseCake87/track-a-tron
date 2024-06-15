@@ -1,0 +1,88 @@
+
+.__elements__ > h4 {
+    margin-top: 1.5rem;
+    margin-bottom: 0.8rem;
+}
+
+.__attention__ {
+    @apply flex flex-col gap-2;
+}
+
+.__attention__ > div {
+    @apply w-full;
+}
+
+.main-container {
+    @apply flex flex-row h-screen w-full;
+}
+
+.main-content {
+    @apply flex flex-col h-screen py-4 px-4 flex-1;
+    min-width: 0;
+    margin-top: 0.1rem;
+}
+
+.main-menu {
+    @apply flex flex-col justify-between items-start h-screen
+    overflow-x-hidden
+    overflow-y-auto;
+    background: var(--main-menu-bg-color);
+    min-width: 200px;
+}
+
+.main-menu > div {
+    @apply flex flex-col gap-2 p-4 w-full;
+}
+
+.main-menu-icon {
+    @apply flex items-center justify-start w-full
+    py-2 pl-2 pr-8 rounded-3xl cursor-pointer shadow gap-2;
+    background: var(--main-menu-icon-bg-color);
+    color: var(--main-menu-icon-text-color);
+    border: 1px solid var(--main-menu-icon-border-color);
+}
+
+.main-menu-icon:hover,
+.main-menu-icon-hover {
+    @apply rounded-xl;
+    background: var(--main-menu-icon-bg-color-hover);
+    color: var(--main-menu-icon-text-color-hover);
+    border: 1px solid var(--main-menu-icon-border-color-hover);
+}
+
+.main-menu-icon-active {
+    @apply flex items-center justify-start w-full
+    py-2 pl-2 pr-8 rounded-xl cursor-pointer shadow gap-2;
+    background: var(--main-menu-icon-bg-color-hover);
+    color: var(--main-menu-icon-text-color-hover);
+    border: 1px solid var(--main-menu-icon-border-color-active);
+}
+
+.main-menu-icon span {
+    @apply pr-2;
+}
+
+.tooltip-text {
+    @apply hidden absolute bg-black text-white text-center p-1 px-3 rounded-lg;
+    margin-top: 0.1rem;
+}
+
+.main-menu-icon:hover .tooltip-text {
+    @apply block;
+}
+
+.main-menu-icon-active:hover .tooltip-text {
+    @apply block;
+}
+
+@media (max-height: 550px) {
+    .main-menu-icon:hover .tooltip-text {
+        @apply hidden;
+    }
+
+    .main-menu-icon-active:hover .tooltip-text {
+        @apply hidden;
+    }
+}
+
+

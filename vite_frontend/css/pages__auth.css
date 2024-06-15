@@ -1,0 +1,23 @@
+.login-background {
+    @apply w-full h-screen flex flex-col items-center justify-center;
+}
+
+.login-outer {
+    width: 100%;
+    max-width: 300px;
+}
+
+.login-inner {
+    @apply shadow-xl rounded-xl p-6;
+    width: 100%;
+    background: #fbfbfb;
+}
+
+.login-form-group input {
+    @apply w-full;
+}
+
+.loading-background {
+    @apply w-full h-screen flex flex-col items-center justify-center;
+    background: linear-gradient(-45deg, #212129, #2f3035);
+}

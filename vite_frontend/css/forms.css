@@ -1,0 +1,393 @@
+form .form-section {
+    @apply flex flex-col gap-2 pb-2;
+}
+
+form .form-section h2 {
+    @apply text-lg mt-2 mb-0;
+}
+
+form .field-group {
+    @apply flex flex-row flex-wrap gap-2;
+}
+
+label {
+    @apply block text-sm font-medium;
+    margin-bottom: 0.2rem;
+    margin-left: 0.2rem;
+}
+
+/* INPUTS */
+
+select {
+    @apply block pl-3 pr-8 py-2 border cursor-pointer
+    rounded-md shadow-sm appearance-none;
+    border-color: var(--input-border);
+    background: url(
+    "data:image/svg+xml,<svg height='10px' width='10px' viewBox='0 0 16 16' fill='%23000000' xmlns='http://www.w3.org/2000/svg'><path d='M7.247 11.14 2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z'/></svg>"
+    ) no-repeat;
+    background-position: calc(100% - 0.75rem) center !important;
+    background-color: var(--input-bg);
+    height: 100%;
+    max-height: 42px;
+}
+
+.input-like {
+    @apply block px-3 py-2 border
+    rounded-md shadow-sm appearance-none;
+    background-color: var(--input-bg);
+    border-color: var(--input-border);
+    height: 100%;
+    max-height: 42px;
+}
+
+.input-like-no-bg {
+    @apply block px-3 py-2
+    rounded-md appearance-none;
+    height: 100%;
+    max-height: 42px;
+}
+
+input[type="text"],
+input[type="password"],
+input[type="email"],
+input[type="url"],
+input[type="tel"],
+input[type="number"],
+input[type="date"],
+input[type="datetime-local"],
+input[type="month"],
+input[type="week"],
+input[type="time"],
+input[type="search"],
+input[type="range"] {
+    @apply block px-3 py-2 border
+    rounded-md shadow-sm appearance-none;
+    background-color: var(--input-bg);
+    border-color: var(--input-border);
+    height: 100%;
+    max-height: 42px;
+}
+
+select:hover,
+input[type="text"]:hover,
+input[type="password"]:hover,
+input[type="email"]:hover,
+input[type="url"]:hover,
+input[type="tel"]:hover,
+input[type="number"]:hover,
+input[type="date"]:hover,
+input[type="datetime-local"]:hover,
+input[type="month"]:hover,
+input[type="week"]:hover,
+input[type="time"]:hover,
+input[type="search"]:hover,
+input[type="range"]:hover,
+input[type="color"]:hover {
+    border-color: var(--input-border-hover);
+}
+
+select:focus,
+input[type="text"]:focus,
+input[type="password"]:focus,
+input[type="email"]:focus,
+input[type="url"]:focus,
+input[type="tel"]:focus,
+input[type="number"]:focus,
+input[type="date"]:focus,
+input[type="datetime-local"]:focus,
+input[type="month"]:focus,
+input[type="week"]:focus,
+input[type="time"]:focus,
+input[type="search"]:focus,
+input[type="range"]:focus,
+input[type="color"]:focus {
+    border-color: var(--input-border-focus);
+    outline: none;
+}
+
+input[type="file"] {
+    @apply block border cursor-pointer
+    rounded-md shadow-sm appearance-none;
+    background-color: var(--input-bg);
+    border-color: var(--input-border);
+    height: 100%;
+    max-height: 42px;
+}
+
+input[type="file"]::file-selector-button {
+    @apply text-sm text-center
+    inline-block py-2 px-4
+    rounded-tl rounded-tr-none
+    rounded-bl rounded-br-none
+    cursor-pointer;
+    margin-right: 1rem;
+    background-color: var(--button-confirm-bg);
+    color: var(--button-confirm-text-color);
+    border: 1px solid var(--button-confirm-border-color);
+    height: 100%;
+    max-height: 42px;
+}
+
+input[type="file"]::file-selector-button:hover {
+    background-color: var(--button-confirm-bg-hover);
+    color: var(--button-confirm-text-color-hover);
+}
+
+input[type="color"] {
+    @apply block px-3 py-2 border cursor-pointer
+    rounded-md shadow-sm appearance-none;
+    background-color: var(--input-bg);
+    border-color: var(--input-border);
+    height: 100%;
+    max-height: 42px;
+}
+
+input[type="range"] {
+    @apply cursor-pointer;
+    height: 100%;
+    max-height: 42px;
+    accent-color: var(--input-range-accent-color);
+}
+
+
+/* INPUTS // */
+
+/* REQUIRED */
+
+input[required] {
+    background-color: var(--input-required-bg);
+}
+
+select[required] {
+    background-color: var(--input-required-bg);
+}
+
+input[type="file"][required] {
+    background-color: var(--input-required-bg);
+}
+
+/* REQUIRED // */
+
+/* INLINE ACTION */
+
+.inline-action-right {
+    @apply flex justify-between align-middle items-center shadow-sm border rounded-md;
+    background: var(--input-border);
+    height: 100%;
+    max-height: 42px;
+}
+
+.inline-action-right > input {
+    @apply rounded-r-none shadow-none;
+}
+
+.inline-action-right div,
+.inline-action-right span {
+    @apply block p-2 cursor-pointer;
+    color: var(--form-action-text-color);
+}
+
+.inline-action-right div:hover,
+.inline-action-right span:hover {
+    @apply block p-2;
+    color: var(--form-action-text-color);
+}
+
+/* INLINE ACTION // */
+
+
+/* LABELS */
+
+label > input {
+    @apply mt-1;
+}
+
+/* LABELS // */
+
+/* RANGE LABELS */
+
+.range-labels {
+    @apply flex justify-between align-middle items-center
+    rounded shadow-sm border;
+    background-color: var(--form-action-bg);
+    border-color: var(--input-border);
+    color: var(--form-action-text-color);
+    height: 100%;
+    max-height: 42px;
+}
+
+.range-labels > span:first-child,
+.range-labels > span:last-child {
+    @apply px-3 py-2 appearance-none
+    font-semibold
+    flex items-center text-sm;
+    background: none;
+    color: var(--form-action-text-color);
+    margin: 0;
+}
+
+.range-labels > span {
+    @apply px-3 py-2
+    justify-center
+    appearance-none
+    font-semibold
+    flex items-center
+    text-sm;
+    background-color: var(--button-confirm-bg);
+    color: var(--button-confirm-text-color);
+    margin: 0;
+    height: 100%;
+    max-height: 42px;
+    min-width: 50px;
+}
+
+.range-labels > input[type="range"] {
+    @apply border-0 rounded-none;
+}
+
+/* RANGE LABELS // */
+
+/* INLINE LABEL */
+
+.inline-label {
+    @apply flex justify-between align-middle
+    border rounded shadow-sm;
+    background-color: var(--inline-label-bg);
+    border-color: var(--inline-label-border);
+    height: 42px;
+}
+
+.inline-label > label {
+    @apply px-3 py-2 appearance-none
+    flex items-center break-keep
+    rounded-tl rounded-tr-none
+    rounded-bl rounded-br-none;
+    margin: 0;
+}
+
+.inline-label > .range-labels {
+    @apply shadow-none flex-1;
+    border: 0;
+}
+
+.inline-label > .range-labels > input[type="range"] {
+    @apply flex-1;
+}
+
+.inline-label > input[type="text"],
+.inline-label > input[type="password"],
+.inline-label > input[type="email"],
+.inline-label > input[type="url"],
+.inline-label > input[type="tel"],
+.inline-label > input[type="number"],
+.inline-label > input[type="date"],
+.inline-label > input[type="datetime-local"],
+.inline-label > input[type="month"],
+.inline-label > input[type="week"],
+.inline-label > input[type="time"],
+.inline-label > input[type="search"],
+.inline-label > input[type="color"],
+.inline-label > input[type="file"],
+.inline-label > input[type="range"] {
+    @apply block px-3 py-2 appearance-none flex-1
+    rounded;
+    box-shadow: none;
+}
+
+
+.inline-label > select {
+    @apply block pl-3 pr-8 py-2 border cursor-pointer
+    rounded-md appearance-none;
+    box-shadow: none;
+    border-color: var(--input-border);
+    background: url(
+    "data:image/svg+xml,<svg height='10px' width='10px' viewBox='0 0 16 16' fill='%23000000' xmlns='http://www.w3.org/2000/svg'><path d='M7.247 11.14 2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z'/></svg>"
+    ) no-repeat;
+    background-position: calc(100% - 0.75rem) center !important;
+    background-color: var(--input-bg);
+    height: 100%;
+    max-height: 42px;
+}
+
+/* INLINE LABELS // */
+
+/* RADIO */
+
+.radio-group-row {
+    @apply flex justify-between align-middle
+    border rounded shadow-sm p-1;
+    background-color: var(--inline-label-bg);
+    border-color: var(--inline-label-border);
+    height: 100%;
+    max-height: 42px;
+}
+
+.radio-group-col {
+    @apply flex flex-col justify-between align-middle
+    border rounded shadow-sm p-1;
+    background-color: var(--inline-label-bg);
+    border-color: var(--inline-label-border);
+}
+
+.radio-label {
+    @apply flex px-3 py-2 border
+    items-center cursor-pointer
+    rounded-md shadow-sm appearance-none;
+    background-color: var(--input-bg);
+    border-color: var(--input-border);
+    height: 100%;
+    max-height: 42px;
+    -webkit-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+.radio-label:hover {
+    border-color: var(--input-border-hover);
+}
+
+.radio-label > input[type="radio"] {
+    @apply appearance-none
+    border
+    rounded-full
+    shadow-sm
+    cursor-pointer;
+    height: 1rem;
+    width: 1rem;
+    margin-right: 0.5rem;
+}
+
+.radio-label > input[type="radio"]:checked {
+    background-color: var(--button-confirm-bg-hover);
+}
+
+/* RADIO */
+
+/* CHECKBOX */
+
+.checkbox-label {
+    @apply flex px-3 py-2 border
+    items-center cursor-pointer
+    rounded-md shadow-sm appearance-none;
+    background-color: var(--input-bg);
+    border-color: var(--input-border);
+    height: 100%;
+    max-height: 42px;
+    -webkit-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+input[type="checkbox"] {
+    @apply
+    border
+    shadow-sm
+    cursor-pointer;
+    height: 1rem;
+    width: 1rem;
+    margin-right: 0.5rem;
+    margin-top: 0;
+}
+
+/* CHECKBOX */
+

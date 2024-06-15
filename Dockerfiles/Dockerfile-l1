@@ -1,0 +1,21 @@
+FROM python:3.12-alpine
+
+# (pip) weasyprint requirements:
+RUN apk add py3-pip gcc musl-dev  \
+    python3-dev pango zlib-dev jpeg-dev  \
+    openjpeg-dev g++ libffi-dev
+
+# (pip) weasyprint fonts:
+RUN apk add --update --upgrade --no-cache  \
+    fontconfig ttf-freefont font-noto  \
+    terminus-font && fc-cache -f && fc-list | sort
+
+# (pip) psycopg2
+RUN apk add --update --no-cache libpq-dev
+
+# timezone:
+ENV TZ=Europe/London
+RUN apk add --update --no-cache linux-headers tzdata
+
+WORKDIR /track_a_tron
+ENTRYPOINT ["/bin/sh"]

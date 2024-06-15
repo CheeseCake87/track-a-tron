@@ -1,0 +1,2 @@
+class StatusChanger:
+    pass

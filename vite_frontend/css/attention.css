@@ -1,0 +1,88 @@
+.attention {
+    @apply rounded border;
+    background-color: var(--attention-default-bg-color);
+    color: var(--html-default-text-color);
+    border-color: var(--attention-default-border-color);
+    padding: 1rem;
+    margin: 0 0.2rem;
+}
+
+.attention h1,
+.attention h2,
+.attention h3,
+.attention h4,
+.attention h5,
+.attention h6 {
+    margin-top: 0;
+}
+
+.attention p {
+    margin-bottom: 0;
+}
+
+.attention-confirm {
+    @apply rounded border;
+    background-color: var(--attention-confirm-bg-color);
+    color: var(--html-default-text-color);
+    border-color: var(--attention-confirm-border-color);
+    padding: 1rem;
+    margin: 0 0.2rem;
+}
+
+.attention-confirm h1,
+.attention-confirm h2,
+.attention-confirm h3,
+.attention-confirm h4,
+.attention-confirm h5,
+.attention-confirm h6 {
+    margin-top: 0;
+}
+
+.attention-confirm p {
+    margin-bottom: 0;
+}
+
+
+.attention-warning {
+    @apply rounded border;
+    background-color: var(--attention-warning-bg-color);
+    color: var(--html-default-text-color);
+    border-color: var(--attention-warning-border-color);
+    padding: 1rem;
+    margin: 0 0.2rem;
+}
+
+.attention-warning h1,
+.attention-warning h2,
+.attention-warning h3,
+.attention-warning h4,
+.attention-warning h5,
+.attention-warning h6 {
+    margin-top: 0;
+}
+
+.attention-warning p {
+    margin-bottom: 0;
+}
+
+.attention-danger {
+    @apply rounded border;
+    background-color: var(--attention-danger-bg-color);
+    color: var(--html-default-text-color);
+    border-color: var(--attention-danger-border-color);
+    padding: 1rem;
+    margin: 0 0.2rem;
+}
+
+.attention-danger h1,
+.attention-danger h2,
+.attention-danger h3,
+.attention-danger h4,
+.attention-danger h5,
+.attention-danger h6 {
+    margin-top: 0;
+}
+
+.attention-danger p {
+    margin-bottom: 0;
+}

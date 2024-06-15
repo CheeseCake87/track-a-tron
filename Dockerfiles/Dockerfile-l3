@@ -1,0 +1,8 @@
+FROM track-a-tron-l2
+WORKDIR /track_a_tron
+RUN mkdir -p /track_a_tron/logs
+COPY app app
+COPY cli cli
+COPY supervisor supervisor
+COPY .env .env
+ENTRYPOINT ["supervisord", "-c", "/track_a_tron/supervisor/supervisord.conf"]

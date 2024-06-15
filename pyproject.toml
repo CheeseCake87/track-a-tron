@@ -1,0 +1,18 @@
+[project]
+name = "uakari"
+
+[tool.vite_transporter]
+npm_exec = "npm"
+npx_exec = "npx"
+serve_app = "app"
+vite_apps = ["vite_frontend"]
+
+[tool.pyqwe]
+quart-dev = "app:dev"
+quart-pro = "*:hypercorn app:create_app --config hypercorn/config.toml"
+vite-run = "*(vite_frontend):npx vite --host 127.0.0.1 --port 6262"
+vite-build = "*(vite_frontend):npx vite build"
+vite-install = "*(vite_frontend):npm install"
+vite-update = "*(vite_frontend):npm update"
+vite-compile = "*:vt compile"
+load-test-data = "*:python3 cli/setup test-env"

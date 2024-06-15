@@ -1,0 +1,58 @@
+.pills {
+    @apply flex p-2 flex-wrap gap-2;
+}
+
+.pill {
+    @apply inline-flex px-2 py-1
+    text-sm font-semibold text-white
+    rounded-md items-center gap-1;
+    background: var(--pill-bg);
+    min-height: 1.8rem;
+}
+
+.pill-danger {
+    @apply inline-flex px-2 py-1
+    text-sm font-semibold
+    border
+    rounded-md items-center gap-1;
+    background: var(--button-danger-bg);
+    color: var(--button-danger-text-color);
+    border: var(--button-danger-border-color);
+    min-height: 1.8rem;
+}
+
+.pill-danger-interactive {
+    @apply inline-flex px-2 py-1
+    text-sm font-semibold
+    border cursor-pointer
+    rounded-md items-center gap-1;
+    background: var(--button-danger-bg);
+    color: var(--button-danger-text-color);
+    border: var(--button-danger-border-color);
+    min-height: 1.8rem;
+}
+
+.pill-danger-interactive:hover {
+    background: var(--button-danger-bg-hover);
+    color: var(--button-danger-text-color-hover);
+    border: var(--button-danger-border-color);
+    min-height: 1.8rem;
+}
+
+.pill-blank {
+    @apply inline-flex px-2 py-1
+    items-center gap-1
+    text-sm font-semibold;
+}
+
+.pill-a {
+    @apply inline-flex px-2 py-1
+    items-center gap-1
+    text-sm font-semibold cursor-pointer;
+    color: var(--a-color);
+}
+
+.pill-a:hover {
+    @apply underline;
+    color: var(--a-hover-color);
+}
