@@ -28,12 +28,6 @@ Install and update the Frontend (Node) requirements
 pyqwe vite-install && pyqwe vite-update
 ```
 
-Load the database
-
-```
-pyqwe load-test-data
-```
-
 Terminal 1 : Run Quart
 
 ```
@@ -44,4 +38,10 @@ Terminal 2 : Run Vite w/ SolidJS
 
 ```
 pyqwe vite-run
+```
+
+Load the database
+
+```
+pyqwe load-test-data
 ```
