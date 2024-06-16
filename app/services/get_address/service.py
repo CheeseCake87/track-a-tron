@@ -37,7 +37,9 @@ class GetAddressService:
 
             if data.get("ok"):
                 with DBSession as s:
-                    result = s.execute(query_read_cache_entry(postcode)).scalar_one_or_none()
+                    result = s.execute(
+                        query_read_cache_entry(postcode)
+                    ).scalar_one_or_none()
                     if result:
                         s.execute(query_update_cache_entry(postcode, data))
                         return {"ok": True, "data": data}
