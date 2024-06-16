@@ -1,10 +1,10 @@
 from .__base_model__ import BaseModel
 
-from .system import System
 from .user import User
 
 from .client import Client
 
+from .service import Service
 from .service_get_address_cache import ServiceGetAddressCache
 from .service_zepto_log import ServiceZeptoLog
 
@@ -23,9 +23,9 @@ from .workflow_trigger import WorkflowTrigger
 
 __all__ = [
     "BaseModel",
-    "System",
     "User",
     "Client",
+    "Service",
     "ServiceGetAddressCache",
     "ServiceZeptoLog",
     "Task",
