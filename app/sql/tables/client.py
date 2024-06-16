@@ -26,18 +26,19 @@ class Client(BaseModel):
     # Data:address
     building_name = s.Column(s.String(128), default=None, nullable=True)
     sub_building_name = s.Column(s.String(128), default=None, nullable=True)
-    sub_building_number = s.Column(s.String(128), default=None, nullable=True)
     building_number = s.Column(s.String(128), default=None, nullable=True)
+    sub_building_number = s.Column(s.String(128), default=None, nullable=True)
     address_line_1 = s.Column(s.String(128), default=None, nullable=True)
     address_line_2 = s.Column(s.String(128), default=None, nullable=True)
     address_line_3 = s.Column(s.String(128), default=None, nullable=True)
-    address_line_4 = s.Column(s.String(128), default=None, nullable=True)
     locality = s.Column(s.String(128), default=None, nullable=True)
     town_or_city = s.Column(s.String(128), default=None, nullable=True)
     county = s.Column(s.String(128), default=None, nullable=True)
     district = s.Column(s.String(128), default=None, nullable=True)
     postcode = s.Column(s.String(32), default=None, nullable=True)
     country = s.Column(s.String(128), default=None, nullable=True)
+    latitude = s.Column(s.Float, default=None, nullable=True)
+    longitude = s.Column(s.Float, default=None, nullable=True)
 
     # Data:security
     security_question = s.Column(s.String(128), default="Select...", nullable=True)
