@@ -7,6 +7,7 @@ from .client import Client
 from .service import Service
 from .service_get_address_cache import ServiceGetAddressCache
 from .service_zepto_log import ServiceZeptoLog
+from .service_smtp_log import ServiceSmtpLog
 
 from .task import Task
 from .task_category import TaskCategory
@@ -31,6 +32,7 @@ __all__ = [
     "Service",
     "ServiceGetAddressCache",
     "ServiceZeptoLog",
+    "ServiceSmtpLog",
     "Task",
     "TaskCategory",
     "TaskNote",
