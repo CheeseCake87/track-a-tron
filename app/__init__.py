@@ -5,7 +5,6 @@ from quart import Quart, session, render_template
 from app.config import Config, Folders
 from app.extensions import vite_transporter
 from app.rpc import rpc
-from app.services import services_rpc
 
 load_dotenv()
 
@@ -33,7 +32,6 @@ def create_app():
     )
 
     app.register_blueprint(rpc)
-    app.register_blueprint(services_rpc)
 
     @app.before_request
     def before_request():

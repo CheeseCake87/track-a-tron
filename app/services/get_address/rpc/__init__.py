@@ -3,9 +3,9 @@ from quart_rpc.exceptions import DataException
 from quart_rpc.validation import DataDict
 from quart_rpc.version_1_0 import RPC, RPCResponse  # noqa
 
-from .service import GetAddressService
+from app.services.get_address import GetAddressService
 
-get_address = Blueprint("get_address", __name__, url_prefix="/get_address")
+get_address = Blueprint("get_address", __name__, url_prefix="/services/get_address")
 
 rpc = RPC(get_address)
 

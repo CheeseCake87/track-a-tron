@@ -90,7 +90,11 @@ class SMTPService:
         return self
 
     def reply_to(self, reply_to: str) -> "SMTPService":
-        self._msg.replace_header("Reply-To", reply_to)
+        if "Reply-To" in self._msg:
+            self._msg.replace_header("Reply-To", reply_to)
+            return self
+
+        self._msg.add_header("Reply-To", reply_to)
         return self
 
     def from_(self, from_: str) -> "SMTPService":
