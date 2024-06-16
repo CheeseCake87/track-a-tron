@@ -6,11 +6,14 @@ from email.mime.text import MIMEText
 from smtplib import SMTP, SMTPException
 from ssl import create_default_context
 
+from app.sql import DBSession
+from app.sql.queries.service import query_read_service
+from app.sql.queries.system_log import query_create_system_log
 from .settings import SMTPSettings
 
 
 class SMTPService:
-    dev_mode: bool
+    settings: SMTPSettings
     username: str
     password: str
     server: str
@@ -27,13 +30,13 @@ class SMTPService:
     _bcc_recipients: set[str]
     _attachments: set[tuple[p.Path, str]]
 
-    def __init__(self, settings: SMTPSettings):
-        self.dev_mode = settings.dev_mode
-        self.username = settings.username
-        self.password = settings.password
-        self.server = settings.server
-        self.port = settings.port
+    def __init__(self, settings: SMTPSettings = None):
+        if settings is None:
+            self.settings = self._load_service_settings()
+        else:
+            self.settings = settings
 
+        # LOAD DEFAULTS
         self._subject = ""
         self._msg_body = MIMEText("")
         self._original_sender = settings.username
@@ -147,29 +150,18 @@ class SMTPService:
         self.attach_files([file])
         return self
 
-    def send(self, debug: bool = False) -> bool:
-        """
-        Sends the email. If debug is True, it will print the email.
-        :param debug:
-        :return:
-        """
-
+    def send(self) -> dict:
         self._msg.add_header("Original-Sender", self._original_sender)
         self._msg.add_header("Reply-To", self._reply_to)
         self._msg.add_header("From", self._from)
         self._msg.add_header("Subject", self._subject)
 
-        if self.dev_mode:
-            print(self)
-            self._reset_values()
-            return True
-
         try:
-            with SMTP(self.server, self.port) as connection:
+            with SMTP(self.settings.server, self.settings.port) as connection:
                 connection.starttls(context=create_default_context())
-                connection.login(self.username, self.password)
+                connection.login(self.settings.username, self.settings.password)
                 connection.sendmail(
-                    self.username,
+                    self.settings.username,
                     [
                         *self._recipients,
                         *self._cc_recipients,
@@ -177,15 +169,59 @@ class SMTPService:
                     ],
                     self._msg.as_string(),
                 )
-        except SMTPException as error:
-            if debug:
-                print(error)
-                self._reset_values()
-
-            return False
-
-        if debug:
-            print(self)
+        except Exception as error:
+            with DBSession as s:
+                s.execute(
+                    query_create_system_log(
+                        "SMTP service error",
+                        str(error),
+                    )
+                )
+                s.commit()
+            return {"ok": False, "message": "Error sending email"}
 
         self._reset_values()
-        return True
+        return {"ok": True, "message": "Email sent"}
+
+    def _load_service_settings(self) -> SMTPSettings:
+        with DBSession as s:
+            result = s.execute(query_read_service("smtp")).scalar_one_or_none()
+
+            if not result:
+                s.execute(
+                    query_create_system_log(
+                        "SMTP service not found", "SMTP service not found"
+                    )
+                )
+                s.commit()
+
+                return self._disabled_service
+
+        try:
+            return SMTPSettings(
+                username=result.data["username"],
+                password=result.data["password"],
+                server=result.data["server"],
+                port=result.data["port"],
+            )
+        except KeyError:
+            with DBSession as s:
+                s.execute(
+                    query_create_system_log(
+                        "SMTP service key error",
+                        "SMTP service settings are missing keys needed for operation",
+                    )
+                )
+                s.commit()
+
+            return self._disabled_service
+
+    @property
+    def _disabled_service(self) -> SMTPSettings:
+        return SMTPSettings(
+            username="",
+            password="",
+            server="",
+            port=0,
+            disabled=True,
+        )
