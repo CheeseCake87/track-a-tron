@@ -17,11 +17,5 @@ class TaskCategory(BaseModel):
     created = s.Column(s.DateTime, nullable=False)
 
     # Relationships
-    rel_tasks = s.orm.relationship(
-        "Task",
-        back_populates="rel_task_category"
-    )
-    rel_workflows = s.orm.relationship(
-        "Workflow",
-        viewonly=True
-    )
+    rel_tasks = s.orm.relationship("Task", back_populates="rel_task_category")
+    rel_workflows = s.orm.relationship("Workflow", viewonly=True)

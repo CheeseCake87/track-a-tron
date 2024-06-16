@@ -13,6 +13,7 @@ class WorkflowTrigger(BaseModel):
     Once the workflow is triggered, all triggers listed will be loaded
     into Huey's task queue using the delay_* values.
     """
+
     __tablename__ = "workflow_trigger"
 
     # PriKey

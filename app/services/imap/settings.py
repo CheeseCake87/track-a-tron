@@ -11,12 +11,12 @@ class IMAPSettings:
     port: int
 
     def __init__(
-            self,
-            dev_mode: t.Union[int, str, bool],
-            username: str,
-            password: str,
-            server: str,
-            port: t.Union[int, str],
+        self,
+        dev_mode: t.Union[int, str, bool],
+        username: str,
+        password: str,
+        server: str,
+        port: t.Union[int, str],
     ):
         """
         Dev_mode will prevent the email from being sent. It will print the email instead.

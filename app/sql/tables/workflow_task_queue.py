@@ -39,12 +39,7 @@ class WorkflowTaskQueue(BaseModel):
     )
 
     # Data
-    task_sid = s.Column(
-        s.String,
-        nullable=True,
-        default=None,
-        index=True
-    )
+    task_sid = s.Column(s.String, nullable=True, default=None, index=True)
     task_happens_at = s.Column(s.DateTime, default=None, nullable=True)
 
     # Flags

@@ -34,21 +34,9 @@ def page_clients(data):
             print(f"User not found: {user_id}")
             return RPCResponse.fail("User not found.")
 
-        result = (
-            s.execute(
-                query_page_clients(
-                    where,
-                    limit,
-                    page
-                )
-            )
-            .scalars()
-            .all()
-        )
+        result = s.execute(query_page_clients(where, limit, page)).scalars().all()
 
-        total_clients = s.execute(
-            query_count_clients(where)
-        ).scalar()
+        total_clients = s.execute(query_count_clients(where)).scalar()
 
         total_pages = total_clients // limit + 1
 
@@ -63,7 +51,7 @@ def page_clients(data):
                         **{
                             k: v for k, v in r.__dict__.items() if not k.startswith("_")
                         },
-                        "__created": r.created.strftime("%a %-d %b '%y @ %H:%M")
+                        "__created": r.created.strftime("%a %-d %b '%y @ %H:%M"),
                     }
                     for r in result
                 ],

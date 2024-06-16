@@ -26,8 +26,6 @@ class GetAddressService:
         return data
 
     def cache_find(self, postcode: str):
-
-
         resp = r.get(
             self.base_url.format(postcode=postcode, api_key=self.settings.api_key)
         )

@@ -61,7 +61,10 @@ def query_count_clients(where: dict):
 
         if k == "any_email_address":
             wh_arg.append(
-                or_(Client.email_address.ilike(f"%{v}%"), Client.alt_email_address.ilike(f"%{v}%"))
+                or_(
+                    Client.email_address.ilike(f"%{v}%"),
+                    Client.alt_email_address.ilike(f"%{v}%"),
+                )
             )
             continue
 
@@ -74,9 +77,9 @@ def query_count_clients(where: dict):
 
 
 def query_page_clients(
-        where: dict,
-        limit: int = 10,
-        page: int = 1,
+    where: dict,
+    limit: int = 10,
+    page: int = 1,
 ):
     if page == 0:
         page = 1
@@ -108,19 +111,26 @@ def query_page_clients(
 
         if k == "any_email_address":
             wh_arg.append(
-                or_(Client.email_address.ilike(f"%{v}%"), Client.alt_email_address.ilike(f"%{v}%"))
+                or_(
+                    Client.email_address.ilike(f"%{v}%"),
+                    Client.alt_email_address.ilike(f"%{v}%"),
+                )
             )
             continue
 
         if k == "date_on":
-            minus_day = DatetimeDeltaMCTZU().set_datetime(v, "%Y-%m-%d").days(-1).datetime
+            minus_day = (
+                DatetimeDeltaMCTZU().set_datetime(v, "%Y-%m-%d").days(-1).datetime
+            )
             plus_day = DatetimeDeltaMCTZU().set_datetime(v, "%Y-%m-%d").days(1).datetime
             wh_arg.append(Client.created > minus_day)
             wh_arg.append(Client.created < plus_day)
             continue
 
         if k == "date_from":
-            date_from = DatetimeDeltaMCTZU().set_datetime(v, "%Y-%m-%d").days(-1).datetime
+            date_from = (
+                DatetimeDeltaMCTZU().set_datetime(v, "%Y-%m-%d").days(-1).datetime
+            )
             wh_arg.append(Client.created > date_from)
             continue
 

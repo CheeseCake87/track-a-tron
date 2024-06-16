@@ -29,16 +29,12 @@ def get_user(data):
                 "user_id": result.user_id,
                 "username": result.username,
                 "display_name": result.display_name,
-
                 "email": result.email,
                 "sms": result.sms,
-
                 "private_key": result.private_key,
-
                 "user_type": result.user_type,
                 "disabled": result.disabled,
                 "deleted": result.deleted,
-
                 "created": result.created,
             },
             "User found.",

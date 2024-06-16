@@ -25,7 +25,7 @@ def money_to_int(value):
     return 0
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     print("1 PASS", money_to_int("100.99") == 10099)
     print("2 PASS", money_to_int("100") == 10000)
     print("3 PASS", money_to_int(100) == 10000)

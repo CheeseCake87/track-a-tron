@@ -31,12 +31,11 @@ def query_read_task(where: dict):
 
 
 def query_count_tasks(
-        where: dict,
-        status_scopes: list[int] = None,
+    where: dict,
+    status_scopes: list[int] = None,
 ):
     wh_arg = []
     for k, v in where.items():
-
         if k == "_in" and isinstance(v, dict):
             for in_key, in_val in v.items():
                 if isinstance(in_val, list):
@@ -57,10 +56,10 @@ def query_count_tasks(
 
 
 def query_page_tasks(
-        where: dict,
-        limit: int = 10,
-        page: int = 1,
-        status_scopes: list[int] = None,
+    where: dict,
+    limit: int = 10,
+    page: int = 1,
+    status_scopes: list[int] = None,
 ):
     if page == 0:
         page = 1
@@ -75,14 +74,18 @@ def query_page_tasks(
                         continue
 
         if k == "date_on":
-            minus_day = DatetimeDeltaMCTZU().set_datetime(v, "%Y-%m-%d").days(-1).datetime
+            minus_day = (
+                DatetimeDeltaMCTZU().set_datetime(v, "%Y-%m-%d").days(-1).datetime
+            )
             plus_day = DatetimeDeltaMCTZU().set_datetime(v, "%Y-%m-%d").days(1).datetime
             wh_arg.append(Task.created > minus_day)
             wh_arg.append(Task.created < plus_day)
             continue
 
         if k == "date_from":
-            date_from = DatetimeDeltaMCTZU().set_datetime(v, "%Y-%m-%d").days(-1).datetime
+            date_from = (
+                DatetimeDeltaMCTZU().set_datetime(v, "%Y-%m-%d").days(-1).datetime
+            )
             wh_arg.append(Task.created > date_from)
             continue
 

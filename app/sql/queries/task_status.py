@@ -39,7 +39,9 @@ def query_read_task_status(where: dict):
     return se_
 
 
-def query_update_task_status(task_status_id: int, values: dict, ignore_fields: list[str] = None):
+def query_update_task_status(
+    task_status_id: int, values: dict, ignore_fields: list[str] = None
+):
     wh_ = (TaskStatus.task_status_id == task_status_id,)
     up_ = (
         update(TaskStatus)

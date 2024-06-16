@@ -10,6 +10,7 @@ class ServiceGetAddressCache(BaseModel):
     This is to be used as a cache to prevent
     unnecessary requests to the API.
     """
+
     __tablename__ = "service_get_address_cache"
 
     # PriKey

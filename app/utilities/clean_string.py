@@ -3,10 +3,8 @@ from typing import Literal, Optional, List
 
 
 def clean_string(
-        string: str,
-        remove_these: Optional[
-            List[Literal["new_line", "tab", "dead_space"]]
-        ] = None
+    string: str,
+    remove_these: Optional[List[Literal["new_line", "tab", "dead_space"]]] = None,
 ) -> str:
     """
     Used to remove escapes like \n and \t in a string value.
@@ -24,7 +22,7 @@ def clean_string(
     return string
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     test_1 = clean_string("hello   \t   \n  world")
     test_2 = clean_string("       hello     world      ", ["dead_space"])
     test_3 = clean_string("\n\n\n\n\nhello\nworld\n\n\n\n", ["new_line"])

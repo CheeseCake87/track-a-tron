@@ -6,12 +6,12 @@ from app.sql.tables import User
 
 
 def query_create_user(
-        display_name: str,
-        username: str,
-        password: str,
-        salt: str,
-        private_key: str,
-        user_type: t.Literal["user", "manager", "admin"],
+    display_name: str,
+    username: str,
+    password: str,
+    salt: str,
+    private_key: str,
+    user_type: t.Literal["user", "manager", "admin"],
 ):
     in_ = (
         insert(User)

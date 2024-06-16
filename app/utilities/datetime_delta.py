@@ -30,10 +30,10 @@ class DatetimeDeltaRI:
     _datetime: datetime
 
     def __init__(
-            self,
-            ltz: str = "Europe/London",
-            format_: str = "%Y-%m-%d %H:%M:%S",
-            datetime_: datetime = None,
+        self,
+        ltz: str = "Europe/London",
+        format_: str = "%Y-%m-%d %H:%M:%S",
+        datetime_: datetime = None,
     ):
         self._local_tz = ltz
         self._format = format_
@@ -101,10 +101,10 @@ class DatetimeDeltaMC:
     _datetime: datetime
 
     def __init__(
-            self,
-            ltz: str = "Europe/London",
-            format_: str = "%Y-%m-%d %H:%M:%S",
-            datetime_: datetime = None,
+        self,
+        ltz: str = "Europe/London",
+        format_: str = "%Y-%m-%d %H:%M:%S",
+        datetime_: datetime = None,
     ):
         self._local_tz = ltz
         self._format = format_
@@ -158,9 +158,9 @@ class DatetimeDeltaMCTZU:
     _datetime: datetime
 
     def __init__(
-            self,
-            output_format: str = "%Y-%m-%dT%H:%M:%S",
-            datetime_: datetime = None,
+        self,
+        output_format: str = "%Y-%m-%dT%H:%M:%S",
+        datetime_: datetime = None,
     ):
         """
         Output format defaults to ISO
@@ -173,7 +173,9 @@ class DatetimeDeltaMCTZU:
         if not self._datetime:
             raise DateTimeNone("datetime attribute cannot be none.")
 
-    def set_output_format(self, format_: str = "%Y-%m-%dT%H:%M:%S") -> "DatetimeDeltaMCTZU":
+    def set_output_format(
+        self, format_: str = "%Y-%m-%dT%H:%M:%S"
+    ) -> "DatetimeDeltaMCTZU":
         self._output_format = format_
         return self
 
@@ -182,7 +184,7 @@ class DatetimeDeltaMCTZU:
         return self
 
     def set_datetime(
-            self, datetime_str: str, format_: str = "%Y-%m-%dT%H:%M:%S"
+        self, datetime_str: str, format_: str = "%Y-%m-%dT%H:%M:%S"
     ) -> "DatetimeDeltaMCTZU":
         self._datetime = datetime.strptime(datetime_str, format_)
         return self
@@ -227,13 +229,11 @@ if __name__ == "__main__":
     Small test to compare the performance of returning a new instance of the class
     """
 
-
     def returning_new_inst():
         today = DatetimeDeltaRI().set_format("%Y-%m-%d %H:%M:%S")
         today.days(random.randint(-10, 10)).hours(random.randint(-10, 10)).minutes(
             random.randint(-10, 10)
         )
-
 
     def returning_self():
         today = DatetimeDeltaMC().set_format("%Y-%m-%d %H:%M:%S")
@@ -241,13 +241,15 @@ if __name__ == "__main__":
             random.randint(-10, 10)
         )
 
-
     def returning_self_timezone_unaware():
-        today = DatetimeDeltaMCTZU().set_output_format("%Y-%m-%d %H:%M:%S").set_datetime_now()
+        today = (
+            DatetimeDeltaMCTZU()
+            .set_output_format("%Y-%m-%d %H:%M:%S")
+            .set_datetime_now()
+        )
         today.days(random.randint(-10, 10)).hours(random.randint(-10, 10)).minutes(
             random.randint(-10, 10)
         )
-
 
     print(timeit.timeit(stmt=returning_new_inst, number=10000))
 

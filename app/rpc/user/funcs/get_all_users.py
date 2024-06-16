@@ -23,16 +23,12 @@ def get_all_users(_):
                     "user_id": r.user_id,
                     "username": r.username,
                     "display_name": r.display_name,
-
                     "email": r.email,
                     "sms": r.sms,
-
                     "private_key": r.private_key,
-
                     "user_type": r.user_type,
                     "disabled": r.disabled,
                     "deleted": r.deleted,
-
                     "created": r.created,
                 }
                 for r in result

@@ -12,7 +12,11 @@ load_dotenv()
 def create_app():
     folders = Folders()
 
-    app = Quart(__name__, template_folder="resources/templates", static_folder="resources/static")
+    app = Quart(
+        __name__,
+        template_folder="resources/templates",
+        static_folder="resources/static",
+    )
     app.json = OrjsonProvider(app)
 
     app.config.from_object(Config)

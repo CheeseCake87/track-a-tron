@@ -72,5 +72,5 @@ def camel_case_to_snake_case(value: str) -> str:
     return chars
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     print(camel_case_to_snake_case("CamelCaseTESTClassToSnakeCase"))

@@ -15,6 +15,7 @@ class Workflow(BaseModel):
 
     Huey will then execute the task_sid and update the workflow_task_queue table.
     """
+
     __tablename__ = "workflow"
 
     # PriKey
@@ -38,11 +39,5 @@ class Workflow(BaseModel):
     created = s.Column(s.DateTime, default=DatetimeDeltaRI().datetime)
 
     # Relationship
-    rel_workflow_triggers = s.orm.relationship(
-        "WorkflowTrigger",
-        viewonly=True
-    )
-    rel_workflow_task_queue = s.orm.relationship(
-        "WorkflowTaskQueue",
-        viewonly=True
-    )
+    rel_workflow_triggers = s.orm.relationship("WorkflowTrigger", viewonly=True)
+    rel_workflow_task_queue = s.orm.relationship("WorkflowTaskQueue", viewonly=True)
