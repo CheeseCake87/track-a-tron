@@ -1,6 +1,6 @@
 from quart_rpc.version_1_0 import RPCResponse
 
-from app.rpc.security import session_check
+from app.utilities.security import session_check
 from app.sql import DBSession
 from app.sql.queries.client import query_page_clients, query_count_clients
 from app.sql.queries.user import query_read_user
