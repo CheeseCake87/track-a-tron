@@ -13,9 +13,6 @@ from quart_rpc.validation import DataDict
 @session_check("logged_in", True)
 @session_check("user_type", "admin")
 def create_user(data):
-    """
-    Request Context Required
-    """
     d = DataDict(data)
     try:
         display_name = d.get_ensure_key("display_name")
