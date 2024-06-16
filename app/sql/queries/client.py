@@ -20,7 +20,7 @@ def query_create_client(values: dict, ignore_fields: list[str] = None):
     return in_
 
 
-def query_get_client(where: dict):
+def query_read_client(where: dict):
     wh_ = []
     for k, v in where.items():
         wh_.append(getattr(Client, k) == v)
