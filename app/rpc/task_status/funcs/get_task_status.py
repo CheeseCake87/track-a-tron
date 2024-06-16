@@ -1,7 +1,7 @@
 from quart_rpc.version_1_0 import RPCResponse
 
 from app.sql import DBSession
-from app.sql.queries.task_status import query_get_task_status
+from app.sql.queries.task_status import query_read_task_status
 from quart_rpc.exceptions import DataException
 from quart_rpc.validation import DataDict
 
@@ -14,7 +14,7 @@ def get_task_status(data):
         return RPCResponse.fail("Missing required data.", {"where": "{field: value}"})
 
     with DBSession as s:
-        query = query_get_task_status(where)
+        query = query_read_task_status(where)
 
         if query is None:
             return RPCResponse.fail(

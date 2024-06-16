@@ -20,7 +20,7 @@ def query_create_task(values: dict, ignore_fields: list[str] = None):
     return in_
 
 
-def query_get_task(where: dict):
+def query_read_task(where: dict):
     wh_ = []
     for k, v in where.items():
         wh_.append(getattr(Task, k) == v)

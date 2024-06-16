@@ -4,7 +4,7 @@ from quart_rpc.validation import DataDict
 from quart_rpc.version_1_0 import RPCResponse
 
 from app.sql.queries.user import (
-    query_get_user_by_username,
+    query_read_user_by_username,
 )
 from app.sql.sessions import DBSession
 from flask_imp.auth import authenticate_password
@@ -19,7 +19,7 @@ def login(data):
         return RPCResponse.fail(str(error))
 
     with DBSession as s:
-        user = s.execute(query_get_user_by_username(username)).scalar_one_or_none()
+        user = s.execute(query_read_user_by_username(username)).scalar_one_or_none()
 
         if user is None:
             return RPCResponse.fail("User not found.")

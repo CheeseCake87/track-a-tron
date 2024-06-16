@@ -18,18 +18,18 @@ def query_create_task_status(values: dict, ignore_fields: list[str] = None):
     return in_
 
 
-def query_get_all_task_statuses():
+def query_read_all_task_statuses():
     se_ = select(TaskStatus).order_by(TaskStatus.task_status_id)
     return se_
 
 
-def query_get_task_status_by_id(status_id: int):
+def query_read_task_status_by_id(status_id: int):
     wh_ = (TaskStatus.task_status_id == status_id,)
     se_ = select(TaskStatus).where(*wh_)
     return se_
 
 
-def query_get_task_status(where: dict):
+def query_read_task_status(where: dict):
     wh_ = []
     for k, v in where.items():
         wh_.append(getattr(TaskStatus, k) == v)

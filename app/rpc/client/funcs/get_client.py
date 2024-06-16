@@ -2,7 +2,7 @@ from quart_rpc.version_1_0 import RPCResponse  # noqa
 
 from app.rpc.security import session_check
 from app.sql import DBSession
-from app.sql.queries.client import query_get_client
+from app.sql.queries.client import query_read_client
 from quart_rpc.exceptions import DataException
 from quart_rpc.validation import DataDict
 
@@ -16,7 +16,7 @@ def get_client(data):
         return RPCResponse.fail("Missing required data.", {"where": "{field: value}"})
 
     with DBSession as s:
-        query = query_get_client(where)
+        query = query_read_client(where)
 
         if query is None:
             return RPCResponse.fail(

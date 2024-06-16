@@ -3,7 +3,7 @@ from quart_rpc.version_1_0 import RPCResponse
 from app.rpc.security import session_check
 from app.sql import DBSession
 from app.sql.queries.client import query_page_clients, query_count_clients
-from app.sql.queries.user import query_get_user
+from app.sql.queries.user import query_read_user
 from quart_rpc.exceptions import DataException
 from quart_rpc.validation import DataDict
 
@@ -28,7 +28,7 @@ def page_clients(data):
         )
 
     with DBSession as s:
-        user = s.execute(query_get_user({"user_id": user_id})).scalar_one_or_none()
+        user = s.execute(query_read_user({"user_id": user_id})).scalar_one_or_none()
 
         if not user:
             print(f"User not found: {user_id}")

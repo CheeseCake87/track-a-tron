@@ -28,19 +28,19 @@ def query_create_user(
     return in_
 
 
-def query_get_user_by_user_id(user_id: int):
+def query_read_user_by_user_id(user_id: int):
     wh_ = (User.user_id == user_id,)
     se_ = select(User).where(*wh_)
     return se_
 
 
-def query_get_user_by_username(username: str):
+def query_read_user_by_username(username: str):
     wh_ = (User.username == username,)
     se_ = select(User).where(*wh_)
     return se_
 
 
-def query_get_user(where: dict):
+def query_read_user(where: dict):
     wh_ = []
     for k, v in where.items():
         wh_.append(getattr(User, k) == v)
@@ -49,7 +49,7 @@ def query_get_user(where: dict):
     return se_
 
 
-def query_get_all_users():
+def query_read_all_users():
     se_ = select(User).order_by(User.user_id)
     return se_
 

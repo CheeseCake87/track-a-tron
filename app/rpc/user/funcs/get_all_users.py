@@ -3,7 +3,7 @@ from quart_rpc.version_1_0 import RPCResponse
 from app.rpc.security import session_check
 from app.sql import DBSession
 from app.sql.queries.user import (
-    query_get_all_users,
+    query_read_all_users,
 )
 
 
@@ -14,7 +14,7 @@ def get_all_users(_):
     Request Context Required
     """
     with DBSession as s:
-        query = query_get_all_users()
+        query = query_read_all_users()
         result = s.execute(query).scalars().all()
 
         return RPCResponse.success(

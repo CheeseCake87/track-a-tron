@@ -31,13 +31,13 @@ def cmd_users(group):
     @group.command("check-user", help="Check if a user exists.")
     def check_user():
         from app.sql.sessions import DBSession
-        from app.sql.queries.user import query_get_user_by_user_id
+        from app.sql.queries.user import query_read_user_by_user_id
 
         user_id = c.prompt("User ID", type=int)
 
         with DBSession as s:
             result = s.execute(
-                query_get_user_by_user_id(user_id)
+                query_read_user_by_user_id(user_id)
             )
 
             for row in result.scalars().all():

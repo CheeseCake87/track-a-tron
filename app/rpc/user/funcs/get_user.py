@@ -3,7 +3,7 @@ from quart_rpc.version_1_0 import RPCResponse
 from app.rpc.security import session_check
 from app.sql import DBSession
 from app.sql.queries.user import (
-    query_get_user,
+    query_read_user,
 )
 from quart_rpc.exceptions import DataException
 from quart_rpc.validation import DataDict
@@ -19,7 +19,7 @@ def get_user(data):
         return RPCResponse.fail("Missing required data.", {"where": "{field: value}"})
 
     with DBSession as s:
-        result = s.execute(query_get_user(where)).scalar_one_or_none()
+        result = s.execute(query_read_user(where)).scalar_one_or_none()
 
         if not result:
             return RPCResponse.fail("No user found.")
