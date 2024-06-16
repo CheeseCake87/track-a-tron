@@ -8,14 +8,18 @@ from app.sql.queries.service_get_address_cache import (
 from app.sql.queries.system_log import query_create_system_log
 from app.sql.sessions import DBSession
 from .settings import GetAddressSettings
+from ...sql.queries.service import query_read_service
 
 
 class GetAddressService:
     base_url = "https://api.getAddress.io/find/{postcode}?api-key={api_key}&expand=true"
     settings: GetAddressSettings
 
-    def __init__(self, settings: GetAddressSettings):
-        self.settings = settings
+    def __init__(self, settings: GetAddressSettings = None):
+        if settings:
+            self.settings = settings
+        else:
+            self.settings = self._load_service_settings()
 
     def find(self, postcode: str) -> dict:
         resp = r.get(
@@ -82,3 +86,44 @@ class GetAddressService:
                 return {"ok": True, "data": data}
 
             return data
+
+    def _load_service_settings(self) -> GetAddressSettings:
+        with DBSession as s:
+            result = s.execute(query_read_service("get_address")).scalar_one_or_none()
+
+            if not result:
+                s.execute(
+                    query_create_system_log(
+                        "getAddress.io service not found",
+                        "getAddress.io service not found",
+                    )
+                )
+                s.commit()
+
+                return self._disabled_service
+
+        try:
+            return GetAddressSettings(
+                api_key=result.data["api_key"],
+                administration_key=result.data["administration_key"],
+                disabled=False,
+            )
+        except KeyError:
+            with DBSession as s:
+                s.execute(
+                    query_create_system_log(
+                        "getAddress.io service key error",
+                        "getAddress.io service settings is missing keys needed for operation",
+                    )
+                )
+                s.commit()
+
+            return self._disabled_service
+
+    @property
+    def _disabled_service(self) -> GetAddressSettings:
+        return GetAddressSettings(
+            api_key="",
+            administration_key="",
+            disabled=True,
+        )
