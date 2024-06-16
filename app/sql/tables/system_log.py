@@ -11,6 +11,7 @@ class SystemLog(BaseModel):
     system_log_id = s.Column(s.Integer, primary_key=True)
 
     # Data
+    subject = s.Column(s.String, nullable=True, default=None)
     log = s.Column(s.String, nullable=True, default=None)
 
     # Tracking

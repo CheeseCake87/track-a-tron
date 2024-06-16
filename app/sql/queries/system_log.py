@@ -3,20 +3,14 @@ from sqlalchemy import select, insert, delete
 from app.sql.tables import SystemLog
 
 
-def query_create_system_log(log: str):
-    in_ = (
-        insert(SystemLog)
-        .values(log=log)
-    )
+def query_create_system_log(subject: str, log: str):
+    in_ = insert(SystemLog).values(subject=subject, log=log)
     return in_
 
 
 def query_read_system_log(system_log_id: int):
     wh_ = (SystemLog.system_log_id == system_log_id,)
-    se_ = (
-        select(SystemLog)
-        .where(*wh_)
-    )
+    se_ = select(SystemLog).where(*wh_)
     return se_
 
 
@@ -27,10 +21,7 @@ def query_read_all_system_logs():
 
 def query_delete_system_log(system_log_id: int):
     wh_ = (SystemLog.system_log_id == system_log_id,)
-    de_ = (
-        delete(SystemLog)
-        .where(*wh_)
-    )
+    de_ = delete(SystemLog).where(*wh_)
     return de_
 
 
