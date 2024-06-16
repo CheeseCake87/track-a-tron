@@ -83,7 +83,7 @@ class GetAddressService:
                         s.commit()
                         return {"ok": True, "data": data}
 
-                return data
+                return data  # Pass through the error from the find method
 
             with DBSession as s:
                 result = s.execute(
@@ -99,7 +99,7 @@ class GetAddressService:
                     s.commit()
                     return {"ok": True, "data": data}
 
-                return data
+                return data  # Pass through the error from the find method
 
         with DBSession as s:
             s.execute(
