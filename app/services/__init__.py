@@ -1,1 +1,1 @@
-AVAILABLE = ["imap", "smtp", "zepto", "getaddress"]
+AVAILABLE = ["imap", "smtp", "zepto", "get_address"]
