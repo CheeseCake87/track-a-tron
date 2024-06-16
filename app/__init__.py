@@ -8,6 +8,8 @@ from app.rpc import rpc
 
 load_dotenv()
 
+__version__ = "1000"
+
 
 def create_app():
     folders = Folders()
