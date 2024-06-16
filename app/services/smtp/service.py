@@ -3,7 +3,7 @@ import typing as t
 from email.mime.application import MIMEApplication
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
-from smtplib import SMTP, SMTPException
+from smtplib import SMTP
 from ssl import create_default_context
 
 from app.sql import DBSession
@@ -203,13 +203,14 @@ class SMTPService:
                 password=result.data["password"],
                 server=result.data["server"],
                 port=result.data["port"],
+                disabled=False,
             )
         except KeyError:
             with DBSession as s:
                 s.execute(
                     query_create_system_log(
                         "SMTP service key error",
-                        "SMTP service settings are missing keys needed for operation",
+                        "SMTP service settings is missing keys needed for operation",
                     )
                 )
                 s.commit()
