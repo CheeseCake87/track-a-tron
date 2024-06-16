@@ -4,11 +4,11 @@ import {ContextMain} from "../../../contextManagers/ContextMain";
 
 export default function System() {
 
-    const mainCtx = useContext(ContextMain)
+    const ctxMain = useContext(ContextMain)
 
     createEffect(() => {
-        if (!mainCtx.loggedIn()) {
-            mainCtx.navigator('/login')
+        if (!ctxMain.loggedIn()) {
+            ctxMain.navigator('/login')
         }
     })
 

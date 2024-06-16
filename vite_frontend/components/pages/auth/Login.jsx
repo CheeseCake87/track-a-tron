@@ -4,7 +4,7 @@ import {ContextMain} from "../../../contextManagers/ContextMain";
 
 export default function Login() {
 
-    const mainCtx = useContext(ContextMain)
+    const ctxMain = useContext(ContextMain)
 
     const [username, setUsername] = createSignal('')
     const [password, setPassword] = createSignal('')
@@ -54,13 +54,13 @@ export default function Login() {
                            className={'btn-confirm'}
                            value="Login"
                            onClick={() => {
-                               mainCtx.login(username(), password())
+                               ctxMain.login(username(), password())
                            }}/>
                     <input type="submit"
                            className={'btn-danger'}
                            value="Force Login"
                            onClick={() => {
-                               mainCtx.force_login()
+                               ctxMain.force_login()
                            }}/>
                     <p className={'text-sm text-center'}>
                         <a href="/forgot-password">Forgot Password</a>

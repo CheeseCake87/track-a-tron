@@ -5,62 +5,62 @@ import {ContextMain} from "../../contextManagers/ContextMain";
 
 export function MainMenu() {
 
-    const mainCtx = useContext(ContextMain)
+    const ctxMain = useContext(ContextMain)
 
     return (
         <div className={'main-menu'}>
             <div>
                 <div className={
-                    mainCtx.mainMenuLocation() === 'clients'
+                    ctxMain.mainMenuLocation() === 'clients'
                         ? 'main-menu-icon-active'
                         : 'main-menu-icon'}
                      onClick={() => {
-                         mainCtx.setMainMenuLocation('clients')
-                         mainCtx.navigator('/')
+                         ctxMain.setMainMenuLocation('clients')
+                         ctxMain.navigator('/')
                      }}>
-                    <div><ClientIcon size={mainCtx.iconSize()}/></div>
+                    <div><ClientIcon size={ctxMain.iconSize()}/></div>
                     <div>Clients</div>
                 </div>
 
                 <div className={
-                    mainCtx.mainMenuLocation() === 'users'
+                    ctxMain.mainMenuLocation() === 'users'
                         ? 'main-menu-icon-active'
                         : 'main-menu-icon'}
                      onClick={() => {
-                         mainCtx.setMainMenuLocation('users')
-                         mainCtx.navigator('/users')
+                         ctxMain.setMainMenuLocation('users')
+                         ctxMain.navigator('/users')
                      }}>
-                    <div><UsersIcon size={mainCtx.iconSize()}/></div>
+                    <div><UsersIcon size={ctxMain.iconSize()}/></div>
                     <div>Users</div>
                 </div>
 
             </div>
             <div>
                 <div className={
-                    mainCtx.mainMenuLocation() === 'your-account'
+                    ctxMain.mainMenuLocation() === 'your-account'
                         ? 'main-menu-icon-active'
                         : 'main-menu-icon'}
                      onClick={() => {
-                         mainCtx.setMainMenuLocation('your-account')
-                         mainCtx.navigator('/your-account')
+                         ctxMain.setMainMenuLocation('your-account')
+                         ctxMain.navigator('/your-account')
                      }}>
-                    <div><UserIcon size={mainCtx.iconSize()}/></div>
+                    <div><UserIcon size={ctxMain.iconSize()}/></div>
                     <div>Account</div>
                 </div>
                 <div className={
-                    mainCtx.mainMenuLocation() === 'system'
+                    ctxMain.mainMenuLocation() === 'system'
                         ? 'main-menu-icon-active'
                         : 'main-menu-icon'}
                      onClick={() => {
-                         mainCtx.setMainMenuLocation('system')
-                         mainCtx.navigator('/system')
+                         ctxMain.setMainMenuLocation('system')
+                         ctxMain.navigator('/system')
                      }}>
-                    <div><SettingsIcon size={mainCtx.iconSize()}/></div>
+                    <div><SettingsIcon size={ctxMain.iconSize()}/></div>
                     <div>System</div>
                 </div>
                 <div className={'main-menu-icon'}
-                     onClick={() => mainCtx.logout()}>
-                    <div><LogoutIcon size={mainCtx.iconSize()}/></div>
+                     onClick={() => ctxMain.logout()}>
+                    <div><LogoutIcon size={ctxMain.iconSize()}/></div>
                     <div>Logout</div>
                 </div>
             </div>
