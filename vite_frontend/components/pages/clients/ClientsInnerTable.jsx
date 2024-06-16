@@ -1,5 +1,6 @@
 import {createSignal, For, onMount, useContext} from "solid-js";
 import {ContextClients} from "../../../contextManagers/ContextClients";
+import {A} from "@solidjs/router";
 
 
 export default function ClientsInnerTable() {
@@ -70,7 +71,7 @@ export default function ClientsInnerTable() {
                      ref={tableDataWidthRef}>
                 </div>
                 <For each={ctxClients.clients}>{(client, i) =>
-                    <a className={'-grid-table-row -clickable grid-cols-2'} href={
+                    <A className={'-grid-table-row -clickable grid-cols-2'} href={
                         "/client/" + client.client_id
                     }>
                         <span className={'-flex-table-cell-group'}>
@@ -84,7 +85,7 @@ export default function ClientsInnerTable() {
                         <span className={'-flex-table-cell text-end'}>
                             {client.__created}
                         </span>
-                    </a>
+                    </A>
                 }</For>
             </div>
         </>

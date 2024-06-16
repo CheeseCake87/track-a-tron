@@ -23,9 +23,9 @@ export function DialogFilterClients() {
             return true
         }
         if (e.key === 'Enter') {
-            ctxMain.setWhere({
-                ...ctxMain.where(),
-                ...ctxClients.tempWhere()
+            ctxMain.setClientsWhere({
+                ...ctxMain.clientsWhere(),
+                ...ctxClients.clientsTempWhere()
             })
             setFilterTab('client-info')
 
@@ -99,13 +99,13 @@ export function DialogFilterClients() {
                         Cancel
                     </button>
                     <button className={'btn'} onClick={() => {
-                        ctxClients.setTempWhere({})
+                        ctxMain.setClientsTempWhere({})
                     }}>
                         Clear Filter
                     </button>
                 </div>
                 <button className={'btn-confirm'} onClick={() => {
-                    ctxMain.setWhere(ctxClients.tempWhere())
+                    ctxMain.setClientsWhere(ctxMain.clientsTempWhere())
                     ctxClients.dialogFilterClientsRef.close()
                     setFilterTab('client-info')
                 }}>

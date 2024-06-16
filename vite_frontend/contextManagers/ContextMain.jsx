@@ -27,7 +27,26 @@ export function MainContextProvider(props) {
     const [mainMenuLocation, setMainMenuLocation] = createSignal('clients')
 
     // Client Filtering
-    const [where, setWhere] = createSignal({})
+    const [clientsWhere, setClientsWhere] = createSignal({})
+    const [clientsWhereAnnex, setClientsWhereAnnex] = createSignal({})
+    const [clientsTempWhere, setClientsTempWhere] = createSignal({})
+    const [clientsWherePills, setClientsWherePills] = createSignal({})
+
+    function clientsTempWhereValue(key, value) {
+        if (value === '') {
+            if (clientsTempWhere().hasOwnProperty(key)) {
+                delete clientsTempWhere()[key]
+                setClientsTempWhere({
+                    ...clientsTempWhere()
+                })
+            }
+        } else {
+            setClientsTempWhere({
+                ...clientsTempWhere(),
+                [key]: value
+            })
+        }
+    }
 
     function mainMenuTabLookup() {
         const tabs = {
@@ -122,15 +141,24 @@ export function MainContextProvider(props) {
                 loggedIn: loggedIn,
                 userId: userId,
                 userType: userType,
-                force_login: force_login,
-                login: login,
-                logout: logout,
+
+                // Client Filtering
+                clientsWhere: clientsWhere,
+                setClientsWhere: setClientsWhere,
+                clientsWhereAnnex: clientsWhereAnnex,
+                setClientsWhereAnnex: setClientsWhereAnnex,
+                clientsTempWhere: clientsTempWhere,
+                setClientsTempWhere: setClientsTempWhere,
+                clientsWherePills: clientsWherePills,
+                setClientsWherePills: setClientsWherePills,
+                clientsTempWhereValue: clientsTempWhereValue,
 
                 mainMenuLocation: mainMenuLocation,
                 setMainMenuLocation: setMainMenuLocation,
 
-                where: where,
-                setWhere: setWhere,
+                force_login: force_login,
+                login: login,
+                logout: logout,
             }
         }>
             {

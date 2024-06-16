@@ -7,68 +7,22 @@ import rpc_client_add_needs from "../../../rpc/client_add/rpc_client_add_needs";
 
 export default function ClientAdd() {
 
-
+    const ctxMain = useContext(ContextMain)
     const ctxClientAdd = useContext(ContextClientAdd)
 
     return (
         <div className={'px-2'}>
             <ClientAddHeader/>
             <form>
-                <div className={'form-section pb-4'}>
-                    <div className={'field-group'}>
-                        <div className={'py-2'}>
-                            <div className={'inline-label'}>
-                                <label>Source</label>
-                                <select>
-                                    <option>Select...</option>
-                                    <option>option 1</option>
-                                    <option>option 2</option>
-                                    <option>option 3</option>
-                                </select>
-                            </div>
-                        </div>
-                        <div className={'py-2'}>
-                            <div className={'inline-label'}>
-                                <label>Campaign</label>
-                                <select>
-                                    <option>Select...</option>
-                                    <option>option 1</option>
-                                    <option>option 2</option>
-                                    <option>option 3</option>
-                                </select>
-                            </div>
-                        </div>
-                        <div className={'py-2'}>
-                            <div className={'inline-label'}>
-                                <label>Status</label>
-                                <select>
-                                    <option>Select...</option>
-                                    <option>option 1</option>
-                                    <option>option 2</option>
-                                    <option>option 3</option>
-                                </select>
-                            </div>
-                        </div>
-                    </div>
-                </div>
                 <div className={'form-section'}>
                     <h2>Details</h2>
                     <div className={'field-group'}>
                         <div className={'py-2'}>
-                            <label>Title</label>
-                            <select>
-                                <option>Select...</option>
-                                <option>Mr</option>
-                                <option>Mrs</option>
-                                <option>Mss</option>
-                            </select>
-                        </div>
-                        <div className={'py-2'}>
-                            <label>First Name</label>
+                            <label>Business Name</label>
                             <input type={'text'}/>
                         </div>
                         <div className={'py-2'}>
-                            <label>Middle Name(s)</label>
+                            <label>First Name</label>
                             <input type={'text'}/>
                         </div>
                         <div className={'py-2'}>
@@ -98,15 +52,33 @@ export default function ClientAdd() {
                     <h2>Address</h2>
                     <div className={'field-group'}>
                         <div className={'py-2'}>
-                            <label>Flat, Name, Number</label>
+                            <label>Building Name</label>
                             <input type={'text'}/>
                         </div>
                         <div className={'py-2'}>
-                            <label>Street</label>
+                            <label>Sub Building Name</label>
                             <input type={'text'}/>
                         </div>
                         <div className={'py-2'}>
-                            <label>District</label>
+                            <label>Building Number</label>
+                            <input type={'text'}/>
+                        </div>
+                        <div className={'py-2'}>
+                            <label>Sub Building Number</label>
+                            <input type={'text'}/>
+                        </div>
+                    </div>
+                    <div className={'field-group'}>
+                        <div className={'py-2'}>
+                            <label>Address Line 1</label>
+                            <input type={'text'}/>
+                        </div>
+                        <div className={'py-2'}>
+                            <label>Address Line 2</label>
+                            <input type={'text'}/>
+                        </div>
+                        <div className={'py-2'}>
+                            <label>Address Line 3</label>
                             <input type={'text'}/>
                         </div>
                     </div>

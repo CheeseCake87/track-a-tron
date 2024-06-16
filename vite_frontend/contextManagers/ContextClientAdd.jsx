@@ -9,12 +9,6 @@ export function ClientAddContextProvider() {
 
     const ctxMain = useContext(ContextMain)
 
-    const [sources, setSources] = createSignal({})
-    const [teams, setTeams] = createSignal({})
-    const [statuses, setStatuses] = createSignal({})
-
-    const [chosenTeam, setChosenTeam] = createSignal({})
-
     onMount(() => {
         ctxMain.setMainMenuLocation('clients')
 

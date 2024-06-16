@@ -1,13 +1,12 @@
 import {useContext} from "solid-js";
 import {ContextClients} from "../../../contextManagers/ContextClients";
 import {ContextMain} from "../../../contextManagers/ContextMain";
-import {A} from "@solidjs/router";
 
 
 export default function ClientAddHeader(props) {
 
-    const mainCtx = useContext(ContextMain)
-    const clientsCtx = useContext(ContextClients)
+    const _ = useContext(ContextMain)
+    const __ = useContext(ContextClients)
 
     return (
         <>

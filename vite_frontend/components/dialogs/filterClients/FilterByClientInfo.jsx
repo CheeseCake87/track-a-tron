@@ -1,9 +1,11 @@
 import {useContext} from "solid-js";
 import {ContextClients} from "../../../contextManagers/ContextClients";
+import {ContextMain} from "../../../contextManagers/ContextMain";
 
 
 export function FilterByClientInfo(props) {
 
+    const ctxMain = useContext(ContextMain)
     const ctxClients = useContext(ContextClients)
 
     return (
@@ -14,12 +16,12 @@ export function FilterByClientInfo(props) {
                 <div className={'inline-label flex-1'}>
                     <label>Client&nbsp;ID</label>
                     <input type="number"
-                           value={ctxClients.tempWhere().hasOwnProperty("client_id")
-                               ? ctxClients.tempWhere().client_id
+                           value={ctxMain.clientsTempWhere().hasOwnProperty("client_id")
+                               ? ctxMain.clientsTempWhere().client_id
                                : ''}
                            onKeyUp={(e) => {
                                if (!props.keyDownHandler(e)) {
-                                   ctxClients.tempWhereValue('client_id', e.target.value)
+                                   ctxMain.clientsTempWhereValue('client_id', e.target.value)
                                }
                            }}/>
                 </div>
@@ -28,12 +30,12 @@ export function FilterByClientInfo(props) {
                     <label>Name</label>
                     <input className={'flex-1'}
                            type="text"
-                           value={ctxClients.tempWhere().hasOwnProperty("any_name")
-                               ? ctxClients.tempWhere().any_name
+                           value={ctxMain.clientsTempWhere().hasOwnProperty("any_name")
+                               ? ctxMain.clientsTempWhere().any_name
                                : ''}
                            onKeyUp={(e) => {
                                if (!props.keyDownHandler(e)) {
-                                   ctxClients.tempWhereValue('any_name', e.target.value)
+                                   ctxMain.clientsTempWhereValue('any_name', e.target.value)
                                }
                            }}/>
                 </div>
@@ -42,12 +44,12 @@ export function FilterByClientInfo(props) {
                     <label>Email&nbsp;Address</label>
                     <input className={'flex-1'}
                            type="text"
-                           value={ctxClients.tempWhere().hasOwnProperty("email_address")
-                               ? ctxClients.tempWhere().email_address
+                           value={ctxMain.clientsTempWhere().hasOwnProperty("email_address")
+                               ? ctxMain.clientsTempWhere().email_address
                                : ''}
                            onKeyUp={(e) => {
                                if (!props.keyDownHandler(e)) {
-                                   ctxClients.tempWhereValue('email_address', e.target.value)
+                                   ctxMain.clientsTempWhereValue('email_address', e.target.value)
                                }
                            }}/>
                 </div>
@@ -56,12 +58,12 @@ export function FilterByClientInfo(props) {
                     <label>Phone&nbsp;Number</label>
                     <input className={'flex-1'}
                            type="text"
-                           value={ctxClients.tempWhere().hasOwnProperty("any_number")
-                               ? ctxClients.tempWhere().any_number
+                           value={ctxMain.clientsTempWhere().hasOwnProperty("any_number")
+                               ? ctxMain.clientsTempWhere().any_number
                                : ''}
                            onKeyUp={(e) => {
                                if (!props.keyDownHandler(e)) {
-                                   ctxClients.tempWhereValue('any_number', e.target.value)
+                                   ctxMain.clientsTempWhereValue('any_number', e.target.value)
                                }
                            }}/>
                 </div>
@@ -70,12 +72,12 @@ export function FilterByClientInfo(props) {
                     <label>Postcode</label>
                     <input className={'flex-1'}
                            type="text"
-                           value={ctxClients.tempWhere().hasOwnProperty("pz_code")
-                               ? ctxClients.tempWhere().pz_code
+                           value={ctxMain.clientsTempWhere().hasOwnProperty("postcode")
+                               ? ctxMain.clientsTempWhere().postcode
                                : ''}
                            onKeyUp={(e) => {
                                if (!props.keyDownHandler(e)) {
-                                   ctxClients.tempWhereValue('pz_code', e.target.value)
+                                   ctxMain.clientsTempWhereValue('postcode', e.target.value)
                                }
                            }}/>
                 </div>
