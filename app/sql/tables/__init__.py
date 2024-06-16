@@ -21,6 +21,8 @@ from .workflow_task_queue import WorkflowTaskQueue
 from .workflow_template import WorkflowTemplate
 from .workflow_trigger import WorkflowTrigger
 
+from .system_log import SystemLog
+
 __all__ = [
     "BaseModel",
     "User",
@@ -38,4 +40,5 @@ __all__ = [
     "WorkflowTaskQueue",
     "WorkflowTemplate",
     "WorkflowTrigger",
+    "SystemLog",
 ]
