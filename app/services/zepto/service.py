@@ -17,31 +17,30 @@ class ZeptoService:
             self.settings = self._load_service_settings()
 
     def send(
-        self, recipients: list[str], subject: str, body: str, reply_to: str = None
+        self, recipients: list[str], subject: str, html_body: str, reply_to: str = None
     ) -> bool:
         if not self.settings.disabled:
-            _url = self.settings.api_url
-
-            _payload = {
-                "from": {"address": self.settings.sender},
-                "to": [
-                    {"email_address": {"address": recipient}}
-                    for recipient in recipients
-                ],
-                "subject": subject,
-                "htmlbody": body,
-            }
-
-            if reply_to:
-                _payload["reply_to"] = [{"address": reply_to, "name": reply_to}]
-
-            _headers = {
-                "accept": "application/json",
-                "content-type": "application/json",
-                "authorization": self.settings.token,
-            }
-
-            response = r.request("POST", _url, headers=_headers, json=_payload)
+            response = r.request(
+                "POST",
+                self.settings.api_url,
+                headers={
+                    "accept": "application/json",
+                    "content-type": "application/json",
+                    "authorization": self.settings.token,
+                },
+                json={
+                    "from": {"address": self.settings.sender},
+                    "to": [
+                        {"email_address": {"address": recipient}}
+                        for recipient in recipients
+                    ],
+                    "reply_to": [{"address": reply_to, "name": reply_to}]
+                    if reply_to
+                    else None,
+                    "subject": subject,
+                    "htmlbody": html_body,
+                },
+            )
 
             if response.status_code == 200:
                 with DBSession as s:
@@ -51,7 +50,7 @@ class ZeptoService:
                             reply_to=reply_to,
                             from_=self.settings.sender,
                             subject=subject,
-                            body=body,
+                            body=html_body,
                             response=response.json(),
                         )
                     )
@@ -79,10 +78,9 @@ class ZeptoService:
 
         return False
 
-    @staticmethod
-    def _load_service_settings():
+    def _load_service_settings(self):
         with DBSession as s:
-            result = s.execute(query_read_service("Zepto")).scalar_one_or_none()
+            result = s.execute(query_read_service("zepto")).scalar_one_or_none()
 
             if not result:
                 s.execute(
@@ -92,12 +90,7 @@ class ZeptoService:
                 )
                 s.commit()
 
-                return ZeptoSettings(
-                    sender="",
-                    api_url="",
-                    token="",
-                    disabled=True,
-                )
+                return self._disabled_service
 
         try:
             return ZeptoSettings(
@@ -115,9 +108,13 @@ class ZeptoService:
                 )
                 s.commit()
 
-            return ZeptoSettings(
-                sender="",
-                api_url="",
-                token="",
-                disabled=True,
-            )
+            return self._disabled_service
+
+    @property
+    def _disabled_service(self):
+        return ZeptoSettings(
+            sender="",
+            api_url="",
+            token="",
+            disabled=True,
+        )
