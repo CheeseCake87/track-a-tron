@@ -5,6 +5,7 @@ from app.sql.queries.service_get_address_cache import (
     query_read_cache_entry,
     query_update_cache_entry,
 )
+from app.sql.queries.system_log import query_create_system_log
 from app.sql.sessions import DBSession
 from .settings import GetAddressSettings
 
@@ -22,9 +23,27 @@ class GetAddressService:
         )
 
         if resp.status_code != 429:
+            with DBSession as s:
+                s.execute(
+                    query_create_system_log(
+                        "getAddress.io : Rate limit exceeded",
+                        "getAddress.io : Rate limit exceeded",
+                    )
+                )
+                s.commit()
+
             return {"ok": False, "message": "Rate limit exceeded"}
 
         if resp.status_code != 200:
+            with DBSession as s:
+                s.execute(
+                    query_create_system_log(
+                        "getAddress.io : Error with request",
+                        resp.content.decode("utf-8"),
+                    )
+                )
+                s.commit()
+
             return {"ok": False, "message": "Error with request"}
 
         data = resp.json()
@@ -45,6 +64,7 @@ class GetAddressService:
                         return {"ok": True, "data": data}
 
                     s.execute(query_create_cache_entry(postcode, data))
+                    s.commit()
                     return {"ok": True, "data": data}
 
             return data
@@ -58,6 +78,7 @@ class GetAddressService:
 
             if data.get("ok"):
                 s.execute(query_create_cache_entry(postcode, data))
+                s.commit()
                 return {"ok": True, "data": data}
 
             return data
