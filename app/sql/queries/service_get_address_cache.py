@@ -12,7 +12,7 @@ def query_create_cache_entry(postcode: str, cache: dict):
     return in_
 
 
-def query_find_cache_entry(postcode: str):
+def query_read_cache_entry(postcode: str):
     """
     Expects no spaces, and all characters to be uppercase
     """
