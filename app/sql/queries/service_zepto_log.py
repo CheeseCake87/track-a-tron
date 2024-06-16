@@ -4,11 +4,23 @@ from app.sql.tables import ServiceZeptoLog
 
 
 def query_create_zepto_log(
-    to: str, from_: str, subject: str, body: str, response: dict = None
+    to: str,
+    reply_to: str,
+    from_: str,
+    subject: str,
+    body: str,
+    response: dict = None,
 ):
     in_ = (
         insert(ServiceZeptoLog)
-        .values(to=to, from_=from_, subject=subject, body=body, response=response)
+        .values(
+            to=to,
+            reply_to=reply_to,
+            from_=from_,
+            subject=subject,
+            body=body,
+            response=response,
+        )
         .returning(ServiceZeptoLog)
     )
     return in_

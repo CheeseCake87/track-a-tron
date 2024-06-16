@@ -16,6 +16,7 @@ class ServiceZeptoLog(BaseModel):
 
     # Data
     to = s.Column(s.String(32), default=None, nullable=True)
+    reply_to = s.Column(s.String(32), default=None, nullable=True)
     from_ = s.Column(s.String(32), name="from", default=None, nullable=True)
     subject = s.Column(s.String(128), default=None, nullable=True)
     body = s.Column(s.String, default=None, nullable=True)
