@@ -7,6 +7,7 @@ system = Blueprint("system", __name__, url_prefix="/system")
 rpc = RPC(system)
 rpc.functions_auto_name(funcs)
 
+print(rpc.LOOKUP)
 
 @system.errorhandler(404)
 @system.errorhandler(405)

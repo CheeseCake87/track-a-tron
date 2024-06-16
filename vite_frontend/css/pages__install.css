@@ -1,0 +1,23 @@
+.install-background {
+    @apply p-4;
+}
+
+.install-outer {
+    @apply mx-auto;
+    width: 100%;
+    max-width: 600px;
+}
+
+.install-inner {
+    @apply shadow-xl rounded-xl p-6;
+    width: 100%;
+    background: #fbfbfb;
+}
+
+.install-form-group {
+    @apply block;
+}
+
+.install-form-group input {
+    @apply w-full;
+}

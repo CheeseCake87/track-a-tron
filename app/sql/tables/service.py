@@ -10,11 +10,11 @@ class Service(BaseModel):
     service_id = s.Column(s.Integer, primary_key=True)
 
     # Meta
-    category = s.Column(s.String, nullable=False, index=True)
-    name = s.Column(s.String, nullable=False, index=True)
+    category = s.Column(s.String, nullable=True, default=None)
+    name = s.Column(s.String, nullable=True, default=None)
 
     # Data
-    data = s.Column(s.JSON, nullable=True)
+    data = s.Column(s.JSON, nullable=True, default=None)
 
     # Flags
     enabled = s.Column(s.Boolean, nullable=False, default=False)

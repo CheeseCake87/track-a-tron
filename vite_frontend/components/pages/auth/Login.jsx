@@ -1,6 +1,5 @@
 import {EyeClosedIcon, EyeOpenIcon} from "../../globals/Icons";
 import {createSignal, useContext} from "solid-js";
-import {ContextClients} from "../../../contextManagers/ContextClients";
 import {ContextMain} from "../../../contextManagers/ContextMain";
 
 export default function Login() {

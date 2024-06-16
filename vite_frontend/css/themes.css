@@ -1,5 +1,5 @@
 [data-theme='cool'] {
-    --html-body-bg-color: linear-gradient(-45deg, #ececec, #f4f4f4);
+    --html-body-bg-color: #f3f3f3;
     --html-default-text-color: #0b0b0b;
 
     /* SPINNER */
@@ -8,7 +8,7 @@
 
     /* MAIN MENU */
 
-    --main-menu-bg-color: #eaeaea;
+    --main-menu-bg-color: #e3e3e3;
     --main-menu-icon-bg-color: #f8f8f8;
     --main-menu-icon-text-color: #252525;
     --main-menu-icon-border-color: rgba(255, 255, 255, 0);

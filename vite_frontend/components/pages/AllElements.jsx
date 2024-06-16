@@ -360,11 +360,10 @@ export default function Index() {
                     {/* CHECKBOX */}
 
                     <div className={'flex flex-wrap pb-4'}>
-
                         <div className={'p-2'}>
                             <label>Checkbox</label>
                             <label htmlFor="check1"
-                                   className={'checkbox-label'}>
+                                   className={'checkbox'}>
                                 <input type={'checkbox'}
                                        id={'check1'}
                                        name={'check1'}

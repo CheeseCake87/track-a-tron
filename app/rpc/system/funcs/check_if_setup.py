@@ -12,6 +12,12 @@ def check_if_setup(_):
                 "System not setup.",
                 False,
             )
+        else:
+            if not system.installation_complete:
+                return RPCResponse.fail(
+                    "System not setup.",
+                    False,
+                )
 
         return RPCResponse.success(
             True,

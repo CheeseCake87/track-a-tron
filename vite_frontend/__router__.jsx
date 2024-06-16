@@ -19,6 +19,7 @@ import {ClientAddContextProvider} from "./contextManagers/ContextClientAdd";
 import ClientAdd from "./components/pages/client_add/ClientAdd";
 import Client from "./components/pages/client/Client";
 import {ClientContextProvider} from "./contextManagers/ContextClient";
+import Installer from "./components/pages/installer/Installer";
 
 const root = document.getElementById('root')
 
@@ -68,6 +69,7 @@ render(() => (
                     <Route path="" component={SystemContextProvider}>
                         <Route path="/system" component={System}/>
                     </Route>
+                    <Route path="/system/install" component={Installer}/>
 
                     <Route path="" component={YourAccountContextProvider}>
                         <Route path="/your-account" component={YourAccount}/>

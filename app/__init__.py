@@ -5,6 +5,8 @@ from quart import Quart, session, render_template
 from app.config import Config, Folders
 from app.extensions import vite_transporter
 from app.rpc import rpc
+from app.sql import ENGINE
+from app.sql.tables import BaseModel
 
 load_dotenv()
 
@@ -23,6 +25,8 @@ def create_app():
 
     app.config.from_object(Config)
     app.config["UPLOAD_FOLDER"] = folders.uploads
+
+    BaseModel.metadata.create_all(ENGINE)
 
     vite_transporter.init_app(
         app,

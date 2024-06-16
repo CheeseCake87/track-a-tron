@@ -1,10 +1,10 @@
 from sqlalchemy import select, insert, update
 
-from app import __version__
 from app.sql.tables import System
 
 
 def query_create_system():
+    from app import __version__
     in_ = insert(System).values(version=__version__)
     return in_
 
@@ -16,6 +16,7 @@ def query_read_system():
 
 
 def query_update_system_version():
+    from app import __version__
     wh_ = (System.system_id == 1,)
     up_ = update(System).where(*wh_).values(version=__version__)
     return up_

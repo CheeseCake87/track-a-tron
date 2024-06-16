@@ -365,10 +365,11 @@ label > input {
 
 /* CHECKBOX */
 
-.checkbox-label {
+.checkbox {
     @apply flex px-3 py-2 border
     items-center cursor-pointer
-    rounded-md shadow-sm appearance-none;
+    rounded-md shadow-sm appearance-none
+    justify-items-start;
     background-color: var(--input-bg);
     border-color: var(--input-border);
     height: 100%;
@@ -378,8 +379,14 @@ label > input {
     user-select: none;
 }
 
-input[type="checkbox"] {
+.checkbox label {
+    @apply block flex-1 cursor-pointer;
+    width: 100%;
+}
+
+.checkbox input[type="checkbox"] {
     @apply
+    inline-block
     border
     shadow-sm
     cursor-pointer;

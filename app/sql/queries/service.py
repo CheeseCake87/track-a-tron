@@ -4,9 +4,7 @@ from app.sql.tables import Service
 
 
 def query_create_service(category: str, name: str, data: dict, enabled: bool = False):
-    in_ = insert(Service).values(
-        category=category, name=name, data=data, enabled=enabled
-    )
+    in_ = insert(Service).values(category=category, name=name, data=data, enabled=enabled)
     return in_
 
 

@@ -7,6 +7,8 @@ import rpc_auth_logout from "../rpc/auth/rpc_auth_logout";
 import rpc_auth_login from "../rpc/auth/rpc_auth_login";
 import {MainMenu} from "../components/menus/MainMenu";
 import rpc_auth_force_login from "../rpc/auth/rpc_auth_force_login";
+import rpc_check_if_setup from "../rpc/system/rpc_check_if_setup";
+import rpc_system_install from "../rpc/system/rpc_system_install";
 
 
 export const ContextMain = createContext()
@@ -26,7 +28,7 @@ export function MainContextProvider(props) {
 
     const [mainMenuLocation, setMainMenuLocation] = createSignal('clients')
 
-    // Client Filtering
+    // Client Filtering // Client Filtering
     const [clientsWhere, setClientsWhere] = createSignal({})
     const [clientsWhereAnnex, setClientsWhereAnnex] = createSignal({})
     const [clientsTempWhere, setClientsTempWhere] = createSignal({})
@@ -47,6 +49,8 @@ export function MainContextProvider(props) {
             })
         }
     }
+
+    // -------------------------------------
 
     function mainMenuTabLookup() {
         const tabs = {
@@ -73,6 +77,15 @@ export function MainContextProvider(props) {
         '/change-password',
         '/login'
     ]
+
+    function install(admin_username, admin_password, services) {
+        rpc_system_install(admin_username, admin_password, services).then((rpc) => {
+            console.log(rpc)
+            if (rpc.ok) {
+                navigator('/login')
+            }
+        })
+    }
 
     function logout() {
         rpc_auth_logout().then((rpc) => {
@@ -128,6 +141,12 @@ export function MainContextProvider(props) {
 
     onMount(() => {
         setMainMenuLocation(mainMenuTabLookup())
+
+        rpc_check_if_setup().then((rpc) => {
+            if (!rpc.ok) {
+                navigator('/system/install')
+            }
+        })
     })
 
     return (
@@ -159,6 +178,7 @@ export function MainContextProvider(props) {
                 force_login: force_login,
                 login: login,
                 logout: logout,
+                install: install
             }
         }>
             {
