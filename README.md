@@ -40,6 +40,8 @@ Terminal 2 : Run Vite w/ SolidJS
 pyqwe vite-run
 ```
 
+Now visit http://localhost:7070 - this will display the installer page.
+
 Load the database
 
 ```
