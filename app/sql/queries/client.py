@@ -3,6 +3,7 @@ from sqlalchemy import select, insert, update, or_
 
 from app.sql.tables import Client
 from app.utilities import DatetimeDeltaMCTZU
+from app.utilities import DatetimeDeltaMC
 
 
 def query_create_client(values: dict, ignore_fields: list[str] = None):
@@ -14,6 +15,7 @@ def query_create_client(values: dict, ignore_fields: list[str] = None):
                 for k, v in values.items()
                 if hasattr(Client, k) and k not in ignore_fields and v != ""
             },
+            created=DatetimeDeltaMC().datetime,
         )
         .returning(Client)
     )

@@ -52,4 +52,4 @@ class Client(BaseModel):
     disabled = s.Column(s.Boolean, default=False)
 
     # Tracking
-    created = s.Column(s.DateTime, default=DatetimeDeltaRI().datetime)
+    created = s.Column(s.DateTime)
