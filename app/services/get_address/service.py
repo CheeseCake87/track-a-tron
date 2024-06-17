@@ -21,78 +21,82 @@ class GetAddressService:
         else:
             self.settings = self._load_service_settings()
 
-    def find(self, postcode: str) -> dict:
+    def find(self, postcode: str) -> tuple[bool, str, dict | None]:
+        postcode = postcode.replace(" ", "").upper()
+
         if not self.settings.disabled:
             resp = r.get(
                 self.base_url.format(postcode=postcode, api_key=self.settings.api_key)
             )
 
-            if resp.status_code != 429:
+            if resp.status_code == 429:
                 system_log(
                     "getAddress.io : Rate limit exceeded",
                     "getAddress.io : Rate limit exceeded",
                 )
 
-                return {"ok": False, "message": "Rate limit exceeded"}
+                return False, "Rate limit exceeded", None
 
             if resp.status_code != 200:
                 system_log(
                     "getAddress.io : Error with request", resp.content.decode("utf-8")
                 )
 
-                return {"ok": False, "message": "Error with request"}
+                return False, "Error with request", None
 
             data = resp.json()
 
-            return {"ok": True, "data": data}
+            return True, "Data found", data
 
         system_log(
             "getAddress.io service is disabled",
             "getAddress.io service is disabled",
         )
-        return {"ok": False, "message": "Service is disabled"}
+        return False, "Service is disabled", None
 
-    def cache_find(self, postcode: str, refresh_cache: bool = False) -> dict:
+    def cache_find(self, postcode: str, refresh_cache: bool = False) -> tuple[bool, str, dict | None]:
+        postcode = postcode.replace(" ", "").upper()
+
         if not self.settings.disabled:
             if refresh_cache:
-                data = self.find(postcode)
+                successful, message, data = self.find(postcode)
 
-                if data.get("ok"):
+                if successful:
                     with DBSession as s:
                         result = s.execute(
                             query_read_cache_entry(postcode)
                         ).scalar_one_or_none()
                         if result:
                             s.execute(query_update_cache_entry(postcode, data))
-                            return {"ok": True, "data": data}
+                            return True, "Data found", data
 
                         s.execute(query_create_cache_entry(postcode, data))
                         s.commit()
-                        return {"ok": True, "data": data}
+                        return True, "Data found", data
 
-                return data  # Pass through the error from the find method
+                return successful, message, data
 
             with DBSession as s:
                 result = s.execute(
                     query_read_cache_entry(postcode)
                 ).scalar_one_or_none()
                 if result:
-                    return {"ok": True, "data": result.cache}
+                    return True, "Data found", result.cache
 
-                data = self.find(postcode)
+                successful, message, data = self.find(postcode)
 
-                if data.get("ok"):
+                if successful:
                     s.execute(query_create_cache_entry(postcode, data))
                     s.commit()
-                    return {"ok": True, "data": data}
+                    return True, "Data found", data
 
-                return data  # Pass through the error from the find method
+                return successful, message, data
 
         system_log(
             "getAddress.io service is disabled",
             "getAddress.io service is disabled",
         )
-        return {"ok": False, "message": "Service is disabled"}
+        return False, "Service is disabled", None
 
     def _load_service_settings(self) -> GetAddressSettings:
         with DBSession as s:

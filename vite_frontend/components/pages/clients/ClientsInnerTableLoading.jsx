@@ -6,7 +6,7 @@ import {SpinnerWithMessage} from "../../globals/Spinner";
 export default function ClientsInnerTableLoading() {
     const ctxClients = useContext(ContextClients)
     return (
-        <div className={'-flex-table-body justify-center items-center p-2'}
+        <div className={'-table-overflow justify-center items-center p-2'}
              style={{height: `${ctxClients.clientsInnerTableHeight() + 24}px`}}>
             <SpinnerWithMessage message="loading..."/>
         </div>

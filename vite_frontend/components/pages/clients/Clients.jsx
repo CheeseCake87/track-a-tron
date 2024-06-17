@@ -20,7 +20,7 @@ export default function Clients() {
 
                 <ClientsFilterPills/>
 
-                <div className={'-flex-table'}>
+                <div className={'-table'}>
 
                     {
                         ctxClients.loadingClients()

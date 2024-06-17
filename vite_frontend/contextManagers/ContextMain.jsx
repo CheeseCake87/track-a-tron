@@ -9,6 +9,7 @@ import {MainMenu} from "../components/menus/MainMenu";
 import rpc_check_if_setup from "../rpc/system/rpc_check_if_setup";
 import rpc_system_install from "../rpc/system/rpc_system_install";
 import ToastBar from "../components/globals/ToastBar";
+import rpc_get_enabled_services from "../rpc/system/rpc_get_enabled_services";
 
 
 export const ContextMain = createContext()
@@ -32,6 +33,8 @@ export function MainContextProvider(props) {
     const session = rpc_auth_get_session()
     const navigator = useNavigate()
     const location = useLocation()
+
+    const [enabledServices, setEnabledServices] = createSignal([])
 
     // Toast Bar // Toast Bar
 
@@ -125,6 +128,9 @@ export function MainContextProvider(props) {
                 navigator('/system/install')
             }
         })
+        rpc_get_enabled_services().then((rpc) => {
+            setEnabledServices(rpc.data.enabled_services)
+        })
     })
 
     return (
@@ -133,6 +139,7 @@ export function MainContextProvider(props) {
                 session: session,
                 navigator: navigator,
                 location: location,
+                enabledServices: enabledServices,
                 iconSize: iconSize,
                 setIconSize: setIconSize,
                 loggedIn: loggedIn,

@@ -1,6 +1,7 @@
 from .check_if_setup import check_if_setup
 from .create_user import create_user
 from .get_all_users import get_all_users
+from .get_enabled_services import get_enabled_services
 from .get_services import get_services
 from .get_user import get_user
 from .install import install
@@ -16,4 +17,5 @@ __all__ = [
     get_all_users,
     get_user,
     update_user,
+    get_enabled_services,
 ]

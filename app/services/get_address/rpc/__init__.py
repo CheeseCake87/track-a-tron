@@ -23,12 +23,12 @@ def find(data):
         )
 
     get_address_service = GetAddressService()
-    data = get_address_service.find(postcode)
+    successful, message, data = get_address_service.find(postcode)
 
-    return RPCResponse.success(
-        data,
-        "Address found.",
-    )
+    if not successful:
+        return RPCResponse.fail(message, data)
+
+    return RPCResponse.success(data, message)
 
 
 def cache_find(data):
@@ -46,12 +46,11 @@ def cache_find(data):
         )
 
     get_address_service = GetAddressService()
-    data = get_address_service.cache_find(postcode, refresh)
+    successful, message, data = get_address_service.cache_find(postcode, refresh)
 
-    return RPCResponse.success(
-        data,
-        "Address found.",
-    )
+    if not successful:
+        return RPCResponse.fail(message, data)
+    return RPCResponse.success(data, message)
 
 
 rpc.functions_auto_name([find, cache_find])

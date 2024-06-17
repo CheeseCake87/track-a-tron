@@ -12,6 +12,7 @@ export default function ClientsInnerTable() {
         setTableHeadersWidth
     ] = createSignal(0)
 
+    let tableHeaderWidthRef;
     let tableDataWidthRef;
 
     function displayName(business_name, first_name, last_name) {
@@ -50,7 +51,8 @@ export default function ClientsInnerTable() {
     return (
         <>
             <div className={'-grid-table-header grid-cols-2'}
-                 style={{width: `${tableHeadersWidth()}px`}}>
+                 style={{width: `${tableHeadersWidth()}px`}}
+                 ref={tableHeaderWidthRef}>
                 <div className={'-flex-table-cell-group'}>
                     <div className={'-flex-table-cell-min'}>
                         ID
@@ -63,9 +65,8 @@ export default function ClientsInnerTable() {
                     Created
                 </div>
             </div>
-
-            <div className={'-flex-table-body'}
-                 style={{height: `${ctxClients.clientsInnerTableHeight()}px`}}>
+            {/* style={{height: `${ctxClients.clientsInnerTableHeight()}px`}} */}
+            <div className={'-table-overflow'}>
                 <div className={'w-full'}
                      style={{height: '1px'}}
                      ref={tableDataWidthRef}>

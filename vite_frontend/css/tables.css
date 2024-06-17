@@ -8,21 +8,24 @@ a.-flex-table-row, a.-grid-table-row {
 }
 
 .-flex-table-bg-wrapper {
-    @apply rounded-md;
+    @apply rounded-md h-full;
     background: #e3e3e3;
+    min-height: 0;
 }
 
-.-flex-table {
-    @apply flex flex-col w-full p-4 rounded-md;
+.-table {
+    @apply flex flex-col w-full h-full rounded-md;
     background: var(--table-bg);
+    min-height: 0;
 }
 
 .-flex-table-header {
-    @apply flex flex-row gap-2 rounded-md p-2 pt-0 font-bold;
+    @apply flex flex-row gap-2 rounded-md p-4 pt-0 font-bold;
 }
 
-.-flex-table-body {
-    @apply flex flex-col overflow-auto;
+.-table-overflow {
+    @apply h-full overflow-auto;
+    min-height: 0;
 }
 
 .-flex-table-row {
@@ -51,12 +54,12 @@ a.-flex-table-row, a.-grid-table-row {
 }
 
 .-grid-table-header {
-    @apply grid gap-2 rounded-md p-2 pt-0 font-bold;
+    @apply grid gap-2 rounded-md px-4 py-2 font-bold;
     background: var(--table-bg);
 }
 
 .-grid-table-row {
-    @apply grid gap-2 rounded-md p-2;
+    @apply grid gap-2 rounded-md px-4 py-2;
 }
 
 .-grid-table-row:hover {
