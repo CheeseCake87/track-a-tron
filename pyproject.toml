@@ -1,5 +1,5 @@
 [project]
-name = "uakari"
+name = "track-a-tron"
 
 [tool.vite_transporter]
 npm_exec = "npm"
