@@ -64,21 +64,6 @@ export function MainContextProvider(props) {
         setToastBarMessage(message)
     }
 
-    function mainMenuTabLookup() {
-        const tabs = {
-            '/': 'clients', // Default to 'clients'
-            '/clients': 'clients',
-            '/users': 'users',
-            '/account': 'account',
-            '/settings': 'settings'
-        }
-        for (let [key, value] of Object.entries(tabs)) {
-            if (location.pathname.includes(key)) {
-                return value
-            }
-        }
-    }
-
     function install(admin_username, admin_password, services) {
         rpc_system_install(admin_username, admin_password, services).then((rpc) => {
             console.log(rpc)
@@ -112,18 +97,6 @@ export function MainContextProvider(props) {
     }
 
     createEffect(() => {
-        if (!loggedIn()) {
-            if (protectedRoutes.includes(location.pathname)) {
-                navigator('/login')
-            }
-        } else {
-            if (noLoginRoutes.includes(location.pathname)) {
-                navigator('/')
-            }
-        }
-    })
-
-    createEffect(() => {
         if (!session.store.loading) {
             setLoaded(true)
             setLoggedIn(session.data('logged_in', false))
@@ -132,9 +105,21 @@ export function MainContextProvider(props) {
         }
     })
 
-    onMount(() => {
-        setMainMenuLocation(mainMenuTabLookup())
+    createEffect(() => {
+        if (!session.store.loading) {
+            if (!loggedIn()) {
+                if (protectedRoutes.includes(location.pathname)) {
+                    navigator('/login')
+                }
+            } else {
+                if (noLoginRoutes.includes(location.pathname)) {
+                    navigator('/')
+                }
+            }
+        }
+    })
 
+    onMount(() => {
         rpc_check_if_setup().then((rpc) => {
             if (!rpc.ok) {
                 navigator('/system/install')

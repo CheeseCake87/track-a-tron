@@ -10,14 +10,16 @@ import {ClientsContextProvider} from "./contextManagers/ContextClients";
 import Clients from "./components/pages/clients/Clients";
 import {MainContextProvider} from "./contextManagers/ContextMain";
 import {SystemContextProvider} from "./contextManagers/ContextSystem";
-import System from "./components/pages/system/System";
-import {YourAccountContextProvider} from "./contextManagers/ContextYourAccount";
-import YourAccount from "./components/pages/your_account/YourAccount";
+import {AccountContextProvider} from "./contextManagers/ContextAccount";
+import Account from "./components/pages/account/Account";
 import {ClientAddContextProvider} from "./contextManagers/ContextClientAdd";
 import ClientAdd from "./components/pages/client_add/ClientAdd";
 import Client from "./components/pages/client/Client";
 import {ClientContextProvider} from "./contextManagers/ContextClient";
 import Installer from "./components/pages/installer/Installer";
+import SystemInformation from "./components/pages/system/SystemInformation";
+import SystemUsers from "./components/pages/system/SystemUsers";
+import SystemServices from "./components/pages/system/SystemServices";
 
 const root = document.getElementById('root')
 
@@ -33,6 +35,7 @@ render(() => (
                 <Route path="/all" component={AllElements}/>
 
                 <Route path="" component={MainContextProvider}>
+
                     <Route path="/" component={() => <Navigate href={'/clients'}/>}/>
 
                     <Route path="/login" component={Login}/>
@@ -61,13 +64,19 @@ render(() => (
                     </Route>
 
                     <Route path="" component={SystemContextProvider}>
-                        <Route path="/system" component={System}/>
+                        <Route path="/system">
+                            <Route path="/" component={() => <Navigate href={'/system/information'}/>}/>
+                            <Route path="/information" component={SystemInformation}/>
+                            <Route path="/users" component={SystemUsers}/>
+                            <Route path="/services" component={SystemServices}/>
+                        </Route>
                     </Route>
-                    <Route path="/system/install" component={Installer}/>
 
-                    <Route path="" component={YourAccountContextProvider}>
-                        <Route path="/your-account" component={YourAccount}/>
+                    <Route path="" component={AccountContextProvider}>
+                        <Route path="/account" component={Account}/>
                     </Route>
+
+                    <Route path="/install" component={Installer}/>
 
                 </Route>
             </Routes>

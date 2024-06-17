@@ -1,12 +1,14 @@
-import {createEffect, createSignal, Show, useContext} from "solid-js";
+import {createEffect, createSignal, onMount, Show, useContext} from "solid-js";
 import {EyeClosedIcon, EyeOpenIcon} from "../../globals/Icons";
 import rpc_get_services from "../../../rpc/system/rpc_get_services";
 import {ContextMain} from "../../../contextManagers/ContextMain";
 import rpc_update_service from "../../../rpc/system/rpc_update_service";
+import {ContextSystem} from "../../../contextManagers/ContextSystem";
 
-export default function SystemServices(props) {
+export default function SystemServices() {
 
     const ctxMain = useContext(ContextMain)
+    const ctxSystem = useContext(ContextSystem)
 
     // GetAddress
     const [getAddressService, setAddressService] = createSignal({
@@ -360,7 +362,7 @@ export default function SystemServices(props) {
     }
 
     createEffect(() => {
-        if (props.systemSection() === 'services') {
+        if (ctxSystem.systemSection() === 'services') {
             rpc_get_services().then((rpc) => {
                 if (rpc.ok) {
                     for (let service of rpc.data.services) {
@@ -380,6 +382,11 @@ export default function SystemServices(props) {
                 }
             })
         }
+    })
+
+    onMount(() => {
+        ctxMain.setMainMenuLocation('system')
+        ctxSystem.setSystemSection('services')
     })
 
     return (

@@ -25,12 +25,12 @@ export function MainMenu() {
             </div>
             <div>
                 <div className={
-                    ctxMain.mainMenuLocation() === 'your-account'
+                    ctxMain.mainMenuLocation() === 'account'
                         ? 'main-menu-icon-active'
                         : 'main-menu-icon'}
                      onClick={() => {
-                         ctxMain.setMainMenuLocation('your-account')
-                         ctxMain.navigator('/your-account')
+                         ctxMain.setMainMenuLocation('account')
+                         ctxMain.navigator('/account')
                      }}>
                     <div><UserIcon size={ctxMain.iconSize()}/></div>
                     <div>Account</div>

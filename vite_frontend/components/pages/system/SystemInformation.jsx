@@ -1,4 +1,17 @@
+import {onMount, useContext} from "solid-js";
+import {ContextSystem} from "../../../contextManagers/ContextSystem";
+import {ContextMain} from "../../../contextManagers/ContextMain";
+
 export default function SystemInformation() {
+
+    const ctxMain = useContext(ContextMain)
+    const ctxSystem = useContext(ContextSystem)
+
+    onMount(() => {
+        ctxMain.setMainMenuLocation('system')
+        ctxSystem.setSystemSection('information')
+    })
+
     return (
         <div className={'px-4'}>
             <h1 className={'m-0 pb-2'}>🤖Track-a-tron</h1>
