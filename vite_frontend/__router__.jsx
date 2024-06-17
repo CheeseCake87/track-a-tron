@@ -9,8 +9,6 @@ import ChangePassword from "./components/pages/auth/ChangePassword";
 import {ClientsContextProvider} from "./contextManagers/ContextClients";
 import Clients from "./components/pages/clients/Clients";
 import {MainContextProvider} from "./contextManagers/ContextMain";
-import Users from "./components/pages/users/Users";
-import {UserContextProvider} from "./contextManagers/ContextUsers";
 import {SystemContextProvider} from "./contextManagers/ContextSystem";
 import System from "./components/pages/system/System";
 import {YourAccountContextProvider} from "./contextManagers/ContextYourAccount";
@@ -60,10 +58,6 @@ render(() => (
                                 <Route path="/:client_id" component={Client}/>
                             </Route>
                         </Route>
-                    </Route>
-
-                    <Route path="" component={UserContextProvider}>
-                        <Route path="/users" component={Users}/>
                     </Route>
 
                     <Route path="" component={SystemContextProvider}>

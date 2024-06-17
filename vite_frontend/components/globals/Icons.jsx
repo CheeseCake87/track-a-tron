@@ -10,7 +10,7 @@ export function EyeOpenIcon(props) {
                  viewBox="0 0 24 24"
                  fill="none"
                  stroke="currentColor"
-                 stroke-width="2"
+                 stroke-width="1.5"
                  stroke-linecap="round"
                  stroke-linejoin="round">
             <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
@@ -30,7 +30,7 @@ export function EyeClosedIcon(props) {
                  viewBox="0 0 24 24"
                  fill="none"
                  stroke="currentColor"
-                 stroke-width="2"
+                 stroke-width="1.5"
                  stroke-linecap="round"
                  stroke-linejoin="round">
             <path
@@ -503,7 +503,7 @@ export function ErrorIcon(props) {
 
     return (<svg xmlns="http://www.w3.org/2000/svg" width={props.size}
                  height={props.size} viewBox="0 0 24 24" fill="none" stroke={props.color}
-                 stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-alert-triangle">
+                 stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="feather feather-alert-triangle">
             <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path>
             <line x1="12" y1="9" x2="12" y2="13"></line>
             <line x1="12" y1="17" x2="12.01" y2="17"></line>
@@ -522,7 +522,7 @@ export function InfoIcon(props) {
 
     return (<svg xmlns="http://www.w3.org/2000/svg" width={props.size}
                  height={props.size} viewBox="0 0 24 24" fill="none" stroke={props.color}
-                 stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-info">
+                 stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="feather feather-info">
             <circle cx="12" cy="12" r="10"></circle>
             <line x1="12" y1="16" x2="12" y2="12"></line>
             <line x1="12" y1="8" x2="12.01" y2="8"></line>
@@ -541,7 +541,7 @@ export function ConfirmedIcon(props) {
 
     return (<svg xmlns="http://www.w3.org/2000/svg" width={props.size}
                  height={props.size} viewBox="0 0 24 24" fill="none" stroke={props.color}
-                 stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-check-circle">
+                 stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="feather feather-check-circle">
             <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
             <polyline points="22 4 12 14.01 9 11.01"></polyline>
         </svg>)
@@ -559,7 +559,7 @@ export function BoxIcon(props) {
 
     return (<svg xmlns="http://www.w3.org/2000/svg" width={props.size}
                  height={props.size} viewBox="0 0 24 24" fill="none" stroke={props.color}
-                 stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-box">
+                 stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="feather feather-box">
             <path
                 d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path>
             <polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline>

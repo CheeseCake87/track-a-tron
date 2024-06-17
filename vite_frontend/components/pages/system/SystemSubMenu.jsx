@@ -1,4 +1,4 @@
-import {BoxIcon, InfoIcon} from "../../globals/Icons";
+import {BoxIcon, InfoIcon, UsersIcon} from "../../globals/Icons";
 
 export default function SystemSubMenu(props) {
     return (
@@ -8,6 +8,12 @@ export default function SystemSubMenu(props) {
             }>
                 <div><InfoIcon size={20}/></div>
                 <div>Information</div>
+            </div>
+            <div className={props.systemSection() === 'users' ? 'sub-menu-icon-active' : 'sub-menu-icon'} onClick={
+                () => props.setSystemSection('users')
+            }>
+                <div><UsersIcon size={20}/></div>
+                <div>Users</div>
             </div>
             <div className={props.systemSection() === 'services' ? 'sub-menu-icon-active' : 'sub-menu-icon'} onClick={
                 () => props.setSystemSection('services')

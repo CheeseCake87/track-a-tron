@@ -1,5 +1,5 @@
 import {useContext} from "solid-js";
-import {ClientIcon, LogoutIcon, SettingsIcon, UserIcon, UsersIcon} from "../globals/Icons";
+import {ClientIcon, LogoutIcon, SettingsIcon, UserIcon} from "../globals/Icons";
 import {ContextMain} from "../../contextManagers/ContextMain";
 
 
@@ -20,18 +20,6 @@ export function MainMenu() {
                      }}>
                     <div><ClientIcon size={ctxMain.iconSize()}/></div>
                     <div>Clients</div>
-                </div>
-
-                <div className={
-                    ctxMain.mainMenuLocation() === 'users'
-                        ? 'main-menu-icon-active'
-                        : 'main-menu-icon'}
-                     onClick={() => {
-                         ctxMain.setMainMenuLocation('users')
-                         ctxMain.navigator('/users')
-                     }}>
-                    <div><UsersIcon size={ctxMain.iconSize()}/></div>
-                    <div>Users</div>
                 </div>
 
             </div>
