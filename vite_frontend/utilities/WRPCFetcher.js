@@ -31,14 +31,14 @@ export default class WRPCFetcher {
         }
     }
 
-    data(key, return_if_not_found = null) {
+    data(key) {
         if (typeof this.store() === 'object') {
             if (typeof this.store().data === 'object') {
                 if (key in this.store().data)
                     return this.store().data[key]
             }
         }
-        return return_if_not_found
+        return this.store().data
     }
 
     version() {

@@ -1,10 +1,11 @@
 from sqlalchemy import select, insert, delete
 
 from app.sql.tables import SystemLog
+from app.utilities import DatetimeDeltaMC
 
 
 def query_create_system_log(subject: str, log: str):
-    in_ = insert(SystemLog).values(subject=subject, log=log)
+    in_ = insert(SystemLog).values(subject=subject, log=log, created=DatetimeDeltaMC().datetime,)
     return in_
 
 

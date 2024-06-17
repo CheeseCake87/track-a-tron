@@ -1,11 +1,12 @@
 from sqlalchemy import select, insert, update
 
 from app.sql.tables import Service
+from app.utilities import DatetimeDeltaMC
 
 
 def query_create_service(category: str, name: str, data: dict, enabled: bool = False):
     in_ = insert(Service).values(
-        category=category, name=name, data=data, enabled=enabled
+        category=category, name=name, data=data, enabled=enabled, created=DatetimeDeltaMC().datetime,
     )
     return in_
 

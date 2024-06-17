@@ -15,4 +15,4 @@ class System(BaseModel):
     installation_complete = s.Column(s.Boolean, nullable=False, default=False)
 
     # Tracking
-    created = s.Column(s.DateTime, nullable=False, default=DatetimeDeltaMC().datetime)
+    created = s.Column(s.DateTime)

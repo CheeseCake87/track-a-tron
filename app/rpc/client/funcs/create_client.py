@@ -1,13 +1,11 @@
 from quart_rpc.version_1_0 import RPCResponse  # noqa
 
-from app.utilities.security import session_check
 from app.sql import DBSession
 from app.sql.queries.client import query_create_client
 from quart_rpc.exceptions import DataException
 from quart_rpc.validation import DataDict
 
 
-@session_check("logged_in", True)
 def create_client(data):
     d = DataDict(data)
     try:

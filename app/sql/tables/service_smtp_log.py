@@ -25,4 +25,4 @@ class ServiceSmtpLog(BaseModel):
     response = s.Column(s.JSON, default=None, nullable=True)
 
     # Tracking
-    created = s.Column(s.DateTime, default=DatetimeDeltaRI().datetime)
+    created = s.Column(s.DateTime)

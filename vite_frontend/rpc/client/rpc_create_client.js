@@ -1,23 +1,16 @@
 import {API_URL} from "../../globals";
 import {wrpc} from "wrpc-js";
 
-export default async function rpc_clients_page_clients(
-    userId, page, limit, where = {}
-) {
+export default async function rpc_create_client(values) {
     const req = await fetch(API_URL + '/rpc/client/', {
         method: 'POST',
         credentials: 'include',
         headers: {
             'Content-Type': 'application/json',
         },
-        body: wrpc('page_clients',
-            {
-                user_id: userId,
-                page: page,
-                limit: limit,
-                where: where
-            }
-        )
+        body: wrpc('create_client', {
+            values: values
+        })
     })
     if (req.ok) {
         return await req.json()

@@ -1,7 +1,7 @@
 import {createContext, createEffect, createSignal, onCleanup, onMount, useContext} from 'solid-js'
 import {Outlet} from '@solidjs/router'
 import {createStore} from "solid-js/store";
-import rpc_clients_page_clients from "../rpc/clients/rpc_clients_page_clients";
+import rpc_page_clients from "../rpc/client/rpc_page_clients";
 import {ContextMain} from "./ContextMain";
 
 
@@ -140,7 +140,7 @@ export function ClientsContextProvider() {
 
         clearTimeout(deBounceGetPageClientsTimer)
         deBounceGetPageClientsTimer = setTimeout(() => {
-            rpc_clients_page_clients(
+            rpc_page_clients(
                 ctxMain.userId(), page, limit, where
             ).then((rpc) => {
                 if (rpc.ok) {

@@ -1,12 +1,16 @@
 from sqlalchemy import select, insert, update
 
 from app.sql.tables import System
+from app.utilities import DatetimeDeltaMC
 
 
 def query_create_system():
     from app import __version__
 
-    in_ = insert(System).values(version=__version__)
+    in_ = insert(System).values(
+        version=__version__,
+        created=DatetimeDeltaMC().datetime,
+    )
     return in_
 
 

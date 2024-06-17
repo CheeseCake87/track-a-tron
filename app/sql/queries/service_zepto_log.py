@@ -1,6 +1,7 @@
 from sqlalchemy import select, insert
 
 from app.sql.tables import ServiceZeptoLog
+from app.utilities import DatetimeDeltaMC
 
 
 def query_create_zepto_log(
@@ -20,6 +21,7 @@ def query_create_zepto_log(
             subject=subject,
             body=body,
             response=response,
+            created=DatetimeDeltaMC().datetime,
         )
         .returning(ServiceZeptoLog)
     )

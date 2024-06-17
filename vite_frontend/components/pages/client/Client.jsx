@@ -8,7 +8,7 @@ export default function Client() {
 
     return (
         <div className={'main-content-slim'}>
-            <h1>Client {ctxClient.clientId()}</h1>
+            <h1>Client {ctxClient.client().client_id}</h1>
         </div>
     )
 }

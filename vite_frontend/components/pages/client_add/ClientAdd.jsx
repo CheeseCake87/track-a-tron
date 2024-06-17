@@ -2,7 +2,7 @@ import {createSignal, Show, useContext} from "solid-js";
 import ClientAddHeader from "./ClientAddHeader";
 import {ContextMain} from "../../../contextManagers/ContextMain";
 import GetAddress from "../../services/GetAddress";
-import rpc_client_create_client from "../../../rpc/clients/rpc_client_create_client";
+import rpc_create_client from "../../../rpc/client/rpc_create_client";
 
 
 export default function ClientAdd() {
@@ -40,7 +40,7 @@ export default function ClientAdd() {
     })
 
     function createClient() {
-        rpc_client_create_client({
+        rpc_create_client({
             ...client(),
             ...clientAddress()
         }).then((rpc) => {

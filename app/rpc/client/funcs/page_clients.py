@@ -1,6 +1,5 @@
 from quart_rpc.version_1_0 import RPCResponse
 
-from app.utilities.security import session_check
 from app.sql import DBSession
 from app.sql.queries.client import query_page_clients, query_count_clients
 from app.sql.queries.user import query_read_user
@@ -8,7 +7,6 @@ from quart_rpc.exceptions import DataException
 from quart_rpc.validation import DataDict
 
 
-@session_check("logged_in", True)
 def page_clients(data):
     d = DataDict(data)
     try:
