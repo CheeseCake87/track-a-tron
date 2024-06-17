@@ -6,18 +6,39 @@ import rpc_auth_get_session from "../rpc/auth/rpc_auth_get_session";
 import rpc_auth_logout from "../rpc/auth/rpc_auth_logout";
 import rpc_auth_login from "../rpc/auth/rpc_auth_login";
 import {MainMenu} from "../components/menus/MainMenu";
-import rpc_auth_force_login from "../rpc/auth/rpc_auth_force_login";
 import rpc_check_if_setup from "../rpc/system/rpc_check_if_setup";
 import rpc_system_install from "../rpc/system/rpc_system_install";
+import ToastBar from "../components/globals/ToastBar";
 
 
 export const ContextMain = createContext()
 
 export function MainContextProvider(props) {
 
+    const protectedRoutes = [
+        '/clients',
+        '/users',
+        '/account',
+        '/system'
+    ]
+
+    const noLoginRoutes = [
+        '/forgot-password',
+        '/verification-code',
+        '/change-password',
+        '/login'
+    ]
+
     const session = rpc_auth_get_session()
     const navigator = useNavigate()
     const location = useLocation()
+
+    // Toast Bar // Toast Bar
+
+    const [toastBarType, setToastBarType] = createSignal('success')
+    const [toastBarMessage, setToastBarMessage] = createSignal('')
+
+    // -------------------------------------
 
     const [iconSize, setIconSize] = createSignal(24)
 
@@ -52,6 +73,16 @@ export function MainContextProvider(props) {
 
     // -------------------------------------
 
+    function showSuccessToast(message) {
+        setToastBarType('success')
+        setToastBarMessage(message)
+    }
+
+    function showErrorToast(message) {
+        setToastBarType('error')
+        setToastBarMessage(message)
+    }
+
     function mainMenuTabLookup() {
         const tabs = {
             '/': 'clients', // Default to 'clients'
@@ -66,17 +97,6 @@ export function MainContextProvider(props) {
             }
         }
     }
-
-    const protectedRoutes = [
-        '/clients'
-    ]
-
-    const noLoginRoutes = [
-        '/forgot-password',
-        '/verification-code',
-        '/change-password',
-        '/login'
-    ]
 
     function install(admin_username, admin_password, services) {
         rpc_system_install(admin_username, admin_password, services).then((rpc) => {
@@ -104,16 +124,8 @@ export function MainContextProvider(props) {
                 setUserId(rpc.data.user_id)
                 setUserType(rpc.data.user_type)
                 setLoggedIn(rpc.data.logged_in)
-            }
-        })
-    }
-
-    function force_login() {
-        rpc_auth_force_login().then((rpc) => {
-            if (rpc.ok) {
-                setUserId(rpc.data.user_id)
-                setUserType(rpc.data.user_type)
-                setLoggedIn(rpc.data.logged_in)
+            } else {
+                showErrorToast(rpc.message)
             }
         })
     }
@@ -161,6 +173,12 @@ export function MainContextProvider(props) {
                 userId: userId,
                 userType: userType,
 
+                // Toast Bar
+                toastBarType: toastBarType,
+                setToastBarType: setToastBarType,
+                toastBarMessage: toastBarMessage,
+                setToastBarMessage: setToastBarMessage,
+
                 // Client Filtering
                 clientsWhere: clientsWhere,
                 setClientsWhere: setClientsWhere,
@@ -175,7 +193,6 @@ export function MainContextProvider(props) {
                 mainMenuLocation: mainMenuLocation,
                 setMainMenuLocation: setMainMenuLocation,
 
-                force_login: force_login,
                 login: login,
                 logout: logout,
                 install: install
@@ -185,12 +202,14 @@ export function MainContextProvider(props) {
                 loaded() ?
                     loggedIn() ?
                         <div className={'main-container'}>
+                            <ToastBar/>
                             <MainMenu/>
-                            <div className={'main-content'}>
-                                <Outlet/>
-                            </div>
+                            <Outlet/>
                         </div>
-                        : <Outlet/>
+                        : <>
+                            <ToastBar/>
+                            <Outlet/>
+                        </>
                     : <AuthLoading/>
             }
         </ContextMain.Provider>

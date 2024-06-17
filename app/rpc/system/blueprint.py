@@ -9,6 +9,7 @@ rpc.functions_auto_name(funcs)
 
 print(rpc.LOOKUP)
 
+
 @system.errorhandler(404)
 @system.errorhandler(405)
 def route_404(_):

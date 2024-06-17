@@ -8,6 +8,7 @@ from app.rpc.system import system
 from app.rpc.task_status import status
 from app.rpc.testing import testing
 from app.rpc.user import user
+
 # Services
 from app.services.get_address.rpc import get_address
 

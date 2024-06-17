@@ -1,0 +1,43 @@
+.toast-bar-fade-in {
+    @apply fixed top-0 z-50 flex w-full
+    flex-col items-center gap-2 p-4;
+    background-color: var(--attention-default-bg-color);
+    color: var(--html-default-text-color);
+    border-color: var(--attention-default-border-color);
+    opacity: 1;
+    animation-name: toastBarFadeInOpacity;
+    animation-iteration-count: 1;
+    animation-timing-function: ease-in;
+    animation-duration: 0.2s;
+}
+
+@keyframes toastBarFadeInOpacity {
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
+}
+
+.toast-bar-fade-out {
+    @apply fixed top-0 z-50 flex w-full
+    flex-col items-center gap-2 p-4;
+    background-color: var(--attention-default-bg-color);
+    color: var(--html-default-text-color);
+    border-color: var(--attention-default-border-color);
+    opacity: 0;
+    animation-name: toastBarFadeOutOpacity;
+    animation-iteration-count: 1;
+    animation-timing-function: ease-out;
+    animation-duration: 0.2s;
+}
+
+@keyframes toastBarFadeOutOpacity {
+    0% {
+        opacity: 1;
+    }
+    100% {
+        opacity: 0;
+    }
+}

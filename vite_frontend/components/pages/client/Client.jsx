@@ -11,7 +11,7 @@ export default function Client() {
     const ctxClient = useContext(ContextClient)
 
     return (
-        <div>
+        <div className={'main-content-slim'}>
             <h1>Client {ctxClient.clientId()}</h1>
         </div>
     )

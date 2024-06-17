@@ -20,6 +20,28 @@
     margin-bottom: 0;
 }
 
+.attention-good {
+    @apply rounded border;
+    background-color: var(--attention-good-bg-color);
+    color: var(--html-default-text-color);
+    border-color: var(--attention-good-border-color);
+    padding: 1rem;
+    margin: 0 0.2rem;
+}
+
+.attention-good h1,
+.attention-good h2,
+.attention-good h3,
+.attention-good h4,
+.attention-good h5,
+.attention-good h6 {
+    margin-top: 0;
+}
+
+.attention-good p {
+    margin-bottom: 0;
+}
+
 .attention-confirm {
     @apply rounded border;
     background-color: var(--attention-confirm-bg-color);

@@ -42,9 +42,7 @@ def install(data):
             data = this_service.get("data", None)
 
             if not data:
-                return RPCResponse.fail(
-                    f"Missing data for service {service}."
-                )
+                return RPCResponse.fail(f"Missing data for service {service}.")
 
             for key, key_needs in requirements.items():
                 if key_needs.get("required", False):

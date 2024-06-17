@@ -12,14 +12,8 @@ export default function Clients() {
     const ctxMain = useContext(ContextMain)
     const ctxClients = useContext(ContextClients)
 
-    createEffect(() => {
-        if (!ctxMain.loggedIn()) {
-            ctxMain.navigator('/login')
-        }
-    })
-
     return (
-        <>
+        <div className={'main-content-stretch'}>
             <ClientsHeader/>
 
             <div className={'-flex-table-bg-wrapper'}>
@@ -40,6 +34,6 @@ export default function Clients() {
 
             </div>
 
-        </>
+        </div>
     )
 }

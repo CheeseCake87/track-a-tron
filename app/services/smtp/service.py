@@ -8,7 +8,7 @@ from ssl import create_default_context
 
 from app.sql import DBSession
 from app.sql.queries.service import query_read_service
-from app.sql.queries.system_log import query_create_system_log
+from app.utilities.system_log import system_log_in_session, system_log
 from .settings import SMTPSettings
 
 
@@ -174,14 +174,7 @@ class SMTPService:
                     self._msg.as_string(),
                 )
         except Exception as error:
-            with DBSession as s:
-                s.execute(
-                    query_create_system_log(
-                        "SMTP service error",
-                        str(error),
-                    )
-                )
-                s.commit()
+            system_log("SMTP service error", str(error))
             return {"ok": False, "message": "Error sending email"}
 
         self._reset_values()
@@ -192,32 +185,26 @@ class SMTPService:
             result = s.execute(query_read_service("smtp")).scalar_one_or_none()
 
             if not result:
-                s.execute(
-                    query_create_system_log(
-                        "SMTP service not found", "SMTP service not found"
-                    )
+                system_log_in_session(
+                    s, "SMTP service not found", "SMTP service not found"
                 )
-                s.commit()
-
                 return self._disabled_service
 
-        try:
-            return SMTPSettings(
-                username=result.data["username"],
-                password=result.data["password"],
-                server=result.data["server"],
-                port=result.data["port"],
-                disabled=False,
-            )
-        except KeyError:
-            with DBSession as s:
-                s.execute(
-                    query_create_system_log(
-                        "SMTP service key error",
-                        "SMTP service settings is missing keys needed for operation",
-                    )
+            try:
+                return SMTPSettings(
+                    username=result.data["username"],
+                    password=result.data["password"],
+                    server=result.data["server"],
+                    port=result.data["port"],
+                    disabled=False,
                 )
-                s.commit()
+
+            except KeyError:
+                system_log_in_session(
+                    s,
+                    "SMTP service key error",
+                    "SMTP service settings is missing keys needed for operation",
+                )
 
             return self._disabled_service
 

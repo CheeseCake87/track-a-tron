@@ -16,9 +16,14 @@
     @apply flex flex-row h-screen w-full;
 }
 
-.main-content {
+.main-content-stretch {
     @apply flex flex-col h-screen py-4 px-4 flex-1;
     min-width: 0;
+    margin-top: 0.1rem;
+}
+
+.main-content-slim {
+    @apply flex flex-col py-4 px-4 w-full;
     margin-top: 0.1rem;
 }
 

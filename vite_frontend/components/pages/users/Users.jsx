@@ -6,14 +6,10 @@ export default function Users() {
 
     const ctxMain = useContext(ContextMain)
 
-    createEffect(() => {
-        if (!ctxMain.loggedIn()) {
-            ctxMain.navigator('/login')
-        }
-    })
-
     return (
-        <p>Users</p>
+        <div className={'main-content-slim'}>
+            <p>Users</p>
+        </div>
     )
 
 }

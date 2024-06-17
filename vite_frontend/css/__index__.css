@@ -10,8 +10,9 @@
 @import "spinners.css";
 @import "tables.css";
 @import "typography.css";
+@import "toast_bar.css";
 
 @import "pages__install.css";
 @import "pages__auth.css";
 @import "pages__clients.css";
-
+@import "pages__system.css";

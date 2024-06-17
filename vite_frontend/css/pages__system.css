@@ -1,0 +1,4 @@
+.system-services {
+    @apply flex flex-col gap-1 w-full;
+    max-width: 500px;
+}

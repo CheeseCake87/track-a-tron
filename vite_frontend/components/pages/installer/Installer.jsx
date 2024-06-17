@@ -8,6 +8,8 @@ export default function Installer() {
 
     const ctxMain = useContext(ContextMain)
 
+    const [error, setError] = createSignal('')
+
     const [username, setUsername] = createSignal('')
     const [password, setPassword] = createSignal('')
     const [showPassword, setShowPassword] = createSignal(false)
@@ -20,7 +22,7 @@ export default function Installer() {
     )
     const [enableGetAddressService, setEnableGetAddressService] = createSignal(false)
     const [showGetAddressApiKey, setShowGetAddressApiKey] = createSignal(false)
-    const [showGetAddressAdminKey, setShowGetAddressAdminKey] = createSignal(false)
+    // const [showGetAddressAdminKey, setShowGetAddressAdminKey] = createSignal(false)
 
     // Zepto
     const [zeptoService, setZeptoService] = createSignal({
@@ -41,6 +43,75 @@ export default function Installer() {
     const [enableSmtpService, setEnableSmtpService] = createSignal(false)
     const [showSmtpPassword, setShowSmtpPassword] = createSignal(false)
 
+    function checkValuesBeforeInstall() {
+        if (username().length < 1) {
+            setError('Admin username is required')
+            return
+        }
+        if (password().length < 1) {
+            setError('Admin password is required')
+            return
+        }
+        if (enableGetAddressService()) {
+            if (getAddressService().api_key.length < 1) {
+                setError('GetAddress API Key is required')
+                return
+            }
+        }
+        if (enableZeptoService()) {
+            if (zeptoService().sender.length < 1) {
+                setError('Zepto sender is required')
+                return
+            }
+            if (zeptoService().api_url.length < 1) {
+                setError('Zepto API URL is required')
+                return
+            }
+            if (zeptoService().token.length < 1) {
+                setError('Zepto token is required')
+                return
+            }
+        }
+        if (enableSmtpService()) {
+            if (smtpService().username.length < 1) {
+                setError('SMTP username is required')
+                return
+            }
+            if (smtpService().password.length < 1) {
+                setError('SMTP password is required')
+                return
+            }
+            if (smtpService().server.length < 1) {
+                setError('SMTP server is required')
+                return
+            }
+            if (smtpService().port < 1) {
+                setError('SMTP port is required')
+                return
+            }
+        }
+        ctxMain.install(username(), password(), {
+            get_address: {
+                enabled: enableGetAddressService(),
+                name: 'get_address',
+                category: 'Postcode Lookup',
+                data: getAddressService()
+            },
+            zepto: {
+                enabled: enableZeptoService(),
+                name: 'zepto',
+                category: 'Transactional Email',
+                data: zeptoService()
+            },
+            smtp: {
+                enabled: enableSmtpService(),
+                name: 'smtp',
+                category: 'SMTP Email',
+                data: smtpService()
+            }
+        })
+    }
+
     onMount(() => {
         rpc_check_if_setup().then((rpc) => {
             if (rpc.ok) {
@@ -50,8 +121,8 @@ export default function Installer() {
     })
 
     function UsernamePassword() {
-        return <div className={'field-group pb-4'}>
-            <div className={'py-2'}>
+        return <div className={'flex flex-col pb-4 gap-1'}>
+            <div>
                 <label htmlFor={'username'}
                        className={'select-none'}>
                     Admin Username:
@@ -62,7 +133,7 @@ export default function Installer() {
                        name="admin_username"
                        onChange={(e) => setUsername(e.target.value)}/>
             </div>
-            <div className={'py-2'}>
+            <div>
                 <label htmlFor={'password'}
                        className={'select-none'}>
                     Admin Password:
@@ -91,7 +162,7 @@ export default function Installer() {
                     <input type={'checkbox'}
                            id={'get_address_service'}
                            name={'get_address_service'}
-                           checked={getAddressService().enabled}
+                           checked={enableGetAddressService()}
                            onChange={(e) => setEnableGetAddressService(e.target.checked)}
                     />
                     <label for={'get_address_service'}>
@@ -99,9 +170,9 @@ export default function Installer() {
                     </label>
                 </div>
             </div>
-            <Show when={getAddressService().enabled}>
+            <Show when={enableGetAddressService()}>
                 <div className={'field-group p-2'}>
-                    <div className={'py-2'}>
+                    <div className={'py-2 w-full'}>
                         <label htmlFor={'get_address_api_key'}
                                className={'select-none'}>
                             GetAddress API Key:
@@ -122,6 +193,7 @@ export default function Installer() {
                             </div>
                         </div>
                     </div>
+                    {/*
                     <div className={'py-2'}>
                         <label htmlFor={'get_address_admin_key'}
                                className={'select-none'}>
@@ -143,6 +215,7 @@ export default function Installer() {
                             </div>
                         </div>
                     </div>
+                    */}
                 </div>
             </Show>
         </div>
@@ -155,7 +228,7 @@ export default function Installer() {
                     <input type={'checkbox'}
                            id={'zepto_service'}
                            name={'zepto_service'}
-                           checked={zeptoService().enabled}
+                           checked={enableZeptoService()}
                            onChange={(e) => setEnableZeptoService(e.target.checked)}
                     />
                     <label for={'zepto_service'}>
@@ -163,9 +236,9 @@ export default function Installer() {
                     </label>
                 </div>
             </div>
-            <Show when={zeptoService().enabled}>
+            <Show when={enableZeptoService()}>
 
-                <div className={'field-group p-2'}>
+                <div className={'flex flex-col p-2'}>
                     <div className={'py-2'}>
                         <label htmlFor={'zepto_sender'}
                                className={'select-none'}>
@@ -225,7 +298,7 @@ export default function Installer() {
                     <input type={'checkbox'}
                            id={'smtp_service'}
                            name={'smtp_service'}
-                           checked={smtpService().enabled}
+                           checked={enableSmtpService()}
                            onChange={(e) => setEnableSmtpService(e.target.checked)}
                     />
                     <label for={'smtp_service'}>
@@ -233,9 +306,35 @@ export default function Installer() {
                     </label>
                 </div>
             </div>
-            <Show when={smtpService().enabled}>
+            <Show when={enableSmtpService()}>
 
-                <div className={'field-group p-2'}>
+                <div className={'flex flex-col p-2'}>
+                    <div className={'py-2'}>
+                        <label htmlFor={'smtp_server'}
+                               className={'select-none'}>
+                            Server:
+                        </label>
+                        <input id={'smtp_server'}
+                               type="text"
+                               value={smtpService().server}
+                               onChange={(e) => setSmtpService({
+                                   ...smtpService(),
+                                   server: e.target.value
+                               })}/>
+                    </div>
+                    <div className={'py-2'}>
+                        <label htmlFor={'smtp_port'}
+                               className={'select-none'}>
+                            Port:
+                        </label>
+                        <input id={'smtp_port'}
+                               type="number"
+                               value={smtpService}
+                               onChange={(e) => setSmtpService({
+                                   ...smtpService(),
+                                   port: e.target.value
+                               })}/>
+                    </div>
                     <div className={'py-2'}>
                         <label htmlFor={'smtp_username'}
                                className={'select-none'}>
@@ -270,32 +369,6 @@ export default function Installer() {
                             </div>
                         </div>
                     </div>
-                    <div className={'py-2'}>
-                        <label htmlFor={'smtp_server'}
-                               className={'select-none'}>
-                            Server:
-                        </label>
-                        <input id={'smtp_server'}
-                               type="text"
-                               value={smtpService().server}
-                               onChange={(e) => setSmtpService({
-                                   ...smtpService(),
-                                   server: e.target.value
-                               })}/>
-                    </div>
-                    <div className={'py-2'}>
-                        <label htmlFor={'smtp_port'}
-                               className={'select-none'}>
-                            Port:
-                        </label>
-                        <input id={'smtp_port'}
-                               type="number"
-                               value={smtpService}
-                               onChange={(e) => setSmtpService({
-                                   ...smtpService(),
-                                   port: e.target.value
-                               })}/>
-                    </div>
                 </div>
             </Show>
         </div>
@@ -312,17 +385,21 @@ export default function Installer() {
 
                         <div className={'install-form-group'}>
 
-                            <div className={'flex flex-col gap-2 pb-4'}>
-                                <span className={'text-2xl'}>🤖 Track-a-tron</span>
-                                <span className={'text-xl'}>Installer</span>
-                            </div>
+
+                            <p className={'text-2xl pb-4'}>🤖 Track-a-tron Installer</p>
+
+                            <Show when={error().length > 0}>
+                                <div className={'attention-danger'}>
+                                    {error()}
+                                </div>
+                            </Show>
 
                             <div className={'pb-4'}>
 
                                 <UsernamePassword/>
 
                                 <div className={'flex flex-col gap-1'}>
-                                    <strong>Services:</strong>
+                                    <p className={'text-lg pb-2'}>Services:</p>
                                     <GetAddressService/>
                                     <ZeptoService/>
                                     <SmtpService/>
@@ -336,28 +413,7 @@ export default function Installer() {
                             <input type="submit"
                                    className={'btn-confirm'}
                                    value="Install"
-                                   onClick={() => {
-                                       ctxMain.install(username(), password(), {
-                                           get_address: {
-                                               enabled: enableGetAddressService(),
-                                               name: 'get_address',
-                                               category: 'Postcode Lookup',
-                                               data: getAddressService()
-                                           },
-                                           zepto: {
-                                               enabled: enableZeptoService(),
-                                               name: 'zepto',
-                                               category: 'Transactional Email',
-                                               data: zeptoService()
-                                           },
-                                           smtp: {
-                                               enabled: enableSmtpService(),
-                                               name: 'smtp',
-                                               category: 'SMTP Email',
-                                               data: smtpService()
-                                           }
-                                       })
-                                   }}/>
+                                   onClick={() => checkValuesBeforeInstall()}/>
                         </div>
 
                     </form>

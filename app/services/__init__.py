@@ -15,7 +15,7 @@ AVAILABLE_SERVICES = {
     "get_address": {
         "api_key": {"type": str, "required": True},
         "administration_key": {"type": str, "required": False},
-    }
+    },
 }
 
 __all__ = ["AVAILABLE_SERVICES"]

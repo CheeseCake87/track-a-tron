@@ -1,9 +1,10 @@
 .install-background {
-    @apply p-4;
+    @apply h-screen overflow-y-auto;
+    min-height: 0;
 }
 
 .install-outer {
-    @apply mx-auto;
+    @apply mx-auto py-4;
     width: 100%;
     max-width: 600px;
 }

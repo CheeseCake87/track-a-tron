@@ -178,7 +178,7 @@ input[type="file"][required] {
 }
 
 .inline-action-right > input {
-    @apply rounded-r-none shadow-none;
+    @apply rounded-r-none shadow-none flex-1;
 }
 
 .inline-action-right div,

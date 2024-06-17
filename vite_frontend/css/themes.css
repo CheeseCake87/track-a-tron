@@ -78,6 +78,8 @@
     /* ATTENTION */
     --attention-default-bg-color: rgba(227, 227, 227, 0.8);
     --attention-default-border-color: #b4b4b4;
+    --attention-good-bg-color: rgba(180, 231, 180, 0.6);
+    --attention-good-border-color: #4f9d4f;
     --attention-confirm-bg-color: rgba(6, 100, 155, 0.1);
     --attention-confirm-border-color: #004e6e;
     --attention-warning-bg-color: rgba(250, 232, 201, 0.6);

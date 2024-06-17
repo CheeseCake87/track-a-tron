@@ -6,14 +6,10 @@ export default function YourAccount() {
 
     const ctxMain = useContext(ContextMain)
 
-    createEffect(() => {
-        if (!ctxMain.loggedIn()) {
-            ctxMain.navigator('/login')
-        }
-    })
-
     return (
-        <p>Your Account</p>
+        <div className={'main-content-slim'}>
+            <p>Your Account</p>
+        </div>
     )
 
 }

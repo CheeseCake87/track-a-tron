@@ -56,12 +56,6 @@ export default function Login() {
                            onClick={() => {
                                ctxMain.login(username(), password())
                            }}/>
-                    <input type="submit"
-                           className={'btn-danger'}
-                           value="Force Login"
-                           onClick={() => {
-                               ctxMain.force_login()
-                           }}/>
                     <p className={'text-sm text-center'}>
                         <a href="/forgot-password">Forgot Password</a>
                     </p>
