@@ -14,11 +14,15 @@ export default function SystemInformation() {
 
     return (
         <div className={'px-4'}>
-            <h1 className={'m-0 pb-2'}>🤖Track-a-tron</h1>
+            <h1 className={'m-0 pb-2'}>🤖 Track-a-tron</h1>
             <p className={'font-bold'}>Track-a-tron is a simple system for tracking things.</p>
-            <small>Version: 1000</small>
+
             <p className={'pt-2'}>View the project on <a
+                target={'_blank'}
                 href="https://github.com/CheeseCake87/track-a-tron">GitHub</a></p>
+            <p className={'pt-2'}><small>Version: 1000</small></p>
+            <p><small>© 2024 David Carmichael, licensed under GNU AFFERO
+                GENERAL PUBLIC LICENSE Version 3, 19 November 2007</small></p>
         </div>
     )
 }
