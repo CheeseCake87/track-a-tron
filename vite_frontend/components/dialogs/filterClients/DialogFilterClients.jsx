@@ -1,13 +1,11 @@
 import {createSignal, onCleanup, onMount, useContext} from "solid-js";
 import {ContextClients} from "../../../contextManagers/ContextClients";
 import {FilterByClientInfo} from "./FilterByClientInfo";
-import {ContextMain} from "../../../contextManagers/ContextMain";
 import {FilterByDate} from "./FilterByDate";
 
 
 export function DialogFilterClients() {
 
-    const ctxMain = useContext(ContextMain)
     const ctxClients = useContext(ContextClients)
 
     const [filterTab, setFilterTab] = createSignal('client-info')
@@ -23,8 +21,8 @@ export function DialogFilterClients() {
             return true
         }
         if (e.key === 'Enter') {
-            ctxMain.setClientsWhere({
-                ...ctxMain.clientsWhere(),
+            ctxClients.setClientsWhere({
+                ...ctxClients.clientsWhere(),
                 ...ctxClients.clientsTempWhere()
             })
             setFilterTab('client-info')
@@ -99,13 +97,13 @@ export function DialogFilterClients() {
                         Cancel
                     </button>
                     <button className={'btn'} onClick={() => {
-                        ctxMain.setClientsTempWhere({})
+                        ctxClients.setClientsTempWhere({})
                     }}>
                         Clear Filter
                     </button>
                 </div>
                 <button className={'btn-confirm'} onClick={() => {
-                    ctxMain.setClientsWhere(ctxMain.clientsTempWhere())
+                    ctxClients.setClientsWhere(ctxClients.clientsTempWhere())
                     ctxClients.dialogFilterClientsRef.close()
                     setFilterTab('client-info')
                 }}>

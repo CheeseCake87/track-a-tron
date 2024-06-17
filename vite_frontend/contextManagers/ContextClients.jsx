@@ -24,6 +24,11 @@ export function ClientsContextProvider() {
     const [windowHeight, setWindowHeight] = createSignal()
     const [clientsInnerTableHeight, setClientsInnerTableHeight] = createSignal(200)
 
+    const [clientsWhere, setClientsWhere] = createSignal({})
+    const [clientsWhereAnnex, setClientsWhereAnnex] = createSignal({})
+    const [clientsTempWhere, setClientsTempWhere] = createSignal({})
+    const [clientsWherePills, setClientsWherePills] = createSignal({})
+
 
     const windowResizeHandler = (_) => {
         setWindowHeight(window.innerHeight)
@@ -33,10 +38,27 @@ export function ClientsContextProvider() {
 
     let deBounceGetPageClientsTimer;
 
+
+    function clientsTempWhereValue(key, value) {
+        if (value === '') {
+            if (clientsTempWhere().hasOwnProperty(key)) {
+                delete clientsTempWhere()[key]
+                setClientsTempWhere({
+                    ...clientsTempWhere()
+                })
+            }
+        } else {
+            setClientsTempWhere({
+                ...clientsTempWhere(),
+                [key]: value
+            })
+        }
+    }
+
     function checkTempWhereIn(key, value) {
-        if (ctxMain.clientsTempWhere().hasOwnProperty('_in')) {
-            if (ctxMain.clientsTempWhere()._in.hasOwnProperty(key)) {
-                if (ctxMain.clientsTempWhere()._in[key].includes(value)) {
+        if (clientsTempWhere().hasOwnProperty('_in')) {
+            if (clientsTempWhere()._in.hasOwnProperty(key)) {
+                if (clientsTempWhere()._in[key].includes(value)) {
                     return true
                 }
             }
@@ -44,29 +66,29 @@ export function ClientsContextProvider() {
     }
 
     function setTempWhereIn(key, value) {
-        if (ctxMain.clientsTempWhere().hasOwnProperty('_in')) {
-            if (ctxMain.clientsTempWhere()._in.hasOwnProperty(key)) {
-                if (!ctxMain.clientsTempWhere()._in[key].includes(value)) {
-                    ctxMain.setClientsTempWhere({
-                        ...ctxMain.clientsTempWhere(),
+        if (clientsTempWhere().hasOwnProperty('_in')) {
+            if (clientsTempWhere()._in.hasOwnProperty(key)) {
+                if (!clientsTempWhere()._in[key].includes(value)) {
+                    setClientsTempWhere({
+                        ...clientsTempWhere(),
                         _in: {
-                            ...ctxMain.clientsTempWhere()._in,
-                            [key]: [...ctxMain.clientsTempWhere()._in[key], value]
+                            ...clientsTempWhere()._in,
+                            [key]: [...clientsTempWhere()._in[key], value]
                         }
                     })
                 }
             } else {
-                ctxMain.setClientsTempWhere({
-                    ...ctxMain.clientsTempWhere(),
+                setClientsTempWhere({
+                    ...clientsTempWhere(),
                     _in: {
-                        ...ctxMain.clientsTempWhere()._in,
+                        ...clientsTempWhere()._in,
                         [key]: [value]
                     }
                 })
             }
         } else {
-            ctxMain.setClientsTempWhere({
-                ...ctxMain.clientsTempWhere(),
+            setClientsTempWhere({
+                ...clientsTempWhere(),
                 _in: {
                     [key]: [value]
                 }
@@ -75,16 +97,16 @@ export function ClientsContextProvider() {
     }
 
     function unsetTempWhereIn(key, value) {
-        if (ctxMain.clientsTempWhere().hasOwnProperty('_in')) {
-            if (ctxMain.clientsTempWhere()._in.hasOwnProperty(key)) {
-                if (ctxMain.clientsTempWhere()._in[key].includes(value)) {
+        if (clientsTempWhere().hasOwnProperty('_in')) {
+            if (clientsTempWhere()._in.hasOwnProperty(key)) {
+                if (clientsTempWhere()._in[key].includes(value)) {
 
-                    const cast = ctxMain.clientsTempWhere()._in[key].filter((v) => v !== value)
+                    const cast = clientsTempWhere()._in[key].filter((v) => v !== value)
 
-                    ctxMain.setClientsTempWhere({
-                        ...ctxMain.clientsTempWhere(),
+                    setClientsTempWhere({
+                        ...clientsTempWhere(),
                         _in: {
-                            ...ctxMain.clientsTempWhere()._in,
+                            ...clientsTempWhere()._in,
                             [key]: cast
                         }
                     })
@@ -141,7 +163,7 @@ export function ClientsContextProvider() {
                 }
             })
 
-            ctxMain.setClientsWhereAnnex(where)
+            setClientsWhereAnnex(where)
         }, delay)
 
     }
@@ -159,16 +181,16 @@ export function ClientsContextProvider() {
     // DISPLAY WHERE HEIGHT
     createEffect(() => {
         setClientsInnerTableHeight(
-            windowHeight() - 150 - (Object.keys(ctxMain.clientsWherePills()).length > 0 ? 45 : 0))
+            windowHeight() - 150 - (Object.keys(clientsWherePills()).length > 0 ? 45 : 0))
     })
 
     createEffect(() => {
-        deBounceGetPageClients(200, page(), limit(), ctxMain.clientsWhere())
+        deBounceGetPageClients(200, page(), limit(), clientsWhere())
     })
 
     createEffect(() => {
-        ctxMain.setClientsWherePills(buildDisplayWherePills(
-            ctxMain.clientsWhereAnnex() ? ctxMain.clientsWhereAnnex() : {})
+        setClientsWherePills(buildDisplayWherePills(
+            clientsWhereAnnex() ? clientsWhereAnnex() : {})
         )
     })
 
@@ -176,7 +198,7 @@ export function ClientsContextProvider() {
         window.addEventListener('resize', windowResizeHandler);
         setWindowHeight(window.innerHeight)
         setClientsInnerTableHeight(windowHeight() - 150)
-        deBounceGetPageClients(200, page(), limit(), ctxMain.clientsWhere())
+        deBounceGetPageClients(200, page(), limit(), clientsWhere())
     })
 
     onCleanup(() => {
@@ -202,6 +224,17 @@ export function ClientsContextProvider() {
                 setPage: setPage,
                 limit: limit,
                 setLimit: setLimit,
+
+                // Client Filtering
+                clientsWhere: clientsWhere,
+                setClientsWhere: setClientsWhere,
+                clientsWhereAnnex: clientsWhereAnnex,
+                setClientsWhereAnnex: setClientsWhereAnnex,
+                clientsTempWhere: clientsTempWhere,
+                setClientsTempWhere: setClientsTempWhere,
+                clientsWherePills: clientsWherePills,
+                setClientsWherePills: setClientsWherePills,
+                clientsTempWhereValue: clientsTempWhereValue,
 
                 windowHeight: windowHeight,
                 setWindowHeight: setWindowHeight,

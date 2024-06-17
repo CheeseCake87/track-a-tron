@@ -50,26 +50,7 @@ export function MainContextProvider(props) {
     const [mainMenuLocation, setMainMenuLocation] = createSignal('clients')
 
     // Client Filtering // Client Filtering
-    const [clientsWhere, setClientsWhere] = createSignal({})
-    const [clientsWhereAnnex, setClientsWhereAnnex] = createSignal({})
-    const [clientsTempWhere, setClientsTempWhere] = createSignal({})
-    const [clientsWherePills, setClientsWherePills] = createSignal({})
 
-    function clientsTempWhereValue(key, value) {
-        if (value === '') {
-            if (clientsTempWhere().hasOwnProperty(key)) {
-                delete clientsTempWhere()[key]
-                setClientsTempWhere({
-                    ...clientsTempWhere()
-                })
-            }
-        } else {
-            setClientsTempWhere({
-                ...clientsTempWhere(),
-                [key]: value
-            })
-        }
-    }
 
     // -------------------------------------
 
@@ -178,17 +159,6 @@ export function MainContextProvider(props) {
                 setToastBarType: setToastBarType,
                 toastBarMessage: toastBarMessage,
                 setToastBarMessage: setToastBarMessage,
-
-                // Client Filtering
-                clientsWhere: clientsWhere,
-                setClientsWhere: setClientsWhere,
-                clientsWhereAnnex: clientsWhereAnnex,
-                setClientsWhereAnnex: setClientsWhereAnnex,
-                clientsTempWhere: clientsTempWhere,
-                setClientsTempWhere: setClientsTempWhere,
-                clientsWherePills: clientsWherePills,
-                setClientsWherePills: setClientsWherePills,
-                clientsTempWhereValue: clientsTempWhereValue,
 
                 mainMenuLocation: mainMenuLocation,
                 setMainMenuLocation: setMainMenuLocation,

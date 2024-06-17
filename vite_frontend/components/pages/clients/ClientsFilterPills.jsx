@@ -9,20 +9,20 @@ export default function ClientsFilterPills() {
     const ctxClients = useContext(ContextClients)
 
     return (
-        <Show when={Object.keys(ctxMain.clientsWhereAnnex()).length > 0}>
+        <Show when={Object.keys(ctxClients.clientsWhereAnnex()).length > 0}>
             <div className={'pills'}>
 
-                <For each={Object.keys(ctxMain.clientsWherePills())}>
+                <For each={Object.keys(ctxClients.clientsWherePills())}>
                     {(key) =>
-                        <div className={'pill'}>{key}: {ctxMain.clientsWherePills()[key]}</div>
+                        <div className={'pill'}>{key}: {ctxClients.clientsWherePills()[key]}</div>
                     }
                 </For>
 
                 <div className={'pill-danger-interactive'}
                      onClick={() => {
-                         ctxMain.setClientsWhere({})
+                         ctxClients.setClientsWhere({})
                          ctxClients.setClientsWhereAnnex({})
-                         ctxMain.setClientsTempWhere({})
+                         ctxClients.setClientsTempWhere({})
                      }}>
                     <FilterClearIcon size={14}/>
                 </div>

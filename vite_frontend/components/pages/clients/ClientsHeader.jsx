@@ -3,7 +3,6 @@ import {SpinnerSmall} from "../../globals/Spinner";
 import {ContextClients} from "../../../contextManagers/ContextClients";
 import ClientsPageControls from "./ClientsPageControls";
 import {DialogFilterClients} from "../../dialogs/filterClients/DialogFilterClients";
-import {ContextMain} from "../../../contextManagers/ContextMain";
 import {A} from "@solidjs/router";
 
 
