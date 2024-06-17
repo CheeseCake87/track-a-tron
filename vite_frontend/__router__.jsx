@@ -49,18 +49,21 @@ render(() => (
                     </Route>
 
                     <Route path="" component={ClientsContextProvider}>
+
                         <Route path="/clients" component={Clients}/>
+
+                        <Route path="/client">
+                            <Route path="/" component={() => <Navigate href={'/clients'}/>}/>
+                            <Route path="" component={ClientAddContextProvider}>
+                                <Route path="/add" component={ClientAdd}/>
+                            </Route>
+                            <Route path="" component={ClientContextProvider}>
+                                <Route path="/:client_id" component={Client}/>
+                            </Route>
+                        </Route>
+
                     </Route>
 
-                    <Route path="/client">
-                        <Route path="/" component={() => <Navigate href={'/clients'}/>}/>
-                        <Route path="" component={ClientAddContextProvider}>
-                            <Route path="/add" component={ClientAdd}/>
-                        </Route>
-                        <Route path="" component={ClientContextProvider}>
-                            <Route path="/:client_id" component={Client}/>
-                        </Route>
-                    </Route>
 
                     <Route path="" component={UserContextProvider}>
                         <Route path="/users" component={Users}/>
