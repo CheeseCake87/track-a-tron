@@ -11,7 +11,7 @@ from quart_rpc.validation import DataDict
 def create_client(data):
     d = DataDict(data)
     try:
-        values = d.get_ensure_key("team_id")
+        values = d.get_ensure_key("values")
     except DataException:
         return RPCResponse.fail(
             "Missing required data.",
@@ -25,7 +25,6 @@ def create_client(data):
             values,
             [
                 "client_id",
-                "fk_team_id",
             ],
         )
         result = s.execute(query).scalars().all()

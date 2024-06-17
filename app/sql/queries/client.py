@@ -12,7 +12,7 @@ def query_create_client(values: dict, ignore_fields: list[str] = None):
             **{
                 k: v
                 for k, v in values.items()
-                if hasattr(Client, k) and k not in ignore_fields
+                if hasattr(Client, k) and k not in ignore_fields and v != ""
             },
         )
         .returning(Client)

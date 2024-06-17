@@ -1,8 +1,8 @@
 import {createSignal, Show, useContext} from "solid-js";
-import {ContextClientAdd} from "../../../contextManagers/ContextClientAdd";
 import ClientAddHeader from "./ClientAddHeader";
 import {ContextMain} from "../../../contextManagers/ContextMain";
 import GetAddress from "../../services/GetAddress";
+import rpc_client_create_client from "../../../rpc/clients/rpc_client_create_client";
 
 
 export default function ClientAdd() {
@@ -20,7 +20,7 @@ export default function ClientAdd() {
         email_address: '',
         alt_email_address: '',
         phone_dnc: false,
-        email_dnc: false
+        email_address_dnc: false
     })
 
     const [clientAddress, setClientAddress] = createSignal({
@@ -39,6 +39,21 @@ export default function ClientAdd() {
         country: ''
     })
 
+    function createClient() {
+        rpc_client_create_client({
+            ...client(),
+            ...clientAddress()
+        }).then((rpc) => {
+            console.log(rpc)
+            if (rpc.ok) {
+                ctxMain.showSuccessToast('Client created')
+                ctxMain.navigator(`/client/${rpc.data[0].client_id}`)
+            } else {
+                ctxMain.showErrorToast(rpc.message)
+            }
+        })
+    }
+
     return (
         <div className={'main-content-slim'}>
             <div className={'px-2'}>
@@ -48,23 +63,43 @@ export default function ClientAdd() {
                         e.preventDefault()
                     }
                 }>
-                    <div className={'form-section'}>
+                    <div className={'form-section mb-2'}>
                         <h2>Details</h2>
                         <div className={'field-group'}>
                             <div className={'py-2'}>
-                                <label>Business Name</label>
-                                <input type={'text'}/>
-                            </div>
-                        </div>
-                        <div className={'field-group'}>
-
-                            <div className={'py-2'}>
                                 <label>First Name</label>
-                                <input type={'text'}/>
+                                <input type={'text'} onKeyUp={
+                                    (e) => {
+                                        setClient({
+                                            ...client(),
+                                            first_name: e.target.value
+                                        })
+                                    }
+                                } value={client().first_name}/>
                             </div>
                             <div className={'py-2'}>
                                 <label>Last Name</label>
-                                <input type={'text'}/>
+                                <input type={'text'} onKeyUp={
+                                    (e) => {
+                                        setClient({
+                                            ...client(),
+                                            last_name: e.target.value
+                                        })
+                                    }
+                                } value={client().last_name}/>
+                            </div>
+                        </div>
+                        <div className={'field-group'}>
+                            <div className={'py-2'}>
+                                <label>Business Name</label>
+                                <input type={'text'} onKeyUp={
+                                    (e) => {
+                                        setClient({
+                                            ...client(),
+                                            business_name: e.target.value
+                                        })
+                                    }
+                                } value={client().business_name}/>
                             </div>
                         </div>
                     </div>
@@ -73,59 +108,85 @@ export default function ClientAdd() {
                         <div className={'field-group'}>
                             <div className={'py-2'}>
                                 <label>Phone</label>
-                                <input type={'text'}/>
+                                <input type={'text'} onKeyUp={
+                                    (e) => {
+                                        setClient({
+                                            ...client(),
+                                            phone: e.target.value
+                                        })
+                                    }
+                                } value={client().phone}/>
                             </div>
                             <div className={'py-2'}>
                                 <label>Email Address</label>
-                                <input type={'text'}/>
+                                <input type={'text'} onKeyUp={
+                                    (e) => {
+                                        setClient({
+                                            ...client(),
+                                            email_address: e.target.value
+                                        })
+                                    }
+                                } value={client().email_address}/>
                             </div>
-                        </div>
-                        <div className={'field-group'}>
                             <div className={'py-2'}>
                                 <label>Alternative Phone</label>
-                                <input type={'text'}/>
+                                <input type={'text'} onKeyUp={
+                                    (e) => {
+                                        setClient({
+                                            ...client(),
+                                            alt_phone: e.target.value
+                                        })
+                                    }
+                                } value={client().alt_phone}/>
                             </div>
                             <div className={'py-2'}>
                                 <label>Alternative Email Address</label>
-                                <input type={'text'}/>
+                                <input type={'text'} onKeyUp={
+                                    (e) => {
+                                        setClient({
+                                            ...client(),
+                                            alt_email_address: e.target.value
+                                        })
+                                    }
+                                } value={client().alt_email_address}/>
                             </div>
                         </div>
-                    </div>
-                    <div className={'form-section'}>
-                        <div className={'field-group'}>
-                            <div className={'checkbox'}>
-                                <input type={'checkbox'}
-                                       id={'get_address_service'}
-                                       name={'get_address_service'}
-                                       checked={client().phone_dnc}
-                                       onChange={(e) => setClient(
-                                           {
-                                               ...client(),
-                                               phone_dnc: e.target.checked
-                                           }
-                                       )}
-                                />
-                                <label htmlFor={'get_address_service'}>
-                                    Do not send SMS updates or messages
-                                </label>
+                        <div className={'form-section mb-2'}>
+                            <div className={'field-group'}>
+                                <div className={'checkbox'}>
+                                    <input type={'checkbox'}
+                                           id={'add_client_phone_dnc'}
+                                           name={'add_client_phone_dnc'}
+                                           checked={client().phone_dnc}
+                                           onChange={(e) => setClient(
+                                               {
+                                                   ...client(),
+                                                   phone_dnc: e.target.checked
+                                               }
+                                           )}
+                                    />
+                                    <label htmlFor={'add_client_phone_dnc'}>
+                                        Do not send SMS updates or messages
+                                    </label>
+                                </div>
                             </div>
-                        </div>
-                        <div className={'field-group'}>
-                            <div className={'checkbox'}>
-                                <input type={'checkbox'}
-                                       id={'get_address_service'}
-                                       name={'get_address_service'}
-                                       checked={client().phone_dnc}
-                                       onChange={(e) => setClient(
-                                           {
-                                               ...client(),
-                                               phone_dnc: e.target.checked
-                                           }
-                                       )}
-                                />
-                                <label htmlFor={'get_address_service'}>
-                                    Do not send email updates or messages
-                                </label>
+                            <div className={'field-group'}>
+                                <div className={'checkbox'}>
+                                    <input type={'checkbox'}
+                                           id={'add_client_email_address_dnc'}
+                                           name={'add_client_email_address_dnc'}
+                                           checked={client().email_address_dnc}
+                                           onChange={(e) => setClient(
+                                               {
+                                                   ...client(),
+                                                   email_address_dnc: e.target.checked
+                                               }
+                                           )}
+                                    />
+                                    <label htmlFor={'add_client_email_address_dnc'}>
+                                        Do not send email updates or messages
+                                    </label>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -312,6 +373,12 @@ export default function ClientAdd() {
                                            }/>
                                 </div>
                             </div>
+                        </div>
+                    </div>
+                    <div className={'form-section'}>
+                        <div className={'field-group pt-6'}>
+                            <button className={'btn'} onClick={() => ctxMain.navigator('/clients')}>Cancel</button>
+                            <button className={'btn-confirm'} onClick={createClient}>Create Client</button>
                         </div>
                     </div>
                 </form>
