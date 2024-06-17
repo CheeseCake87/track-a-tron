@@ -49,7 +49,6 @@ render(() => (
                     </Route>
 
                     <Route path="" component={ClientsContextProvider}>
-
                         <Route path="/clients" component={Clients}/>
 
                         <Route path="/client">
@@ -61,9 +60,7 @@ render(() => (
                                 <Route path="/:client_id" component={Client}/>
                             </Route>
                         </Route>
-
                     </Route>
-
 
                     <Route path="" component={UserContextProvider}>
                         <Route path="/users" component={Users}/>
