@@ -19,10 +19,15 @@ export default function SystemInformation() {
 
             <p className={'pt-2'}>View the project on <a
                 target={'_blank'}
-                href="https://github.com/CheeseCake87/track-a-tron">GitHub</a></p>
+                href="https://github.com/CheeseCake87/track-a-tron"
+            >GitHub</a></p>
             <p className={'pt-2'}><small>Version: 1000</small></p>
             <p><small>© 2024 David Carmichael, licensed under GNU AFFERO
-                GENERAL PUBLIC LICENSE Version 3, 19 November 2007</small></p>
+                GENERAL PUBLIC LICENSE Version 3 (19 November 2007)</small></p>
+            <p><small>A copy of this license can be <a
+                target={'_blank'}
+                href="https://github.com/CheeseCake87/track-a-tron/blob/main/LICENSE"
+            >found here</a></small></p>
         </div>
     )
 }
