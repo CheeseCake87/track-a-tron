@@ -4,6 +4,7 @@ import rpc_get_services from "../../../rpc/system/rpc_get_services";
 import {ContextMain} from "../../../contextManagers/ContextMain";
 import rpc_update_service from "../../../rpc/system/rpc_update_service";
 import {ContextSystem} from "../../../contextManagers/ContextSystem";
+import rpc_get_enabled_services from "../../../rpc/system/rpc_get_enabled_services";
 
 export default function SystemServices() {
 
@@ -38,6 +39,12 @@ export default function SystemServices() {
     const [enableSmtpService, setEnableSmtpService] = createSignal(false)
     const [showSmtpPassword, setShowSmtpPassword] = createSignal(false)
 
+    function refreshEnabledServices() {
+        rpc_get_enabled_services().then((rpc) => {
+            ctxMain.setEnabledServices(rpc.data.enabled_services)
+        })
+    }
+
     function updateGetAddressService() {
         if (enableGetAddressService()) {
             if (getAddressService().api_key === '') {
@@ -52,6 +59,7 @@ export default function SystemServices() {
         }).then((rpc) => {
             if (rpc.ok) {
                 ctxMain.showSuccessToast('GetAddress service updated.')
+                refreshEnabledServices()
             } else {
                 ctxMain.showErrorToast('There was an error updating GetAddress service.')
             }
@@ -80,6 +88,7 @@ export default function SystemServices() {
         }).then((rpc) => {
             if (rpc.ok) {
                 ctxMain.showSuccessToast('Zepto service updated.')
+                refreshEnabledServices()
             } else {
                 ctxMain.showErrorToast('There was an error updating Zepto service.')
             }
@@ -112,6 +121,7 @@ export default function SystemServices() {
         }).then((rpc) => {
             if (rpc.ok) {
                 ctxMain.showSuccessToast('SMTP service updated.')
+                refreshEnabledServices()
             } else {
                 ctxMain.showErrorToast('There was an error updating SMTP service.')
             }

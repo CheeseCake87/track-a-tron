@@ -140,6 +140,7 @@ export function MainContextProvider(props) {
                 navigator: navigator,
                 location: location,
                 enabledServices: enabledServices,
+                setEnabledServices: setEnabledServices,
                 iconSize: iconSize,
                 setIconSize: setIconSize,
                 loggedIn: loggedIn,
