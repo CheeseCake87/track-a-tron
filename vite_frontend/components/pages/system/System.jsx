@@ -39,6 +39,9 @@ export default function System() {
 
     function GetAddressService() {
         return <div className={'attention'}>
+            <div className={'pb-2'}>
+                <p><strong>GetAddress:</strong> Postcode lookup.</p>
+            </div>
             <div className={'field-group'}>
                 <div className={'checkbox'}>
                     <input type={'checkbox'}
@@ -105,6 +108,9 @@ export default function System() {
 
     function ZeptoService() {
         return <div className={'attention'}>
+            <div className={'pb-2'}>
+                <p><strong>Zepto:</strong> Transactional email.</p>
+            </div>
             <div className={'field-group'}>
                 <div className={'checkbox'}>
                     <input type={'checkbox'}
@@ -175,6 +181,9 @@ export default function System() {
 
     function SmtpService() {
         return <div className={'attention'}>
+            <div className={'pb-2'}>
+                <p><strong>SMTP:</strong> Send email via smtp.</p>
+            </div>
             <div className={'field-group'}>
                 <div className={'checkbox'}>
                     <input type={'checkbox'}
