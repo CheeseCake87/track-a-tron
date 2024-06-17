@@ -1,9 +1,9 @@
 .toast-bar-fade-in {
-    @apply fixed top-0 z-50 flex w-full
-    flex-col items-center gap-2 p-4;
-    background-color: var(--attention-default-bg-color);
+    @apply fixed bottom-0 z-50 flex w-full cursor-pointer
+    flex-col items-center gap-2 p-4 border-t;
+    background-color: var(--toast-bar-bg-color);
     color: var(--html-default-text-color);
-    border-color: var(--attention-default-border-color);
+    border-color: var(--toast-bar-default-border-color);
     opacity: 1;
     animation-name: toastBarFadeInOpacity;
     animation-iteration-count: 1;
@@ -21,11 +21,11 @@
 }
 
 .toast-bar-fade-out {
-    @apply fixed top-0 z-50 flex w-full
-    flex-col items-center gap-2 p-4;
-    background-color: var(--attention-default-bg-color);
+    @apply fixed bottom-0 z-50 flex w-full cursor-pointer
+    flex-col items-center gap-2 p-4 border-t;
+    background-color: var(--toast-bar-bg-color);
     color: var(--html-default-text-color);
-    border-color: var(--attention-default-border-color);
+    border-color: var(--toast-bar-default-border-color);
     opacity: 0;
     animation-name: toastBarFadeOutOpacity;
     animation-iteration-count: 1;

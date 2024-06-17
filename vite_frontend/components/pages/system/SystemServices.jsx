@@ -1,25 +1,18 @@
-import {createSignal, onMount, Show, useContext} from "solid-js";
-import {ContextMain} from "../../../contextManagers/ContextMain";
-import rpc_check_if_setup from "../../../rpc/system/rpc_check_if_setup";
+import {createEffect, createSignal, Show, useContext} from "solid-js";
 import {EyeClosedIcon, EyeOpenIcon} from "../../globals/Icons";
+import rpc_get_services from "../../../rpc/system/rpc_get_services";
+import {ContextMain} from "../../../contextManagers/ContextMain";
+import rpc_update_service from "../../../rpc/system/rpc_update_service";
 
-
-export default function Installer() {
+export default function SystemServices(props) {
 
     const ctxMain = useContext(ContextMain)
 
-    const [error, setError] = createSignal('')
-
-    const [username, setUsername] = createSignal('')
-    const [password, setPassword] = createSignal('')
-    const [showPassword, setShowPassword] = createSignal(false)
-
     // GetAddress
     const [getAddressService, setAddressService] = createSignal({
-            api_key: '',
-            administration_key: '',
-        }
-    )
+        api_key: '',
+        administration_key: '',
+    })
     const [enableGetAddressService, setEnableGetAddressService] = createSignal(false)
     const [showGetAddressApiKey, setShowGetAddressApiKey] = createSignal(false)
     // const [showGetAddressAdminKey, setShowGetAddressAdminKey] = createSignal(false)
@@ -43,116 +36,84 @@ export default function Installer() {
     const [enableSmtpService, setEnableSmtpService] = createSignal(false)
     const [showSmtpPassword, setShowSmtpPassword] = createSignal(false)
 
-    function checkValuesBeforeInstall() {
-        if (username().length < 1) {
-            setError('Admin username is required')
-            return
-        }
-        if (password().length < 1) {
-            setError('Admin password is required')
-            return
-        }
+    function updateGetAddressService() {
         if (enableGetAddressService()) {
-            if (getAddressService().api_key.length < 1) {
-                setError('GetAddress API Key is required')
+            if (getAddressService().api_key === '') {
+                ctxMain.showErrorToast('GetAddress API Key is required.')
                 return
             }
         }
-        if (enableZeptoService()) {
-            if (zeptoService().sender.length < 1) {
-                setError('Zepto sender is required')
-                return
-            }
-            if (zeptoService().api_url.length < 1) {
-                setError('Zepto API URL is required')
-                return
-            }
-            if (zeptoService().token.length < 1) {
-                setError('Zepto token is required')
-                return
-            }
-        }
-        if (enableSmtpService()) {
-            if (smtpService().username.length < 1) {
-                setError('SMTP username is required')
-                return
-            }
-            if (smtpService().password.length < 1) {
-                setError('SMTP password is required')
-                return
-            }
-            if (smtpService().server.length < 1) {
-                setError('SMTP server is required')
-                return
-            }
-            if (smtpService().port < 1) {
-                setError('SMTP port is required')
-                return
-            }
-        }
-        ctxMain.install(username(), password(), {
-            get_address: {
-                enabled: enableGetAddressService(),
-                name: 'get_address',
-                category: 'Postcode Lookup',
-                data: getAddressService()
-            },
-            zepto: {
-                enabled: enableZeptoService(),
-                name: 'zepto',
-                category: 'Transactional Email',
-                data: zeptoService()
-            },
-            smtp: {
-                enabled: enableSmtpService(),
-                name: 'smtp',
-                category: 'SMTP Email',
-                data: smtpService()
+        rpc_update_service({
+            name: 'get_address',
+            data: getAddressService(),
+            enabled: enableGetAddressService()
+        }).then((rpc) => {
+            if (rpc.ok) {
+                ctxMain.showSuccessToast('GetAddress service updated.')
+            } else {
+                ctxMain.showErrorToast('There was an error updating GetAddress service.')
             }
         })
     }
 
-    onMount(() => {
-        rpc_check_if_setup().then((rpc) => {
+    function updateZeptoService() {
+        if (enableZeptoService()) {
+            if (zeptoService().api_url === '') {
+                ctxMain.showErrorToast('Zepto API URL is required.')
+                return
+            }
+            if (zeptoService().sender === '') {
+                ctxMain.showErrorToast('Zepto Sender is required.')
+                return
+            }
+            if (zeptoService().token === '') {
+                ctxMain.showErrorToast('Zepto Token is required.')
+                return
+            }
+        }
+        rpc_update_service({
+            name: 'zepto',
+            data: zeptoService(),
+            enabled: enableZeptoService()
+        }).then((rpc) => {
             if (rpc.ok) {
-                ctxMain.navigator('/login')
+                ctxMain.showSuccessToast('Zepto service updated.')
+            } else {
+                ctxMain.showErrorToast('There was an error updating Zepto service.')
             }
         })
-    })
+    }
 
-    function UsernamePassword() {
-        return <div className={'flex flex-col pb-4 gap-1'}>
-            <div>
-                <label htmlFor={'username'}
-                       className={'select-none'}>
-                    Admin Username:
-                </label>
-                <input className={'mb-2'}
-                       id={'username'}
-                       type="text"
-                       name="admin_username"
-                       onChange={(e) => setUsername(e.target.value)}/>
-            </div>
-            <div>
-                <label htmlFor={'password'}
-                       className={'select-none'}>
-                    Admin Password:
-                </label>
-                <div className={'inline-action-right'}>
-                    <input id={'password'}
-                           type={showPassword() ? 'text' : 'password'}
-                           value={password()}
-                           name="admin_password"
-                           onChange={(e) => setPassword(e.target.value)}/>
-                    <div onMouseDown={() => setShowPassword(true)}
-                         onMouseUp={() => setShowPassword(false)}>
-                        {showPassword()
-                            ? <EyeOpenIcon size={14}/>
-                            : <EyeClosedIcon size={14}/>}
-                    </div>
-                </div>
-            </div>
-        </div>
+    function updateSmtpService() {
+        if (enableSmtpService()) {
+            if (smtpService().server === '') {
+                ctxMain.showErrorToast('SMTP Server is required.')
+                return
+            }
+            if (smtpService().port === 0) {
+                ctxMain.showErrorToast('SMTP Port is required.')
+                return
+            }
+            if (smtpService().username === '') {
+                ctxMain.showErrorToast('SMTP Username is required.')
+                return
+            }
+            if (smtpService().password === '') {
+                ctxMain.showErrorToast('SMTP Password is required.')
+                return
+            }
+        }
+        rpc_update_service({
+            name: 'smtp',
+            data: smtpService(),
+            enabled: enableSmtpService()
+        }).then((rpc) => {
+            if (rpc.ok) {
+                ctxMain.showSuccessToast('SMTP service updated.')
+            } else {
+                ctxMain.showErrorToast('There was an error updating SMTP service.')
+            }
+        })
     }
 
     function GetAddressService() {
@@ -221,6 +182,10 @@ export default function Installer() {
                     */}
                 </div>
             </Show>
+            <button className={'btn-confirm mt-2'}
+                    onClick={() => updateGetAddressService()}
+            >Update
+            </button>
         </div>
     }
 
@@ -243,7 +208,6 @@ export default function Installer() {
                 </div>
             </div>
             <Show when={enableZeptoService()}>
-
                 <div className={'flex flex-col p-2'}>
                     <div className={'py-2'}>
                         <label htmlFor={'zepto_sender'}
@@ -252,6 +216,7 @@ export default function Installer() {
                         </label>
                         <input id={'zepto_sender'}
                                type="text"
+                               className={'w-full'}
                                value={zeptoService().sender}
                                onChange={(e) => setZeptoService({
                                    ...zeptoService(),
@@ -265,6 +230,7 @@ export default function Installer() {
                         </label>
                         <input id={'zepto_api_url'}
                                type="text"
+                               className={'w-full'}
                                value={zeptoService().api_url}
                                onChange={(e) => setZeptoService({
                                    ...zeptoService(),
@@ -294,6 +260,10 @@ export default function Installer() {
                     </div>
                 </div>
             </Show>
+            <button className={'btn-confirm mt-2'}
+                    onClick={() => updateZeptoService()}
+            >Update
+            </button>
         </div>
     }
 
@@ -316,7 +286,6 @@ export default function Installer() {
                 </div>
             </div>
             <Show when={enableSmtpService()}>
-
                 <div className={'flex flex-col p-2'}>
                     <div className={'py-2'}>
                         <label htmlFor={'smtp_server'}
@@ -325,6 +294,7 @@ export default function Installer() {
                         </label>
                         <input id={'smtp_server'}
                                type="text"
+                               className={'w-full'}
                                value={smtpService().server}
                                onChange={(e) => setSmtpService({
                                    ...smtpService(),
@@ -338,6 +308,7 @@ export default function Installer() {
                         </label>
                         <input id={'smtp_port'}
                                type="number"
+                               className={'w-full'}
                                value={smtpService().port}
                                onChange={(e) => setSmtpService({
                                    ...smtpService(),
@@ -351,6 +322,7 @@ export default function Installer() {
                         </label>
                         <input id={'smtp_username'}
                                type="text"
+                               className={'w-full'}
                                value={smtpService().username}
                                onChange={(e) => setSmtpService({
                                    ...smtpService(),
@@ -380,58 +352,41 @@ export default function Installer() {
                     </div>
                 </div>
             </Show>
+            <button className={'btn-confirm mt-2'}
+                    onClick={() => updateSmtpService()}
+            >Update
+            </button>
         </div>
     }
 
+    createEffect(() => {
+        if (props.systemSection() === 'services') {
+            rpc_get_services().then((rpc) => {
+                if (rpc.ok) {
+                    for (let service of rpc.data.services) {
+                        if (service.name === 'get_address') {
+                            setAddressService(service.data)
+                            setEnableGetAddressService(service.enabled)
+                        }
+                        if (service.name === 'zepto') {
+                            setZeptoService(service.data)
+                            setEnableZeptoService(service.enabled)
+                        }
+                        if (service.name === 'smtp') {
+                            setSmtpService(service.data)
+                            setEnableSmtpService(service.enabled)
+                        }
+                    }
+                }
+            })
+        }
+    })
+
     return (
-        <div className={'install-background'}>
-            <div className={'install-outer'}>
-                <div className={'install-inner'}>
-                    <form className={'flex flex-col gap-4'}
-                          onsubmit={(e) => {
-                              e.preventDefault()
-                          }}>
-
-                        <div className={'install-form-group'}>
-
-
-                            <p className={'text-2xl pb-4'}>🤖 Track-a-tron Installer</p>
-
-                            <Show when={error().length > 0}>
-                                <div className={'attention-danger'}>
-                                    {error()}
-                                </div>
-                            </Show>
-
-                            <div className={'pb-4'}>
-
-                                <UsernamePassword/>
-
-                                <div className={'flex flex-col gap-1'}>
-                                    <p className={'text-lg pb-2'}>Services:</p>
-                                    <GetAddressService/>
-                                    <ZeptoService/>
-                                    <SmtpService/>
-                                </div>
-
-                            </div>
-
-                        </div>
-
-                        <div className={'flex flex-col gap-1'}>
-                            <input type="submit"
-                                   className={'btn-confirm'}
-                                   value="Install"
-                                   onClick={() => checkValuesBeforeInstall()}/>
-                        </div>
-
-                    </form>
-                </div>
-                <div className={'text-sm text-center text-gray-500 p-2'}>
-                    <p>Track-a-tron 1000</p>
-                </div>
-            </div>
+        <div className={'flex flex-col gap-2 w-100'}>
+            <GetAddressService/>
+            <ZeptoService/>
+            <SmtpService/>
         </div>
     )
-
 }

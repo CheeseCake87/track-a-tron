@@ -21,9 +21,9 @@ def query_read_service(name: str):
     return se_
 
 
-def query_update_service(name: str, data: dict):
+def query_update_service(name: str, enabled: bool, data: dict):
     wh_ = (Service.name == name,)
-    up_ = update(Service).where(*wh_).values(data=data)
+    up_ = update(Service).where(*wh_).values(data=data, enabled=enabled)
     return up_
 
 

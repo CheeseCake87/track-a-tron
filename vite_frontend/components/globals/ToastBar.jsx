@@ -39,7 +39,13 @@ export default function ToastBar(props) {
                  onMouseOver={() => {
                      clearTimeout(toastBarTimeoutFadeOut)
                      clearTimeout(toastBarTimeout)
-                 }}>
+                 }} onClick={
+                () => {
+                    clearTimeout(toastBarTimeoutFadeOut)
+                    clearTimeout(toastBarTimeout)
+                    ctxMain.setToastBarMessage('')
+                }
+            }>
                 <div className={'flex gap-2'}>
                     {ctxMain.toastBarType() === 'error' ? <ErrorIcon color={'#ff8484'}/> : null}
                     {ctxMain.toastBarType() === 'success' ? <ConfirmedIcon color={'#4f9d4f'}/> : null}

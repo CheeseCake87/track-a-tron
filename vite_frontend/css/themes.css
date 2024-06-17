@@ -8,8 +8,8 @@
 
     /* MAIN MENU */
 
-    --main-menu-bg-color: #e3e3e3;
-    --main-menu-icon-bg-color: #f8f8f8;
+    --main-menu-bg-color: #3e3e3e;
+    --main-menu-icon-bg-color: #dcdcdc;
     --main-menu-icon-text-color: #252525;
     --main-menu-icon-border-color: rgba(255, 255, 255, 0);
 
@@ -17,11 +17,27 @@
     --main-menu-icon-text-color-hover: #252525;
     --main-menu-icon-border-color-hover: rgba(0, 50, 67, 0.3);
 
-    --main-menu-icon-bg-color-active: #fbfbfb;
+    --main-menu-icon-bg-color-active: #ffffff;
     --main-menu-icon-text-color-active: #252525;
     --main-menu-icon-border-color-active: rgba(0, 50, 67, 0.3);
 
     /* MAIN MENU */
+
+    /* SUB MENU */
+
+    --sub-menu-icon-bg-color: #e3e3e3;
+    --sub-menu-icon-text-color: #252525;
+    --sub-menu-icon-border-color: rgba(255, 255, 255, 0);
+
+    --sub-menu-icon-bg-color-hover: #ffffff;
+    --sub-menu-icon-text-color-hover: #252525;
+    --sub-menu-icon-border-color-hover: rgba(0, 50, 67, 0.3);
+
+    --sub-menu-icon-bg-color-active: #ffffff;
+    --sub-menu-icon-text-color-active: #252525;
+    --sub-menu-icon-border-color-active: rgba(0, 50, 67, 0.3);
+
+    /* SUB MENU */
 
     /* TABLES */
     --table-bg: #fbfbfb;
@@ -74,6 +90,11 @@
     --a-color: #004e6e;
     --a-hover-color: #06649b;
     /* A */
+
+    /* TOAST BAR */
+    --toast-bar-bg-color: rgba(227, 227, 227);
+    --toast-bar-default-border-color: #454545;
+    /* TOAST BAR */
 
     /* ATTENTION */
     --attention-default-bg-color: rgba(227, 227, 227, 0.8);

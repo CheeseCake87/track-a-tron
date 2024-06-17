@@ -165,7 +165,10 @@ export function MainContextProvider(props) {
 
                 login: login,
                 logout: logout,
-                install: install
+                install: install,
+
+                showSuccessToast: showSuccessToast,
+                showErrorToast: showErrorToast
             }
         }>
             {
