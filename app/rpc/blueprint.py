@@ -3,7 +3,6 @@ from quart_rpc.version_1_0 import RPCResponse
 
 from app.rpc.auth import auth
 from app.rpc.client import client
-from app.rpc.setup import setup
 from app.rpc.system import system
 from app.rpc.testing import testing
 
@@ -13,7 +12,6 @@ from app.services.get_address.rpc import get_address
 rpc = Blueprint("rpc", __name__, url_prefix="/rpc")
 rpc.register_blueprint(auth)
 rpc.register_blueprint(client)
-rpc.register_blueprint(setup)
 rpc.register_blueprint(testing)
 rpc.register_blueprint(system)
 
