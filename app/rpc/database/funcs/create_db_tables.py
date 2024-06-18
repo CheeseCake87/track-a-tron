@@ -3,7 +3,7 @@ from quart_rpc.validation import DataDict
 from quart_rpc.version_1_0 import RPCResponse
 
 from app.sql.engines import dev_db_engine, sta_db_engine, pro_db_engine
-from app.sql.tables import BaseModel
+from app.sql import BaseModel
 
 
 def create_db_tables(data):

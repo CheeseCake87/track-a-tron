@@ -1,6 +1,6 @@
 import requests as r
 
-from app.sql.queries.service_get_address_cache import (
+from app.sql.queries.system_service_get_address_cache import (
     query_create_cache_entry,
     query_read_cache_entry,
     query_update_cache_entry,
@@ -8,7 +8,7 @@ from app.sql.queries.service_get_address_cache import (
 from app.sql.sessions import DBSession
 from app.utilities.system_log import system_log_in_session, system_log
 from .settings import GetAddressSettings
-from ...sql.queries.service import query_read_service
+from ...sql.queries.system_service import query_read_service
 
 
 class GetAddressService:

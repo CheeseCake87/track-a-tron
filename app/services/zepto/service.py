@@ -1,8 +1,8 @@
 import requests as r
 
 from app.sql import DBSession
-from app.sql.queries.service import query_read_service
-from app.sql.queries.service_zepto_log import query_create_zepto_log
+from app.sql.queries.system_service import query_read_service
+from app.sql.queries.system_service_zepto_log import query_create_zepto_log
 from app.sql.queries.system_log import query_create_system_log
 from .settings import ZeptoSettings
 

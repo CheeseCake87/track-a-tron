@@ -1,7 +1,7 @@
 import sqlalchemy as s
 
 from app.utilities.datetime_delta import DatetimeDeltaRI
-from .__base_model__ import BaseModel
+from app.sql import BaseModel
 
 
 class Workflow(BaseModel):
@@ -21,15 +21,11 @@ class Workflow(BaseModel):
     # PriKey
     workflow_id = s.Column(s.Integer, primary_key=True)
 
-    # ForKey
-    fk_task_category_id = s.Column(
-        s.Integer,
-        s.ForeignKey("task_category.task_category_id"),
-        nullable=False,
-    )
+    # Module
+    module = s.Column(s.String(64), nullable=False)
 
     # Trigger on Status
-    on_status_id = s.Column(s.Integer, nullable=False, default=0, index=True)
+    on_status_id = s.Column(s.Integer, nullable=False)
 
     # Data
     active = s.Column(s.Boolean, default=False)

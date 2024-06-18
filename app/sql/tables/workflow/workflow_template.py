@@ -1,7 +1,6 @@
 import sqlalchemy as s
 
-from app.utilities.datetime_delta import DatetimeDeltaRI
-from .__base_model__ import BaseModel
+from app.sql import BaseModel
 
 
 class WorkflowTemplate(BaseModel):
@@ -9,6 +8,9 @@ class WorkflowTemplate(BaseModel):
 
     # PriKey
     workflow_template_id = s.Column(s.Integer, primary_key=True)
+
+    # Module
+    module = s.Column(s.String(64), nullable=False)
 
     # Data
     name = s.Column(s.String(64), default=None, nullable=True)
@@ -23,4 +25,4 @@ class WorkflowTemplate(BaseModel):
     sms_text = s.Column(s.String, default="", nullable=True)
 
     # Tracking
-    created = s.Column(s.DateTime, default=DatetimeDeltaRI().datetime)
+    created = s.Column(s.DateTime)

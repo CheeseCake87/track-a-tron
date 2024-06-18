@@ -6,7 +6,7 @@ from app.config import Config, Folders
 from app.extensions import vite_transporter
 from app.rpc import rpc
 from app.sql import ENGINE
-from app.sql.tables import BaseModel
+from app.sql import BaseModel
 
 load_dotenv()
 

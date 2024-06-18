@@ -1,10 +1,10 @@
 from sqlalchemy import select, insert
 
-from app.sql.tables import ServiceZeptoLog
+from app.sql.tables import SystemServiceSmtpLog
 from app.utilities import DatetimeDeltaMC
 
 
-def query_create_zepto_log(
+def query_create_smtp_log(
     to: str,
     reply_to: str,
     from_: str,
@@ -13,7 +13,7 @@ def query_create_zepto_log(
     response: dict = None,
 ):
     in_ = (
-        insert(ServiceZeptoLog)
+        insert(SystemServiceSmtpLog)
         .values(
             to=to,
             reply_to=reply_to,
@@ -23,11 +23,11 @@ def query_create_zepto_log(
             response=response,
             created=DatetimeDeltaMC().datetime,
         )
-        .returning(ServiceZeptoLog)
+        .returning(SystemServiceSmtpLog)
     )
     return in_
 
 
-def query_read_all_zepto_logs():
-    se_ = select(ServiceZeptoLog).order_by(ServiceZeptoLog.created)
+def query_read_all_smtp_logs():
+    se_ = select(SystemServiceSmtpLog).order_by(SystemServiceSmtpLog.created)
     return se_

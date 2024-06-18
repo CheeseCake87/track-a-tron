@@ -7,7 +7,7 @@ from smtplib import SMTP
 from ssl import create_default_context
 
 from app.sql import DBSession
-from app.sql.queries.service import query_read_service
+from app.sql.queries.system_service import query_read_service
 from app.utilities.system_log import system_log_in_session, system_log
 from .settings import SMTPSettings
 

@@ -1,13 +1,13 @@
 import sqlalchemy as s
 
-from .__base_model__ import BaseModel
+from app.sql import BaseModel
 
 
-class Service(BaseModel):
-    __tablename__ = "service"
+class SystemService(BaseModel):
+    __tablename__ = "system_service"
 
     # PriKey
-    service_id = s.Column(s.Integer, primary_key=True)
+    system_service_id = s.Column(s.Integer, primary_key=True)
 
     # Meta
     name = s.Column(s.String, nullable=True, default=None)

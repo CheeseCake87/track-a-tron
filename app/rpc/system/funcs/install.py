@@ -5,7 +5,7 @@ from quart_rpc.version_1_0 import RPCResponse
 
 from app.services import AVAILABLE_SERVICES
 from app.sql import DBSession
-from app.sql.queries.service import query_create_service
+from app.sql.queries.system_service import query_create_service
 from app.sql.queries.system import (
     query_read_system,
     query_create_system,

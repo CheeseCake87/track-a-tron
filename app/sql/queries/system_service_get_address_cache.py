@@ -1,13 +1,13 @@
 from sqlalchemy import select, insert, update
 
-from app.sql.tables import ServiceGetAddressCache
+from app.sql.tables import SystemServiceGetAddressCache
 
 
 def query_create_cache_entry(postcode: str, cache: dict):
     in_ = (
-        insert(ServiceGetAddressCache)
+        insert(SystemServiceGetAddressCache)
         .values(postcode=postcode, cache=cache)
-        .returning(ServiceGetAddressCache)
+        .returning(SystemServiceGetAddressCache)
     )
     return in_
 
@@ -16,17 +16,17 @@ def query_read_cache_entry(postcode: str):
     """
     Expects no spaces, and all characters to be uppercase
     """
-    wh_ = (ServiceGetAddressCache.postcode == postcode,)
-    se_ = select(ServiceGetAddressCache).where(*wh_)
+    wh_ = (SystemServiceGetAddressCache.postcode == postcode,)
+    se_ = select(SystemServiceGetAddressCache).where(*wh_)
     return se_
 
 
 def query_update_cache_entry(postcode: str, cache: dict):
-    wh_ = (ServiceGetAddressCache.postcode == postcode,)
+    wh_ = (SystemServiceGetAddressCache.postcode == postcode,)
     up_ = (
-        update(ServiceGetAddressCache)
+        update(SystemServiceGetAddressCache)
         .where(*wh_)
         .values(cache=cache)
-        .returning(ServiceGetAddressCache)
+        .returning(SystemServiceGetAddressCache)
     )
     return up_

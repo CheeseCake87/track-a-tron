@@ -1,7 +1,7 @@
 from quart_rpc.version_1_0 import RPCResponse
 
 from app.sql import DBSession
-from app.sql.queries.service import query_read_all_services
+from app.sql.queries.system_service import query_read_all_services
 
 
 def get_services(_):

@@ -3,7 +3,7 @@ import typing as t
 import sqlalchemy as s
 
 from app.utilities.datetime_delta import DatetimeDeltaRI
-from .__base_model__ import BaseModel
+from app.sql import BaseModel
 
 TeamMembership = t.TypeVar("TeamMembership", bound="BaseModel")
 

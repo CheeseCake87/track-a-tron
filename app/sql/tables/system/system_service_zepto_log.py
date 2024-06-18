@@ -1,18 +1,17 @@
 import sqlalchemy as s
 
-from .__base_model__ import BaseModel
-from ...utilities import DatetimeDeltaRI
+from app.sql import BaseModel
 
 
-class ServiceSmtpLog(BaseModel):
+class SystemServiceZeptoLog(BaseModel):
     """
     Table to store the results of the Zepto API
     """
 
-    __tablename__ = "service_smtp_log"
+    __tablename__ = "system_service_zepto_log"
 
     # PriKey
-    service_zepto_log_id = s.Column(s.Integer, primary_key=True)
+    system_service_zepto_log_id = s.Column(s.Integer, primary_key=True)
 
     # Data
     to = s.Column(s.String(32), default=None, nullable=True)

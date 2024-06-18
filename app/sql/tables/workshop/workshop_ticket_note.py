@@ -1,18 +1,18 @@
 import sqlalchemy as s
 
-from .__base_model__ import BaseModel
+from app.sql import BaseModel
 
 
-class TaskNote(BaseModel):
-    __tablename__ = "task_note"
+class WorkshopTicketNote(BaseModel):
+    __tablename__ = "workshop_ticket_note"
 
     # PriKey
-    task_note_id = s.Column(s.Integer, primary_key=True)
+    workshop_ticket_note_id = s.Column(s.Integer, primary_key=True)
 
     # ForKey
-    fk_task_id = s.Column(
+    fk_workshop_ticket_id = s.Column(
         s.Integer,
-        s.ForeignKey("task.task_id"),
+        s.ForeignKey("workshop_ticket.workshop_ticket_id"),
     )
     fk_user_id = s.Column(
         s.Integer,

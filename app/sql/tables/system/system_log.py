@@ -1,6 +1,6 @@
 import sqlalchemy as s
 
-from .__base_model__ import BaseModel
+from app.sql import BaseModel
 
 
 class SystemLog(BaseModel):

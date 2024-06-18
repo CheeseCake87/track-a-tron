@@ -1,7 +1,6 @@
 import sqlalchemy as s
 
-from app.utilities.datetime_delta import DatetimeDeltaMC
-from .__base_model__ import BaseModel
+from app.sql import BaseModel
 
 
 class System(BaseModel):

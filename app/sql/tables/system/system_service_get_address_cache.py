@@ -1,9 +1,9 @@
 import sqlalchemy as s
 
-from .__base_model__ import BaseModel
+from app.sql import BaseModel
 
 
-class ServiceGetAddressCache(BaseModel):
+class SystemServiceGetAddressCache(BaseModel):
     """
     Table to store the results of the getAddress.io API
 
@@ -11,10 +11,10 @@ class ServiceGetAddressCache(BaseModel):
     unnecessary requests to the API.
     """
 
-    __tablename__ = "service_get_address_cache"
+    __tablename__ = "system_service_get_address_cache"
 
     # PriKey
-    service_get_address_id = s.Column(s.Integer, primary_key=True)
+    system_service_get_address_id = s.Column(s.Integer, primary_key=True)
 
     # Index
     postcode = s.Column(s.String(32), nullable=False, index=True)

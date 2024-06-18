@@ -1,7 +1,6 @@
 import sqlalchemy as s
 
-from .__base_model__ import BaseModel
-from ...utilities import DatetimeDeltaRI
+from app.sql import BaseModel
 
 
 class Client(BaseModel):

@@ -1,7 +1,6 @@
 import sqlalchemy as s
 
-from app.utilities.datetime_delta import DatetimeDeltaRI
-from .__base_model__ import BaseModel
+from app.sql import BaseModel
 
 
 class WorkflowTaskQueue(BaseModel):
@@ -16,11 +15,9 @@ class WorkflowTaskQueue(BaseModel):
         s.ForeignKey("workflow.workflow_id"),
         nullable=False,
     )
-    fk_task_id = s.Column(
-        s.Integer,
-        s.ForeignKey("task.task_id"),
-        nullable=False,
-    )
+
+    # Module
+    module = s.Column(s.String, nullable=False)
 
     # Action: Send Template
     send_template = s.Column(s.Boolean, default=False)
@@ -47,4 +44,4 @@ class WorkflowTaskQueue(BaseModel):
     task_cancelled = s.Column(s.Boolean, default=False, nullable=True)
 
     # Tracking
-    created = s.Column(s.DateTime, default=DatetimeDeltaRI().datetime)
+    created = s.Column(s.DateTime)
