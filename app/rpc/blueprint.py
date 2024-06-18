@@ -5,7 +5,7 @@ from app.rpc.auth import auth
 from app.rpc.client import client
 from app.rpc.setup import setup
 from app.rpc.system import system
-from app.rpc.task_status import status
+from _archive.task_status import status
 from app.rpc.testing import testing
 
 # Services
