@@ -5,7 +5,6 @@ from app.rpc.auth import auth
 from app.rpc.client import client
 from app.rpc.setup import setup
 from app.rpc.system import system
-from _archive.task_status import status
 from app.rpc.testing import testing
 
 # Services
@@ -15,7 +14,6 @@ rpc = Blueprint("rpc", __name__, url_prefix="/rpc")
 rpc.register_blueprint(auth)
 rpc.register_blueprint(client)
 rpc.register_blueprint(setup)
-rpc.register_blueprint(status)
 rpc.register_blueprint(testing)
 rpc.register_blueprint(system)
 
