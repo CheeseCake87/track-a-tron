@@ -3,8 +3,8 @@ from quart_rpc.exceptions import DataException
 from quart_rpc.validation import DataDict
 from quart_rpc.version_1_0 import RPCResponse
 
-from app.sql.queries.user import (
-    query_read_user_by_username,
+from app.sql.queries.system_user import (
+    query_read_system_user_by_username,
 )
 from app.sql.sessions import DBSession
 from flask_imp.auth import authenticate_password
@@ -19,7 +19,9 @@ def login(data):
         return RPCResponse.fail(str(error))
 
     with DBSession as s:
-        user = s.execute(query_read_user_by_username(username)).scalar_one_or_none()
+        user = s.execute(
+            query_read_system_user_by_username(username)
+        ).scalar_one_or_none()
 
         if user is None:
             return RPCResponse.fail("User not found.")
@@ -28,13 +30,13 @@ def login(data):
             return RPCResponse.fail("Invalid password.")
 
         session["logged_in"] = True
-        session["user_id"] = user.user_id
+        session["user_id"] = user.system_user_id
         session["user_type"] = user.user_type
 
     return RPCResponse.success(
         {
             "logged_in": True,
-            "user_id": user.user_id,
+            "user_id": user.system_user_id,
             "user_type": user.user_type,
         },
         "Logged in.",

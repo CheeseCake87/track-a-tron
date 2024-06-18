@@ -10,9 +10,9 @@ class WorkshopTicketStatusLog(BaseModel):
     workshop_ticket_status_log_id = s.Column(s.Integer, primary_key=True)
 
     # ForKey
-    fk_user_id = s.Column(
+    fk_system_user_id = s.Column(
         s.Integer,
-        s.ForeignKey("user.user_id"),
+        s.ForeignKey("system_user.system_user_id"),
         nullable=True,
         default=0,
     )  # User that changed the status

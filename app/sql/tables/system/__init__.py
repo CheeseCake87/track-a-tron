@@ -4,6 +4,7 @@ from .system_service import SystemService
 from .system_service_get_address_cache import SystemServiceGetAddressCache
 from .system_service_smtp_log import SystemServiceSmtpLog
 from .system_service_zepto_log import SystemServiceZeptoLog
+from .system_user import SystemUser
 
 __all__ = [
     "System",
@@ -11,5 +12,6 @@ __all__ = [
     "SystemService",
     "SystemServiceGetAddressCache",
     "SystemServiceSmtpLog",
-    "SystemServiceZeptoLog"
+    "SystemServiceZeptoLog",
+    "SystemUser",
 ]

@@ -54,7 +54,9 @@ class GetAddressService:
         )
         return False, "Service is disabled", None
 
-    def cache_find(self, postcode: str, refresh_cache: bool = False) -> tuple[bool, str, dict | None]:
+    def cache_find(
+        self, postcode: str, refresh_cache: bool = False
+    ) -> tuple[bool, str, dict | None]:
         postcode = postcode.replace(" ", "").upper()
 
         if not self.settings.disabled:

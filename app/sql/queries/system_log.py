@@ -5,7 +5,11 @@ from app.utilities import DatetimeDeltaMC
 
 
 def query_create_system_log(subject: str, log: str):
-    in_ = insert(SystemLog).values(subject=subject, log=log, created=DatetimeDeltaMC().datetime,)
+    in_ = insert(SystemLog).values(
+        subject=subject,
+        log=log,
+        created=DatetimeDeltaMC().datetime,
+    )
     return in_
 
 

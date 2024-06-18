@@ -2,7 +2,10 @@ from flask_imp.auth import generate_salt, encrypt_password, generate_private_key
 from quart_rpc.version_1_0 import RPCResponse
 
 from app.sql import DBSession
-from app.sql.queries.user import query_create_user, query_read_all_users
+from app.sql.queries.system_user import (
+    query_create_system_user,
+    query_read_all_system_users,
+)
 
 
 def create_test_admin_account(_):
@@ -11,13 +14,13 @@ def create_test_admin_account(_):
     private_key = generate_private_key(salt + "admin")
 
     with DBSession as s:
-        if_user_exists = s.execute(query_read_all_users()).scalars().all()
+        if_user_exists = s.execute(query_read_all_system_users()).scalars().all()
         if if_user_exists:
             return RPCResponse.fail("User already exists")
 
         # Create admin user
         new_user_id = s.execute(
-            query_create_user(
+            query_create_system_user(
                 "Test Admin",
                 "admin",
                 password_hash,

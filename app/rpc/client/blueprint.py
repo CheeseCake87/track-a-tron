@@ -4,10 +4,7 @@ from quart_rpc.version_1_0 import RPC, RPCResponse, RPCAuthSessionKey
 from .funcs import __all__
 
 client = Blueprint("client", __name__, url_prefix="/client")
-rpc = RPC(
-    client,
-    session_auth=RPCAuthSessionKey("logged_in", [True])
-)
+rpc = RPC(client, session_auth=RPCAuthSessionKey("logged_in", [True]))
 rpc.functions_auto_name(__all__)
 
 

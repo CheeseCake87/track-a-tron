@@ -11,7 +11,7 @@ from app.sql.queries.system import (
     query_create_system,
     query_update_system_installation_complete,
 )
-from app.sql.queries.user import query_create_user
+from app.sql.queries.system_user import query_create_system_user
 
 
 def install(data):
@@ -81,7 +81,7 @@ def install(data):
 
         # Create admin user
         s.execute(
-            query_create_user(
+            query_create_system_user(
                 "System",
                 admin_username,
                 password_hash,

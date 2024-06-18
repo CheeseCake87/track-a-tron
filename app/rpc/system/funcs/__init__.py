@@ -9,13 +9,13 @@ from .update_service import update_service
 from .update_user import update_user
 
 __all__ = [
-    check_if_setup,
-    install,
-    get_services,
-    update_service,
-    create_user,
-    get_all_users,
-    get_user,
-    update_user,
-    get_enabled_services,
+    "check_if_setup",
+    "create_user",
+    "get_all_users",
+    "get_enabled_services",
+    "get_services",
+    "get_user",
+    "install",
+    "update_service",
+    "update_user",
 ]

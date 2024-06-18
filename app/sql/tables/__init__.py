@@ -6,8 +6,8 @@ from .system import SystemService
 from .system import SystemServiceGetAddressCache
 from .system import SystemServiceSmtpLog
 from .system import SystemServiceZeptoLog
+from .system import SystemUser
 from .todo import Todo
-from .user import User
 from .workflow import Workflow
 from .workflow import WorkflowTaskQueue
 from .workflow import WorkflowTemplate
@@ -26,6 +26,7 @@ __all__ = [
     "SystemServiceGetAddressCache",
     "SystemServiceZeptoLog",
     "SystemServiceSmtpLog",
+    "SystemUser",
     "Workflow",
     "WorkflowTaskQueue",
     "WorkflowTemplate",
@@ -37,5 +38,4 @@ __all__ = [
     "WorkshopTicketStatusLog",
     "Client",
     "Todo",
-    "User",
 ]

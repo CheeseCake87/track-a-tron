@@ -1,16 +1,13 @@
-from quart_rpc.version_1_0 import RPCResponse
-
-from app.utilities.security import session_check
-from app.sql import DBSession
-from app.sql.queries.user import (
-    query_update_user,
-)
 from quart_rpc.exceptions import DataException
 from quart_rpc.validation import DataDict
+from quart_rpc.version_1_0 import RPCResponse
+
+from app.sql import DBSession
+from app.sql.queries.system_user import (
+    query_update_system_user,
+)
 
 
-@session_check("logged_in", True)
-@session_check("user_type", "admin")
 def update_user(data):
     """
     Request Context Required
@@ -32,7 +29,7 @@ def update_user(data):
 
     with DBSession as s:
         result = s.execute(
-            query_update_user(user_id, values, ignore_fields)
+            query_update_system_user(user_id, values, ignore_fields)
         ).scalar_one_or_none()
 
         if not result:
@@ -40,7 +37,7 @@ def update_user(data):
 
         response = RPCResponse.success(
             {
-                "user_id": result.user_id,
+                "user_id": result.system_user_id,
                 "display_name": result.display_name,
                 "username": result.username,
                 "disabled": result.disabled,

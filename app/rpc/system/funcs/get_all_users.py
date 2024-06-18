@@ -1,26 +1,23 @@
 from quart_rpc.version_1_0 import RPCResponse
 
-from app.utilities.security import session_check
 from app.sql import DBSession
-from app.sql.queries.user import (
-    query_read_all_users,
+from app.sql.queries.system_user import (
+    query_read_all_system_users,
 )
 
 
-@session_check("logged_in", True)
-@session_check("user_type", "admin")
 def get_all_users(_):
     """
     Request Context Required
     """
     with DBSession as s:
-        query = query_read_all_users()
+        query = query_read_all_system_users()
         result = s.execute(query).scalars().all()
 
         return RPCResponse.success(
             [
                 {
-                    "user_id": r.user_id,
+                    "user_id": r.system_user_id,
                     "username": r.username,
                     "display_name": r.display_name,
                     "email": r.email,

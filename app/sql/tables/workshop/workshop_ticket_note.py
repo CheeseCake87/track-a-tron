@@ -14,9 +14,9 @@ class WorkshopTicketNote(BaseModel):
         s.Integer,
         s.ForeignKey("workshop_ticket.workshop_ticket_id"),
     )
-    fk_user_id = s.Column(
+    fk_system_user_id = s.Column(
         s.Integer,
-        s.ForeignKey("user.user_id"),
+        s.ForeignKey("system_user.system_user_id"),
         nullable=True,
     )
 

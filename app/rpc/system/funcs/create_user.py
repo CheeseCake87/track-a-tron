@@ -1,17 +1,14 @@
-from quart_rpc.version_1_0 import RPCResponse
-
-from app.utilities.security import session_check
-from app.sql import DBSession
-from app.sql.queries.user import (
-    query_create_user,
-)
 from flask_imp.auth import generate_salt, encrypt_password, generate_email_validator
 from quart_rpc.exceptions import DataException
 from quart_rpc.validation import DataDict
+from quart_rpc.version_1_0 import RPCResponse
+
+from app.sql import DBSession
+from app.sql.queries.system_user import (
+    query_create_system_user,
+)
 
 
-@session_check("logged_in", True)
-@session_check("user_type", "admin")
 def create_user(data):
     d = DataDict(data)
     try:
@@ -35,7 +32,7 @@ def create_user(data):
 
     with DBSession as s:
         new_user_id = s.execute(
-            query_create_user(
+            query_create_system_user(
                 display_name,
                 username,
                 password_hash,

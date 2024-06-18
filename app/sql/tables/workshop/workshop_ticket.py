@@ -18,14 +18,12 @@ class WorkshopTicket(BaseModel):
         s.Integer,
         s.ForeignKey("workshop_category.workshop_category_id"),
     )  # Category of the workshop_ticket
-    fk_user_id = s.Column(
+    fk_system_user_id = s.Column(
         s.Integer,
-        s.ForeignKey("user.user_id"),
+        s.ForeignKey("system_user.system_user_id"),
     )  # User that created the workshop_ticket
     fk_assigned_user_id = s.Column(
-        s.Integer,
-        s.ForeignKey("user.user_id"),
-        nullable=True
+        s.Integer, s.ForeignKey("system_user.system_user_id"), nullable=True
     )  # User that the workshop_ticket is assigned to
 
     # Due date

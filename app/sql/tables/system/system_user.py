@@ -3,11 +3,11 @@ import sqlalchemy as s
 from app.sql import BaseModel
 
 
-class User(BaseModel):
-    __tablename__ = "user"
+class SystemUser(BaseModel):
+    __tablename__ = "system_user"
 
     # PriKey
-    user_id = s.Column(s.Integer, primary_key=True)
+    system_user_id = s.Column(s.Integer, primary_key=True)
 
     # Data
     username = s.Column(s.String(256), nullable=False)
