@@ -3,15 +3,16 @@ import typing as t
 from sqlalchemy import select, insert, update
 
 from app.sql.tables import User
+from app.utilities import DatetimeDeltaMC
 
 
 def query_create_user(
-    display_name: str,
-    username: str,
-    password: str,
-    salt: str,
-    private_key: str,
-    user_type: t.Literal["user", "manager", "admin"],
+        display_name: str,
+        username: str,
+        password: str,
+        salt: str,
+        private_key: str,
+        user_type: t.Literal["user", "manager", "admin"],
 ):
     in_ = (
         insert(User)
@@ -22,6 +23,7 @@ def query_create_user(
             salt=salt,
             private_key=private_key,
             user_type=user_type,
+            created=DatetimeDeltaMC().datetime
         )
         .returning(User.user_id)
     )

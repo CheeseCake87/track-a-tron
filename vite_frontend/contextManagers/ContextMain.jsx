@@ -67,15 +67,6 @@ export function MainContextProvider(props) {
         setToastBarMessage(message)
     }
 
-    function install(admin_username, admin_password, services) {
-        rpc_system_install(admin_username, admin_password, services).then((rpc) => {
-            console.log(rpc)
-            if (rpc.ok) {
-                navigator('/login')
-            }
-        })
-    }
-
     function logout() {
         rpc_auth_logout().then((rpc) => {
             if (rpc.ok) {
@@ -125,7 +116,7 @@ export function MainContextProvider(props) {
     onMount(() => {
         rpc_check_if_setup().then((rpc) => {
             if (!rpc.ok) {
-                navigator('/system/install')
+                navigator('/install')
             }
         })
         rpc_get_enabled_services().then((rpc) => {
@@ -158,7 +149,6 @@ export function MainContextProvider(props) {
 
                 login: login,
                 logout: logout,
-                install: install,
 
                 showSuccessToast: showSuccessToast,
                 showErrorToast: showErrorToast

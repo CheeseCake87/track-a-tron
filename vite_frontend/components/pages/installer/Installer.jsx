@@ -2,6 +2,7 @@ import {createSignal, onMount, Show, useContext} from "solid-js";
 import {ContextMain} from "../../../contextManagers/ContextMain";
 import rpc_check_if_setup from "../../../rpc/system/rpc_check_if_setup";
 import {EyeClosedIcon, EyeOpenIcon} from "../../globals/Icons";
+import rpc_system_install from "../../../rpc/system/rpc_system_install";
 
 
 export default function Installer() {
@@ -42,6 +43,14 @@ export default function Installer() {
     })
     const [enableSmtpService, setEnableSmtpService] = createSignal(false)
     const [showSmtpPassword, setShowSmtpPassword] = createSignal(false)
+
+    function install(admin_username, admin_password, services) {
+        rpc_system_install(admin_username, admin_password, services).then((rpc) => {
+            if (rpc.ok) {
+                ctxMain.navigator('/login')
+            }
+        })
+    }
 
     function checkValuesBeforeInstall() {
         if (username().length < 1) {
@@ -90,7 +99,7 @@ export default function Installer() {
                 return
             }
         }
-        ctxMain.install(username(), password(), {
+        install(username(), password(), {
             get_address: {
                 enabled: enableGetAddressService(),
                 name: 'get_address',
@@ -113,6 +122,7 @@ export default function Installer() {
     }
 
     onMount(() => {
+        ctxMain.logout()
         rpc_check_if_setup().then((rpc) => {
             if (rpc.ok) {
                 ctxMain.navigator('/login')

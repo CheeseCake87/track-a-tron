@@ -1,11 +1,6 @@
-import typing as t
-
 import sqlalchemy as s
 
-from app.utilities.datetime_delta import DatetimeDeltaRI
 from app.sql import BaseModel
-
-TeamMembership = t.TypeVar("TeamMembership", bound="BaseModel")
 
 
 class User(BaseModel):
@@ -31,4 +26,4 @@ class User(BaseModel):
     deleted = s.Column(s.Boolean, default=False)
 
     # Tracking
-    created = s.Column(s.DateTime, default=DatetimeDeltaRI().datetime)
+    created = s.Column(s.DateTime)
