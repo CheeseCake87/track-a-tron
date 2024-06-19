@@ -1,5 +1,5 @@
 import {API_URL} from "../../globals";
-import {wrpc} from "wrpc-js";
+import {weerpc} from "weerpcjs";
 
 export default async function rpc_system_install(adminUsername, adminPassword, services) {
     const req = await fetch(API_URL + '/rpc/system/', {
@@ -8,7 +8,7 @@ export default async function rpc_system_install(adminUsername, adminPassword, s
         headers: {
             'Content-Type': 'application/json',
         },
-        body: wrpc('install', {
+        body: weerpc('install', {
             admin_username: adminUsername,
             admin_password: adminPassword,
             services: services

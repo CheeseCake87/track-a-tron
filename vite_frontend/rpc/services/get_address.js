@@ -1,5 +1,5 @@
 import {API_URL} from "../../globals";
-import {wrpc} from "wrpc-js";
+import {weerpc} from "weerpcjs";
 
 export async function rpc_get_address_find(postcode) {
     const req = await fetch(API_URL + '/rpc/services/get_address/', {
@@ -8,7 +8,7 @@ export async function rpc_get_address_find(postcode) {
         headers: {
             'Content-Type': 'application/json',
         },
-        body: wrpc('find', {
+        body: weerpc('find', {
             postcode: postcode
         })
     })
@@ -27,7 +27,7 @@ export async function rpc_get_address_cache_find(postcode, refresh = false) {
         headers: {
             'Content-Type': 'application/json',
         },
-        body: wrpc('cache_find', {
+        body: weerpc('cache_find', {
             postcode: postcode,
             refresh: refresh
         })

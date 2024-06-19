@@ -1,5 +1,5 @@
 import {API_URL} from "../../globals";
-import {wrpc} from "wrpc-js";
+import {weerpc} from "weerpcjs";
 
 export default async function rpc_client_add_needs(userId) {
     const req = await fetch(API_URL + '/rpc/client/', {
@@ -8,7 +8,7 @@ export default async function rpc_client_add_needs(userId) {
         headers: {
             'Content-Type': 'application/json',
         },
-        body: wrpc('client_add_needs',
+        body: weerpc('client_add_needs',
             {
                 user_id: userId
             }

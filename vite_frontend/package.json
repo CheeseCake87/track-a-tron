@@ -13,6 +13,6 @@
   "dependencies": {
     "babel-preset-solid": "^1.7.7",
     "solid-js": "^1.8.15",
-    "wrpc-js": "^0.1.1"
+    "weerpcjs": "^1.0.2"
   }
 }

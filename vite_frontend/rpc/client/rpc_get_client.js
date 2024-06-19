@@ -1,5 +1,5 @@
 import {API_URL} from "../../globals";
-import {wrpc} from "wrpc-js";
+import {weerpc} from "weerpcjs";
 import WRPCFetcher from "../../utilities/WRPCFetcher";
 
 export default function rpc_get_client(clientId) {
@@ -11,7 +11,7 @@ export default function rpc_get_client(clientId) {
             headers: {
                 'Content-Type': 'application/json',
             },
-            body: wrpc('get_client',
+            body: weerpc('get_client',
                 {
                     client_id: clientId
                 }

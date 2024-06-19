@@ -1,5 +1,5 @@
 import {API_URL} from "../../globals";
-import {wrpc} from "wrpc-js";
+import {weerpc} from "weerpcjs";
 
 export default async function rpc_page_clients(
     userId, page, limit, where = {}
@@ -10,7 +10,7 @@ export default async function rpc_page_clients(
         headers: {
             'Content-Type': 'application/json',
         },
-        body: wrpc('page_clients',
+        body: weerpc('page_clients',
             {
                 user_id: userId,
                 page: page,

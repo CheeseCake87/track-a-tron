@@ -1,5 +1,5 @@
 import {API_URL} from "../../globals";
-import {wrpc} from "wrpc-js";
+import {weerpc} from "weerpcjs";
 
 export default async function rpc_update_service(data) {
     const req = await fetch(API_URL + '/rpc/system/', {
@@ -8,7 +8,7 @@ export default async function rpc_update_service(data) {
         headers: {
             'Content-Type': 'application/json',
         },
-        body: wrpc('update_service', data)
+        body: weerpc('update_service', data)
     })
     if (req.ok) {
         return await req.json()

@@ -1,5 +1,5 @@
 import {API_URL} from "../../globals";
-import {wrpc} from "wrpc-js";
+import {weerpc} from "weerpcjs";
 import WRPCFetcher from "../../utilities/WRPCFetcher";
 import {createEffect} from "solid-js";
 
@@ -11,7 +11,7 @@ export default function rpc_auth_get_session() {
             headers: {
                 'Content-Type': 'application/json',
             },
-            body: wrpc('get_session', null)
+            body: weerpc('get_session', null)
         })
         if (req.ok) {
             return await req.json()

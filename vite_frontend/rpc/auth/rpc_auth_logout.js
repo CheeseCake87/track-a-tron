@@ -1,5 +1,5 @@
 import {API_URL} from "../../globals";
-import {wrpc} from "wrpc-js";
+import {weerpc} from "weerpcjs";
 
 export default async function rpc_auth_logout() {
     const req = await fetch(API_URL + '/rpc/auth/', {
@@ -8,7 +8,7 @@ export default async function rpc_auth_logout() {
         headers: {
             'Content-Type': 'application/json',
         },
-        body: wrpc('logout', null)
+        body: weerpc('logout', null)
     })
     if (req.ok) {
         return await req.json()

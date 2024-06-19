@@ -1,5 +1,5 @@
 import {API_URL} from "../../globals";
-import {wrpc} from "wrpc-js";
+import {weerpc} from "weerpcjs";
 
 export default async function rpc_auth_force_login() {
     const req = await fetch(API_URL + '/rpc/auth/', {
@@ -8,7 +8,7 @@ export default async function rpc_auth_force_login() {
         headers: {
             'Content-Type': 'application/json',
         },
-        body: wrpc('force_login', null)
+        body: weerpc('force_login', null)
     })
     if (req.ok) {
         return await req.json()
