@@ -1,4 +1,4 @@
-from quart_rpc.version_1_0 import RPCResponse
+from quart_rpc.version_1_1 import RPCResponse
 
 from app.sql import DBSession
 from app.sql.queries.client import query_page_clients, query_count_clients

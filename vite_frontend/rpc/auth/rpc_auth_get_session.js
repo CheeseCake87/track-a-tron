@@ -24,8 +24,10 @@ export default function rpc_auth_get_session() {
         createEffect(() => {
             if (!__fetch_result__.store.loading) {
                 console.log(
-                    `${__fetch_result__.message()} ~ LOGGED IN: ${__fetch_result__.data('logged_in')}`,
-                    __fetch_result__.store(),
+                    __fetch_result__.store()
+                )
+                console.log(
+                    `${__fetch_result__.message()} ~ LOGGED IN: ${__fetch_result__.data('logged_in')}`
                 )
             }
         })

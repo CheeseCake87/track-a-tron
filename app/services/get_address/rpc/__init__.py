@@ -1,7 +1,7 @@
 from quart import Blueprint
 from quart_rpc.exceptions import DataException
 from quart_rpc.validation import DataDict
-from quart_rpc.version_1_0 import RPC, RPCResponse  # noqa
+from quart_rpc.version_1_1 import RPC, RPCResponse  # noqa
 
 from app.services.get_address import GetAddressService
 

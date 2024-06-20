@@ -1,6 +1,6 @@
 from dotenv import load_dotenv
 from flask_orjson import OrjsonProvider
-from quart import Quart, session, render_template
+from quart import Quart, session, render_template, request
 
 from app.config import Config, Folders
 from app.extensions import vite_transporter

@@ -1,5 +1,5 @@
 from quart import Blueprint
-from quart_rpc.version_1_0 import RPCResponse
+from quart_rpc.version_1_1 import RPCResponse
 
 from app.rpc.auth import auth
 from app.rpc.client import client

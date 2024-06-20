@@ -7,7 +7,6 @@ import rpc_auth_logout from "../rpc/auth/rpc_auth_logout";
 import rpc_auth_login from "../rpc/auth/rpc_auth_login";
 import {MainMenu} from "../components/menus/MainMenu";
 import rpc_check_if_setup from "../rpc/system/rpc_check_if_setup";
-import rpc_system_install from "../rpc/system/rpc_system_install";
 import ToastBar from "../components/globals/ToastBar";
 import rpc_get_enabled_services from "../rpc/system/rpc_get_enabled_services";
 
@@ -120,7 +119,9 @@ export function MainContextProvider(props) {
             }
         })
         rpc_get_enabled_services().then((rpc) => {
-            setEnabledServices(rpc.data.enabled_services)
+            if (rpc.ok) {
+                setEnabledServices(rpc.data.enabled_services)
+            }
         })
     })
 

@@ -1,7 +1,7 @@
 from flask_imp.auth import generate_salt, encrypt_password, generate_email_validator
 from quart_rpc.exceptions import DataException
 from quart_rpc.validation import DataDict
-from quart_rpc.version_1_0 import RPCResponse
+from quart_rpc.version_1_1 import RPCResponse
 
 from app.sql import DBSession
 from app.sql.queries.system_user import (

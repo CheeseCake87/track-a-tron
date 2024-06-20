@@ -1,5 +1,5 @@
 from quart import Blueprint
-from quart_rpc.version_1_0 import RPC, RPCResponse, RPCAuthSessionKey
+from quart_rpc.version_1_1 import RPC, RPCResponse, RPCAuthSessionKey
 
 from .funcs import __all__
 

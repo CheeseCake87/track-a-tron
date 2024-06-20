@@ -1,7 +1,7 @@
 from quart import session
 from quart_rpc.exceptions import DataException
 from quart_rpc.validation import DataDict
-from quart_rpc.version_1_0 import RPCResponse
+from quart_rpc.version_1_1 import RPCResponse
 
 from app.sql.queries.system_user import (
     query_read_system_user_by_username,

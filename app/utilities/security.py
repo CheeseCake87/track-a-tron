@@ -1,7 +1,7 @@
 from functools import wraps
 
 from quart import session
-from quart_rpc.version_1_0 import RPCResponse
+from quart_rpc.version_1_1 import RPCResponse
 
 
 def session_check(key, valid_value):
