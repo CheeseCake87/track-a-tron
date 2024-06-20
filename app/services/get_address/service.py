@@ -5,7 +5,7 @@ from app.sql.queries.system_service_get_address_cache import (
     query_read_cache_entry,
     query_update_cache_entry,
 )
-from app.sql.sessions import DBSession
+from app.sql.sessions import GDBSession
 from app.utilities.system_log import system_log_in_session, system_log
 from .settings import GetAddressSettings
 from ...sql.queries.system_service import query_read_service
@@ -64,7 +64,7 @@ class GetAddressService:
                 successful, message, data = self.find(postcode)
 
                 if successful:
-                    with DBSession as s:
+                    with GDBSession as s:
                         result = s.execute(
                             query_read_cache_entry(postcode)
                         ).scalar_one_or_none()
@@ -78,7 +78,7 @@ class GetAddressService:
 
                 return successful, message, data
 
-            with DBSession as s:
+            with GDBSession as s:
                 result = s.execute(
                     query_read_cache_entry(postcode)
                 ).scalar_one_or_none()
@@ -101,7 +101,7 @@ class GetAddressService:
         return False, "Service is disabled", None
 
     def _load_service_settings(self) -> GetAddressSettings:
-        with DBSession as s:
+        with GDBSession as s:
             result = s.execute(query_read_service("get_address")).scalar_one_or_none()
 
             if not result:

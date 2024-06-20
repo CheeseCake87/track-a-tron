@@ -34,3 +34,14 @@ pro_db_engine = create_engine(
     f"postgresql+psycopg2://{DB_PRO_PGU}:{DB_PRO_PGP}@{DB_PRO_PGL}/{DB_PRO_PGD}",
     # echo=True,
 )
+
+
+ENGINE_LOOKUP = {
+    "development": dev_db_engine,
+    "staging": sta_db_engine,
+    "production": pro_db_engine,
+}
+
+ENGINE = ENGINE_LOOKUP.get(os.getenv("DB_ENVIRONMENT", "development"))
+
+__all__ = ["ENGINE"]

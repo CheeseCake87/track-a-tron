@@ -1,6 +1,6 @@
 from quart_rpc.version_1_1 import RPCResponse
 
-from app.sql import DBSession
+from app.sql import GDBSession
 from app.sql.queries.client import query_update_client
 from quart_rpc.exceptions import DataException
 from quart_rpc.validation import DataDict
@@ -22,7 +22,7 @@ def update_client(data):
             },
         )
 
-    with DBSession as s:
+    with GDBSession as s:
         result = s.execute(
             query_update_client(client_id, values, ignored_fields)
         ).scalar_one_or_none()

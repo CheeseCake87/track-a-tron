@@ -6,7 +6,7 @@ from email.mime.text import MIMEText
 from smtplib import SMTP
 from ssl import create_default_context
 
-from app.sql import DBSession
+from app.sql import GDBSession
 from app.sql.queries.system_service import query_read_service
 from app.utilities.system_log import system_log_in_session, system_log
 from .settings import SMTPSettings
@@ -181,7 +181,7 @@ class SMTPService:
         return {"ok": True, "message": "Email sent"}
 
     def _load_service_settings(self) -> SMTPSettings:
-        with DBSession as s:
+        with GDBSession as s:
             result = s.execute(query_read_service("smtp")).scalar_one_or_none()
 
             if not result:

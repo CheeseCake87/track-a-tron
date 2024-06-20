@@ -1,6 +1,6 @@
 import requests as r
 
-from app.sql import DBSession
+from app.sql import GDBSession
 from app.sql.queries.system_service import query_read_service
 from app.sql.queries.system_service_zepto_log import query_create_zepto_log
 from app.sql.queries.system_log import query_create_system_log
@@ -43,7 +43,7 @@ class ZeptoService:
             )
 
             if response.status_code == 200:
-                with DBSession as s:
+                with GDBSession as s:
                     s.execute(
                         query_create_zepto_log(
                             to=", ".join(recipients),
@@ -57,7 +57,7 @@ class ZeptoService:
                     s.commit()
                 return True
 
-            with DBSession as s:
+            with GDBSession as s:
                 s.execute(
                     query_create_system_log(
                         "Zepto service error",
@@ -67,7 +67,7 @@ class ZeptoService:
                 s.commit()
                 return False
 
-        with DBSession as s:
+        with GDBSession as s:
             s.execute(
                 query_create_system_log(
                     "Zepto service is disabled",
@@ -79,7 +79,7 @@ class ZeptoService:
         return False
 
     def _load_service_settings(self):
-        with DBSession as s:
+        with GDBSession as s:
             result = s.execute(query_read_service("zepto")).scalar_one_or_none()
 
             if not result:
@@ -99,7 +99,7 @@ class ZeptoService:
                 token=result.data["token"],
             )
         except KeyError:
-            with DBSession as s:
+            with GDBSession as s:
                 s.execute(
                     query_create_system_log(
                         "Zepto service key error",

@@ -2,7 +2,7 @@ from quart_rpc.exceptions import DataException
 from quart_rpc.validation import DataDict
 from quart_rpc.version_1_1 import RPCResponse
 
-from app.sql import DBSession
+from app.sql import GDBSession
 from app.sql.queries.system_user import (
     query_read_system_user,
 )
@@ -15,7 +15,7 @@ def get_user(data):
     except DataException:
         return RPCResponse.fail("Missing required data.", {"where": "{field: value}"})
 
-    with DBSession as s:
+    with GDBSession as s:
         result = s.execute(query_read_system_user(where)).scalar_one_or_none()
 
         if not result:

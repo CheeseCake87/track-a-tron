@@ -6,7 +6,7 @@ from quart_rpc.version_1_1 import RPCResponse
 from app.sql.queries.system_user import (
     query_read_system_user_by_username,
 )
-from app.sql.sessions import DBSession
+from app.sql.sessions import GDBSession
 from flask_imp.auth import authenticate_password
 
 
@@ -18,7 +18,7 @@ def login(data):
     except DataException as error:
         return RPCResponse.fail(str(error))
 
-    with DBSession as s:
+    with GDBSession as s:
         user = s.execute(
             query_read_system_user_by_username(username)
         ).scalar_one_or_none()

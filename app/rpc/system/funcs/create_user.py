@@ -3,7 +3,7 @@ from quart_rpc.exceptions import DataException
 from quart_rpc.validation import DataDict
 from quart_rpc.version_1_1 import RPCResponse
 
-from app.sql import DBSession
+from app.sql import GDBSession
 from app.sql.queries.system_user import (
     query_create_system_user,
 )
@@ -30,7 +30,7 @@ def create_user(data):
     salt = generate_salt()
     password_hash = encrypt_password(password, salt)
 
-    with DBSession as s:
+    with GDBSession as s:
         new_user_id = s.execute(
             query_create_system_user(
                 display_name,

@@ -1,6 +1,6 @@
 from quart_rpc.version_1_1 import RPCResponse  # noqa
 
-from app.sql import DBSession
+from app.sql import GDBSession
 from app.sql.queries.client import query_create_client
 from quart_rpc.exceptions import DataException
 from quart_rpc.validation import DataDict
@@ -18,7 +18,7 @@ def create_client(data):
             },
         )
 
-    with DBSession as s:
+    with GDBSession as s:
         query = query_create_client(
             values,
             [

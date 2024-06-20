@@ -4,7 +4,7 @@ from quart_rpc.validation import DataDict
 from quart_rpc.version_1_1 import RPCResponse
 
 from app.services import AVAILABLE_SERVICES
-from app.sql import DBSession
+from app.sql import GDBSession
 from app.sql.queries.system_service import query_create_service
 from app.sql.queries.system import (
     query_read_system,
@@ -67,7 +67,7 @@ def install(data):
                 {"category": category, "name": name, "data": data, "enabled": enabled}
             )
 
-    with DBSession as s:
+    with GDBSession as s:
         system = s.execute(query_read_system()).scalar_one_or_none()
         if system:
             if system.installed:

@@ -4,7 +4,7 @@ import click as c
 def cmd_users(group):
     @group.command("create-admin", help="Setup admin user.")
     def setup_admin():
-        from app.sql.sessions import DBSession
+        from app.sql.sessions import GDBSession
         from app.sql.queries.system_user import query_create_system_user
         from flask_imp.auth import generate_salt, encrypt_password, generate_private_key
 
@@ -14,7 +14,7 @@ def cmd_users(group):
         salt = generate_salt()
         password_ = encrypt_password(password, salt)
 
-        with DBSession as s:
+        with GDBSession as s:
             q = query_create_system_user(
                 display_name="Admin",
                 username=username,
@@ -30,12 +30,12 @@ def cmd_users(group):
 
     @group.command("check-user", help="Check if a user exists.")
     def check_user():
-        from app.sql.sessions import DBSession
+        from app.sql.sessions import GDBSession
         from app.sql.queries.system_user import query_read_system_user_by_system_user_id
 
         user_id = c.prompt("User ID", type=int)
 
-        with DBSession as s:
+        with GDBSession as s:
             result = s.execute(
                 query_read_system_user_by_system_user_id(user_id)
             )

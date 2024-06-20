@@ -2,7 +2,7 @@ from quart_rpc.exceptions import DataException
 from quart_rpc.validation import DataDict
 from quart_rpc.version_1_1 import RPCResponse
 
-from app.sql import DBSession
+from app.sql import GDBSession
 from app.sql.queries.system_user import (
     query_update_system_user,
 )
@@ -27,7 +27,7 @@ def update_user(data):
             },
         )
 
-    with DBSession as s:
+    with GDBSession as s:
         result = s.execute(
             query_update_system_user(user_id, values, ignore_fields)
         ).scalar_one_or_none()

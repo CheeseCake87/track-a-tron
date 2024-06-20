@@ -1,12 +1,12 @@
 from quart_rpc.validation import DataDict, DataException
 from quart_rpc.version_1_1 import RPCResponse
 
-from app.sql import DBSession
+from app.sql import GDBSession
 from app.sql.queries.system_service import query_update_service
 
 
 def update_service(data):
-    with DBSession as s:
+    with GDBSession as s:
         d = DataDict(data)
         try:
             name = d.get_ensure_key("name")

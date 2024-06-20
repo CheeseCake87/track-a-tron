@@ -1,6 +1,6 @@
 from quart_rpc.version_1_1 import RPCResponse
 
-from app.sql import DBSession
+from app.sql import GDBSession
 from app.sql.queries.client import query_page_clients, query_count_clients
 from app.sql.queries.system_user import query_read_system_user
 from quart_rpc.exceptions import DataException
@@ -25,7 +25,7 @@ def page_clients(data):
             },
         )
 
-    with DBSession as s:
+    with GDBSession as s:
         user = s.execute(
             query_read_system_user({"system_user_id": user_id})
         ).scalar_one_or_none()

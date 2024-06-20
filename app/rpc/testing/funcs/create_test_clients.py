@@ -2,7 +2,7 @@ from quart_rpc.exceptions import DataException
 from quart_rpc.validation import DataDict
 from quart_rpc.version_1_1 import RPCResponse
 
-from app.sql import DBSession
+from app.sql import GDBSession
 from app.sql.queries.testing import query_create_test_clients
 
 
@@ -18,7 +18,7 @@ def create_test_clients(data):
             },
         )
 
-    with DBSession as s:
+    with GDBSession as s:
         s.execute(query_create_test_clients(amount))
         s.commit()
 

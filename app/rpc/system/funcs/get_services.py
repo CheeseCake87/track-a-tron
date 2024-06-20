@@ -1,11 +1,11 @@
 from quart_rpc.version_1_1 import RPCResponse
 
-from app.sql import DBSession
+from app.sql import GDBSession
 from app.sql.queries.system_service import query_read_all_services
 
 
 def get_services(_):
-    with DBSession as s:
+    with GDBSession as s:
         services = s.execute(query_read_all_services()).scalars()
         if not services:
             return RPCResponse.fail(
