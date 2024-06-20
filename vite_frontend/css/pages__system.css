@@ -4,7 +4,7 @@
 }
 
 .system-users-header {
-    @apply top-0 sticky w-full p-2;
+    @apply top-0 sticky w-full pb-4;
     background: var(--html-body-bg-color);
 }
 

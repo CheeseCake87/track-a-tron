@@ -1,6 +1,6 @@
 
 .clients-header {
-    @apply flex justify-between w-full mb-5;
+    @apply flex justify-between w-full mb-4;
 }
 
 .clients-filter {

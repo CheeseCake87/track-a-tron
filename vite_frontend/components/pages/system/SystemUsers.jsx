@@ -2,7 +2,6 @@ import {createSignal, For, onMount, useContext} from "solid-js";
 import {ContextSystem} from "../../../contextManagers/ContextSystem";
 import {ContextMain} from "../../../contextManagers/ContextMain";
 import rpc_get_all_users from "../../../rpc/system/rpc_get_all_users";
-import {UserIcon} from "../../globals/Icons";
 
 
 export default function SystemUsers() {

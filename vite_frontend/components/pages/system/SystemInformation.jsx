@@ -13,7 +13,7 @@ export default function SystemInformation() {
     })
 
     return (
-        <div className={'p-4'}>
+        <div>
             <h1 className={'m-0 pb-2'}>🤖 Track-a-tron</h1>
             <p className={'font-bold'}>Track-a-tron is a simple system for tracking things.</p>
 

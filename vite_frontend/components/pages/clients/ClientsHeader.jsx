@@ -13,11 +13,9 @@ export default function ClientsHeader(props) {
     return (
         <>
             <div className={'clients-header'}>
-                <div className={'flex gap-1'}>
-                    <A className={'btn-good'} href={'/client/add'}>
-                        <span>+</span> Add Client
-                    </A>
-                </div>
+                <A className={'btn-good'} href={'/client/add'}>
+                    <span>+</span> Add Client
+                </A>
 
                 <div className={'flex gap-1'}>
 

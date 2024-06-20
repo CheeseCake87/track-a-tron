@@ -4,7 +4,14 @@ button,
 .btn-confirm,
 .btn-good,
 .btn-warning,
-.btn-danger,
+.btn-danger {
+    @apply rounded-md text-sm justify-center
+    inline-flex gap-1 py-2 px-4 no-underline
+    cursor-pointer capitalize shadow items-center
+    select-none;
+    max-height: 38px;
+}
+
 a.btn,
 a.btn-confirm,
 a.btn-good,
@@ -14,6 +21,7 @@ a.btn-danger {
     inline-flex gap-1 py-2 px-4 no-underline
     cursor-pointer capitalize shadow items-center
     select-none;
+    max-height: 38px;
 }
 
 .btn-like {

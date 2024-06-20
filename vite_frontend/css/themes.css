@@ -97,7 +97,7 @@
     /* TOAST BAR */
 
     /* ATTENTION */
-    --attention-light-default-bg-color: rgba(244, 244, 244, 0.8);
+    --attention-light-default-bg-color: rgba(237, 237, 237, 0.8);
     --attention-default-bg-color: rgba(227, 227, 227, 0.8);
     --attention-default-border-color: #b4b4b4;
     --attention-good-bg-color: rgba(180, 231, 180, 0.6);
@@ -132,4 +132,8 @@
     --pill-bg: #004e6e;
     /* PILLS */
 
+}
+
+.bg-html-body-bg-color {
+    background: var(--html-body-bg-color);
 }

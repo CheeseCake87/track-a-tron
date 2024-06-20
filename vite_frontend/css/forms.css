@@ -1,12 +1,12 @@
-form .form-section {
+.form-section {
     @apply flex flex-col gap-2 pb-2;
 }
 
-form .form-section h2 {
+.form-section h2 {
     @apply text-lg mt-2 mb-0;
 }
 
-form .field-group {
+.field-group {
     @apply flex flex-row flex-wrap gap-2;
 }
 
