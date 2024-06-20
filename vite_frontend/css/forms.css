@@ -380,7 +380,7 @@ label > input {
 }
 
 .checkbox label {
-    @apply block flex-1 cursor-pointer;
+    @apply block flex-1 cursor-pointer m-0;
     width: 100%;
 }
 

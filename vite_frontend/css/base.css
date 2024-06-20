@@ -21,3 +21,12 @@ a {
 a:hover {
     color: var(--a-hover-color);
 }
+
+dialog {
+    @apply p-6 rounded-3xl w-full;
+    max-width: 400px;
+}
+
+dialog::backdrop {
+    background-color: rgba(55, 55, 55, 0.8);
+}
