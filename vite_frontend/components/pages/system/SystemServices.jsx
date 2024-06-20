@@ -129,7 +129,7 @@ export default function SystemServices() {
     }
 
     function GetAddressService() {
-        return <div className={'attention'}>
+        return <div className={'system-service'}>
             <div className={'pb-2'}>
                 <p><strong>GetAddress:</strong> UK Postcode lookup.</p>
             </div>
@@ -202,7 +202,7 @@ export default function SystemServices() {
     }
 
     function ZeptoService() {
-        return <div className={'attention'}>
+        return <div className={'system-service'}>
             <div className={'pb-2'}>
                 <p><strong>Zepto:</strong> Transactional email.</p>
             </div>
@@ -280,7 +280,7 @@ export default function SystemServices() {
     }
 
     function SmtpService() {
-        return <div className={'attention'}>
+        return <div className={'system-service'}>
             <div className={'pb-2'}>
                 <p><strong>SMTP:</strong> Send email via smtp.</p>
             </div>
