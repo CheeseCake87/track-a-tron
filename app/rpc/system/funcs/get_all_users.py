@@ -7,9 +7,6 @@ from app.sql.queries.system_user import (
 
 
 def get_all_users(_):
-    """
-    Request Context Required
-    """
     with GDBSession as s:
         query = query_read_all_system_users()
         result = s.execute(query).scalars().all()
