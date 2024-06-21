@@ -9,11 +9,11 @@
 }
 
 .dialog-content {
-    @apply px-4 pt-3 pb-0 overflow-y-auto;
+    @apply pt-3 pb-0 overflow-y-auto;
     width: 100%;
     height: 250px;
 }
 
 .dialog-footer {
-    @apply flex justify-between gap-1 p-4;
+    @apply flex justify-between gap-1;
 }

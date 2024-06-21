@@ -52,30 +52,6 @@ export default function SystemUsersAddDialog() {
 
     return (
         <dialog ref={ctxSystem.refSystemUserAddDialog}>
-            <div className={'flex flex-col gap-2 sticky top-0 pb-2'}>
-                <div className={'flex flex-row gap-2'}>
-                    <button className={'btn'} onClick={() => {
-                        ctxSystem.setSystemUsersDialogError('')
-                        ctxSystem.setTempAddSystemUser(ctxSystem.blankSystemUser)
-                        ctxSystem.refSystemUserAddDialog.close()
-                    }}>𝗑 Cancel
-                    </button>
-                    <button className={'btn-good'} onClick={() => {
-                        addSystemUser()
-                    }}>Create User
-                    </button>
-                </div>
-                <Show when={ctxSystem.systemUsersDialogError() !== ''}>
-                    <div className={'attention-danger -clickable'} onClick={
-                        () => {
-                            ctxSystem.setSystemUsersDialogError('')
-                        }
-                    }>
-                        <p>{ctxSystem.systemUsersDialogError()}</p>
-                        <p className={'text-xs'}>Click to close</p>
-                    </div>
-                </Show>
-            </div>
             <div className={'py-2'}>
                 <label>User Type</label>
                 <select className={'w-full'}
@@ -149,6 +125,30 @@ export default function SystemUsersAddDialog() {
                         })
                     }
                 } value={ctxSystem.tempAddSystemUser().sms}/>
+            </div>
+            <div className={'flex flex-col gap-2 sticky bottom-0 mt-4'}>
+                <Show when={ctxSystem.systemUsersDialogError() !== ''}>
+                    <div className={'attention-danger -clickable'} onClick={
+                        () => {
+                            ctxSystem.setSystemUsersDialogError('')
+                        }
+                    }>
+                        <p>{ctxSystem.systemUsersDialogError()}</p>
+                        <p className={'text-xs'}>Click to close</p>
+                    </div>
+                </Show>
+                <div className={'flex flex-row justify-between gap-2'}>
+                    <button className={'btn'} onClick={() => {
+                        ctxSystem.setSystemUsersDialogError('')
+                        ctxSystem.setTempAddSystemUser(ctxSystem.blankSystemUser)
+                        ctxSystem.refSystemUserAddDialog.close()
+                    }}>𝗑 Cancel
+                    </button>
+                    <button className={'btn-good'} onClick={() => {
+                        addSystemUser()
+                    }}>Create User
+                    </button>
+                </div>
             </div>
         </dialog>
     )

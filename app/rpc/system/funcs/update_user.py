@@ -9,11 +9,11 @@ from app.sql.queries.system_user import (
 
 
 def update_user(data):
-    ignore_fields = ["system_user_id"]
+    ignore_fields = ["user_id"]
 
     d = DataDict(data)
     try:
-        system_user_id = d.get_ensure_key("system_user_id")
+        user_id = d.get_ensure_key("user_id")
         values = d.get_ensure_key("values")
     except DataException:
         return RPCResponse.fail(
@@ -26,7 +26,7 @@ def update_user(data):
 
     with GDBSession as s:
         result = s.execute(
-            query_update_system_user(system_user_id, values, ignore_fields)
+            query_update_system_user(user_id, values, ignore_fields)
         ).scalar_one_or_none()
 
         if not result:
@@ -34,7 +34,7 @@ def update_user(data):
 
         response = RPCResponse.success(
             {
-                "system_user_id": result.system_user_id,
+                "user_id": result.user_id,
                 "display_name": result.display_name,
                 "username": result.username,
                 "user_type": result.user_type,

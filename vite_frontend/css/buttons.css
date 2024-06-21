@@ -138,7 +138,7 @@ a.btn-danger {
 }
 
 .btn-tab-group {
-    @apply flex gap-1 w-full border-b px-4;
+    @apply flex gap-1 w-full border-b px-1;
 }
 
 .btn-tab {

@@ -12,7 +12,7 @@ from app.sql.queries.system_user import (
 def update_user_password(data):
     d = DataDict(data)
     try:
-        system_user_id = d.get_ensure_key("system_user_id")
+        user_id = d.get_ensure_key("user_id")
         password = d.get_ensure_key("password")
     except DataException:
         return RPCResponse.fail(
@@ -29,7 +29,7 @@ def update_user_password(data):
     with GDBSession as s:
         result = s.execute(
             query_update_system_user(
-                system_user_id,
+                user_id,
                 {"password": password_hash, "salt": salt}
             )
         ).scalar_one_or_none()
@@ -39,7 +39,7 @@ def update_user_password(data):
 
         response = RPCResponse.success(
             {
-                "system_user_id": result.system_user_id,
+                "user_id": result.user_id,
                 "display_name": result.display_name,
                 "username": result.username,
                 "user_type": result.user_type,

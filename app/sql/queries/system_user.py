@@ -34,13 +34,13 @@ def query_create_system_user(
             created=DatetimeDeltaMC().datetime,
             **extras
         )
-        .returning(SystemUser.system_user_id)
+        .returning(SystemUser.user_id)
     )
     return in_
 
 
-def query_read_system_user_by_system_user_id(user_id: int):
-    wh_ = (SystemUser.system_user_id == user_id,)
+def query_read_system_user_by_user_id(user_id: int):
+    wh_ = (SystemUser.user_id == user_id,)
     se_ = select(SystemUser).where(*wh_)
     return se_
 
@@ -64,17 +64,17 @@ def query_read_all_system_users():
     se_ = (
         select(SystemUser)
         .where(SystemUser.deleted == False)  # noqa
-        .order_by(SystemUser.system_user_id)
+        .order_by(SystemUser.user_id)
     )
     return se_
 
 
 def query_update_system_user(
-        system_user_id: int, values: dict, ignore_fields: list[str] = None
+        user_id: int, values: dict, ignore_fields: list[str] = None
 ):
     if not ignore_fields:
         ignore_fields = []
-    wh_ = (SystemUser.system_user_id == system_user_id,)
+    wh_ = (SystemUser.user_id == user_id,)
     up_ = (
         update(SystemUser)
         .where(*wh_)

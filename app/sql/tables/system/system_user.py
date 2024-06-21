@@ -7,7 +7,7 @@ class SystemUser(BaseModel):
     __tablename__ = "system_user"
 
     # PriKey
-    system_user_id = s.Column(s.Integer, primary_key=True)
+    user_id = s.Column(s.Integer, primary_key=True)
 
     # Data
     username = s.Column(s.String(256), nullable=False)

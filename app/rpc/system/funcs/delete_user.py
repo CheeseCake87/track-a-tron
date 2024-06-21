@@ -11,14 +11,14 @@ from app.sql.queries.system_user import (
 def delete_user(data):
     d = DataDict(data)
     try:
-        system_user_id = d.get_ensure_key("system_user_id")
+        user_id = d.get_ensure_key("user_id")
         username = d.get_ensure_key("username")
         display_name = d.get_ensure_key("display_name")
     except DataException:
         return RPCResponse.fail(
             "Missing required data.",
             {
-                "system_user_id": "int",
+                "user_id": "int",
                 "username": "str",
                 "display_name": "str",
             },
@@ -27,9 +27,9 @@ def delete_user(data):
     with GDBSession as s:
         result = s.execute(
             query_update_system_user(
-                system_user_id,
+                user_id,
                 {
-                    "username": f"{system_user_id}_deleted_{username}",
+                    "username": f"{user_id}_deleted_{username}",
                     "display_name": f"{display_name} (deleted)",
                     "deleted": True,
                 }
@@ -41,7 +41,7 @@ def delete_user(data):
 
         response = RPCResponse.success(
             {
-                "system_user_id": result.system_user_id,
+                "user_id": result.user_id,
                 "display_name": result.display_name,
                 "username": result.username,
                 "user_type": result.user_type,

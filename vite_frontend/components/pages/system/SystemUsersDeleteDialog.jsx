@@ -11,7 +11,7 @@ export default function SystemUsersDeleteDialog() {
 
     function deleteSystemUser() {
         rpc_delete_system_user(
-            ctxSystem.tempDeleteSystemUser().system_user_id,
+            ctxSystem.tempDeleteSystemUser().user_id,
             ctxSystem.tempDeleteSystemUser().username,
             ctxSystem.tempDeleteSystemUser().display_name
         )

@@ -27,7 +27,7 @@ def page_clients(data):
 
     with GDBSession as s:
         user = s.execute(
-            query_read_system_user({"system_user_id": user_id})
+            query_read_system_user({"user_id": user_id})
         ).scalar_one_or_none()
 
         if not user:

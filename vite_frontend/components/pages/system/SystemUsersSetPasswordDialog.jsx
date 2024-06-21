@@ -26,8 +26,27 @@ export default function SystemUsersSetPasswordDialog() {
 
     return (
         <dialog ref={ctxSystem.refSystemUserResetPasswordDialog}>
-            <div className={'flex flex-col gap-2 sticky top-0 pb-2'}>
-                <div className={'flex flex-row gap-2'}>
+            <div className={'py-2'}>
+                <label>New Password</label>
+                <input type={'password'} className={'w-full'} onKeyUp={
+                    (e) => {
+                        ctxSystem.setResetSystemUserPassword(
+                            e.target.value
+                        )
+                    }
+                } value={ctxSystem.resetSystemUserPassword()}/>
+            </div>
+            <div className={'flex flex-col gap-2 sticky bottom-0 pb-2'}>
+                <Show when={ctxSystem.systemUsersDialogError() !== ''}>
+                    <div className={'attention-danger -clickable'} onClick={
+                        () => {
+                            ctxSystem.setSystemUsersDialogError('')
+                        }
+                    }>
+                        {ctxSystem.systemUsersDialogError()}
+                    </div>
+                </Show>
+                <div className={'flex flex-row justify-between mt-4'}>
                     <button className={'btn'} onClick={() => {
                         ctxSystem.setSystemUsersDialogError('')
                         ctxSystem.setResetSystemUserPassword('')
@@ -40,26 +59,6 @@ export default function SystemUsersSetPasswordDialog() {
                     }}>Set Password
                     </button>
                 </div>
-                <Show when={ctxSystem.systemUsersDialogError() !== ''}>
-                    <div className={'attention-danger -clickable'} onClick={
-                        () => {
-                            ctxSystem.setSystemUsersDialogError('')
-                        }
-                    }>
-                        {ctxSystem.systemUsersDialogError()}
-                    </div>
-                </Show>
-            </div>
-
-            <div className={'py-2'}>
-                <label>New Password</label>
-                <input type={'password'} className={'w-full'} onKeyUp={
-                    (e) => {
-                        ctxSystem.setResetSystemUserPassword(
-                            e.target.value
-                        )
-                    }
-                } value={ctxSystem.resetSystemUserPassword()}/>
             </div>
         </dialog>
     )

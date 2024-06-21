@@ -53,7 +53,7 @@ export function DialogFilterClients() {
     return (
         <dialog className={'dialog'} ref={ctxClients.dialogFilterClientsRef} id={'dialog-filter-clients-id'}>
 
-            <div className={'btn-tab-group pt-4'}>
+            <div className={'btn-tab-group'}>
                 <button
                     className={filterTab() === 'client-info'
                         ? 'btn-tab-active'

@@ -1,7 +1,7 @@
 import {API_URL} from "../../globals";
 import {weerpc} from "weerpcjs";
 
-export default async function rpc_delete_system_user(system_user_id, username, display_name) {
+export default async function rpc_delete_system_user(user_id, username, display_name) {
     const req = await fetch(API_URL + '/rpc/system/', {
         method: 'POST',
         credentials: 'include',
@@ -9,7 +9,7 @@ export default async function rpc_delete_system_user(system_user_id, username, d
             'Content-Type': 'application/json',
         },
         body: weerpc('delete_user', {
-            system_user_id: system_user_id,
+            user_id: user_id,
             username: username,
             display_name: display_name,
         })

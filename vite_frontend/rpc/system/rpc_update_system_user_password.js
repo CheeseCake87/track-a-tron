@@ -1,7 +1,7 @@
 import {API_URL} from "../../globals";
 import {weerpc} from "weerpcjs";
 
-export default async function rpc_update_system_user_password(system_user_id, password) {
+export default async function rpc_update_system_user_password(user_id, password) {
     const req = await fetch(API_URL + '/rpc/system/', {
         method: 'POST',
         credentials: 'include',
@@ -9,7 +9,7 @@ export default async function rpc_update_system_user_password(system_user_id, pa
             'Content-Type': 'application/json',
         },
         body: weerpc('update_user_password', {
-            system_user_id: system_user_id,
+            user_id: user_id,
             password: password
         })
     })

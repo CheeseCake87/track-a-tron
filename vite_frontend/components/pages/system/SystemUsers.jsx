@@ -35,7 +35,7 @@ export default function SystemUsers() {
                             <div className={'system-user-info-group'}>
                                 <div>
                                     <small>ID</small>
-                                    <p className={'text-lg'}>{user.system_user_id}</p>
+                                    <p className={'text-lg'}>{user.user_id}</p>
                                 </div>
                                 <div>
                                     <small>User Type</small>
@@ -64,7 +64,7 @@ export default function SystemUsers() {
                         <div className={'system-user-buttons'}>
                             <button className={'btn'}
                                     onClick={() => {
-                                        ctxSystem.setSystemUserSelected(user.system_user_id)
+                                        ctxSystem.setSystemUserSelected(user.user_id)
                                         ctxSystem.setTempEditSystemUser({
                                             ...user
                                         })
@@ -74,16 +74,16 @@ export default function SystemUsers() {
                             </button>
                             <button className={'btn'}
                                     onClick={() => {
-                                        ctxSystem.setSystemUserSelected(user.system_user_id)
+                                        ctxSystem.setSystemUserSelected(user.user_id)
                                         ctxSystem.setResetSystemUserPassword('')
                                         ctxSystem.refSystemUserResetPasswordDialog.showModal()
                                     }}
                             >Reset Password
                             </button>
                             <button className={'btn-danger'}
-                                    disabled={user.system_user_id === 1}
+                                    disabled={user.user_id === 1}
                                     onClick={() => {
-                                        ctxSystem.setSystemUserSelected(user.system_user_id)
+                                        ctxSystem.setSystemUserSelected(user.user_id)
                                         ctxSystem.setTempDeleteSystemUser({
                                             ...user
                                         })

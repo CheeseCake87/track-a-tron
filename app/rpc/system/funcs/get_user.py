@@ -23,7 +23,7 @@ def get_user(data):
 
         return RPCResponse.success(
             {
-                "user_id": result.system_user_id,
+                "user_id": result.user_id,
                 "username": result.username,
                 "display_name": result.display_name,
                 "email": result.email,

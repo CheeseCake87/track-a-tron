@@ -30,13 +30,13 @@ def login(data):
             return RPCResponse.fail("Invalid password.")
 
         session["logged_in"] = True
-        session["user_id"] = user.system_user_id
+        session["user_id"] = user.user_id
         session["user_type"] = user.user_type
 
     return RPCResponse.success(
         {
             "logged_in": True,
-            "user_id": user.system_user_id,
+            "user_id": user.user_id,
             "user_type": user.user_type,
         },
         "Logged in.",

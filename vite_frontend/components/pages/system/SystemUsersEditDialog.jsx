@@ -22,11 +22,15 @@ export default function SystemUsersEditDialog() {
         rpc_get_system_user({where: {username: ctxSystem.tempEditSystemUser().username}})
             .then((rpc) => {
                 if (rpc.ok) {
-                    ctxSystem.setSystemUsersDialogError('Username already exists, please choose another')
-                    return
+                    if (rpc.data.user_id === ctxSystem.tempEditSystemUser().user_id) {
+                        // This is the same user, so it's OK
+                    } else {
+                        ctxSystem.setSystemUsersDialogError('Username already exists, please choose another')
+                        return
+                    }
                 }
                 rpc_update_system_user(
-                    ctxSystem.tempEditSystemUser().system_user_id,
+                    ctxSystem.tempEditSystemUser().user_id,
                     {
                         username: ctxSystem.tempEditSystemUser().username,
                         display_name: ctxSystem.tempEditSystemUser().display_name,
@@ -50,30 +54,6 @@ export default function SystemUsersEditDialog() {
 
     return (
         <dialog ref={ctxSystem.refSystemUserEditDialog}>
-            <div className={'flex flex-col gap-2 sticky top-0 pb-2'}>
-                <div className={'flex flex-row gap-2'}>
-                    <button className={'btn'} onClick={() => {
-                        ctxSystem.setSystemUsersDialogError('')
-                        ctxSystem.setTempEditSystemUser(ctxSystem.blankSystemUser)
-                        ctxSystem.refSystemUserEditDialog.close()
-                    }}>𝗑 Cancel
-                    </button>
-                    <button className={'btn-good'} onClick={() => {
-                        updateSystemUser()
-                    }}>Update User
-                    </button>
-                </div>
-                <Show when={ctxSystem.systemUsersDialogError() !== ''}>
-                    <div className={'attention-danger -clickable'} onClick={
-                        () => {
-                            ctxSystem.setSystemUsersDialogError('')
-                        }
-                    }>
-                        <p>{ctxSystem.systemUsersDialogError()}</p>
-                        <p className={'text-xs'}>Click to close</p>
-                    </div>
-                </Show>
-            </div>
             <div className={'py-2'}>
                 <label>User Type</label>
                 <select className={'w-full'}
@@ -84,7 +64,7 @@ export default function SystemUsersEditDialog() {
                                     user_type: e.target.value
                                 })
                             }
-                        } disabled={ctxSystem.tempEditSystemUser().system_user_id === 1}>
+                        } disabled={ctxSystem.tempEditSystemUser().user_id === 1}>
                     <For each={ctxSystem.systemUserTypes}>{(type) =>
                         <option value={type}
                                 selected={ctxSystem.tempEditSystemUser().user_type === type}
@@ -138,6 +118,30 @@ export default function SystemUsersEditDialog() {
                         })
                     }
                 } value={ctxSystem.tempEditSystemUser().sms}/>
+            </div>
+            <div className={'flex flex-col gap-2 sticky bottom-0 mt-4'}>
+                <Show when={ctxSystem.systemUsersDialogError() !== ''}>
+                    <div className={'attention-danger -clickable'} onClick={
+                        () => {
+                            ctxSystem.setSystemUsersDialogError('')
+                        }
+                    }>
+                        <p>{ctxSystem.systemUsersDialogError()}</p>
+                        <p className={'text-xs'}>Click to close</p>
+                    </div>
+                </Show>
+                <div className={'flex flex-row justify-between gap-2'}>
+                    <button className={'btn'} onClick={() => {
+                        ctxSystem.setSystemUsersDialogError('')
+                        ctxSystem.setTempEditSystemUser(ctxSystem.blankSystemUser)
+                        ctxSystem.refSystemUserEditDialog.close()
+                    }}>𝗑 Cancel
+                    </button>
+                    <button className={'btn-good'} onClick={() => {
+                        updateSystemUser()
+                    }}>Update User
+                    </button>
+                </div>
             </div>
         </dialog>
     )

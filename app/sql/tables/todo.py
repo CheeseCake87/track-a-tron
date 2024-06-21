@@ -10,9 +10,9 @@ class Todo(BaseModel):
     todo_id = s.Column(s.Integer, primary_key=True)
 
     # ForKey
-    fk_system_user_id = s.Column(
+    fk_user_id = s.Column(
         s.Integer,
-        s.ForeignKey("system_user.system_user_id"),
+        s.ForeignKey("system_user.user_id"),
         nullable=True,
     )
 
