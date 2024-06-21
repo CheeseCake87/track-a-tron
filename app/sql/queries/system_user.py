@@ -7,13 +7,21 @@ from app.utilities import DatetimeDeltaMC
 
 
 def query_create_system_user(
-    display_name: str,
-    username: str,
-    password: str,
-    salt: str,
-    private_key: str,
-    user_type: t.Literal["user", "manager", "admin"],
+        display_name: str,
+        username: str,
+        password: str,
+        salt: str,
+        private_key: str,
+        user_type: t.Literal["user", "manager", "admin"],
+        email: str = None,
+        sms: str = None,
 ):
+    extras = {}
+    if email:
+        extras["email"] = email
+    if sms:
+        extras["sms"] = sms
+
     in_ = (
         insert(SystemUser)
         .values(
@@ -24,6 +32,7 @@ def query_create_system_user(
             private_key=private_key,
             user_type=user_type,
             created=DatetimeDeltaMC().datetime,
+            **extras
         )
         .returning(SystemUser.system_user_id)
     )
@@ -52,14 +61,20 @@ def query_read_system_user(where: dict):
 
 
 def query_read_all_system_users():
-    se_ = select(SystemUser).order_by(SystemUser.system_user_id)
+    se_ = (
+        select(SystemUser)
+        .where(SystemUser.deleted == False)  # noqa
+        .order_by(SystemUser.system_user_id)
+    )
     return se_
 
 
 def query_update_system_user(
-    user_id: int, values: dict, ignore_fields: list[str] = None
+        system_user_id: int, values: dict, ignore_fields: list[str] = None
 ):
-    wh_ = (SystemUser.system_user_id == user_id,)
+    if not ignore_fields:
+        ignore_fields = []
+    wh_ = (SystemUser.system_user_id == system_user_id,)
     up_ = (
         update(SystemUser)
         .where(*wh_)

@@ -8,25 +8,32 @@ from app.sql.queries.system_user import (
 )
 
 
-def update_user(data):
-    ignore_fields = ["system_user_id"]
-
+def delete_user(data):
     d = DataDict(data)
     try:
         system_user_id = d.get_ensure_key("system_user_id")
-        values = d.get_ensure_key("values")
+        username = d.get_ensure_key("username")
+        display_name = d.get_ensure_key("display_name")
     except DataException:
         return RPCResponse.fail(
             "Missing required data.",
             {
-                "user_id": "int",
-                "values": "dict",
+                "system_user_id": "int",
+                "username": "str",
+                "display_name": "str",
             },
         )
 
     with GDBSession as s:
         result = s.execute(
-            query_update_system_user(system_user_id, values, ignore_fields)
+            query_update_system_user(
+                system_user_id,
+                {
+                    "username": f"{system_user_id}_deleted_{username}",
+                    "display_name": f"{display_name} (deleted)",
+                    "deleted": True,
+                }
+            )
         ).scalar_one_or_none()
 
         if not result:
@@ -39,7 +46,7 @@ def update_user(data):
                 "username": result.username,
                 "user_type": result.user_type,
             },
-            "User updated.",
+            "User deleted.",
         )
 
         s.commit()

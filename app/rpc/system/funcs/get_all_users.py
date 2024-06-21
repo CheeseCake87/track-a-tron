@@ -14,7 +14,7 @@ def get_all_users(_):
         return RPCResponse.success(
             [
                 {
-                    "user_id": r.system_user_id,
+                    "system_user_id": r.system_user_id,
                     "username": r.username,
                     "display_name": r.display_name,
                     "email": r.email,
