@@ -1,13 +1,9 @@
-import {ContextClients} from "../../../contextManagers/ContextClients";
-import {useContext} from "solid-js";
 import {SpinnerWithMessage} from "../../globals/Spinner";
 
 
 export default function ClientsInnerTableLoading() {
-    const ctxClients = useContext(ContextClients)
     return (
-        <div className={'-table-overflow justify-center items-center p-2'}
-             style={{height: `${ctxClients.clientsInnerTableHeight() + 24}px`}}>
+        <div className={'flex justify-center items-center w-full h-full min-h-0'}>
             <SpinnerWithMessage message="loading..."/>
         </div>
     )

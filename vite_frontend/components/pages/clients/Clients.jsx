@@ -1,15 +1,13 @@
-import {createEffect, useContext} from "solid-js";
+import {useContext} from "solid-js";
 import {ContextClients} from "../../../contextManagers/ContextClients";
 import ClientsInnerTable from "./ClientsInnerTable";
 import ClientsHeader from "./ClientsHeader";
-import {ContextMain} from "../../../contextManagers/ContextMain";
 import ClientsInnerTableNoClients from "./ClientsInnerTableNoClients";
 import ClientsInnerTableLoading from "./ClientsInnerTableLoading";
 import ClientsFilterPills from "./ClientsFilterPills";
 
 export default function Clients() {
 
-    const ctxMain = useContext(ContextMain)
     const ctxClients = useContext(ContextClients)
 
     return (
