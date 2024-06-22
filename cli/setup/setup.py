@@ -1,6 +1,5 @@
 import requests
-from quart_rpc.version_1_0 import RPCRequest
-
+from quart_rpc.version_1_1 import RPCRequest
 
 
 def cmds(group):
