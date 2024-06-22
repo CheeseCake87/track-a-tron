@@ -51,14 +51,12 @@ def page_clients(data):
                         **{
                             k: v for k, v in r.__dict__.items() if not k.startswith("_")
                         },
-                        "__created": r.created.strftime("%a %-d %b '%y @ %H:%M"),
+                        "__created": r.created.strftime("%a %-d %b '%y @ %H:%M") if r.created else "-",
                     }
                     for r in result
                 ],
             },
             "Clients found.",
         )
-
-        s.close()
 
         return response
