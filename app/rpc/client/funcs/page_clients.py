@@ -77,7 +77,7 @@ def page_clients(data):
                             k: v for k, v in r.__dict__.items() if not k.startswith("_")
                         },
                         "__address": build_address(r),
-                        "__created": r.created.strftime("%a %-d %b '%y @ %H:%M") if r.created else "-",
+                        "__created": r.created.strftime("%a %-d %b") if r.created else "-",
                     }
                     for r in result
                 ],
