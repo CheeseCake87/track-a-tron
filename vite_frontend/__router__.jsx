@@ -20,6 +20,9 @@ import Installer from "./components/pages/installer/Installer";
 import SystemInformation from "./components/pages/system/SystemInformation";
 import SystemUsers from "./components/pages/system/SystemUsers";
 import SystemServices from "./components/pages/system/SystemServices";
+import {RejectAuthContextProvider} from "./contextManagers/ContextRejectAuth";
+import {RequireAuthContextProvider} from "./contextManagers/ContextRequireAuth";
+import {RequireAdminContextProvider} from "./contextManagers/ContextRequireAdmin";
 
 const root = document.getElementById('root')
 
@@ -36,44 +39,54 @@ render(() => (
 
                 <Route path="" component={MainContextProvider}>
 
-                    <Route path="/" component={() => <Navigate href={'/clients'}/>}/>
-
-                    <Route path="/login" component={Login}/>
-                    <Route path="/forgot-password" component={ForgotPassword}/>
-                    <Route path="/verification-code">
-                        <Route path="/" component={() => <Navigate href={'/login'}/>}/>
-                        <Route path="/:account_id" component={VerificationCode}/>
-                    </Route>
-                    <Route path="/change-password">
-                        <Route path="/" component={() => <Navigate href={'/login'}/>}/>
-                        <Route path="/:account_id" component={ChangePassword}/>
+                    <Route path="" component={RequireAuthContextProvider}>
+                        <Route path="/" component={() => <Navigate href={'/clients'}/>}/>
                     </Route>
 
-                    <Route path="" component={ClientsContextProvider}>
-                        <Route path="/clients" component={Clients}/>
+                    <Route path="" component={RejectAuthContextProvider}>
+                        <Route path="/login" component={Login}/>
+                        <Route path="/forgot-password" component={ForgotPassword}/>
+                        <Route path="/verification-code">
+                            <Route path="/" component={() => <Navigate href={'/login'}/>}/>
+                            <Route path="/:account_id" component={VerificationCode}/>
+                        </Route>
+                        <Route path="/change-password">
+                            <Route path="/" component={() => <Navigate href={'/login'}/>}/>
+                            <Route path="/:account_id" component={ChangePassword}/>
+                        </Route>
+                    </Route>
 
-                        <Route path="/client">
-                            <Route path="/" component={() => <Navigate href={'/clients'}/>}/>
-                            <Route path="" component={ClientAddContextProvider}>
-                                <Route path="/add" component={ClientAdd}/>
-                            </Route>
-                            <Route path="" component={ClientContextProvider}>
-                                <Route path="/:client_id" component={Client}/>
+                    <Route path="" component={RequireAuthContextProvider}>
+                        <Route path="" component={ClientsContextProvider}>
+                            <Route path="/clients" component={Clients}/>
+
+                            <Route path="/client">
+                                <Route path="/" component={() => <Navigate href={'/clients'}/>}/>
+                                <Route path="" component={ClientAddContextProvider}>
+                                    <Route path="/add" component={ClientAdd}/>
+                                </Route>
+                                <Route path="" component={ClientContextProvider}>
+                                    <Route path="/:client_id" component={Client}/>
+                                </Route>
                             </Route>
                         </Route>
                     </Route>
 
-                    <Route path="" component={SystemContextProvider}>
-                        <Route path="/system">
-                            <Route path="/" component={() => <Navigate href={'/system/information'}/>}/>
-                            <Route path="/information" component={SystemInformation}/>
-                            <Route path="/users" component={SystemUsers}/>
-                            <Route path="/services" component={SystemServices}/>
+                    <Route path="" component={RequireAuthContextProvider}>
+                        <Route path="" component={RequireAdminContextProvider}>
+                            <Route path="/system" component={SystemContextProvider}>
+                                <Route path="/" component={() => <Navigate href={'/system/information'}/>}/>
+                                <Route path="/information" component={SystemInformation}/>
+                                <Route path="/users" component={SystemUsers}/>
+                                <Route path="/services" component={SystemServices}/>
+                            </Route>
                         </Route>
                     </Route>
 
-                    <Route path="" component={AccountContextProvider}>
-                        <Route path="/account" component={Account}/>
+                    <Route path="" component={RequireAuthContextProvider}>
+                        <Route path="" component={AccountContextProvider}>
+                            <Route path="/account" component={Account}/>
+                        </Route>
                     </Route>
 
                     <Route path="/install" component={Installer}/>

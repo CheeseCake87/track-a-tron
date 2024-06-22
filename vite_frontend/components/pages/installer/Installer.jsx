@@ -122,10 +122,12 @@ export default function Installer() {
     }
 
     onMount(() => {
-        ctxMain.logout()
         rpc_check_if_setup().then((rpc) => {
             if (rpc.ok) {
                 ctxMain.navigator('/login')
+            } else {
+                // remove any session data that may exist
+                ctxMain.logout()
             }
         })
     })

@@ -9,7 +9,7 @@ button,
     inline-flex gap-1 py-2 px-4 no-underline
     cursor-pointer capitalize shadow items-center
     select-none;
-    max-height: 38px;
+    height: 42px;
 }
 
 a.btn,
@@ -21,7 +21,7 @@ a.btn-danger {
     inline-flex gap-1 py-2 px-4 no-underline
     cursor-pointer capitalize shadow items-center
     select-none;
-    max-height: 38px;
+    height: 42px;
 }
 
 .btn-like {
@@ -51,6 +51,7 @@ a.btn-danger {
 
 .btn-a {
     @apply py-1 px-2 text-center;
+    max-height: 42px;
 }
 
 .btn-a:hover {

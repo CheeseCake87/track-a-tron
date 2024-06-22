@@ -151,7 +151,6 @@ export function ClientsContextProvider() {
                     if (loadingClients()) {
                         setLoadingClients(false)
                     }
-
                 } else {
                     setTotalClients(0)
                     setTotalPages(0)
@@ -195,14 +194,18 @@ export function ClientsContextProvider() {
     })
 
     onMount(() => {
-        window.addEventListener('resize', windowResizeHandler);
-        setWindowHeight(window.innerHeight)
-        setClientsInnerTableHeight(windowHeight() - 150)
-        deBounceGetPageClients(200, page(), limit(), clientsWhere())
+        if (ctxMain.loggedIn()) {
+            window.addEventListener('resize', windowResizeHandler);
+            setWindowHeight(window.innerHeight)
+            setClientsInnerTableHeight(windowHeight() - 150)
+            deBounceGetPageClients(200, page(), limit(), clientsWhere())
+        } else {
+            ctxMain.navigator('/login')
+        }
     })
 
     onCleanup(() => {
-        window.removeEventListener('resize', windowResizeHandler);
+        // window.removeEventListener('resize', windowResizeHandler);
     })
 
     return (

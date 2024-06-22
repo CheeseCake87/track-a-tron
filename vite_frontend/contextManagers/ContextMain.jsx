@@ -15,20 +15,6 @@ export const ContextMain = createContext()
 
 export function MainContextProvider(props) {
 
-    const protectedRoutes = [
-        '/clients',
-        '/users',
-        '/account',
-        '/system'
-    ]
-
-    const noLoginRoutes = [
-        '/forgot-password',
-        '/verification-code',
-        '/change-password',
-        '/login'
-    ]
-
     const session = rpc_auth_get_session()
     const navigator = useNavigate()
     const location = useLocation()
@@ -98,20 +84,6 @@ export function MainContextProvider(props) {
         }
     })
 
-    createEffect(() => {
-        if (!session.store.loading) {
-            if (!loggedIn()) {
-                if (protectedRoutes.includes(location.pathname)) {
-                    navigator('/login')
-                }
-            } else {
-                if (noLoginRoutes.includes(location.pathname)) {
-                    navigator('/')
-                }
-            }
-        }
-    })
-
     onMount(() => {
         rpc_check_if_setup().then((rpc) => {
             if (!rpc.ok) {
@@ -136,8 +108,11 @@ export function MainContextProvider(props) {
                 iconSize: iconSize,
                 setIconSize: setIconSize,
                 loggedIn: loggedIn,
+                setLoggedIn: setLoggedIn,
                 userId: userId,
+                setUserId: setUserId,
                 userType: userType,
+                setUserType: setUserType,
 
                 // Toast Bar
                 toastBarType: toastBarType,

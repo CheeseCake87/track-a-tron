@@ -17,7 +17,7 @@ export default function ClientsHeader(props) {
                     <span>+</span> Add Client
                 </A>
 
-                <div className={'flex gap-1'}>
+                <div className={'flex items-center gap-1'}>
 
                     <Show when={clientsCtx.smallLoadingClients()}>
                         <div className={'flex items-center px-4'}>
