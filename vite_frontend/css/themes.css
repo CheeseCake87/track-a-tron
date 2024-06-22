@@ -112,6 +112,7 @@
 
     /* FORM */
     --input-bg: #ffffff;
+    --input-bg-read-only: #f4f4f4;
     --input-color-bg-hover: #f1f1f1;
     --input-bg-hover: #ffffff;
     --input-border: #d5d5d5;

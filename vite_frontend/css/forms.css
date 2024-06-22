@@ -2,6 +2,10 @@
     @apply flex flex-col gap-2 pb-2;
 }
 
+.form-section-row {
+    @apply flex flex-row gap-2 pb-2;
+}
+
 .form-section h2 {
     @apply text-lg mt-2 mb-0;
 }
@@ -104,9 +108,48 @@ input[type="week"]:focus,
 input[type="time"]:focus,
 input[type="search"]:focus,
 input[type="range"]:focus,
+input[type="file"]:focus,
 input[type="color"]:focus {
     border-color: var(--input-border-focus);
     outline: none;
+}
+
+select:disabled,
+input[type="text"]:disabled,
+input[type="password"]:disabled,
+input[type="email"]:disabled,
+input[type="url"]:disabled,
+input[type="tel"]:disabled,
+input[type="number"]:disabled,
+input[type="date"]:disabled,
+input[type="datetime-local"]:disabled,
+input[type="month"]:disabled,
+input[type="week"]:disabled,
+input[type="time"]:disabled,
+input[type="search"]:disabled,
+input[type="range"]:disabled,
+input[type="file"]:disabled,
+input[type="color"]:disabled {
+    @apply cursor-not-allowed opacity-40;
+}
+
+select:read-only,
+input[type="text"]:read-only,
+input[type="password"]:read-only,
+input[type="email"]:read-only,
+input[type="url"]:read-only,
+input[type="tel"]:read-only,
+input[type="number"]:read-only,
+input[type="date"]:read-only,
+input[type="datetime-local"]:read-only,
+input[type="month"]:read-only,
+input[type="week"]:read-only,
+input[type="time"]:read-only,
+input[type="search"]:read-only,
+input[type="range"]:read-only,
+input[type="file"]:read-only,
+input[type="color"]:read-only {
+    background-color: var(--input-bg-read-only);
 }
 
 input[type="file"] {

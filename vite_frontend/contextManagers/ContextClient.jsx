@@ -10,13 +10,28 @@ export function ClientContextProvider() {
     const ctxMain = useContext(ContextMain)
 
     const params = useParams()
-    const [client, setClient] = createSignal({})
 
-    const getClient = rpc_get_client(params.client_id)
+    const getClientFetcher = rpc_get_client(params.client_id)
+
+    const [showAddress, setShowAddress] = createSignal(false)
+    const [client, setClient] = createSignal(
+        {
+            client_id: 0,
+            first_name: '',
+            last_name: '',
+            business_name: '',
+            phone: '',
+            email_address: '',
+            alt_phone: '',
+            alt_email_address: '',
+            phone_dnc: false,
+            email_address_dnc: false
+        }
+    )
 
     createEffect(() => {
-        if (!getClient.store.loading) {
-            setClient({...getClient.data()})
+        if (!getClientFetcher.store.loading) {
+            setClient({...getClientFetcher.data()})
         }
     })
 
@@ -24,9 +39,13 @@ export function ClientContextProvider() {
         <ContextClient.Provider value={{
             client: client,
             setClient: setClient,
-            getClient: getClient,
+            getClientFetcher: getClientFetcher,
+            showAddress: showAddress,
+            setShowAddress: setShowAddress
         }}>
-            <Outlet/>
+            {getClientFetcher.store.loading
+            ? <div>Loading...</div>
+            : <Outlet/>}
         </ContextClient.Provider>
     )
 }

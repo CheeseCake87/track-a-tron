@@ -22,6 +22,11 @@
     margin-top: 0.1rem;
 }
 
+.main-content-slim-row {
+    @apply flex flex-row py-4 px-4 w-full overflow-y-auto;
+    margin-top: 0.1rem;
+}
+
 .main-content-slim {
     @apply flex flex-col py-4 px-4 w-full h-full overflow-y-auto;
     margin-top: 0.1rem;
@@ -127,4 +132,9 @@
 
 .sub-content {
     @apply w-full overflow-y-auto;
+}
+
+.sectioned-content {
+    @apply p-4 rounded border;
+    background: var(--attention-light-default-bg-color);
 }

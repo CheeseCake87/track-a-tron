@@ -4,6 +4,7 @@ from quart_rpc.version_1_1 import RPCResponse  # noqa
 
 from app.sql import GDBSession
 from app.sql.queries.client import query_read_client
+from app.utilities.condense_client_address import condense_client_address
 
 
 def get_client(data):
@@ -26,6 +27,11 @@ def get_client(data):
             return RPCResponse.fail("No client found.")
 
         return RPCResponse.success(
-            {k: v for k, v in result.__dict__.items() if not k.startswith("_")},
+            {
+                **{k: v for k, v in result.__dict__.items() if not k.startswith("_")},
+                "__address": condense_client_address(result),
+                "__created": result.created.strftime("%a %-d %b") if result.created else "-",
+            },
+
             "Client found.",
         )

@@ -22,6 +22,7 @@ rpc.functions_auto_name(
         funcs.update_user,
         funcs.delete_user,
         funcs.update_user_password,
+        funcs.change_user_password,
     ],
 )
 

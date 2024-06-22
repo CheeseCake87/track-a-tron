@@ -9,6 +9,7 @@ from .update_service import update_service
 from .update_user import update_user
 from .delete_user import delete_user
 from .update_user_password import update_user_password
+from .change_user_password import change_user_password
 
 __all__ = [
     "check_if_setup",
@@ -22,4 +23,5 @@ __all__ = [
     "update_user",
     "delete_user",
     "update_user_password",
+    "change_user_password",
 ]
