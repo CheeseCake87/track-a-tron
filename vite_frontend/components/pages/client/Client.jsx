@@ -155,7 +155,7 @@ export default function Client() {
 
                         <div className={'field-group'}>
                             <div className={'pb-4 w-full'}>
-                                <label>Condensed Address</label>
+                                <label>Address</label>
                                 <input type={'text'} className={'w-full'} style={{'max-width': '600px'}}
                                        value={ctxClient.client().__address} readonly={true}/>
                             </div>
