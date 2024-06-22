@@ -29,6 +29,7 @@ def get_client(data):
         return RPCResponse.success(
             {
                 **{k: v for k, v in result.__dict__.items() if not k.startswith("_")},
+                "__added_by": result.rel_system_user.display_name,
                 "__address": condense_client_address(result),
                 "__created": result.created.strftime("%a %-d %b") if result.created else "-",
             },

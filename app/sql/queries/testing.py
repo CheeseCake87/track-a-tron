@@ -14,6 +14,7 @@ def query_create_test_clients(amount_to_create: int):
     for i in range(0, amount_to_create):
         values.append(
             {
+                "fk_user_id": 1,
                 "first_name": f.first_name(),
                 "last_name": f.last_name(),
                 "created": DatetimeDeltaMC().days(random.choice(random_date_values)).datetime,

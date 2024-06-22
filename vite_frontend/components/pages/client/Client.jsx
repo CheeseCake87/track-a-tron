@@ -14,6 +14,15 @@ export default function Client() {
                 <button className={'btn'} onClick={() => ctxMain.navigator('/clients')}>
                     ← Back
                 </button>
+                <div className={'input-like'}>
+                    <strong>Client ID:</strong> {ctxClient.client().client_id}
+                </div>
+                <div className={'input-like'}>
+                     <strong>Created:</strong> {ctxClient.client().__created}
+                </div>
+                <div className={'input-like'}>
+                     <strong>Added By:</strong> {ctxClient.client().__added_by}
+                </div>
             </div>
             <div className={'sectioned-content w-full'}>
                 <form onSubmit={
@@ -21,14 +30,6 @@ export default function Client() {
                         e.preventDefault()
                     }
                 }>
-                    <div className={'form-section-row py-2'}>
-                        <div className={'text-xs'}>
-                            <strong>Client ID:</strong> {ctxClient.client().client_id}
-                        </div>
-                        <div className={'text-xs'}>
-                            <strong>Created:</strong> {ctxClient.client().__created}
-                        </div>
-                    </div>
                     <div className={'form-section'}>
                         <div className={'field-group'}>
                             <div className={'py-2'}>

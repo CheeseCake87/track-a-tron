@@ -9,6 +9,9 @@ class Client(BaseModel):
     # PriKey
     client_id = s.Column(s.Integer, primary_key=True)
 
+    # ForKey
+    fk_user_id = s.Column(s.Integer, s.ForeignKey("system_user.user_id"))
+
     # Data:business
     business_name = s.Column(s.String(128), default=None, nullable=True)
 
@@ -52,3 +55,6 @@ class Client(BaseModel):
 
     # Tracking
     created = s.Column(s.DateTime)
+
+    # Relationships
+    rel_system_user = s.orm.relationship("SystemUser")
