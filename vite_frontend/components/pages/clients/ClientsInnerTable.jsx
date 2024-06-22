@@ -50,7 +50,7 @@ export default function ClientsInnerTable() {
 
     return (
         <>
-            <div className={'-grid-table-header grid-cols-5'}
+            <div className={'-grid-table-header grid-cols-6'}
                  style={{width: `${tableHeadersWidth()}px`}}
                  ref={tableHeaderWidthRef}>
                 <div className={'-flex-table-cell-min'}>
@@ -65,6 +65,9 @@ export default function ClientsInnerTable() {
                 <div className={'-flex-table-cell'}>
                     Email Address
                 </div>
+                <div className={'-flex-table-cell'}>
+                    Address
+                </div>
                 <div className={'-flex-table-cell text-end'}>
                     Created
                 </div>
@@ -76,7 +79,7 @@ export default function ClientsInnerTable() {
                      ref={tableDataWidthRef}>
                 </div>
                 <For each={ctxClients.clients}>{(client, i) =>
-                    <A className={'-grid-table-row -clickable grid-cols-5'} href={
+                    <A className={'-grid-table-row -clickable grid-cols-6'} href={
                         "/client/" + client.client_id
                     }>
                         <span className={'-flex-table-cell-min'}>
@@ -90,6 +93,9 @@ export default function ClientsInnerTable() {
                         </span>
                         <span className={'-flex-table-cell item-stretch'}>
                                 {client.email_address ? client.email_address : '-'}
+                        </span>
+                        <span className={'-flex-table-cell item-stretch'}>
+                            {client.__address}
                         </span>
                         <span className={'-flex-table-cell text-end'}>
                             {client.__created}
