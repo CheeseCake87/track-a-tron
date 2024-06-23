@@ -1,11 +1,9 @@
 import {For, Show, useContext} from "solid-js";
 import {ContextClients} from "../../../contextManagers/ContextClients";
-import {ContextMain} from "../../../contextManagers/ContextMain";
 import {FilterClearIcon} from "../../globals/Icons";
 
 export default function ClientsFilterPills() {
 
-    const ctxMain = useContext(ContextMain)
     const ctxClients = useContext(ContextClients)
 
     return (

@@ -25,6 +25,20 @@ export function FilterByClientInfo(props) {
                 </div>
 
                 <div className={'inline-label flex-1'}>
+                    <label>Business Name</label>
+                    <input className={'flex-1'}
+                           type="text"
+                           value={ctxClients.clientsTempWhere().hasOwnProperty("business_name")
+                               ? ctxClients.clientsTempWhere().business_name
+                               : ''}
+                           onKeyUp={(e) => {
+                               if (!props.keyDownHandler(e)) {
+                                   ctxClients.clientsTempWhereValue('business_name', e.target.value)
+                               }
+                           }}/>
+                </div>
+
+                <div className={'inline-label flex-1'}>
                     <label>Name</label>
                     <input className={'flex-1'}
                            type="text"

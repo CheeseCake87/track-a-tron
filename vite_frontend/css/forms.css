@@ -319,7 +319,7 @@ label > input {
 /* INLINE LABEL */
 
 .inline-label {
-    @apply flex justify-between align-middle
+    @apply flex justify-between items-center
     border rounded shadow-sm;
     background-color: var(--inline-label-bg);
     border-color: var(--inline-label-border);
@@ -327,11 +327,12 @@ label > input {
 }
 
 .inline-label > label {
-    @apply px-3 py-2 appearance-none
+    @apply px-3 py-2 appearance-none h-full
     flex items-center break-keep
     rounded-tl rounded-tr-none
     rounded-bl rounded-br-none;
     margin: 0;
+    min-height: 0;
 }
 
 .inline-label > .range-labels {
@@ -360,6 +361,25 @@ label > input {
 .inline-label > input[type="range"] {
     @apply block px-3 py-2 appearance-none flex-1
     rounded;
+    box-shadow: none;
+}
+
+.inline-label > .inline-button > input[type="text"],
+.inline-label > .inline-button > input[type="password"],
+.inline-label > .inline-button > input[type="email"],
+.inline-label > .inline-button > input[type="url"],
+.inline-label > .inline-button > input[type="tel"],
+.inline-label > .inline-button > input[type="number"],
+.inline-label > .inline-button > input[type="date"],
+.inline-label > .inline-button > input[type="datetime-local"],
+.inline-label > .inline-button > input[type="month"],
+.inline-label > .inline-button > input[type="week"],
+.inline-label > .inline-button > input[type="time"],
+.inline-label > .inline-button > input[type="search"],
+.inline-label > .inline-button > input[type="color"],
+.inline-label > .inline-button > input[type="file"],
+.inline-label > .inline-button > input[type="range"] {
+    @apply block px-3 py-2 appearance-none flex-1;
     box-shadow: none;
 }
 

@@ -124,6 +124,7 @@ export function ClientsContextProvider() {
     function fieldFilterKeyLookup(key) {
         let filterKey = {
             'client_id': 'Client ID',
+            'business_name': 'Business Name',
             'any_name': 'Name',
             'any_email_address': 'Email Address',
             'any_number': 'Phone Number',
