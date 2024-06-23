@@ -3,7 +3,7 @@ from quart_rpc.validation import DataDict
 from quart_rpc.version_1_1 import RPCResponse
 
 from app.sql import GDBSession
-from app.sql.queries.client import query_page_clients, query_count_clients
+from app.sql.queries.client import query_page_clients
 from app.sql.queries.system_user import query_read_system_user
 from app.utilities.condense_client_address import condense_client_address
 
@@ -35,9 +35,10 @@ def page_clients(data):
             print(f"User not found: {user_id}")
             return RPCResponse.fail("User not found.")
 
-        result = s.execute(query_page_clients(where, limit, page)).scalars().all()
+        result_query, count_query = query_page_clients(where, limit, page)
 
-        total_clients = s.execute(query_count_clients(where)).scalar()
+        result = s.execute(result_query).scalars().all()
+        total_clients = s.execute(count_query).scalar()
 
         total_pages = total_clients // limit + 1
 

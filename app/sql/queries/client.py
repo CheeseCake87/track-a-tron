@@ -2,8 +2,8 @@ from sqlalchemy import func
 from sqlalchemy import select, insert, update, or_
 
 from app.sql.tables import Client
-from app.utilities import DatetimeDeltaMCTZU
 from app.utilities import DatetimeDeltaMC
+from app.utilities import DatetimeDeltaMCTZU
 
 
 def query_create_client(values: dict, ignore_fields: list[str] = None):
@@ -32,57 +32,11 @@ def query_read_client(where: dict):
     return se_
 
 
-def query_count_clients(where: dict):
-    wh_arg = []
-    for k, v in where.items():
-        if k == "fk_team_id":
-            continue
-
-        if k == "_in" and isinstance(v, dict):
-            for in_key, in_val in v.items():
-                if isinstance(in_val, list):
-                    if hasattr(Client, in_key):
-                        wh_arg.append(getattr(Client, in_key).in_(in_val))
-                        continue
-
-        if k == "any_name":
-            wh_arg.append(
-                or_(
-                    Client.business_name.ilike(f"%{v}%"),
-                    Client.first_name.ilike(f"%{v}%"),
-                    Client.last_name.ilike(f"%{v}%"),
-                )
-            )
-            continue
-
-        if k == "any_number":
-            wh_arg.append(
-                or_(Client.phone.ilike(f"%{v}%"), Client.alt_phone.ilike(f"%{v}%"))
-            )
-            continue
-
-        if k == "any_email_address":
-            wh_arg.append(
-                or_(
-                    Client.email_address.ilike(f"%{v}%"),
-                    Client.alt_email_address.ilike(f"%{v}%"),
-                )
-            )
-            continue
-
-        if hasattr(Client, k):
-            wh_arg.append(getattr(Client, k) == v)
-
-    se_ = select(func.count()).select_from(Client).where(*wh_arg)
-
-    return se_
-
-
 def query_page_clients(
-    where: dict,
-    limit: int = 10,
-    page: int = 1,
-):
+        where: dict,
+        limit: int = 10,
+        page: int = 1,
+) -> tuple[select, select]:
     if page == 0:
         page = 1
 
@@ -152,7 +106,9 @@ def query_page_clients(
         .order_by(Client.created.desc())
     )
 
-    return se_
+    count = select(func.count()).select_from(Client).where(*wh_arg)
+
+    return se_, count
 
 
 def query_update_client(client_id: int, values: dict, ignore_fields: list[str] = None):
