@@ -80,55 +80,56 @@ export default function GetAddress(props) {
 
     return (
         <>
-            <div className={'field-group'}>
-                <div className={'py-2'}>
-                    <label for={'postcode_lookup'}>Postcode Lookup</label>
-                    <div className={'inline-button'}>
-                        <input type={'text'}
-                               name={'postcode_lookup'}
-                               id={'postcode_lookup'}
-                               value={getAddressPostcode()}
-                               onKeyUp={
-                                   (e) => {
-                                       if (e.key === 'Enter') {
-                                           do_lookup()
+            <div>
+                <div className={'field-group'}>
+                    <div className={'py-2'}>
+                        <label for={'postcode_lookup'}>Postcode Lookup</label>
+                        <div className={'inline-button'}>
+                            <input type={'text'}
+                                   name={'postcode_lookup'}
+                                   id={'postcode_lookup'}
+                                   value={getAddressPostcode()}
+                                   onKeyUp={
+                                       (e) => {
+                                           if (e.key === 'Enter') {
+                                               do_lookup()
+                                           }
+                                           setGetAddressPostcode(e.target.value)
                                        }
-                                       setGetAddressPostcode(e.target.value)
-                                   }
-                               }/>
-                        <button className={'btn-confirm'} onClick={() => do_lookup()}>Find Address
-                        </button>
+                                   }/>
+                            <button className={'btn-confirm'} onClick={() => do_lookup()}>Find Address
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <div className={'field-group'}>
+                    <div className={'py-2 w-full'}>
+                        <label>Addresses</label>
+                        <select className={'w-full'} style={{"max-width": '350px'}} onChange={
+                            (e) => {
+                                setAddressFromIndex(e.target.value, getAddressPostcode())
+                            }
+                        }>
+                            <option value={"clear"}>{
+                                getAddressResult.length > 0
+                                    ? `${getAddressResult.length} Addresses Found`
+                                    : lookupDone()
+                                        ? "No Addresses Found"
+                                        : "..."
+                            }</option>
+                            <Show when={getAddressResult.length > 0}>
+                                <For each={getAddressResult}>
+                                    {(address, index) =>
+                                        <option
+                                            value={index()}>{address.formatted_address.filter(Boolean).join(", ")}</option>
+                                    }
+                                </For>
+                            </Show>
+                        </select>
                     </div>
                 </div>
             </div>
-
-            <div className={'field-group'}>
-                <div className={'py-2 w-full'}>
-                    <label>Addresses</label>
-                    <select className={'w-full'} style={{"max-width": '350px'}} onChange={
-                        (e) => {
-                            setAddressFromIndex(e.target.value, getAddressPostcode())
-                        }
-                    }>
-                        <option value={"clear"}>{
-                            getAddressResult.length > 0
-                                ? `${getAddressResult.length} Addresses Found`
-                                : lookupDone()
-                                    ? "No Addresses Found"
-                                    : "..."
-                        }</option>
-                        <Show when={getAddressResult.length > 0}>
-                            <For each={getAddressResult}>
-                                {(address, index) =>
-                                    <option
-                                        value={index()}>{address.formatted_address.filter(Boolean).join(", ")}</option>
-                                }
-                            </For>
-                        </Show>
-                    </select>
-                </div>
-            </div>
-
         </>
     )
 }
