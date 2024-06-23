@@ -451,6 +451,15 @@ export default function Index() {
 
                     <div className={'flex flex-col'}>
                         <div className={'p-2'}>
+                            <div className={'inline-button'}>
+                                <input type={'text'}/>
+                                <button className={'btn-confirm'} onClick={() => {
+                                }}>submit
+                                </button>
+                            </div>
+                        </div>
+
+                        <div className={'p-2'}>
                             <div className={'inline-label'}>
                                 <label>inline label range with labels</label>
                                 <div className={'range-labels'}>

@@ -6,7 +6,7 @@ from app.utilities import DatetimeDeltaMC
 from app.utilities import DatetimeDeltaMCTZU
 
 
-def query_create_client(values: dict, ignore_fields: list[str] = None):
+def query_create_client(user_id: int, values: dict, ignore_fields: list[str] = None):
     in_ = (
         insert(Client)
         .values(
@@ -15,6 +15,7 @@ def query_create_client(values: dict, ignore_fields: list[str] = None):
                 for k, v in values.items()
                 if hasattr(Client, k) and k not in ignore_fields and v != ""
             },
+            fk_user_id=user_id,
             created=DatetimeDeltaMC().datetime,
         )
         .returning(Client)

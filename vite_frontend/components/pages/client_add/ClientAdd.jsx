@@ -39,18 +39,20 @@ export default function ClientAdd() {
     })
 
     function createClient() {
-        rpc_create_client({
-            ...client(),
-            ...clientAddress()
-        }).then((rpc) => {
-            console.log(rpc)
-            if (rpc.ok) {
-                ctxMain.showSuccessToast('Client created')
-                ctxMain.navigator(`/client/${rpc.data[0].client_id}`)
-            } else {
-                ctxMain.showErrorToast(rpc.message)
-            }
-        })
+        rpc_create_client(
+            ctxMain.userId(),
+            {
+                ...client(),
+                ...clientAddress()
+            })
+            .then((rpc) => {
+                if (rpc.ok) {
+                    ctxMain.showSuccessToast('Client created')
+                    ctxMain.navigator(`/client/${rpc.data[0].client_id}`)
+                } else {
+                    ctxMain.showErrorToast(rpc.message)
+                }
+            })
     }
 
     return (
@@ -374,5 +376,5 @@ export default function ClientAdd() {
                 </div>
             </form>
         </div>
-)
+    )
 }

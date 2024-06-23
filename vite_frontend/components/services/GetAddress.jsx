@@ -83,22 +83,22 @@ export default function GetAddress(props) {
             <div className={'field-group'}>
                 <div className={'py-2'}>
                     <label for={'postcode_lookup'}>Postcode Lookup</label>
-                    <input type={'text'}
-                           name={'postcode_lookup'}
-                           id={'postcode_lookup'}
-                           value={getAddressPostcode()}
-                           onKeyUp={
-                               (e) => {
-                                   if (e.key === 'Enter') {
-                                       do_lookup()
+                    <div className={'inline-button'}>
+                        <input type={'text'}
+                               name={'postcode_lookup'}
+                               id={'postcode_lookup'}
+                               value={getAddressPostcode()}
+                               onKeyUp={
+                                   (e) => {
+                                       if (e.key === 'Enter') {
+                                           do_lookup()
+                                       }
+                                       setGetAddressPostcode(e.target.value)
                                    }
-                                   setGetAddressPostcode(e.target.value)
-                               }
-                           }/>
-                </div>
-                <div className={'flex flex-col justify-end pb-1.5'}>
-                    <button className={'btn-confirm'} onClick={() => do_lookup()}>Find Address
-                    </button>
+                               }/>
+                        <button className={'btn-confirm'} onClick={() => do_lookup()}>Find Address
+                        </button>
+                    </div>
                 </div>
             </div>
 

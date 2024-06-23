@@ -53,7 +53,7 @@ def page_clients(data):
                         **{
                             k: v for k, v in r.__dict__.items() if not k.startswith("_")
                         },
-                        "__address": condense_client_address(r),
+                        "__address": condense_client_address(r, return_short=True),
                         "__created": r.created.strftime("%a %-d %b") if r.created else "-",
                     }
                     for r in result

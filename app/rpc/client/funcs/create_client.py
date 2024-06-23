@@ -9,6 +9,7 @@ from quart_rpc.validation import DataDict
 def create_client(data):
     d = DataDict(data)
     try:
+        user_id = d.get_ensure_key("user_id")
         values = d.get_ensure_key("values")
     except DataException:
         return RPCResponse.fail(
@@ -20,6 +21,7 @@ def create_client(data):
 
     with GDBSession as s:
         query = query_create_client(
+            user_id,
             values,
             [
                 "client_id",
