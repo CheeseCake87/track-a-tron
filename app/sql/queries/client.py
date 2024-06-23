@@ -121,7 +121,7 @@ def query_update_client(client_id: int, values: dict, ignore_fields: list[str] =
             {
                 k: v
                 for k, v in values.items()
-                if hasattr(Client, k) and k not in ignore_fields or []
+                if hasattr(Client, k) and k not in ignore_fields
             }
         )
         .returning(Client)

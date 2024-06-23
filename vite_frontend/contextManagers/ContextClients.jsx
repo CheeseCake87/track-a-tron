@@ -244,6 +244,7 @@ export function ClientsContextProvider() {
                 clientsInnerTableHeight: clientsInnerTableHeight,
                 setClientsInnerTableHeight: setClientsInnerTableHeight,
 
+                deBounceGetPageClients: deBounceGetPageClients,
                 checkTempWhereIn: checkTempWhereIn,
                 setTempWhereIn: setTempWhereIn,
                 unsetTempWhereIn: unsetTempWhereIn,

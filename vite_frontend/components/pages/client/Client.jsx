@@ -1,28 +1,41 @@
 import {Show, useContext} from "solid-js";
+import {ContextClients} from "../../../contextManagers/ContextClients";
 import {ContextClient} from "../../../contextManagers/ContextClient";
 import {ContextMain} from "../../../contextManagers/ContextMain";
+import {SpinnerSmall} from "../../globals/Spinner";
 
 
 export default function Client() {
 
     const ctxMain = useContext(ContextMain)
+    const ctxClients = useContext(ContextClients)
     const ctxClient = useContext(ContextClient)
 
     return (
         <div className={'main-content-slim'}>
             <div className={'field-group items-center sticky top-0 pb-5'}>
-                <button className={'btn'} onClick={() => ctxMain.navigator('/clients')}>
+                <button className={'btn'} onClick={() => {
+                    ctxClients.deBounceGetPageClients(
+                        200, ctxClients.page(), ctxClients.limit(), ctxClients.clientsWhere()
+                    )
+                    ctxMain.navigator('/clients')
+                }}>
                     ← Back
                 </button>
                 <div className={'input-like'}>
                     <strong>Client ID:</strong> {ctxClient.client().client_id}
                 </div>
                 <div className={'input-like'}>
-                     <strong>Created:</strong> {ctxClient.client().__created}
+                    <strong>Created:</strong> {ctxClient.client().__created}
                 </div>
                 <div className={'input-like'}>
-                     <strong>Added By:</strong> {ctxClient.client().__added_by}
+                    <strong>Added By:</strong> {ctxClient.client().__added_by}
                 </div>
+                <Show when={ctxClient.savingClient()}>
+                    <div className={'flex flex-row gap-2 items-center px-4'}>
+                        <SpinnerSmall/> Saving...
+                    </div>
+                </Show>
             </div>
             <div className={'sectioned-content w-full'}>
                 <form onSubmit={
@@ -40,6 +53,7 @@ export default function Client() {
                                             ...ctxClient.client(),
                                             first_name: e.target.value
                                         })
+                                        ctxClient.saveClient()
                                     }
                                 } value={ctxClient.client().first_name}/>
                             </div>
@@ -51,6 +65,7 @@ export default function Client() {
                                             ...ctxClient.client(),
                                             last_name: e.target.value
                                         })
+                                        ctxClient.saveClient()
                                     }
                                 } value={ctxClient.client().last_name}/>
                             </div>
@@ -62,6 +77,7 @@ export default function Client() {
                                             ...ctxClient.client(),
                                             business_name: e.target.value
                                         })
+                                        ctxClient.saveClient()
                                     }
                                 } value={ctxClient.client().business_name}/>
                             </div>
@@ -77,6 +93,7 @@ export default function Client() {
                                             ...ctxClient.client(),
                                             phone: e.target.value
                                         })
+                                        ctxClient.saveClient()
                                     }
                                 } value={ctxClient.client().phone}/>
                             </div>
@@ -99,6 +116,7 @@ export default function Client() {
                                             ...ctxClient.client(),
                                             alt_phone: e.target.value
                                         })
+                                        ctxClient.saveClient()
                                     }
                                 } value={ctxClient.client().alt_phone}/>
                             </div>
@@ -110,6 +128,7 @@ export default function Client() {
                                             ...ctxClient.client(),
                                             alt_email_address: e.target.value
                                         })
+                                        ctxClient.saveClient()
                                     }
                                 } value={ctxClient.client().alt_email_address}/>
                             </div>
@@ -121,12 +140,15 @@ export default function Client() {
                                            id={'add_client_phone_dnc'}
                                            name={'add_client_phone_dnc'}
                                            checked={ctxClient.client().phone_dnc}
-                                           onChange={(e) => ctxClient.setClient(
-                                               {
-                                                   ...ctxClient.client(),
-                                                   phone_dnc: e.target.checked
-                                               }
-                                           )}
+                                           onChange={(e) => {
+                                               ctxClient.setClient(
+                                                   {
+                                                       ...ctxClient.client(),
+                                                       phone_dnc: e.target.checked
+                                                   }
+                                               )
+                                               ctxClient.saveClient()
+                                           }}
                                     />
                                     <label htmlFor={'add_client_phone_dnc'}>
                                         Do not send SMS updates or messages
@@ -138,12 +160,15 @@ export default function Client() {
                                            id={'add_client_email_address_dnc'}
                                            name={'add_client_email_address_dnc'}
                                            checked={ctxClient.client().email_address_dnc}
-                                           onChange={(e) => ctxClient.setClient(
-                                               {
-                                                   ...ctxClient.client(),
-                                                   email_address_dnc: e.target.checked
-                                               }
-                                           )}
+                                           onChange={(e) => {
+                                               ctxClient.setClient(
+                                                   {
+                                                       ...ctxClient.client(),
+                                                       email_address_dnc: e.target.checked
+                                                   }
+                                               )
+                                               ctxClient.saveClient()
+                                           }}
                                     />
                                     <label htmlFor={'add_client_email_address_dnc'}>
                                         Do not send email updates or messages
@@ -180,6 +205,7 @@ export default function Client() {
                                                        ...ctxClient.client(),
                                                        building_number: e.target.value
                                                    })
+                                                   ctxClient.saveClient()
                                                }
                                            }/>
                                 </div>
@@ -204,6 +230,7 @@ export default function Client() {
                                                        ...ctxClient.client(),
                                                        building_name: e.target.value
                                                    })
+                                                   ctxClient.saveClient()
                                                }
                                            }/>
                                 </div>
@@ -216,6 +243,7 @@ export default function Client() {
                                                        ...ctxClient.client(),
                                                        sub_building_name: e.target.value
                                                    })
+                                                   ctxClient.saveClient()
                                                }
                                            }/>
                                 </div>
@@ -230,6 +258,7 @@ export default function Client() {
                                                        ...ctxClient.client(),
                                                        address_line_1: e.target.value
                                                    })
+                                                   ctxClient.saveClient()
                                                }
                                            }/>
                                 </div>
@@ -254,6 +283,7 @@ export default function Client() {
                                                        ...ctxClient.client(),
                                                        address_line_3: e.target.value
                                                    })
+                                                   ctxClient.saveClient()
                                                }
                                            }/>
                                 </div>
@@ -280,6 +310,7 @@ export default function Client() {
                                                        ...ctxClient.client(),
                                                        town_or_city: e.target.value
                                                    })
+                                                   ctxClient.saveClient()
                                                }
                                            }/>
                                 </div>
@@ -304,6 +335,7 @@ export default function Client() {
                                                        ...ctxClient.client(),
                                                        district: e.target.value
                                                    })
+                                                   ctxClient.saveClient()
                                                }
                                            }/>
                                 </div>
@@ -318,6 +350,7 @@ export default function Client() {
                                                        ...ctxClient.client(),
                                                        postcode: e.target.value
                                                    })
+                                                   ctxClient.saveClient()
                                                }
                                            }/>
                                 </div>
@@ -330,6 +363,7 @@ export default function Client() {
                                                        ...ctxClient.client(),
                                                        country: e.target.value
                                                    })
+                                                   ctxClient.saveClient()
                                                }
                                            }/>
                                 </div>
