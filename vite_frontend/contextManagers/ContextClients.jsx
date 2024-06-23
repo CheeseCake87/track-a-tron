@@ -35,9 +35,7 @@ export function ClientsContextProvider() {
     };
 
     let dialogFilterClientsRef;
-
     let deBounceGetPageClientsTimer;
-
 
     function clientsTempWhereValue(key, value) {
         if (value === '') {
@@ -136,6 +134,13 @@ export function ClientsContextProvider() {
         return filterKey[key]
     }
 
+    function scrollToTop() {
+        const el = document.getElementById('clientsTableOverflow')
+        if (el) {
+            el.scrollTop = 0
+        }
+    }
+
     function deBounceGetPageClients(delay, page, limit, where) {
         setSmallLoadingClients(true)
 
@@ -149,6 +154,7 @@ export function ClientsContextProvider() {
                     setTotalPages(rpc.data.total_pages)
                     setClients(rpc.data.clients)
                     setSmallLoadingClients(false)
+                    scrollToTop()
                     if (loadingClients()) {
                         setLoadingClients(false)
                     }
@@ -206,7 +212,7 @@ export function ClientsContextProvider() {
     })
 
     onCleanup(() => {
-        // window.removeEventListener('resize', windowResizeHandler);
+        window.removeEventListener('resize', windowResizeHandler);
     })
 
     return (

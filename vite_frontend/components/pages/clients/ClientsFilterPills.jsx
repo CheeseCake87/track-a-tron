@@ -8,7 +8,7 @@ export default function ClientsFilterPills() {
 
     return (
         <Show when={Object.keys(ctxClients.clientsWhereAnnex()).length > 0}>
-            <div className={'pills'}>
+            <div className={'pills mb-2'}>
 
                 <For each={Object.keys(ctxClients.clientsWherePills())}>
                     {(key) =>

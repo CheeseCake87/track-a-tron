@@ -30,7 +30,7 @@ export function FilterByDate(props) {
                                            }
                                        }
                                    }}/>
-                            <button onClick={(e) => {
+                            <button className={'btn'} onClick={(e) => {
                                 e.preventDefault()
                                 ctxClients.clientsTempWhereValue('date_on', '')
                             }}>
@@ -56,7 +56,7 @@ export function FilterByDate(props) {
                                            }
                                        }
                                    }}/>
-                            <button onClick={(e) => {
+                            <button className={'btn'} onClick={(e) => {
                                 e.preventDefault()
                                 ctxClients.clientsTempWhereValue('date_on', '')
                             }}>
@@ -79,7 +79,7 @@ export function FilterByDate(props) {
                                            }
                                        }
                                    }}/>
-                            <button onClick={(e) => {
+                            <button className={'btn'} onClick={(e) => {
                                 e.preventDefault()
                                 ctxClients.clientsTempWhereValue('date_on', '')
                             }}>

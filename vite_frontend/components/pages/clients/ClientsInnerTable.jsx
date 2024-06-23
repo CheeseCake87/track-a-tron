@@ -72,8 +72,7 @@ export default function ClientsInnerTable() {
                     Created
                 </div>
             </div>
-            {/* style={{height: `${ctxClients.clientsInnerTableHeight()}px`}} */}
-            <div className={'-table-overflow'}>
+            <div className={'-table-overflow'} id={'clientsTableOverflow'}>
                 <div className={'w-full'}
                      style={{height: '1px'}}
                      ref={tableDataWidthRef}>

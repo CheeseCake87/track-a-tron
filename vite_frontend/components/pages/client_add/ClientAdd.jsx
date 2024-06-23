@@ -193,13 +193,10 @@ export default function ClientAdd() {
                         <Show when={ctxMain.enabledServices().includes('get_address')}>
                             <GetAddress cachePostcode={true} setAddress={setClientAddress}/>
                             <div className={'field-group'}>
-                                <button className={addAddressManually() ? 'btn-confirm' : 'btn'} onClick={
-                                    () => {
-                                        setAddAddressManually(!addAddressManually())
-                                    }
-                                }>
-                                    Add Address Manually
-                                </button>
+                                <a className={'no-underline'} onClick={(e) => {
+                                    e.preventDefault()
+                                    setAddAddressManually(!addAddressManually())
+                                }}>Add Address Manually {addAddressManually() ? '▾' : '▸'}</a>
                             </div>
                         </Show>
                         <div className={

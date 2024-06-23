@@ -14,9 +14,9 @@ export default function Clients() {
         <div className={'main-content-stretch'}>
             <ClientsHeader/>
 
-            <div className={'-flex-table-bg-wrapper'}>
+            <ClientsFilterPills/>
 
-                <ClientsFilterPills/>
+            <div className={'-flex-table-bg-wrapper'}>
 
                 <div className={'-table'}>
 
