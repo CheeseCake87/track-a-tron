@@ -1,11 +1,15 @@
-import {createContext, createSignal} from "solid-js";
+import {createContext, createSignal, useContext} from "solid-js";
 import {Outlet} from "@solidjs/router";
 import SystemSubMenu from "../components/menus/SystemSubMenu";
 import rpc_get_all_users from "../rpc/system/rpc_get_all_users";
+import rpc_get_logs from "../rpc/system/rpc_get_logs";
+import {ContextMain} from "./ContextMain";
 
 export const ContextSystem = createContext()
 
 export function SystemContextProvider() {
+
+    const ctxMain = useContext(ContextMain)
 
     const [systemSection, setSystemSection] = createSignal('information')
 
@@ -31,6 +35,8 @@ export function SystemContextProvider() {
     const [tempDeleteSystemUser, setTempDeleteSystemUser] = createSignal(blankSystemUser)
     const [resetSystemUserPassword, setResetSystemUserPassword] = createSignal('')
 
+    const [systemLogs, setSystemLogs] = createSignal([])
+
     let refSystemUserAddDialog;
     let refSystemUserEditDialog;
     let refSystemUserResetPasswordDialog;
@@ -42,6 +48,16 @@ export function SystemContextProvider() {
                 setSystemUsers(rpc.data)
             } else {
                 ctxMain.showErrorToast("Error getting users")
+            }
+        })
+    }
+
+    function getAllSystemLogs() {
+        rpc_get_logs().then((rpc) => {
+            if (rpc.ok) {
+                setSystemLogs(rpc.data)
+            } else {
+                ctxMain.showErrorToast("Error getting logs")
             }
         })
     }
@@ -63,6 +79,8 @@ export function SystemContextProvider() {
             systemUsersDialogError: systemUsersDialogError,
             setSystemUsersDialogError: setSystemUsersDialogError,
 
+            systemLogs: systemLogs,
+
             systemUserSelected: systemUserSelected,
             setSystemUserSelected: setSystemUserSelected,
 
@@ -76,6 +94,7 @@ export function SystemContextProvider() {
             setResetSystemUserPassword: setResetSystemUserPassword,
 
             getAllSystemUsers: getAllSystemUsers,
+            getAllSystemLogs: getAllSystemLogs,
 
         }}>
             <div className={'main-content-slim-row'}>

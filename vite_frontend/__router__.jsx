@@ -23,6 +23,7 @@ import SystemServices from "./components/pages/system/SystemServices";
 import {RejectAuthContextProvider} from "./contextManagers/ContextRejectAuth";
 import {RequireAuthContextProvider} from "./contextManagers/ContextRequireAuth";
 import {RequireAdminContextProvider} from "./contextManagers/ContextRequireAdmin";
+import SystemLogs from "./components/pages/system/SystemLogs";
 
 const root = document.getElementById('root')
 
@@ -79,6 +80,7 @@ render(() => (
                                 <Route path="/information" component={SystemInformation}/>
                                 <Route path="/users" component={SystemUsers}/>
                                 <Route path="/services" component={SystemServices}/>
+                                <Route path="/logs" component={SystemLogs}/>
                             </Route>
                         </Route>
                     </Route>

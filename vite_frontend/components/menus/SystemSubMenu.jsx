@@ -1,4 +1,4 @@
-import {BoxIcon, InfoIcon, UsersIcon} from "../globals/Icons";
+import {BoxIcon, InfoIcon, LogsIcon, UsersIcon} from "../globals/Icons";
 import {ContextMain} from "../../contextManagers/ContextMain";
 import {ContextSystem} from "../../contextManagers/ContextSystem";
 import {useContext} from "solid-js";
@@ -30,6 +30,13 @@ export default function SystemSubMenu() {
                  }>
                 <div><BoxIcon size={20}/></div>
                 <div>Services</div>
+            </div>
+            <div className={ctxSystem.systemSection() === 'logs' ? 'sub-menu-icon-active' : 'sub-menu-icon'}
+                 onClick={
+                     () => ctxMain.navigator('/system/logs')
+                 }>
+                <div><LogsIcon size={20}/></div>
+                <div>Logs</div>
             </div>
         </div>
     )
