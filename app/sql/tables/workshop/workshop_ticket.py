@@ -26,6 +26,9 @@ class WorkshopTicket(BaseModel):
         s.Integer, s.ForeignKey("system_user.user_id"), nullable=True
     )  # User that the workshop_ticket is assigned to
 
+    # Data
+    workshop_tag = s.Column(s.String, nullable=False)
+
     # Due date
     no_due_datetime = s.Column(s.Boolean, nullable=False, default=True)
     due_datetime = s.Column(s.DateTime, nullable=True, default=None)
