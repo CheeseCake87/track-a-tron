@@ -16,7 +16,7 @@ class Asset(BaseModel):
     brand = s.Column(s.String, nullable=False)
     model = s.Column(s.String, nullable=True)
     serial_number = s.Column(s.String, nullable=True)
-    from_workshop_tag = s.Column(s.String, nullable=True)
+    location = s.Column(s.String, nullable=True)
 
     asset_tag = s.Column(s.String, nullable=True)
 

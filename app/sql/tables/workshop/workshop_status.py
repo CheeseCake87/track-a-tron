@@ -21,6 +21,3 @@ class WorkshopStatus(BaseModel):
     # Additional actions
     available_in_create = s.Column(s.Boolean, default=False)
     set_client_dnc = s.Column(s.Boolean, default=False)
-
-    # Tracking
-    created = s.Column(s.DateTime)

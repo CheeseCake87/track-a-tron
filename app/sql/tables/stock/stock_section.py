@@ -3,11 +3,11 @@ import sqlalchemy as s
 from app.sql import BaseModel
 
 
-class AssetCategory(BaseModel):
-    __tablename__ = "asset_category"
+class StockSection(BaseModel):
+    __tablename__ = "stock_section"
 
     # PriKey
-    asset_category_id = s.Column(s.Integer, primary_key=True)
+    stock_section_id = s.Column(s.Integer, primary_key=True)
 
     # Data
     name = s.Column(s.String, nullable=False)

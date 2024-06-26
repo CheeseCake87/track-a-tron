@@ -11,7 +11,7 @@ class AssetNote(BaseModel):
 
     # ForKey
     fk_asset_id = s.Column(s.Integer, s.ForeignKey("asset.asset_id"), nullable=False)
-    fk_user_id = s.Column(s.Integer, s.ForeignKey("user.user_id"), nullable=False)
+    fk_user_id = s.Column(s.Integer, s.ForeignKey("system_user.user_id"), nullable=False)
 
     # Data
     note = s.Column(s.String, nullable=False)

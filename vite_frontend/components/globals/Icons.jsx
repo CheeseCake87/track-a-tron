@@ -70,7 +70,7 @@ export function NoClientsIcon(props) {
     }
 
     return (<svg xmlns="http://www.w3.org/2000/svg"
-                 className="icon icon-tabler icon-tabler-address-book-off"
+                 className={'p-0.5'}
                  width={props.size}
                  height={props.size}
                  viewBox="0 0 24 24"
@@ -238,7 +238,7 @@ export function PhoneIcon(props) {
     }
 
     return (<svg xmlns="http://www.w3.org/2000/svg"
-                 className="icon icon-tabler icon-tabler-headset"
+                 className={'p-0.5'}
                  width={props.size}
                  height={props.size}
                  viewBox="0 0 24 24"
@@ -261,7 +261,7 @@ export function PhoneRecordsIcon(props) {
     }
 
     return (<svg xmlns="http://www.w3.org/2000/svg"
-                 className="icon icon-tabler icon-tabler-file-phone"
+                 className={'p-0.5'}
                  width={props.size}
                  height={props.size}
                  viewBox="0 0 24 24"
@@ -364,6 +364,7 @@ export function LastPageIcon(props) {
     }
 
     return (<svg xmlns="http://www.w3.org/2000/svg"
+                 className={'p-0.5'}
                  width={props.size}
                  height={props.size}
                  viewBox="0 0 24 24"
@@ -386,7 +387,7 @@ export function NextPageIcon(props) {
     }
 
     return (<svg xmlns="http://www.w3.org/2000/svg"
-                 className="icon icon-tabler icon-tabler-arrow-narrow-right"
+                 className={'p-0.5'}
                  width={props.size}
                  height={props.size}
                  viewBox="0 0 24 24"
@@ -408,7 +409,7 @@ export function PrevPageIcon(props) {
     }
 
     return (<svg xmlns="http://www.w3.org/2000/svg"
-                 className="icon icon-tabler icon-tabler-arrow-narrow-left"
+                 className={'p-0.5'}
                  width={props.size}
                  height={props.size}
                  viewBox="0 0 24 24"
@@ -451,7 +452,7 @@ export function FilterClearIcon(props) {
     }
 
     return (<svg xmlns="http://www.w3.org/2000/svg"
-                 className="icon icon-tabler icon-tabler-filter-minus"
+                 className={'p-0.5'}
                  width={props.size}
                  height={props.size}
                  viewBox="0 0 24 24"
@@ -477,6 +478,7 @@ export function CircleIcon(props) {
     }
 
     return (<svg xmlns="http://www.w3.org/2000/svg"
+                 className={'p-0.5'}
                  width={props.size}
                  height={props.size}
                  viewBox="0 0 24 24"
@@ -500,10 +502,16 @@ export function ErrorIcon(props) {
         props.color = 'currentColor'
     }
 
-    return (<svg xmlns="http://www.w3.org/2000/svg" width={props.size}
-                 height={props.size} viewBox="0 0 24 24" fill="none" stroke={props.color}
-                 stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"
-                 class="feather feather-alert-triangle">
+    return (<svg xmlns="http://www.w3.org/2000/svg"
+                 className={'p-0.5'}
+                 width={props.size}
+                 height={props.size}
+                 viewBox="0 0 24 24"
+                 fill="none"
+                 stroke={props.color}
+                 stroke-width="1.5"
+                 stroke-linecap="round"
+                 stroke-linejoin="round">
         <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path>
         <line x1="12" y1="9" x2="12" y2="13"></line>
         <line x1="12" y1="17" x2="12.01" y2="17"></line>
@@ -519,9 +527,16 @@ export function InfoIcon(props) {
         props.color = 'currentColor'
     }
 
-    return (<svg xmlns="http://www.w3.org/2000/svg" width={props.size}
-                 height={props.size} viewBox="0 0 24 24" fill="none" stroke={props.color}
-                 stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="feather feather-info">
+    return (<svg xmlns="http://www.w3.org/2000/svg"
+                 className={'p-0.5'}
+                 width={props.size}
+                 height={props.size}
+                 viewBox="0 0 24 24"
+                 fill="none"
+                 stroke={props.color}
+                 stroke-width="1.5"
+                 stroke-linecap="round"
+                 stroke-linejoin="round">
         <circle cx="12" cy="12" r="10"></circle>
         <line x1="12" y1="16" x2="12" y2="12"></line>
         <line x1="12" y1="8" x2="12.01" y2="8"></line>
@@ -537,9 +552,16 @@ export function ConfirmedIcon(props) {
         props.color = 'currentColor'
     }
 
-    return (<svg xmlns="http://www.w3.org/2000/svg" width={props.size}
-                 height={props.size} viewBox="0 0 24 24" fill="none" stroke={props.color}
-                 stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="feather feather-check-circle">
+    return (<svg xmlns="http://www.w3.org/2000/svg"
+                 className={'p-0.5'}
+                 width={props.size}
+                 height={props.size}
+                 viewBox="0 0 24 24"
+                 fill="none"
+                 stroke={props.color}
+                 stroke-width="1.5"
+                 stroke-linecap="round"
+                 stroke-linejoin="round">
         <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
         <polyline points="22 4 12 14.01 9 11.01"></polyline>
     </svg>)
@@ -554,9 +576,16 @@ export function BoxIcon(props) {
         props.color = 'currentColor'
     }
 
-    return (<svg xmlns="http://www.w3.org/2000/svg" width={props.size}
-                 height={props.size} viewBox="0 0 24 24" fill="none" stroke={props.color}
-                 stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="feather feather-box">
+    return (<svg xmlns="http://www.w3.org/2000/svg"
+                 className={'p-0.5'}
+                 width={props.size}
+                 height={props.size}
+                 viewBox="0 0 24 24"
+                 fill="none"
+                 stroke={props.color}
+                 stroke-width="1.5"
+                 stroke-linecap="round"
+                 stroke-linejoin="round">
         <path
             d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path>
         <polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline>
@@ -574,13 +603,189 @@ export function LogsIcon(props) {
     }
 
     return (
-        <svg xmlns="http://www.w3.org/2000/svg" width={props.size}
-             height={props.size} viewBox="0 0 24 24" fill="none" stroke={props.color}
-             stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="feather feather-server">
+        <svg xmlns="http://www.w3.org/2000/svg"
+             className={'p-0.5'}
+             width={props.size}
+             height={props.size}
+             viewBox="0 0 24 24" fill="none" stroke={props.color}
+             stroke-width="1.5"
+             stroke-linecap="round"
+             stroke-linejoin="round">
             <rect x="2" y="2" width="20" height="8" rx="2" ry="2"></rect>
             <rect x="2" y="14" width="20" height="8" rx="2" ry="2"></rect>
             <line x1="6" y1="6" x2="6.01" y2="6"></line>
             <line x1="6" y1="18" x2="6.01" y2="18"></line>
+        </svg>
+    )
+}
+
+export function WorkshopIcon(props) {
+    if (props.size === undefined) {
+        props.size = 24
+    }
+
+    if (props.color === undefined) {
+        props.color = 'currentColor'
+    }
+
+    return (
+        <svg xmlns="http://www.w3.org/2000/svg"
+             className={'p-0.5'}
+             width={props.size}
+             height={props.size}
+             viewBox="0 0 24 24"
+             fill="none"
+             stroke={props.color}
+             stroke-width="1.5"
+             stroke-linecap="round"
+             stroke-linejoin="round">
+            <circle cx="12" cy="12" r="10"></circle>
+            <circle cx="12" cy="12" r="6"></circle>
+            <circle cx="12" cy="12" r="2"></circle>
+        </svg>
+    )
+}
+
+export function SalesTillIcon(props) {
+    if (props.size === undefined) {
+        props.size = 24
+    }
+
+    if (props.color === undefined) {
+        props.color = 'currentColor'
+    }
+
+    return (
+        <svg xmlns="http://www.w3.org/2000/svg"
+             className={'p-0.5'}
+             width={props.size}
+             height={props.size}
+             viewBox="0 0 24 24"
+             fill="none"
+             stroke={props.color}
+             stroke-width="1.5"
+             stroke-linecap="round"
+             stroke-linejoin="round">
+            <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path>
+            <line x1="3" y1="6" x2="21" y2="6"></line>
+            <path d="M16 10a4 4 0 0 1-8 0"></path>
+        </svg>
+    )
+}
+
+export function StockIcon(props) {
+    if (props.size === undefined) {
+        props.size = 24
+    }
+
+    if (props.color === undefined) {
+        props.color = 'currentColor'
+    }
+
+    return (
+        <svg xmlns="http://www.w3.org/2000/svg"
+             className={'p-0.5'}
+             width={props.size}
+             height={props.size}
+             viewBox="0 0 24 24"
+             fill="none"
+             stroke={props.color}
+             stroke-width="1.5"
+             stroke-linecap="round"
+             stroke-linejoin="round">
+            <line x1="16.5" y1="9.4" x2="7.5" y2="4.21"></line>
+            <path
+                d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path>
+            <polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline>
+            <line x1="12" y1="22.08" x2="12" y2="12"></line>
+        </svg>
+    )
+}
+
+export function AssetsIcon(props) {
+    if (props.size === undefined) {
+        props.size = 24
+    }
+
+    if (props.color === undefined) {
+        props.color = 'currentColor'
+    }
+
+    return (
+        <svg xmlns="http://www.w3.org/2000/svg"
+             className={'p-0.5'}
+             width={props.size}
+             height={props.size}
+             viewBox="0 0 24 24"
+             fill="none"
+             stroke={props.color}
+             stroke-width="1.5"
+             stroke-linecap="round"
+             stroke-linejoin="round">
+            <rect x="3" y="3" width="7" height="7"></rect>
+            <rect x="14" y="3" width="7" height="7"></rect>
+            <rect x="14" y="14" width="7" height="7"></rect>
+            <rect x="3" y="14" width="7" height="7"></rect>
+        </svg>
+    )
+}
+
+export function ReceiptIcon(props) {
+    if (props.size === undefined) {
+        props.size = 24
+    }
+
+    if (props.color === undefined) {
+        props.color = 'currentColor'
+    }
+
+    return (
+        <svg xmlns="http://www.w3.org/2000/svg"
+             className={'p-0.5'}
+             width={props.size}
+             height={props.size}
+             viewBox="0 0 24 24"
+             fill="none"
+             stroke={props.color}
+             stroke-width="1.5"
+             stroke-linecap="round"
+             stroke-linejoin="round">
+            <path
+                d="M20.493,6.849c0,-3.448 -1.265,-3.584 -2.316,-3.584c-2.024,-0 -2.737,0.846 -2.737,3.584l0.064,13.887l-3.973,-1.334l-2.665,1.329l-2.707,-1.39l-2.652,1.383l0.02,-13.875c0,-0 0.407,-3.649 4.421,-3.584c2.463,0.039 10.229,-0 10.229,-0"
+            />
+            <path d="M20.26,6.849l-4.517,-0"/>
+            <path d="M6.024,8.792l6.893,0.001"/>
+            <path d="M6.024,11.467l6.893,0"/>
+            <path d="M6.024,14.183l6.893,0"/>
+        </svg>
+    )
+}
+
+export function InvoiceIcon(props) {
+    if (props.size === undefined) {
+        props.size = 24
+    }
+
+    if (props.color === undefined) {
+        props.color = 'currentColor'
+    }
+
+    return (
+        <svg xmlns="http://www.w3.org/2000/svg"
+             className={'p-0.5'}
+             width={props.size}
+             height={props.size}
+             viewBox="0 0 24 24"
+             fill="none"
+             stroke={props.color}
+             stroke-width="1.5"
+             stroke-linecap="round"
+             stroke-linejoin="round">
+            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+            <polyline points="14 2 14 8 20 8"></polyline>
+            <line x1="16" y1="13" x2="8" y2="13"></line>
+            <line x1="16" y1="17" x2="8" y2="17"></line>
+            <polyline points="10 9 9 9 8 9"></polyline>
         </svg>
     )
 }

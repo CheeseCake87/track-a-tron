@@ -52,7 +52,7 @@
 
 .main-menu-icon {
     @apply flex items-center justify-start w-full
-    py-2 pl-2 pr-8 rounded-3xl cursor-pointer shadow gap-2;
+    py-2 pl-2 pr-8 rounded-3xl cursor-pointer shadow gap-1.5;
     background: var(--main-menu-icon-bg-color);
     color: var(--main-menu-icon-text-color);
     border: 1px solid var(--main-menu-icon-border-color);
@@ -68,7 +68,7 @@
 
 .main-menu-icon-active {
     @apply flex items-center justify-start w-full
-    py-2 pl-2 pr-8 rounded-xl cursor-pointer shadow gap-2;
+    py-2 pl-2 pr-8 rounded-xl cursor-pointer shadow gap-1.5;
     background: var(--main-menu-icon-bg-color-hover);
     color: var(--main-menu-icon-text-color-hover);
     border: 1px solid var(--main-menu-icon-border-color-active);

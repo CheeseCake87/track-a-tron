@@ -12,6 +12,3 @@ class WorkshopCategory(BaseModel):
     # Data
     name = s.Column(s.String, nullable=False)
     color = s.Column(s.String, nullable=False)
-
-    # Tracking
-    created = s.Column(s.DateTime, nullable=False)

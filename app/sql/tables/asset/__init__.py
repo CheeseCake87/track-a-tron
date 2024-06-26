@@ -1,14 +1,9 @@
-from .workshop_category import WorkshopCategory
-from .workshop_status import WorkshopStatus
-from .workshop_ticket import WorkshopTicket
-from .workshop_ticket_note import WorkshopTicketNote
-from .workshop_ticket_status_log import WorkshopTicketStatusLog
+from .asset import Asset
+from .asset_category import AssetCategory
+from .asset_note import AssetNote
 
 __all__ = [
-    "WorkshopStatus",
-    "WorkshopTicket",
-    "WorkshopCategory",
-    "WorkshopStatus",
-    "WorkshopTicketNote",
-    "WorkshopTicketStatusLog",
+    "Asset",
+    "AssetCategory",
+    "AssetNote",
 ]
