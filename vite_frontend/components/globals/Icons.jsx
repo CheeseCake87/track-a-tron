@@ -789,3 +789,56 @@ export function InvoiceIcon(props) {
         </svg>
     )
 }
+
+export function RefundIcon(props) {
+    if (props.size === undefined) {
+        props.size = 24
+    }
+
+    if (props.color === undefined) {
+        props.color = 'currentColor'
+    }
+
+    return (
+        <svg xmlns="http://www.w3.org/2000/svg"
+             className={'p-0.5'}
+             width={props.size}
+             height={props.size}
+             viewBox="0 0 24 24"
+             fill="none"
+             stroke={props.color}
+             stroke-width="1.5"
+             stroke-linecap="round"
+             stroke-linejoin="round">
+            <polyline points="1 4 1 10 7 10"></polyline>
+            <polyline points="23 20 23 14 17 14"></polyline>
+            <path d="M20.49 9A9 9 0 0 0 5.64 5.64L1 10m22 4l-4.64 4.36A9 9 0 0 1 3.51 15"></path>
+        </svg>
+    )
+}
+
+export function PurchaseOrderIcon(props) {
+    if (props.size === undefined) {
+        props.size = 24
+    }
+
+    if (props.color === undefined) {
+        props.color = 'currentColor'
+    }
+
+    return (
+        <svg xmlns="http://www.w3.org/2000/svg"
+             className={'p-0.5'}
+             width={props.size}
+             height={props.size}
+             viewBox="0 0 24 24"
+             fill="none"
+             stroke={props.color}
+             stroke-width="1.5"
+             stroke-linecap="round"
+             stroke-linejoin="round">
+            <path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"></path>
+            <rect x="8" y="2" width="8" height="4" rx="1" ry="1"></rect>
+        </svg>
+    )
+}

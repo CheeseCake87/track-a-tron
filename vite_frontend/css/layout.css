@@ -17,7 +17,7 @@
 }
 
 .main-content-stretch {
-    @apply flex flex-col h-full py-4 px-4 flex-1;
+    @apply flex flex-col h-full py-4 px-4 w-full overflow-y-auto;
     min-width: 0;
     margin-top: 0.1rem;
 }
@@ -72,6 +72,10 @@
     background: var(--main-menu-icon-bg-color-hover);
     color: var(--main-menu-icon-text-color-hover);
     border: 1px solid var(--main-menu-icon-border-color-active);
+}
+
+.main-menu-icon p, .main-menu-icon-active p {
+    @apply block mr-6;
 }
 
 .main-menu-icon span {

@@ -13,7 +13,7 @@ class System(BaseModel):
     version = s.Column(s.String, nullable=False)
     installation_complete = s.Column(s.Boolean, nullable=False, default=False)
     registering_vat = s.Column(s.Boolean, nullable=False, default=False)
-    vat_rate = s.Column(s.Integer, nullable=False)
+    vat_rate = s.Column(s.Integer, nullable=True)
 
     # Tracking
     created = s.Column(s.DateTime)

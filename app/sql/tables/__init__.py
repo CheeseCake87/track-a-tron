@@ -9,6 +9,7 @@ from .invoice import Invoice
 from .partial_payment import PartialPayment
 from .receipt import Receipt
 from .refund import Refund
+from .stock import PurchaseOrder
 from .stock import StockCategory
 from .stock import StockItem
 from .stock import StockSection
@@ -40,6 +41,7 @@ __all__ = [
     "PartialPayment",
     "Receipt",
     "Refund",
+    "PurchaseOrder",
     "StockCategory",
     "StockItem",
     "StockSection",
