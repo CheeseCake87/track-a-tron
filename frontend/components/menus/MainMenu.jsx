@@ -2,22 +2,26 @@ import {useContext} from "solid-js";
 import {
     AssetsIcon,
     ClientIcon,
-    InvoiceIcon,
-    LogoutIcon, PurchaseOrderIcon,
-    ReceiptIcon,
-    RefundIcon,
-    SalesTillIcon,
+    LogoutIcon,
+    PurchaseOrderIcon,
     SettingsIcon,
     StockIcon,
     UserIcon,
     WorkshopIcon
 } from "../globals/Icons";
 import {ContextMain} from "../../contextManagers/ContextMain";
+import {A} from "@solidjs/router";
 
 
 export function MainMenu() {
 
     const ctxMain = useContext(ContextMain)
+
+    function classLookup(location) {
+        return ctxMain.mainMenuLocation() === location
+            ? 'main-menu-icon-active'
+            : 'main-menu-icon'
+    }
 
     return (
         <div className={'main-menu'}>
@@ -71,28 +75,15 @@ export function MainMenu() {
                 </div>
 
                 */}
-                <div className={
-                    ctxMain.mainMenuLocation() === 'workshop'
-                        ? 'main-menu-icon-active'
-                        : 'main-menu-icon'}
-                     onClick={() => {
-                         ctxMain.setMainMenuLocation('clients')
-                         ctxMain.navigator('/')
-                     }}>
-                    <div><WorkshopIcon size={ctxMain.iconSize()}/></div>
+
+                <A href="/workshop" activeClass="main-menu-icon-active" inactiveClass="main-menu-icon">
+                    <span><WorkshopIcon size={ctxMain.iconSize()}/></span>
                     <p>Workshop</p>
-                </div>
-                <div className={
-                    ctxMain.mainMenuLocation() === 'clients'
-                        ? 'main-menu-icon-active'
-                        : 'main-menu-icon'}
-                     onClick={() => {
-                         ctxMain.setMainMenuLocation('clients')
-                         ctxMain.navigator('/')
-                     }}>
-                    <div><ClientIcon size={ctxMain.iconSize()}/></div>
+                </A>
+                <A href='/clients' activeClass="main-menu-icon-active" inactiveClass="main-menu-icon">
+                    <span><ClientIcon size={ctxMain.iconSize()}/></span>
                     <p>Clients</p>
-                </div>
+                </A>
                 <div className={
                     ctxMain.mainMenuLocation() === 'stock'
                         ? 'main-menu-icon-active'

@@ -79,7 +79,7 @@ export default function ClientsInnerTable() {
                 </div>
                 <For each={ctxClients.clients}>{(client, i) =>
                     <A className={'-grid-table-row -clickable grid-cols-6'} href={
-                        "/client/" + client.client_id
+                        "/clients/" + client.client_id
                     }>
                         <span className={'-flex-table-cell-min'}>
                             {client.client_id}

@@ -39,5 +39,6 @@ class WorkshopTicket(BaseModel):
     # Relationships
     rel_added_by = s.orm.relationship("SystemUser", foreign_keys=[fk_user_id])
     rel_assigned_to = s.orm.relationship("SystemUser", foreign_keys=[fk_assigned_user_id])
+    rel_client = s.orm.relationship("Client")
     rel_devices = s.orm.relationship("WorkshopTicketDevice")
     rel_items = s.orm.relationship("WorkshopTicketItem")

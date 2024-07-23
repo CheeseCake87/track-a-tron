@@ -51,7 +51,7 @@
 }
 
 .main-menu-icon {
-    @apply flex items-center justify-start w-full
+    @apply flex items-center justify-start w-full no-underline
     py-2 pl-2 pr-8 rounded-3xl cursor-pointer shadow gap-1.5;
     background: var(--main-menu-icon-bg-color);
     color: var(--main-menu-icon-text-color);
@@ -60,26 +60,26 @@
 
 .main-menu-icon:hover,
 .main-menu-icon-hover {
-    @apply rounded-xl;
+    @apply rounded-xl no-underline;
     background: var(--main-menu-icon-bg-color-hover);
     color: var(--main-menu-icon-text-color-hover);
     border: 1px solid var(--main-menu-icon-border-color-hover);
 }
 
 .main-menu-icon-active {
-    @apply flex items-center justify-start w-full
+    @apply flex items-center justify-start w-full no-underline
     py-2 pl-2 pr-8 rounded-xl cursor-pointer shadow gap-1.5;
     background: var(--main-menu-icon-bg-color-hover);
     color: var(--main-menu-icon-text-color-hover);
     border: 1px solid var(--main-menu-icon-border-color-active);
 }
 
-.main-menu-icon p, .main-menu-icon-active p {
-    @apply block mr-6;
+.main-menu-icon-active:hover{
+    color: var(--main-menu-icon-text-color-hover);
 }
 
-.main-menu-icon span {
-    @apply pr-2;
+.main-menu-icon p, .main-menu-icon-active p {
+    @apply block mr-6;
 }
 
 .tooltip-text {

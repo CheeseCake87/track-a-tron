@@ -24,6 +24,12 @@ import {RejectAuthContextProvider} from "./contextManagers/ContextRejectAuth";
 import {RequireAuthContextProvider} from "./contextManagers/ContextRequireAuth";
 import {RequireAdminContextProvider} from "./contextManagers/ContextRequireAdmin";
 import SystemLogs from "./components/pages/system/SystemLogs";
+import {WorkshopContextProvider} from "./contextManagers/ContextWorkshop";
+import {WorkshopTicketAddContextProvider} from "./contextManagers/ContextWorkshopTicketAdd";
+import WorkshopTicketAdd from "./components/pages/workshop/WorkshopTicketAdd";
+import WorkshopTicket from "./components/pages/workshop/WorkshopTicket";
+import {WorkshopTicketContextProvider} from "./contextManagers/ContextWorkshopTicket";
+import Workshop from "./components/pages/workshop/Workshop";
 
 const root = document.getElementById('root')
 
@@ -41,7 +47,7 @@ render(() => (
                 <Route path="" component={MainContextProvider}>
 
                     <Route path="" component={RequireAuthContextProvider}>
-                        <Route path="/" component={() => <Navigate href={'/clients'}/>}/>
+                        <Route path="/" component={() => <Navigate href={'/workshop'}/>}/>
                     </Route>
 
                     <Route path="" component={RejectAuthContextProvider}>
@@ -59,15 +65,28 @@ render(() => (
 
                     <Route path="" component={RequireAuthContextProvider}>
                         <Route path="" component={ClientsContextProvider}>
-                            <Route path="/clients" component={Clients}/>
-
-                            <Route path="/client">
-                                <Route path="/" component={() => <Navigate href={'/clients'}/>}/>
+                            <Route path="/clients">
+                                <Route path="/" component={Clients}/>
                                 <Route path="" component={ClientAddContextProvider}>
                                     <Route path="/add" component={ClientAdd}/>
                                 </Route>
                                 <Route path="" component={ClientContextProvider}>
                                     <Route path="/:client_id" component={Client}/>
+                                </Route>
+                            </Route>
+                        </Route>
+                    </Route>
+
+                    <Route path="" component={RequireAuthContextProvider}>
+                        <Route path="" component={WorkshopContextProvider}>
+                            <Route path="/workshop" component={Workshop}/>
+                            <Route path="/ticket">
+                                <Route path="/" component={() => <Navigate href={'/workshop'}/>}/>
+                                <Route path="" component={WorkshopTicketAddContextProvider}>
+                                    <Route path="/add" component={WorkshopTicketAdd}/>
+                                </Route>
+                                <Route path="" component={WorkshopTicketContextProvider}>
+                                    <Route path="/:workshop_ticket_id" component={WorkshopTicket}/>
                                 </Route>
                             </Route>
                         </Route>

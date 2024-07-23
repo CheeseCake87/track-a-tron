@@ -35,7 +35,7 @@ export function MainContextProvider(props) {
     const [userType, setUserType] = createSignal(null)
     const [loaded, setLoaded] = createSignal(false)
 
-    const [mainMenuLocation, setMainMenuLocation] = createSignal('clients')
+    const [mainMenuLocation, setMainMenuLocation] = createSignal('workshop')
 
     // Client Filtering // Client Filtering
 

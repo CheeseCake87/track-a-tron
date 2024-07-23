@@ -39,6 +39,23 @@ export default function WorkshopInnerTable() {
         return name
     }
 
+    function displayContact(phone, email, alt_phone, alt_email) {
+        let contact = []
+        if (phone) {
+            contact.push(phone)
+        }
+        if (email) {
+            contact.push(email)
+        }
+        if (alt_phone) {
+            contact.push(alt_phone)
+        }
+        if (alt_email) {
+            contact.push(alt_email)
+        }
+        return contact.join(', ')
+    }
+
     function trackWidth() {
         setTableHeadersWidth(tableDataWidthRef.offsetWidth)
         return tableDataWidthRef.offsetWidth
@@ -54,19 +71,19 @@ export default function WorkshopInnerTable() {
                  style={{width: `${tableHeadersWidth()}px`}}
                  ref={tableHeaderWidthRef}>
                 <div className={'-flex-table-cell-min'}>
-                    ID
+                    Ticket
                 </div>
                 <div className={'-flex-table-cell'}>
-                    Name
+                    Status
                 </div>
                 <div className={'-flex-table-cell'}>
-                    Phone
+                    Client
                 </div>
                 <div className={'-flex-table-cell'}>
-                    Email Address
+                    Client Contact
                 </div>
                 <div className={'-flex-table-cell'}>
-                    Address
+                    Details
                 </div>
                 <div className={'-flex-table-cell text-end'}>
                     Created
@@ -82,19 +99,28 @@ export default function WorkshopInnerTable() {
                         "/workshop/ticket/" + ticket.client_id
                     }>
                         <span className={'-flex-table-cell-min'}>
-                            {ticket.client_id}
+                            {ticket.workshop_tag}
+                        </span>
+                        <span className={'-flex-table-cell-min'}>
+                            {ticket.status_code}
                         </span>
                         <span className={'-flex-table-cell item-stretch'}>
-                                {displayName(ticket.business_name, ticket.first_name, ticket.last_name)}
+                                {displayName(
+                                    ticket.__client.business_name,
+                                    ticket.__client.first_name,
+                                    ticket.__client.last_name
+                                )}
                             </span>
                         <span className={'-flex-table-cell item-stretch'}>
-                                {ticket.phone ? ticket.phone : '-'}
+                                {displayContact(
+                                    ticket.__client.phone,
+                                    ticket.__client.email_address,
+                                    ticket.__client.alt_phone,
+                                    ticket.__client.alt_email_address
+                                )}
                         </span>
                         <span className={'-flex-table-cell item-stretch'}>
-                                {ticket.email_address ? ticket.email_address : '-'}
-                        </span>
-                        <span className={'-flex-table-cell item-stretch'}>
-                            {ticket.__address}
+                                {ticket.request}
                         </span>
                         <span className={'-flex-table-cell text-end'}>
                             {ticket.__created}

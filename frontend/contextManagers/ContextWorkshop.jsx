@@ -2,13 +2,11 @@ import {createContext, createEffect, createSignal, onCleanup, onMount, useContex
 import {Outlet, useParams} from "@solidjs/router";
 import {ContextMain} from "./ContextMain";
 import {createStore} from "solid-js/store";
-import rpc_page_clients from "../rpc/client/rpc_page_clients";
-import {ContextWorkshop} from "./ContextWorkshop";
+import rpc_page_workshop_tickets from "../rpc/workshop/rpc_page_workshop_tickets";
 
 export const ContextWorkshop = createContext()
 
 export function WorkshopContextProvider() {
-
 
     const ctxMain = useContext(ContextMain)
 
@@ -147,7 +145,7 @@ export function WorkshopContextProvider() {
 
         clearTimeout(deBounceGetPageTicketsTimer)
         deBounceGetPageTicketsTimer = setTimeout(() => {
-            rpc_page_tickets(
+            rpc_page_workshop_tickets(
                 ctxMain.userId(), page, limit, where
             ).then((rpc) => {
                 if (rpc.ok) {

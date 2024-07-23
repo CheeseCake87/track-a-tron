@@ -1,7 +1,7 @@
 import {API_URL} from "../../globals";
 import {weerpc} from "weerpcjs";
 
-export default async function rpc_page_tickets(
+export default async function rpc_page_workshop_tickets(
     userId, page, limit, where = {}
 ) {
     const req = await fetch(API_URL + '/rpc/workshop/', {
@@ -10,7 +10,7 @@ export default async function rpc_page_tickets(
         headers: {
             'Content-Type': 'application/json',
         },
-        body: weerpc('page_tickets',
+        body: weerpc('page_workshop_tickets',
             {
                 user_id: userId,
                 page: page,
