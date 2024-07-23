@@ -22,6 +22,9 @@ export function MainMenu() {
     return (
         <div className={'main-menu'}>
             <div>
+
+                {/*
+
                 <div className={
                     ctxMain.mainMenuLocation() === 'sales_till'
                         ? 'main-menu-icon-active'
@@ -55,6 +58,20 @@ export function MainMenu() {
                     <div><RefundIcon size={ctxMain.iconSize()}/></div>
                     <p>Refunds</p>
                 </div>
+                <div className={
+                    ctxMain.mainMenuLocation() === 'invoices'
+                        ? 'main-menu-icon-active'
+                        : 'main-menu-icon'}
+                     onClick={() => {
+                         ctxMain.setMainMenuLocation('clients')
+                         ctxMain.navigator('/')
+                     }}>
+                    <div><InvoiceIcon size={ctxMain.iconSize()}/></div>
+                    <p>Invoices</p>
+                </div>
+
+                */}
+
                 <div className={
                     ctxMain.mainMenuLocation() === 'clients'
                         ? 'main-menu-icon-active'
@@ -110,19 +127,6 @@ export function MainMenu() {
                     <div><AssetsIcon size={ctxMain.iconSize()}/></div>
                     <p>Assets</p>
                 </div>
-                {/*
-                <div className={
-                    ctxMain.mainMenuLocation() === 'invoices'
-                        ? 'main-menu-icon-active'
-                        : 'main-menu-icon'}
-                     onClick={() => {
-                         ctxMain.setMainMenuLocation('clients')
-                         ctxMain.navigator('/')
-                     }}>
-                    <div><InvoiceIcon size={ctxMain.iconSize()}/></div>
-                    <p>Invoices</p>
-                </div>
-                */}
 
             </div>
 
