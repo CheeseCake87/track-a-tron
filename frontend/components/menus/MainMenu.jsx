@@ -71,18 +71,6 @@ export function MainMenu() {
                 </div>
 
                 */}
-
-                <div className={
-                    ctxMain.mainMenuLocation() === 'clients'
-                        ? 'main-menu-icon-active'
-                        : 'main-menu-icon'}
-                     onClick={() => {
-                         ctxMain.setMainMenuLocation('clients')
-                         ctxMain.navigator('/')
-                     }}>
-                    <div><ClientIcon size={ctxMain.iconSize()}/></div>
-                    <p>Clients</p>
-                </div>
                 <div className={
                     ctxMain.mainMenuLocation() === 'workshop'
                         ? 'main-menu-icon-active'
@@ -93,6 +81,17 @@ export function MainMenu() {
                      }}>
                     <div><WorkshopIcon size={ctxMain.iconSize()}/></div>
                     <p>Workshop</p>
+                </div>
+                <div className={
+                    ctxMain.mainMenuLocation() === 'clients'
+                        ? 'main-menu-icon-active'
+                        : 'main-menu-icon'}
+                     onClick={() => {
+                         ctxMain.setMainMenuLocation('clients')
+                         ctxMain.navigator('/')
+                     }}>
+                    <div><ClientIcon size={ctxMain.iconSize()}/></div>
+                    <p>Clients</p>
                 </div>
                 <div className={
                     ctxMain.mainMenuLocation() === 'stock'
