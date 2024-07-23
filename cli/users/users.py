@@ -4,8 +4,8 @@ import click as c
 def cmd_users(group):
     @group.command("create-admin", help="Setup admin user.")
     def setup_admin():
-        from backend.sql.sessions import GDBSession
-        from backend.sql.queries.system_user import query_create_system_user
+        from app.sql.sessions import GDBSession
+        from app.sql.queries.system_user import query_create_system_user
         from flask_imp.auth import generate_salt, encrypt_password, generate_private_key
 
         username = c.prompt("username", type=str)
@@ -30,8 +30,8 @@ def cmd_users(group):
 
     @group.command("check-user", help="Check if a user exists.")
     def check_user():
-        from backend.sql.sessions import GDBSession
-        from backend.sql.queries.system_user import query_read_system_user_by_user_id
+        from app.sql.sessions import GDBSession
+        from app.sql.queries.system_user import query_read_system_user_by_user_id
 
         user_id = c.prompt("User ID", type=int)
 

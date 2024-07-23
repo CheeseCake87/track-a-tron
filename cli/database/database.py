@@ -1,5 +1,5 @@
-from backend.sql.engines import dev_db_engine, sta_db_engine, pro_db_engine
-from backend.sql.tables import BaseModel
+from app.sql.engines import dev_db_engine, sta_db_engine, pro_db_engine
+from app.sql.tables import BaseModel
 
 
 def cmd_database(group):

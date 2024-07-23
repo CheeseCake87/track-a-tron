@@ -8,7 +8,7 @@ serve_app = "app"
 vite_apps = ["vite_frontend"]
 
 [tool.pyqwe]
-quart-dev = "app:dev"
+quart-dev = "backend:dev"
 quart-pro = "*:hypercorn app:create_app --config hypercorn/config.toml"
 vite-run = "*(vite_frontend):npx vite --host 127.0.0.1 --port 6262"
 vite-build = "*(vite_frontend):npx vite build"
