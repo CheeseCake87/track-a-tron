@@ -24,11 +24,11 @@ from .workflow import Workflow
 from .workflow import WorkflowTaskQueue
 from .workflow import WorkflowTemplate
 from .workflow import WorkflowTrigger
-from .workshop import WorkshopCategory
-from .workshop import WorkshopStatus
+
 from .workshop import WorkshopTicket
+from .workshop import WorkshopTicketDevice
+from .workshop import WorkshopTicketItem
 from .workshop import WorkshopTicketNote
-from .workshop import WorkshopTicketStatusLog
 
 __all__ = [
     "BaseModel",
@@ -55,11 +55,10 @@ __all__ = [
     "WorkflowTaskQueue",
     "WorkflowTemplate",
     "WorkflowTrigger",
-    "WorkshopCategory",
-    "WorkshopStatus",
     "WorkshopTicket",
+    "WorkshopTicketDevice",
+    "WorkshopTicketItem",
     "WorkshopTicketNote",
-    "WorkshopTicketStatusLog",
     "Client",
     "Todo",
 ]

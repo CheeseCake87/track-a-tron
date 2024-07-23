@@ -34,9 +34,9 @@ def query_read_client(where: dict):
 
 
 def query_page_clients(
-        where: dict,
-        limit: int = 10,
-        page: int = 1,
+    where: dict,
+    limit: int = 10,
+    page: int = 1,
 ) -> tuple[select, select]:
     if page == 0:
         page = 1

@@ -28,10 +28,7 @@ def update_user_password(data):
 
     with GDBSession as s:
         result = s.execute(
-            query_update_system_user(
-                user_id,
-                {"password": password_hash, "salt": salt}
-            )
+            query_update_system_user(user_id, {"password": password_hash, "salt": salt})
         ).scalar_one_or_none()
 
         if not result:

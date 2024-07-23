@@ -32,7 +32,7 @@ def delete_user(data):
                     "username": f"{user_id}_deleted_{username}",
                     "display_name": f"{display_name} (deleted)",
                     "deleted": True,
-                }
+                },
             )
         ).scalar_one_or_none()
 

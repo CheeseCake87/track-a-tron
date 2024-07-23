@@ -10,7 +10,9 @@ class StockCategory(BaseModel):
     stock_category_id = s.Column(s.Integer, primary_key=True)
 
     # ForKey
-    fk_stock_section_id = s.Column(s.Integer, s.ForeignKey("stock_section.stock_section_id"), nullable=False)
+    fk_stock_section_id = s.Column(
+        s.Integer, s.ForeignKey("stock_section.stock_section_id"), nullable=False
+    )
 
     # Data
     name = s.Column(s.String, nullable=False)

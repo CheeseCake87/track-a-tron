@@ -7,14 +7,14 @@ from app.utilities import DatetimeDeltaMC
 
 
 def query_create_system_user(
-        display_name: str,
-        username: str,
-        password: str,
-        salt: str,
-        private_key: str,
-        user_type: t.Literal["user", "manager", "admin"],
-        email: str = None,
-        sms: str = None,
+    display_name: str,
+    username: str,
+    password: str,
+    salt: str,
+    private_key: str,
+    user_type: t.Literal["user", "manager", "admin"],
+    email: str = None,
+    sms: str = None,
 ):
     extras = {}
     if email:
@@ -32,7 +32,7 @@ def query_create_system_user(
             private_key=private_key,
             user_type=user_type,
             created=DatetimeDeltaMC().datetime,
-            **extras
+            **extras,
         )
         .returning(SystemUser.user_id)
     )
@@ -70,7 +70,7 @@ def query_read_all_system_users():
 
 
 def query_update_system_user(
-        user_id: int, values: dict, ignore_fields: list[str] = None
+    user_id: int, values: dict, ignore_fields: list[str] = None
 ):
     if not ignore_fields:
         ignore_fields = []

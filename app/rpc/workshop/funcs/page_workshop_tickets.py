@@ -3,12 +3,11 @@ from quart_rpc.validation import DataDict
 from quart_rpc.version_1_1 import RPCResponse
 
 from app.sql import GDBSession
-from app.sql.queries.client import query_page_clients
+from app.sql.queries.workshop import query_page_workshop_tickets
 from app.sql.queries.system_user import query_read_system_user
-from app.utilities.condense_client_address import condense_client_address
 
 
-def page_clients(data):
+def page_workshop_tickets(data):
     d = DataDict(data)
     try:
         user_id = d.get_ensure_key("user_id")
@@ -35,25 +34,24 @@ def page_clients(data):
             print(f"User not found: {user_id}")
             return RPCResponse.fail("User not found.")
 
-        result_query, count_query = query_page_clients(where, limit, page)
+        result_query, count_query = query_page_workshop_tickets(where, limit, page)
 
         result = s.execute(result_query).scalars().all()
-        total_clients = s.execute(count_query).scalar()
+        total_tickets = s.execute(count_query).scalar()
 
-        total_pages = total_clients // limit + 1
+        total_pages = total_tickets // limit + 1
 
         response = RPCResponse.success(
             {
-                "total_clients": total_clients,
+                "total_tickets": total_tickets,
                 "total_pages": total_pages,
                 "page": page,
                 "limit": limit,
-                "clients": [
+                "tickets": [
                     {
                         **{
                             k: v for k, v in r.__dict__.items() if not k.startswith("_")
                         },
-                        "__address": condense_client_address(r, return_short=True),
                         "__created": r.created.strftime("%a %-d %b")
                         if r.created
                         else "-",
@@ -61,7 +59,7 @@ def page_clients(data):
                     for r in result
                 ],
             },
-            "Clients found.",
+            "Tickets found.",
         )
 
         return response

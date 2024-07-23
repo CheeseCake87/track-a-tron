@@ -10,9 +10,15 @@ class LineItem(BaseModel):
     line_item_id = s.Column(s.Integer, primary_key=True)
 
     # ForKey
-    fk_receipt_id = s.Column(s.Integer, s.ForeignKey("receipt.receipt_id"), nullable=True)
-    fk_invoice_id = s.Column(s.Integer, s.ForeignKey("invoice.invoice_id"), nullable=True)
-    fk_workshop_ticket_id = s.Column(s.Integer, s.ForeignKey("workshop_ticket.workshop_ticket_id"), nullable=True)
+    fk_receipt_id = s.Column(
+        s.Integer, s.ForeignKey("receipt.receipt_id"), nullable=True
+    )
+    fk_invoice_id = s.Column(
+        s.Integer, s.ForeignKey("invoice.invoice_id"), nullable=True
+    )
+    fk_workshop_ticket_id = s.Column(
+        s.Integer, s.ForeignKey("workshop_ticket.workshop_ticket_id"), nullable=True
+    )
 
     # Data
     description = s.Column(s.String, nullable=False)

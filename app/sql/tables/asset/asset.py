@@ -10,7 +10,9 @@ class Asset(BaseModel):
     asset_id = s.Column(s.Integer, primary_key=True)
 
     # ForKey
-    fk_asset_category_id = s.Column(s.Integer, s.ForeignKey("asset_category.asset_category_id"), nullable=False)
+    fk_asset_category_id = s.Column(
+        s.Integer, s.ForeignKey("asset_category.asset_category_id"), nullable=False
+    )
 
     # Data
     brand = s.Column(s.String, nullable=False)

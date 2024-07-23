@@ -16,8 +16,8 @@ def create_user(data):
         username = d.get_ensure_key("username")
         password = d.get_ensure_key("password")
         user_type = d.get_ensure_key("user_type")
-        email = d.get("email") if d.get("email", '') != '' else None
-        sms = d.get("sms") if d.get("sms", '') != '' else None
+        email = d.get("email") if d.get("email", "") != "" else None
+        sms = d.get("sms") if d.get("sms", "") != "" else None
     except DataException:
         return RPCResponse.fail(
             "Missing required data.",
@@ -42,7 +42,7 @@ def create_user(data):
                 generate_email_validator(),
                 user_type,
                 email,
-                sms
+                sms,
             )
         ).scalar_one()
         s.commit()

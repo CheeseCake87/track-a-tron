@@ -7,16 +7,25 @@ class StockItem(BaseModel):
     """
     Quantity is tracked by the number of line items that reference this stock item.
     """
+
     __tablename__ = "stock_item"
 
     # PriKey
     stock_item_id = s.Column(s.Integer, primary_key=True)
 
     # ForKey
-    fk_user_id = s.Column(s.Integer, s.ForeignKey("system_user.user_id"), nullable=False)
-    fk_stock_category_id = s.Column(s.Integer, s.ForeignKey("stock_category.stock_category_id"), nullable=True)
-    fk_purchase_order_id = s.Column(s.Integer, s.ForeignKey("purchase_order.purchase_order_id"), nullable=True)
-    fk_receipt_id = s.Column(s.Integer, s.ForeignKey("receipt.receipt_id"), nullable=True)
+    fk_user_id = s.Column(
+        s.Integer, s.ForeignKey("system_user.user_id"), nullable=False
+    )
+    fk_stock_category_id = s.Column(
+        s.Integer, s.ForeignKey("stock_category.stock_category_id"), nullable=True
+    )
+    fk_purchase_order_id = s.Column(
+        s.Integer, s.ForeignKey("purchase_order.purchase_order_id"), nullable=True
+    )
+    fk_receipt_id = s.Column(
+        s.Integer, s.ForeignKey("receipt.receipt_id"), nullable=True
+    )
 
     # Data
     description = s.Column(s.String, nullable=False)

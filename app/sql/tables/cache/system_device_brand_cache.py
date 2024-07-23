@@ -8,6 +8,7 @@ class SystemDeviceBrandCache(BaseModel):
     This table stores the names of device brands for quick reference.
     To be used in a datalist tag.
     """
+
     __tablename__ = "system_device_brand_cache"
 
     # PriKey

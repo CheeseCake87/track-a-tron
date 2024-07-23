@@ -5,7 +5,8 @@ from quart_rpc.version_1_1 import RPCResponse
 
 from app.sql import GDBSession
 from app.sql.queries.system_user import (
-    query_update_system_user, query_read_system_user_by_user_id,
+    query_update_system_user,
+    query_read_system_user_by_user_id,
 )
 
 
@@ -39,10 +40,7 @@ def change_user_password(data):
         password_hash = encrypt_password(new_password, salt)
 
         s.execute(
-            query_update_system_user(
-                user_id,
-                {"password": password_hash, "salt": salt}
-            )
+            query_update_system_user(user_id, {"password": password_hash, "salt": salt})
         ).scalar_one_or_none()
 
         response = RPCResponse.success(
