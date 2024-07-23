@@ -1,5 +1,5 @@
 import {useContext} from "solid-js";
-import {ContextClients} from "../../../contextManagers/ContextClients";
+import {ContextClients} from "../../../../contextManagers/ContextClients";
 
 
 export function FilterByClientInfo(props) {

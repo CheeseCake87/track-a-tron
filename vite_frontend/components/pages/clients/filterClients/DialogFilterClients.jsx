@@ -1,5 +1,5 @@
 import {createSignal, onCleanup, onMount, useContext} from "solid-js";
-import {ContextClients} from "../../../contextManagers/ContextClients";
+import {ContextClients} from "../../../../contextManagers/ContextClients";
 import {FilterByClientInfo} from "./FilterByClientInfo";
 import {FilterByDate} from "./FilterByDate";
 

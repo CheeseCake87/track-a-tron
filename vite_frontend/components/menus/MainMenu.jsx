@@ -34,6 +34,28 @@ export function MainMenu() {
                     <p>Sales Till</p>
                 </div>
                 <div className={
+                    ctxMain.mainMenuLocation() === 'receipts'
+                        ? 'main-menu-icon-active'
+                        : 'main-menu-icon'}
+                     onClick={() => {
+                         ctxMain.setMainMenuLocation('clients')
+                         ctxMain.navigator('/')
+                     }}>
+                    <div><ReceiptIcon size={ctxMain.iconSize()}/></div>
+                    <p>Receipts</p>
+                </div>
+                <div className={
+                    ctxMain.mainMenuLocation() === 'refunds'
+                        ? 'main-menu-icon-active'
+                        : 'main-menu-icon'}
+                     onClick={() => {
+                         ctxMain.setMainMenuLocation('refunds')
+                         ctxMain.navigator('/')
+                     }}>
+                    <div><RefundIcon size={ctxMain.iconSize()}/></div>
+                    <p>Refunds</p>
+                </div>
+                <div className={
                     ctxMain.mainMenuLocation() === 'clients'
                         ? 'main-menu-icon-active'
                         : 'main-menu-icon'}
@@ -88,6 +110,7 @@ export function MainMenu() {
                     <div><AssetsIcon size={ctxMain.iconSize()}/></div>
                     <p>Assets</p>
                 </div>
+                {/*
                 <div className={
                     ctxMain.mainMenuLocation() === 'invoices'
                         ? 'main-menu-icon-active'
@@ -99,28 +122,8 @@ export function MainMenu() {
                     <div><InvoiceIcon size={ctxMain.iconSize()}/></div>
                     <p>Invoices</p>
                 </div>
-                <div className={
-                    ctxMain.mainMenuLocation() === 'receipts'
-                        ? 'main-menu-icon-active'
-                        : 'main-menu-icon'}
-                     onClick={() => {
-                         ctxMain.setMainMenuLocation('clients')
-                         ctxMain.navigator('/')
-                     }}>
-                    <div><ReceiptIcon size={ctxMain.iconSize()}/></div>
-                    <p>Receipts</p>
-                </div>
-                <div className={
-                    ctxMain.mainMenuLocation() === 'refunds'
-                        ? 'main-menu-icon-active'
-                        : 'main-menu-icon'}
-                     onClick={() => {
-                         ctxMain.setMainMenuLocation('refunds')
-                         ctxMain.navigator('/')
-                     }}>
-                    <div><RefundIcon size={ctxMain.iconSize()}/></div>
-                    <p>Refunds</p>
-                </div>
+                */}
+
             </div>
 
             <div>

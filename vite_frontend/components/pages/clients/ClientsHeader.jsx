@@ -2,7 +2,7 @@ import {Show, useContext} from "solid-js";
 import {SpinnerSmall} from "../../globals/Spinner";
 import {ContextClients} from "../../../contextManagers/ContextClients";
 import ClientsPageControls from "./ClientsPageControls";
-import {DialogFilterClients} from "../../dialogs/filterClients/DialogFilterClients";
+import {DialogFilterClients} from "./filterClients/DialogFilterClients";
 import {A} from "@solidjs/router";
 
 
