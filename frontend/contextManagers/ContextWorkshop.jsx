@@ -10,6 +10,8 @@ export function WorkshopContextProvider() {
 
     const ctxMain = useContext(ContextMain)
 
+    const [workshopLayout, setWorkshopLayout] = createSignal('cards')
+
     const [loadingTickets, setLoadingTickets] = createSignal(true)
     const [smallLoadingTickets, setSmallLoadingTickets] = createSignal(false)
 
@@ -35,6 +37,63 @@ export function WorkshopContextProvider() {
 
     let dialogFilterTicketsRef;
     let deBounceGetPageTicketsTimer;
+
+    function displayName(business_name, first_name, last_name) {
+        let name = ''
+        if (first_name) {
+            name = first_name
+        }
+        if (last_name) {
+            if (first_name) {
+                name += ' ' + last_name
+            } else {
+                name = last_name
+            }
+        }
+
+        if (business_name) {
+            if (name !== '') {
+                return name + ' (' + business_name + ')'
+            } else {
+                return business_name
+            }
+        }
+
+        return name
+    }
+
+    function displayContact(phone, email, alt_phone, alt_email) {
+        let contact = []
+        if (phone) {
+            contact.push(phone)
+        }
+        if (email) {
+            contact.push(email)
+        }
+        if (alt_phone) {
+            contact.push(alt_phone)
+        }
+        if (alt_email) {
+            contact.push(alt_email)
+        }
+        return contact.join(', ')
+    }
+
+    function displayDevice(make, model) {
+        let device = ''
+        if (make) {
+            device = make
+        }
+        if (model) {
+            if (make) {
+                device += ' ' + model
+            } else {
+                device = model
+            }
+        }
+        return device
+    }
+
 
     function ticketsTempWhereValue(key, value) {
         if (value === '') {
@@ -217,6 +276,9 @@ export function WorkshopContextProvider() {
     return (
         <ContextWorkshop.Provider value={
             {
+                workshopLayout: workshopLayout,
+                setWorkshopLayout: setWorkshopLayout,
+
                 loadingTickets: loadingTickets,
                 setLoadingTickets: setLoadingTickets,
                 smallLoadingTickets: smallLoadingTickets,
@@ -255,6 +317,9 @@ export function WorkshopContextProvider() {
                 setTempWhereIn: setTempWhereIn,
                 unsetTempWhereIn: unsetTempWhereIn,
                 changeLimit: changeLimit,
+                displayName: displayName,
+                displayContact: displayContact,
+                displayDevice: displayDevice,
 
                 dialogFilterTicketsRef: dialogFilterTicketsRef,
             }

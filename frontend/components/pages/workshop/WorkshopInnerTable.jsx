@@ -15,46 +15,6 @@ export default function WorkshopInnerTable() {
     let tableHeaderWidthRef;
     let tableDataWidthRef;
 
-    function displayName(business_name, first_name, last_name) {
-        let name = ''
-        if (first_name) {
-            name = first_name
-        }
-        if (last_name) {
-            if (first_name) {
-                name += ' ' + last_name
-            } else {
-                name = last_name
-            }
-        }
-
-        if (business_name) {
-            if (name !== '') {
-                return name + ' (' + business_name + ')'
-            } else {
-                return business_name
-            }
-        }
-
-        return name
-    }
-
-    function displayContact(phone, email, alt_phone, alt_email) {
-        let contact = []
-        if (phone) {
-            contact.push(phone)
-        }
-        if (email) {
-            contact.push(email)
-        }
-        if (alt_phone) {
-            contact.push(alt_phone)
-        }
-        if (alt_email) {
-            contact.push(alt_email)
-        }
-        return contact.join(', ')
-    }
 
     function trackWidth() {
         setTableHeadersWidth(tableDataWidthRef.offsetWidth)
@@ -105,14 +65,14 @@ export default function WorkshopInnerTable() {
                             {ticket.status_code}
                         </span>
                         <span className={'-flex-table-cell item-stretch'}>
-                                {displayName(
-                                    ticket.__client.business_name,
-                                    ticket.__client.first_name,
-                                    ticket.__client.last_name
-                                )}
-                            </span>
+                            {ctxWorkshop.displayName(
+                                ticket.__client.business_name,
+                                ticket.__client.first_name,
+                                ticket.__client.last_name
+                            )}
+                        </span>
                         <span className={'-flex-table-cell item-stretch'}>
-                                {displayContact(
+                                {ctxWorkshop.displayContact(
                                     ticket.__client.phone,
                                     ticket.__client.email_address,
                                     ticket.__client.alt_phone,

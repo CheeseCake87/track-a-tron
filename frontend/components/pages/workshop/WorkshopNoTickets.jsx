@@ -3,7 +3,7 @@ import {ContextWorkshop} from "../../../contextManagers/ContextWorkshop";
 import {useContext} from "solid-js";
 
 
-export default function WorkshopInnerTableNoTickets() {
+export default function WorkshopNoTickets() {
     const ctxWorkshop = useContext(ContextWorkshop)
     return (
         <div className={'flex justify-center items-center w-full h-full min-h-0'}>

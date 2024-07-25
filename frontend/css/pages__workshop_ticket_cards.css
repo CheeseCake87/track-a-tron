@@ -1,0 +1,75 @@
+.workshop-tickets-bg-wrapper {
+    @apply rounded-md h-full;
+    background: #e3e3e3;
+    min-height: 0;
+}
+
+.workshop-tickets {
+    @apply flex flex-col w-full h-full rounded-md overflow-auto gap-1.5 p-1.5;
+    background: var(--table-bg);
+    min-height: 0;
+}
+
+.workshop-ticket {
+    @apply flex flex-row rounded-md p-4 border
+    no-underline align-middle items-center justify-between;
+    background: var(--workshop-ticket-card-bg-color);
+    border-color: var(--workshop-ticket-card-border-color);
+    color: var(--html-default-text-color);
+}
+
+/*
+.workshop-ticket:hover {
+    @apply no-underline border;
+    background-color: var(--workshop-ticket-card-bg-color-hover);
+    border-color: var(--workshop-ticket-card-border-color-hover);
+    color: var(--html-default-text-color);
+}
+*/
+
+.workshop-ticket-start {
+    @apply flex flex-col gap-4;
+}
+
+.workshop-ticket-end {
+    @apply flex flex-col gap-4 justify-between h-full;
+}
+
+.workshop-ticket-group {
+    @apply flex flex-row flex-wrap gap-6 justify-start w-full;
+}
+
+.workshop-ticket-section {
+    @apply flex flex-col;
+}
+
+.workshop-ticket small {
+    font-size: 0.7rem;
+}
+
+.workshop-ticket p {
+    @apply text-lg;
+}
+
+.workshop-ticket-pill-group {
+    @apply flex flex-row gap-2 w-full py-1;
+    min-width: 0;
+}
+
+.workshop-ticket-pill {
+    @apply flex flex-row rounded-md px-3 py-1.5 items-center;
+    color: var(--button-default-text-color);
+    background-color: var(--workshop-ticket-pill-bg-color);
+}
+
+.workshop-ticket-inner-pill {
+    @apply text-sm rounded-md px-2 py-1 ml-2;
+    color: var(--button-default-text-color);
+    background-color: var(--workshop-ticket-inner-pill-bg-color);
+}
+
+.workshop-ticket-inner-pill-remove {
+    @apply text-sm rounded-md px-2 py-1 ml-2;
+    color: var(--workshop-ticket-pill-remove-color);
+    background-color: var(--workshop-ticket-inner-pill-remove-bg-color);
+}

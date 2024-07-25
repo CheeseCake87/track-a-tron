@@ -39,9 +39,7 @@ def create_test_clients(data):
                 }
             )
 
-        s.execute(
-            insert(Client).values(values)
-        )
+        s.execute(insert(Client).values(values))
         s.commit()
 
         return RPCResponse.success(

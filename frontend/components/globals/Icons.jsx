@@ -842,3 +842,33 @@ export function PurchaseOrderIcon(props) {
         </svg>
     )
 }
+
+export function LetterXIcon(props) {
+    if (props.size === undefined) {
+        props.size = 24
+    }
+
+    if (props.color ===  undefined) {
+        props.color = 'currentColor'
+    }
+
+    if (props.strokeWidth === undefined) {
+        props.strokeWidth = 1.5
+    }
+
+    return (
+        <svg xmlns="http://www.w3.org/2000/svg"
+             className={'p-0.5'}
+             width={props.size}
+             height={props.size}
+             viewBox="0 0 24 24"
+             fill="none"
+             stroke={props.color}
+             stroke-width={props.strokeWidth}
+             stroke-linecap="round"
+             stroke-linejoin="round">
+            <line x1="18" y1="6" x2="6" y2="18"></line>
+            <line x1="6" y1="6" x2="18" y2="18"></line>
+        </svg>
+    )
+}

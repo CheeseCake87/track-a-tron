@@ -12,6 +12,7 @@
 @import "typography.css";
 @import "toast_bar.css";
 
+@import "pages__workshop_ticket_cards.css";
 @import "pages__install.css";
 @import "pages__auth.css";
 @import "pages__clients.css";

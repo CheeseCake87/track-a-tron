@@ -1,10 +1,11 @@
-import {useContext} from "solid-js";
+import {Show, useContext} from "solid-js";
 import {ContextWorkshop} from "../../../contextManagers/ContextWorkshop";
 import WorkshopInnerTable from "./WorkshopInnerTable";
 import WorkshopHeader from "./WorkshopHeader";
-import WorkshopInnerTableNoTickets from "./WorkshopInnerTableNoTickets";
-import WorkshopInnerTableLoading from "./WorkshopInnerTableLoading";
+import WorkshopNoTickets from "./WorkshopNoTickets";
+import WorkshopLoading from "./WorkshopLoading";
 import WorkshopFilterPills from "./WorkshopFilterPills";
+import WorkshopTicketCards from "./WorkshopTicketCards";
 
 export default function Workshop() {
 
@@ -16,21 +17,45 @@ export default function Workshop() {
 
             <WorkshopFilterPills/>
 
-            <div className={'-flex-table-bg-wrapper'}>
+            <Show when={ctxWorkshop.workshopLayout() === 'cards'}>
 
-                <div className={'-table'}>
+                <div className={'workshop-tickets-bg-wrapper'}>
 
-                    {
-                        ctxWorkshop.loadingTickets()
-                            ? <WorkshopInnerTableLoading/>
-                            : ctxWorkshop.tickets.length > 0
-                                ? <WorkshopInnerTable/>
-                                : <WorkshopInnerTableNoTickets/>
-                    }
+                    <div className={'workshop-tickets'}>
+
+                        {
+                            ctxWorkshop.loadingTickets()
+                                ? <WorkshopLoading/>
+                                : ctxWorkshop.tickets.length > 0
+                                    ? <WorkshopTicketCards/>
+                                    : <WorkshopNoTickets/>
+                        }
+
+                    </div>
 
                 </div>
 
-            </div>
+            </Show>
+
+            <Show when={ctxWorkshop.workshopLayout() === 'table'}>
+
+                <div className={'-flex-table-bg-wrapper'}>
+
+                    <div className={'-table'}>
+
+                        {
+                            ctxWorkshop.loadingTickets()
+                                ? <WorkshopLoading/>
+                                : ctxWorkshop.tickets.length > 0
+                                    ? <WorkshopInnerTable/>
+                                    : <WorkshopNoTickets/>
+                        }
+
+                    </div>
+
+                </div>
+
+            </Show>
 
         </div>
     )

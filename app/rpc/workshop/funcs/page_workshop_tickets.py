@@ -64,6 +64,20 @@ def page_workshop_tickets(data):
                             "alt_phone": r.rel_client.alt_phone,
                             "alt_email_address": r.rel_client.alt_email_address,
                         },
+                        "__devices": [
+                            {
+                                "type": d.type,
+                                "make": d.make,
+                                "model": d.model,
+                            }
+                            for d in r.rel_devices
+                        ],
+                        "__items": [
+                            {
+                                "description": d.description,
+                            }
+                            for d in r.rel_items
+                        ],
                         "__created": r.created.strftime("%a %-d %b")
                         if r.created
                         else "-",

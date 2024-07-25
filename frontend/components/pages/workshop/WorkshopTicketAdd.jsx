@@ -1,66 +1,26 @@
-import {createSignal, Show, useContext} from "solid-js";
+import {For, Show, useContext} from "solid-js";
 import {ContextMain} from "../../../contextManagers/ContextMain";
 import GetAddress from "../../services/GetAddress";
-import rpc_create_client from "../../../rpc/client/rpc_create_client";
-
+import {ContextWorkshopTicketAdd} from "../../../contextManagers/ContextWorkshopTicketAdd";
+import {DEVICE_TYPES} from "../../../globals";
+import {LetterXIcon} from "../../globals/Icons";
 
 export default function WorkshopTicketAdd() {
 
     const ctxMain = useContext(ContextMain)
-
-    const [addAddressManually, setAddAddressManually] = createSignal(false)
-
-    const [client, setClient] = createSignal({
-        business_name: '',
-        first_name: '',
-        last_name: '',
-        phone: '',
-        alt_phone: '',
-        email_address: '',
-        alt_email_address: '',
-        phone_dnc: false,
-        email_address_dnc: false
-    })
-
-    const [clientAddress, setClientAddress] = createSignal({
-        building_number: '',
-        sub_building_number: '',
-        building_name: '',
-        sub_building_name: '',
-        address_line_1: '',
-        address_line_2: '',
-        address_line_3: '',
-        locality: '',
-        town_or_city: '',
-        county: '',
-        district: '',
-        postcode: '',
-        country: ''
-    })
-
-    function createClient() {
-        rpc_create_client(
-            ctxMain.userId(),
-            {
-                ...client(),
-                ...clientAddress()
-            })
-            .then((rpc) => {
-                if (rpc.ok) {
-                    ctxMain.showSuccessToast('Client created')
-                    ctxMain.navigator(`/client/${rpc.data[0].client_id}`)
-                } else {
-                    ctxMain.showErrorToast(rpc.message)
-                }
-            })
-    }
+    const ctxWorkshopTicketAdd = useContext(ContextWorkshopTicketAdd)
 
     return (
-        <div className={'main-content-slim'}>
+        <div className={'main-content-slim gap-2'}>
             <div className={'field-group sticky top-0 pb-5'}>
-                <button className={'btn'} onClick={() => ctxMain.navigator('/clients')}>← Cancel</button>
-                <button className={'btn-good'} onClick={createClient}>Create Client</button>
+                <button className={'btn'} onClick={() => ctxMain.navigator('/workshop')}>← Cancel</button>
+                <button className={'btn-good'}
+                        disabled={!ctxWorkshopTicketAdd.addTicketEnabled()}
+                        onClick={ctxWorkshopTicketAdd.createWorkshopTicket}>
+                    Create Ticket
+                </button>
             </div>
+
             <form onsubmit={
                 (e) => {
                     e.preventDefault()
@@ -68,310 +28,535 @@ export default function WorkshopTicketAdd() {
             }>
                 <div className={'sectioned-content w-full'}>
                     <div className={'form-section'}>
-                        <div className={'field-group'}>
-                            <div className={'py-2'}>
-                                <label>First Name</label>
-                                <input type={'text'} onKeyUp={
-                                    (e) => {
-                                        setClient({
-                                            ...client(),
-                                            first_name: e.target.value
-                                        })
-                                    }
-                                } value={client().first_name}/>
-                            </div>
-                            <div className={'py-2'}>
-                                <label>Last Name</label>
-                                <input type={'text'} onKeyUp={
-                                    (e) => {
-                                        setClient({
-                                            ...client(),
-                                            last_name: e.target.value
-                                        })
-                                    }
-                                } value={client().last_name}/>
-                            </div>
-                            <div className={'py-2'}>
-                                <label>Business Name</label>
-                                <input type={'text'} onKeyUp={
-                                    (e) => {
-                                        setClient({
-                                            ...client(),
-                                            business_name: e.target.value
-                                        })
-                                    }
-                                } value={client().business_name}/>
-                            </div>
-                        </div>
+                        <label>Request</label>
+                        <textarea rows="3" tabIndex={1}></textarea>
                     </div>
-                    <div className={'form-section'}>
-                        <div className={'field-group'}>
-                            <div className={'py-2'}>
-                                <label>Phone</label>
-                                <input type={'text'} onKeyUp={
-                                    (e) => {
-                                        setClient({
-                                            ...client(),
-                                            phone: e.target.value
-                                        })
-                                    }
-                                } value={client().phone}/>
-                            </div>
-                            <div className={'py-2'}>
-                                <label>Email Address</label>
-                                <input type={'text'} onKeyUp={
-                                    (e) => {
-                                        setClient({
-                                            ...client(),
-                                            email_address: e.target.value
-                                        })
-                                    }
-                                } value={client().email_address}/>
-                            </div>
-                            <div className={'py-2'}>
-                                <label>Alternative Phone</label>
-                                <input type={'text'} onKeyUp={
-                                    (e) => {
-                                        setClient({
-                                            ...client(),
-                                            alt_phone: e.target.value
-                                        })
-                                    }
-                                } value={client().alt_phone}/>
-                            </div>
-                            <div className={'py-2'}>
-                                <label>Alternative Email Address</label>
-                                <input type={'text'} onKeyUp={
-                                    (e) => {
-                                        setClient({
-                                            ...client(),
-                                            alt_email_address: e.target.value
-                                        })
-                                    }
-                                } value={client().alt_email_address}/>
-                            </div>
-                        </div>
-                        <div className={'form-section'}>
-                            <div className={'field-group'}>
-                                <div className={'checkbox'}>
-                                    <input type={'checkbox'}
-                                           id={'add_client_phone_dnc'}
-                                           name={'add_client_phone_dnc'}
-                                           checked={client().phone_dnc}
-                                           onChange={(e) => setClient(
-                                               {
-                                                   ...client(),
-                                                   phone_dnc: e.target.checked
-                                               }
-                                           )}
-                                    />
-                                    <label htmlFor={'add_client_phone_dnc'}>
-                                        Do not send SMS updates or messages
-                                    </label>
-                                </div>
+                </div>
+            </form>
 
-                                <div className={'checkbox'}>
-                                    <input type={'checkbox'}
-                                           id={'add_client_email_address_dnc'}
-                                           name={'add_client_email_address_dnc'}
-                                           checked={client().email_address_dnc}
-                                           onChange={(e) => setClient(
-                                               {
-                                                   ...client(),
-                                                   email_address_dnc: e.target.checked
-                                               }
-                                           )}
-                                    />
-                                    <label htmlFor={'add_client_email_address_dnc'}>
-                                        Do not send email updates or messages
-                                    </label>
-                                </div>
+            <DeviceSection/>
+
+            <ItemSection/>
+
+            <ClientSection/>
+
+        </div>
+    )
+}
+
+function DeviceSection() {
+    const ctxWorkshopTicketAdd = useContext(ContextWorkshopTicketAdd)
+
+    return (
+        <form
+            onsubmit={
+                (e) => {
+                    e.preventDefault()
+                }
+            }
+            onKeyDown={(e) => {
+                if (e.key === 'Enter') {
+                    e.preventDefault()
+                    ctxWorkshopTicketAdd.addDevice()
+                }
+            }}>
+            <div className={'sectioned-content w-full'}>
+                <div className={'form-section'}>
+                    <label>Add Device</label>
+                    <div className={'field-group'}>
+
+                        <div className={'inline-label'}>
+                            <label>Make</label>
+                            <input type={'text'}
+                                   id={'add-device-focus-field'}
+                                   tabIndex={2}
+                                   onKeyUp={
+                                       (e) => {
+                                           ctxWorkshopTicketAdd.updateDevice('make', e.target.value)
+                                       }
+                                   } value={ctxWorkshopTicketAdd.device().make}/>
+                        </div>
+                        <div className={'inline-label'}>
+                            <label>Model</label>
+                            <input type={'text'}
+                                   tabIndex={3}
+                                   onKeyUp={
+                                       (e) => {
+                                           ctxWorkshopTicketAdd.updateDevice('model', e.target.value)
+                                       }
+                                   } value={ctxWorkshopTicketAdd.device().model}/>
+                        </div>
+                        <div className={'inline-label'}>
+                            <label>Type</label>
+                            <select
+                                tabIndex={4}
+                                onChange={(e) => {
+                                    ctxWorkshopTicketAdd.updateDevice(
+                                        'type', e.target.options[e.target.selectedIndex].text
+                                    )
+                                }}
+                            >
+                                <option value={'Select...'}
+                                        selected={ctxWorkshopTicketAdd.device().type === 'Select...'}>
+                                    Select...
+                                </option>
+                                <For each={DEVICE_TYPES}>
+                                    {(deviceType, i) => (
+                                        <option value={deviceType}
+                                                selected={ctxWorkshopTicketAdd.device().type === deviceType}>
+                                            {deviceType}
+                                        </option>
+                                    )}
+                                </For>
+                            </select>
+                        </div>
+
+                        <button className={'btn-confirm'}
+                                tabIndex={5}
+                                disabled={
+                                    ctxWorkshopTicketAdd.device().type === 'Select...'
+                                    || ctxWorkshopTicketAdd.device().make === ''
+                                }
+                                onClick={
+                                    () => {
+                                        ctxWorkshopTicketAdd.addDevice()
+                                    }
+                                }>Add Device
+                        </button>
+                    </div>
+                </div>
+                <div className={'form-section pt-2'}>
+                    <label>Devices</label>
+                    <div className={'workshop-ticket-pill-group'}>
+                        <For each={ctxWorkshopTicketAdd.devices()} fallback={
+                            <div className={'workshop-ticket-pill'}>
+                                No devices added
                             </div>
+                        }>
+                            {(device, i) => (
+                                <div className={'workshop-ticket-pill'}>
+                                    {device.make} {device.model}
+                                    <div className={'workshop-ticket-inner-pill'}>
+                                        {device.type}
+                                    </div>
+                                    <button className={'btn-danger btn-pill'}
+                                            onClick={() => {
+                                                const copy = [...ctxWorkshopTicketAdd.devices()]
+                                                copy.splice(i, 1)
+                                                ctxWorkshopTicketAdd.setDevices(copy)
+                                            }}>
+                                        <LetterXIcon size={18} strokeWidth={2}/>
+                                    </button>
+                                </div>
+                            )}
+                        </For>
+                    </div>
+                </div>
+            </div>
+        </form>
+    )
+
+}
+
+
+function ItemSection() {
+    const ctxWorkshopTicketAdd = useContext(ContextWorkshopTicketAdd)
+
+    return (
+        <form
+            onsubmit={(e) => {
+                console.log(e)
+                e.preventDefault()
+            }}
+            onKeyDown={(e) => {
+                if (e.key === 'Enter') {
+                    e.preventDefault()
+                    ctxWorkshopTicketAdd.addItem()
+                }
+            }}>
+            <div className={'sectioned-content w-full'}>
+                <div className={'form-section'}>
+                    <label>Add Additional Item</label>
+                    <div className={'field-group'}>
+
+                        <div className={'inline-label'}>
+                            <label>Description</label>
+                            <input type={'text'}
+                                   tabIndex={6}
+                                   id={'add-item-focus-field'}
+                                   onKeyUp={
+                                       (e) => {
+                                           ctxWorkshopTicketAdd.updateItem('description', e.target.value)
+                                       }
+                                   } value={ctxWorkshopTicketAdd.item().description}/>
+                        </div>
+
+                        <button className={'btn-confirm'}
+                                tabIndex={7}
+                                disabled={
+                                    ctxWorkshopTicketAdd.item().description === ''
+                                }
+                                onClick={
+                                    () => {
+                                        ctxWorkshopTicketAdd.addItem()
+                                    }
+                                }>Add Item
+                        </button>
+                    </div>
+                </div>
+                <div className={'form-section pt-2'}>
+                    <label>Items</label>
+                    <div className={'workshop-ticket-pill-group'}>
+                        <For each={ctxWorkshopTicketAdd.items()} fallback={
+                            <div className={'workshop-ticket-pill'}>
+                                No items added
+                            </div>
+                        }>
+                            {(device, i) => (
+                                <div className={'workshop-ticket-pill'}>
+                                    {device.description}
+                                    <button className={'btn-danger btn-pill'}
+                                            onClick={() => {
+                                                const copy = [...ctxWorkshopTicketAdd.items()]
+                                                copy.splice(i, 1)
+                                                ctxWorkshopTicketAdd.setItems(copy)
+                                            }}>
+                                        <LetterXIcon size={18} strokeWidth={2}/>
+                                    </button>
+                                </div>
+                            )}
+                        </For>
+                    </div>
+                </div>
+            </div>
+        </form>
+    )
+
+}
+
+function ClientSection() {
+    return (
+        <>
+            <AddClientSection/>
+        </>
+    )
+}
+
+function AddClientSection() {
+    const ctxMain = useContext(ContextMain)
+    const ctxWorkshopTicketAdd = useContext(ContextWorkshopTicketAdd)
+
+    return (
+        <form onSubmit={
+            (e) => {
+                e.preventDefault()
+            }
+        }>
+            <div className={'sectioned-content w-full'}>
+                <div className={'form-section'}>
+                    <div className={'field-group'}>
+                        <div className={'py-2'}>
+                            <label>First Name</label>
+                            <input type={'text'} onKeyUp={
+                                (e) => {
+                                    ctxWorkshopTicketAdd.setClientAdd({
+                                        ...ctxWorkshopTicketAdd.clientAdd(),
+                                        first_name: e.target.value
+                                    })
+                                }
+                            } value={ctxWorkshopTicketAdd.clientAdd().first_name}/>
+                        </div>
+                        <div className={'py-2'}>
+                            <label>Last Name</label>
+                            <input type={'text'} onKeyUp={
+                                (e) => {
+                                    ctxWorkshopTicketAdd.setClientAdd({
+                                        ...ctxWorkshopTicketAdd.clientAdd(),
+                                        last_name: e.target.value
+                                    })
+                                }
+                            } value={ctxWorkshopTicketAdd.clientAdd().last_name}/>
+                        </div>
+                        <div className={'py-2'}>
+                            <label>Business Name</label>
+                            <input type={'text'} onKeyUp={
+                                (e) => {
+                                    ctxWorkshopTicketAdd.setClientAdd({
+                                        ...ctxWorkshopTicketAdd.clientAdd(),
+                                        business_name: e.target.value
+                                    })
+                                }
+                            } value={ctxWorkshopTicketAdd.clientAdd().business_name}/>
+                        </div>
+                    </div>
+                </div>
+                <div className={'form-section'}>
+                    <div className={'field-group'}>
+                        <div className={'py-2'}>
+                            <label>Phone</label>
+                            <input type={'text'} onKeyUp={
+                                (e) => {
+                                    ctxWorkshopTicketAdd.setClientAdd({
+                                        ...ctxWorkshopTicketAdd.clientAdd(),
+                                        phone: e.target.value
+                                    })
+                                }
+                            } value={ctxWorkshopTicketAdd.clientAdd().phone}/>
+                        </div>
+                        <div className={'py-2'}>
+                            <label>Email Address</label>
+                            <input type={'text'} onKeyUp={
+                                (e) => {
+                                    ctxWorkshopTicketAdd.setClientAdd({
+                                        ...ctxWorkshopTicketAdd.clientAdd(),
+                                        email_address: e.target.value
+                                    })
+                                }
+                            } value={ctxWorkshopTicketAdd.clientAdd().email_address}/>
+                        </div>
+                        <div className={'py-2'}>
+                            <label>Alternative Phone</label>
+                            <input type={'text'} onKeyUp={
+                                (e) => {
+                                    ctxWorkshopTicketAdd.setClientAdd({
+                                        ...ctxWorkshopTicketAdd.clientAdd(),
+                                        alt_phone: e.target.value
+                                    })
+                                }
+                            } value={ctxWorkshopTicketAdd.clientAdd().alt_phone}/>
+                        </div>
+                        <div className={'py-2'}>
+                            <label>Alternative Email Address</label>
+                            <input type={'text'} onKeyUp={
+                                (e) => {
+                                    ctxWorkshopTicketAdd.setClientAdd({
+                                        ...ctxWorkshopTicketAdd.clientAdd(),
+                                        alt_email_address: e.target.value
+                                    })
+                                }
+                            } value={ctxWorkshopTicketAdd.clientAdd().alt_email_address}/>
                         </div>
                     </div>
                     <div className={'form-section'}>
-                        <Show when={ctxMain.enabledServices().includes('get_address')}>
-                            <GetAddress cachePostcode={true} setAddress={setClientAddress}/>
-                            <div className={'field-group'}>
-                                <a className={'no-underline'} onClick={(e) => {
-                                    e.preventDefault()
-                                    setAddAddressManually(!addAddressManually())
-                                }}>Add Address Manually {addAddressManually() ? '▾' : '▸'}</a>
+                        <div className={'field-group'}>
+                            <div className={'checkbox'}>
+                                <input type={'checkbox'}
+                                       id={'add_client_phone_dnc'}
+                                       name={'add_client_phone_dnc'}
+                                       checked={ctxWorkshopTicketAdd.clientAdd().phone_dnc}
+                                       onChange={(e) => ctxWorkshopTicketAdd.setClientAdd(
+                                           {
+                                               ...ctxWorkshopTicketAdd.clientAdd(),
+                                               phone_dnc: e.target.checked
+                                           }
+                                       )}
+                                />
+                                <label htmlFor={'add_client_phone_dnc'}>
+                                    Do not send SMS updates or messages
+                                </label>
                             </div>
-                        </Show>
-                        <div className={
-                            ctxMain.enabledServices().includes('get_address') && !addAddressManually()
-                                ? 'hidden'
-                                : 'block'
-                        }>
-                            <div className={'field-group'}>
-                                <div className={'py-2'}>
-                                    <label>Building Number</label>
-                                    <input type={'text'} value={clientAddress().building_number}
-                                           onKeyUp={
-                                               (e) => {
-                                                   setClientAddress({
-                                                       ...clientAddress(),
-                                                       building_number: e.target.value
-                                                   })
-                                               }
-                                           }/>
-                                </div>
-                                <div className={'py-2'}>
-                                    <label>Sub Building Number</label>
-                                    <input type={'text'} value={clientAddress().sub_building_number}
-                                           onKeyUp={
-                                               (e) => {
-                                                   setClientAddress({
-                                                       ...clientAddress(),
-                                                       sub_building_number: e.target.value
-                                                   })
-                                               }
-                                           }/>
-                                </div>
-                                <div className={'py-2'}>
-                                    <label>Building Name</label>
-                                    <input type={'text'} value={clientAddress().building_name}
-                                           onKeyUp={
-                                               (e) => {
-                                                   setClientAddress({
-                                                       ...clientAddress(),
-                                                       building_name: e.target.value
-                                                   })
-                                               }
-                                           }/>
-                                </div>
-                                <div className={'py-2'}>
-                                    <label>Sub Building Name</label>
-                                    <input type={'text'} value={clientAddress().sub_building_name}
-                                           onKeyUp={
-                                               (e) => {
-                                                   setClientAddress({
-                                                       ...clientAddress(),
-                                                       sub_building_name: e.target.value
-                                                   })
-                                               }
-                                           }/>
-                                </div>
-                            </div>
-                            <div className={'field-group'}>
-                                <div className={'py-2'}>
-                                    <label>Address Line 1</label>
-                                    <input type={'text'} value={clientAddress().address_line_1}
-                                           onKeyUp={
-                                               (e) => {
-                                                   setClientAddress({
-                                                       ...clientAddress(),
-                                                       address_line_1: e.target.value
-                                                   })
-                                               }
-                                           }/>
-                                </div>
-                                <div className={'py-2'}>
-                                    <label>Address Line 2</label>
-                                    <input type={'text'} value={clientAddress().address_line_2}
-                                           onKeyUp={
-                                               (e) => {
-                                                   setClientAddress({
-                                                       ...clientAddress(),
-                                                       address_line_2: e.target.value
-                                                   })
-                                               }
-                                           }/>
-                                </div>
-                                <div className={'py-2'}>
-                                    <label>Address Line 3</label>
-                                    <input type={'text'} value={clientAddress().address_line_3}
-                                           onKeyUp={
-                                               (e) => {
-                                                   setClientAddress({
-                                                       ...clientAddress(),
-                                                       address_line_3: e.target.value
-                                                   })
-                                               }
-                                           }/>
-                                </div>
-                                <div className={'py-2'}>
-                                    <label>Locality</label>
-                                    <input type={'text'} value={clientAddress().locality}
-                                           onKeyUp={
-                                               (e) => {
-                                                   setClientAddress({
-                                                       ...clientAddress(),
-                                                       locality: e.target.value
-                                                   })
-                                               }
-                                           }/>
-                                </div>
-                            </div>
-                            <div className={'field-group'}>
-                                <div className={'py-2'}>
-                                    <label>Town / City</label>
-                                    <input type={'text'} value={clientAddress().town_or_city}
-                                           onKeyUp={
-                                               (e) => {
-                                                   setClientAddress({
-                                                       ...clientAddress(),
-                                                       town_or_city: e.target.value
-                                                   })
-                                               }
-                                           }/>
-                                </div>
-                                <div className={'py-2'}>
-                                    <label>County</label>
-                                    <input type={'text'} value={clientAddress().county}
-                                           onKeyUp={
-                                               (e) => {
-                                                   setClientAddress({
-                                                       ...clientAddress(),
-                                                       county: e.target.value
-                                                   })
-                                               }
-                                           }/>
-                                </div>
-                                <div className={'py-2'}>
-                                    <label>District</label>
-                                    <input type={'text'} value={clientAddress().district}
-                                           onKeyUp={
-                                               (e) => {
-                                                   setClientAddress({
-                                                       ...clientAddress(),
-                                                       district: e.target.value
-                                                   })
-                                               }
-                                           }/>
-                                </div>
-                            </div>
-                            <div className={'field-group'}>
-                                <div className={'py-2'}>
-                                    <label>Postcode</label>
-                                    <input type={'text'} value={clientAddress().postcode}
-                                           onKeyUp={
-                                               (e) => {
-                                                   setClientAddress({
-                                                       ...clientAddress(),
-                                                       postcode: e.target.value
-                                                   })
-                                               }
-                                           }/>
-                                </div>
-                                <div className={'py-2'}>
-                                    <label>Country</label>
-                                    <input type={'text'} value={clientAddress().country}
-                                           onKeyUp={
-                                               (e) => {
-                                                   setClientAddress({
-                                                       ...clientAddress(),
-                                                       country: e.target.value
-                                                   })
-                                               }
-                                           }/>
-                                </div>
+
+                            <div className={'checkbox'}>
+                                <input type={'checkbox'}
+                                       id={'add_client_email_address_dnc'}
+                                       name={'add_client_email_address_dnc'}
+                                       checked={ctxWorkshopTicketAdd.clientAdd().email_address_dnc}
+                                       onChange={(e) => ctxWorkshopTicketAdd.setClientAdd(
+                                           {
+                                               ...ctxWorkshopTicketAdd.clientAdd(),
+                                               email_address_dnc: e.target.checked
+                                           }
+                                       )}
+                                />
+                                <label htmlFor={'add_client_email_address_dnc'}>
+                                    Do not send email updates or messages
+                                </label>
                             </div>
                         </div>
                     </div>
                 </div>
-            </form>
-        </div>
+                <div className={'form-section'}>
+                    <Show when={ctxMain.enabledServices().includes('get_address')}>
+                        <GetAddress cachePostcode={true} setAddress={ctxWorkshopTicketAdd.setClientAddAddress}/>
+                        <div className={'field-group'}>
+                            <a className={'no-underline'} onClick={(e) => {
+                                e.preventDefault()
+                                ctxWorkshopTicketAdd.setAddAddressManually(!ctxWorkshopTicketAdd.addAddressManually())
+                            }}>Add Address Manually {ctxWorkshopTicketAdd.addAddressManually() ? '▾' : '▸'}</a>
+                        </div>
+                    </Show>
+                    <div className={
+                        ctxMain.enabledServices().includes('get_address') && !ctxWorkshopTicketAdd.addAddressManually()
+                            ? 'hidden'
+                            : 'block'
+                    }>
+                        <div className={'field-group'}>
+                            <div className={'py-2'}>
+                                <label>Building Number</label>
+                                <input type={'text'} value={ctxWorkshopTicketAdd.clientAddAddress().building_number}
+                                       onKeyUp={
+                                           (e) => {
+                                               ctxWorkshopTicketAdd.setClientAddAddress({
+                                                   ...ctxWorkshopTicketAdd.clientAddAddress(),
+                                                   building_number: e.target.value
+                                               })
+                                           }
+                                       }/>
+                            </div>
+                            <div className={'py-2'}>
+                                <label>Sub Building Number</label>
+                                <input type={'text'} value={ctxWorkshopTicketAdd.clientAddAddress().sub_building_number}
+                                       onKeyUp={
+                                           (e) => {
+                                               ctxWorkshopTicketAdd.setClientAddAddress({
+                                                   ...ctxWorkshopTicketAdd.clientAddAddress(),
+                                                   sub_building_number: e.target.value
+                                               })
+                                           }
+                                       }/>
+                            </div>
+                            <div className={'py-2'}>
+                                <label>Building Name</label>
+                                <input type={'text'} value={ctxWorkshopTicketAdd.clientAddAddress().building_name}
+                                       onKeyUp={
+                                           (e) => {
+                                               ctxWorkshopTicketAdd.setClientAddAddress({
+                                                   ...ctxWorkshopTicketAdd.clientAddAddress(),
+                                                   building_name: e.target.value
+                                               })
+                                           }
+                                       }/>
+                            </div>
+                            <div className={'py-2'}>
+                                <label>Sub Building Name</label>
+                                <input type={'text'} value={ctxWorkshopTicketAdd.clientAddAddress().sub_building_name}
+                                       onKeyUp={
+                                           (e) => {
+                                               ctxWorkshopTicketAdd.setClientAddAddress({
+                                                   ...ctxWorkshopTicketAdd.clientAddAddress(),
+                                                   sub_building_name: e.target.value
+                                               })
+                                           }
+                                       }/>
+                            </div>
+                        </div>
+                        <div className={'field-group'}>
+                            <div className={'py-2'}>
+                                <label>Address Line 1</label>
+                                <input type={'text'} value={ctxWorkshopTicketAdd.clientAddAddress().address_line_1}
+                                       onKeyUp={
+                                           (e) => {
+                                               ctxWorkshopTicketAdd.setClientAddAddress({
+                                                   ...ctxWorkshopTicketAdd.clientAddAddress(),
+                                                   address_line_1: e.target.value
+                                               })
+                                           }
+                                       }/>
+                            </div>
+                            <div className={'py-2'}>
+                                <label>Address Line 2</label>
+                                <input type={'text'} value={ctxWorkshopTicketAdd.clientAddAddress().address_line_2}
+                                       onKeyUp={
+                                           (e) => {
+                                               ctxWorkshopTicketAdd.setClientAddAddress({
+                                                   ...ctxWorkshopTicketAdd.clientAddAddress(),
+                                                   address_line_2: e.target.value
+                                               })
+                                           }
+                                       }/>
+                            </div>
+                            <div className={'py-2'}>
+                                <label>Address Line 3</label>
+                                <input type={'text'} value={ctxWorkshopTicketAdd.clientAddAddress().address_line_3}
+                                       onKeyUp={
+                                           (e) => {
+                                               ctxWorkshopTicketAdd.setClientAddAddress({
+                                                   ...ctxWorkshopTicketAdd.clientAddAddress(),
+                                                   address_line_3: e.target.value
+                                               })
+                                           }
+                                       }/>
+                            </div>
+                            <div className={'py-2'}>
+                                <label>Locality</label>
+                                <input type={'text'} value={ctxWorkshopTicketAdd.clientAddAddress().locality}
+                                       onKeyUp={
+                                           (e) => {
+                                               ctxWorkshopTicketAdd.setClientAddAddress({
+                                                   ...ctxWorkshopTicketAdd.clientAddAddress(),
+                                                   locality: e.target.value
+                                               })
+                                           }
+                                       }/>
+                            </div>
+                        </div>
+                        <div className={'field-group'}>
+                            <div className={'py-2'}>
+                                <label>Town / City</label>
+                                <input type={'text'} value={ctxWorkshopTicketAdd.clientAddAddress().town_or_city}
+                                       onKeyUp={
+                                           (e) => {
+                                               ctxWorkshopTicketAdd.setClientAddAddress({
+                                                   ...ctxWorkshopTicketAdd.clientAddAddress(),
+                                                   town_or_city: e.target.value
+                                               })
+                                           }
+                                       }/>
+                            </div>
+                            <div className={'py-2'}>
+                                <label>County</label>
+                                <input type={'text'} value={ctxWorkshopTicketAdd.clientAddAddress().county}
+                                       onKeyUp={
+                                           (e) => {
+                                               ctxWorkshopTicketAdd.setClientAddAddress({
+                                                   ...ctxWorkshopTicketAdd.clientAddAddress(),
+                                                   county: e.target.value
+                                               })
+                                           }
+                                       }/>
+                            </div>
+                            <div className={'py-2'}>
+                                <label>District</label>
+                                <input type={'text'} value={ctxWorkshopTicketAdd.clientAddAddress().district}
+                                       onKeyUp={
+                                           (e) => {
+                                               ctxWorkshopTicketAdd.setClientAddAddress({
+                                                   ...ctxWorkshopTicketAdd.clientAddAddress(),
+                                                   district: e.target.value
+                                               })
+                                           }
+                                       }/>
+                            </div>
+                        </div>
+                        <div className={'field-group'}>
+                            <div className={'py-2'}>
+                                <label>Postcode</label>
+                                <input type={'text'} value={ctxWorkshopTicketAdd.clientAddAddress().postcode}
+                                       onKeyUp={
+                                           (e) => {
+                                               ctxWorkshopTicketAdd.setClientAddAddress({
+                                                   ...ctxWorkshopTicketAdd.clientAddAddress(),
+                                                   postcode: e.target.value
+                                               })
+                                           }
+                                       }/>
+                            </div>
+                            <div className={'py-2'}>
+                                <label>Country</label>
+                                <input type={'text'} value={ctxWorkshopTicketAdd.clientAddAddress().country}
+                                       onKeyUp={
+                                           (e) => {
+                                               ctxWorkshopTicketAdd.setClientAddAddress({
+                                                   ...ctxWorkshopTicketAdd.clientAddAddress(),
+                                                   country: e.target.value
+                                               })
+                                           }
+                                       }/>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
     )
 }

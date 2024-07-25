@@ -21,18 +21,40 @@ def get_workshop_ticket(data):
                 "No valid where clause provided.", {"where": "{field: value}"}
             )
 
-        result = s.execute(query).scalar_one_or_none()
-        if not result:
+        r = s.execute(query).scalar_one_or_none()
+        if not r:
             return RPCResponse.fail("No workshop ticket found.")
 
         return RPCResponse.success(
             {
-                **{k: v for k, v in result.__dict__.items() if not k.startswith("_")},
-                "__added_by": result.rel_added_by.display_name,
-                "__assigned_to": result.rel_assigned_to.display_name,
-                "__created": result.created.strftime("%a %-d %b")
-                if result.created
-                else "-",
+                **{k: v for k, v in r.__dict__.items() if not k.startswith("_")},
+                "__added_by": r.rel_added_by.display_name,
+                "__assigned_to": r.rel_assigned_to.display_name,
+                "__client": {
+                    "client_id": r.rel_client.client_id,
+                    "business_name": r.rel_client.business_name,
+                    "first_name": r.rel_client.first_name,
+                    "last_name": r.rel_client.last_name,
+                    "phone": r.rel_client.phone,
+                    "email_address": r.rel_client.email_address,
+                    "alt_phone": r.rel_client.alt_phone,
+                    "alt_email_address": r.rel_client.alt_email_address,
+                },
+                "__devices": [
+                    {
+                        "type": d.type,
+                        "make": d.make,
+                        "model": d.model,
+                    }
+                    for d in r.rel_devices
+                ],
+                "__items": [
+                    {
+                        "description": d.description,
+                    }
+                    for d in r.rel_items
+                ],
+                "__created": r.created.strftime("%a %-d %b") if r.created else "-",
             },
             "Workshop ticket found.",
         )

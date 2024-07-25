@@ -8,11 +8,11 @@ serve_app = "app"
 vite_apps = ["frontend"]
 
 [tool.pyqwe]
-app-dev = "app:dev"
-app-pro = "*:hypercorn app:create_app --config hypercorn/config.toml"
-frontend-run = "*(frontend):npx vite --host 127.0.0.1 --port 6262"
-frontend-build = "*(frontend):npx vite build"
-frontend-install = "*(frontend):npm install"
-frontend-update = "*(frontend):npm update"
-frontend-compile = "*:vt compile"
+run-app = "app:dev"
+pro-run-app = "*:hypercorn app:create_app --config hypercorn/config.toml"
+run-frontend = "*(frontend):npx vite --host 127.0.0.1 --port 6262"
+build-frontend = "*(frontend):npx vite build"
+install-frontend = "*(frontend):npm install"
+update-frontend = "*(frontend):npm update"
+compile-frontend = "*:vt compile"
 load-test-data = "*:python3 cli/setup load-test-data"

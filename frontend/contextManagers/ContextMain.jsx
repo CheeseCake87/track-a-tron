@@ -9,6 +9,7 @@ import {MainMenu} from "../components/menus/MainMenu";
 import rpc_check_if_setup from "../rpc/system/rpc_check_if_setup";
 import ToastBar from "../components/globals/ToastBar";
 import rpc_get_enabled_services from "../rpc/system/rpc_get_enabled_services";
+import {CATEGORY_CODES, STATUS_CODES} from "../globals";
 
 
 export const ContextMain = createContext()
@@ -37,10 +38,13 @@ export function MainContextProvider(props) {
 
     const [mainMenuLocation, setMainMenuLocation] = createSignal('workshop')
 
-    // Client Filtering // Client Filtering
+    function statusCodeLookup(statusCode) {
+        return STATUS_CODES[statusCode]
+    }
 
-
-    // -------------------------------------
+    function categoryCodeLookup(categoryCode) {
+        return CATEGORY_CODES[categoryCode]
+    }
 
     function showSuccessToast(message) {
         setToastBarType('success')
@@ -127,7 +131,10 @@ export function MainContextProvider(props) {
                 logout: logout,
 
                 showSuccessToast: showSuccessToast,
-                showErrorToast: showErrorToast
+                showErrorToast: showErrorToast,
+
+                statusCodeLookup: statusCodeLookup,
+                categoryCodeLookup: categoryCodeLookup,
             }
         }>
             {

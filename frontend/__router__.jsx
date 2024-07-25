@@ -79,14 +79,16 @@ render(() => (
 
                     <Route path="" component={RequireAuthContextProvider}>
                         <Route path="" component={WorkshopContextProvider}>
-                            <Route path="/workshop" component={Workshop}/>
-                            <Route path="/ticket">
-                                <Route path="/" component={() => <Navigate href={'/workshop'}/>}/>
-                                <Route path="" component={WorkshopTicketAddContextProvider}>
-                                    <Route path="/add" component={WorkshopTicketAdd}/>
-                                </Route>
-                                <Route path="" component={WorkshopTicketContextProvider}>
-                                    <Route path="/:workshop_ticket_id" component={WorkshopTicket}/>
+                            <Route path="/workshop">
+                                <Route path="/" component={Workshop}/>
+                                <Route path="/ticket">
+                                    <Route path="/" component={() => <Navigate href={'/workshop'}/>}/>
+                                    <Route path="" component={WorkshopTicketAddContextProvider}>
+                                        <Route path="/add" component={WorkshopTicketAdd}/>
+                                    </Route>
+                                    <Route path="" component={WorkshopTicketContextProvider}>
+                                        <Route path="/:workshop_ticket_id" component={WorkshopTicket}/>
+                                    </Route>
                                 </Route>
                             </Route>
                         </Route>

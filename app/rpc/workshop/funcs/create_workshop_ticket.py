@@ -15,7 +15,6 @@ def create_workshop_ticket(data):
     d = DataDict(data)
     try:
         user_id = d.get_ensure_key("user_id")
-        assigned_user_id = d.get_ensure_key("assigned_user_id")
         client_id = d.get_ensure_key("client_id")
         category_code = d.get_ensure_key("category_code")
         status_code = d.get_ensure_key("status_code")

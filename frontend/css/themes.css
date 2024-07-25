@@ -46,7 +46,7 @@
 
     /* BUTTONS */
     --button-default-bg: #e3e3e3;
-    --button-default-text-color: #171717;
+    --button-default-text-color: #1e1e1e;
     --button-default-border-color: #b4b4b4;
     --button-default-bg-hover: #dcdcdc;
     --button-default-text-color-hover: #171717;
@@ -98,6 +98,7 @@
 
     /* ATTENTION */
     --attention-light-default-bg-color: rgba(237, 237, 237, 0.8);
+    --attention-light-default-bg-color-hover: rgba(228, 228, 228, 0.8);
     --attention-default-bg-color: rgba(227, 227, 227, 0.8);
     --attention-default-border-color: #b4b4b4;
     --attention-good-bg-color: rgba(180, 231, 180, 0.6);
@@ -132,6 +133,19 @@
     /* PILLS */
     --pill-bg: #004e6e;
     /* PILLS */
+
+    /* WORKSHOP TICKETS */
+
+    --workshop-ticket-card-bg-color: #f4f4f4;
+    --workshop-ticket-card-border-color: #acacac;
+    --workshop-ticket-card-bg-color-hover: #efefef;
+    --workshop-ticket-card-border-color-hover: #d1d1d1;
+    --workshop-ticket-pill-bg-color: #ffffff;
+    --workshop-ticket-inner-pill-bg-color: #d9ebf8;
+
+    --workshop-ticket-pill-remove-color: #ffffff;
+    --workshop-ticket-inner-pill-remove-bg-color: #610c15;
+
 
 }
 

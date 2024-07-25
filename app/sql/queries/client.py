@@ -24,11 +24,19 @@ def query_create_client(user_id: int, values: dict, ignore_fields: list[str] = N
 
 
 def query_read_client(where: dict):
+    if not isinstance(where, dict):
+        return None
+
     wh_ = []
     for k, v in where.items():
+        if not hasattr(Client, k):
+            continue
+
         wh_.append(getattr(Client, k) == v)
+
     if not wh_:
         return None
+
     se_ = select(Client).where(*wh_)
     return se_
 
