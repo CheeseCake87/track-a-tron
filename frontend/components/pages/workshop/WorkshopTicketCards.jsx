@@ -69,10 +69,18 @@ export default function WorkshopTicketCards() {
                                                 <For each={ticket.__devices}>
                                                     {(device, i) =>
                                                         <div className={'workshop-ticket-pill'}>
-                                                            {device.make}
+
                                                             <div className={'workshop-ticket-inner-pill'}>
                                                                 {device.type}
                                                             </div>
+                                                            <Show when={device.make !== ''}>
+                                                                {device.make}
+                                                            </Show>
+                                                            <Show when={device.model !== ''}>
+                                                                {device.make !== '' ? ' ' : ''}
+                                                                {device.model}
+                                                            </Show>
+
                                                         </div>
                                                     }
                                                 </For>

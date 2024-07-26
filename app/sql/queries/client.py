@@ -29,6 +29,31 @@ def query_read_client(where: dict):
 
     wh_ = []
     for k, v in where.items():
+        if k == "any_name":
+            wh_.append(
+                or_(
+                    Client.business_name.ilike(f"%{v}%"),
+                    Client.first_name.ilike(f"%{v}%"),
+                    Client.last_name.ilike(f"%{v}%"),
+                )
+            )
+            continue
+
+        if k == "any_phone":
+            wh_.append(
+                or_(Client.phone.ilike(f"%{v}%"), Client.alt_phone.ilike(f"%{v}%"))
+            )
+            continue
+
+        if k == "any_email":
+            wh_.append(
+                or_(
+                    Client.email_address.ilike(f"%{v}%"),
+                    Client.alt_email_address.ilike(f"%{v}%"),
+                )
+            )
+            continue
+
         if not hasattr(Client, k):
             continue
 
@@ -36,6 +61,10 @@ def query_read_client(where: dict):
 
     if not wh_:
         return None
+
+    if "__limit__" in where:
+        se_ = select(Client).where(*wh_).limit(where["__limit__"])
+        return se_
 
     se_ = select(Client).where(*wh_)
     return se_

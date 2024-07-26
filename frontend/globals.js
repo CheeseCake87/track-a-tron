@@ -5,8 +5,8 @@ export const DEVICE_TYPES = [
     'Desktop',
     'Laptop',
     'Tablet',
-    'Mobile',
-    'Other (see notes)'
+    'Phone',
+    'Other'
 ]
 
 export const STATUS_CODES = {

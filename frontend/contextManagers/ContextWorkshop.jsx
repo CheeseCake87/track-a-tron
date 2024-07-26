@@ -94,7 +94,6 @@ export function WorkshopContextProvider() {
         return device
     }
 
-
     function ticketsTempWhereValue(key, value) {
         if (value === '') {
             if (ticketsTempWhere().hasOwnProperty(key)) {

@@ -52,7 +52,13 @@
 }
 
 .workshop-ticket-pill-group {
-    @apply flex flex-row gap-2 w-full py-1;
+    @apply flex flex-row gap-2 w-full py-1 flex-wrap;
+    min-width: 0;
+}
+
+.workshop-ticket-pill-group-col {
+    @apply flex flex-col gap-2 rounded-md w-full p-1 overflow-y-auto;
+    background-color: #e3e3e3;
     min-width: 0;
 }
 
@@ -63,7 +69,7 @@
 }
 
 .workshop-ticket-inner-pill {
-    @apply text-sm rounded-md px-2 py-1 ml-2;
+    @apply text-sm rounded-md px-2 py-1 mr-2;
     color: var(--button-default-text-color);
     background-color: var(--workshop-ticket-inner-pill-bg-color);
 }

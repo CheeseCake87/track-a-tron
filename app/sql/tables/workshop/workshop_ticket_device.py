@@ -21,9 +21,10 @@ class WorkshopTicketDevice(BaseModel):
 
     # Data
     type = s.Column(s.String, nullable=False)
-    make = s.Column(s.String, nullable=False)
-    model = s.Column(s.String, nullable=False)
-    serial_number = s.Column(s.String, nullable=False)
+    make = s.Column(s.String, nullable=True)
+    model = s.Column(s.String, nullable=True)
+    serial_number = s.Column(s.String, nullable=True)
+    password = s.Column(s.String, nullable=True)
 
     power_adapter_included = s.Column(s.Boolean, nullable=False, default=False)
 

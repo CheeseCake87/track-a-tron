@@ -13,6 +13,9 @@ export function WorkshopTicketAddContextProvider() {
 
     const [addTicketEnabled, setAddTicketEnabled] = createSignal(false)
     const [addAddressManually, setAddAddressManually] = createSignal(false)
+    const [addNewClient, setAddNewClient] = createSignal(false)
+    const [clientIDSelected, setClientIDSelected] = createSignal(0)
+    const [clientSelected, setClientSelected] = createSignal('')
     const [clientAdd, setClientAdd] = createSignal({
         business_name: '',
         first_name: '',
@@ -42,13 +45,23 @@ export function WorkshopTicketAddContextProvider() {
     const [findClientWhere, setFindClientWhere] = createSignal({})
     const [devices, setDevices] = createSignal([])
     const [items, setItems] = createSignal([])
-    const [device, setDevice] = createSignal({
+    const [foundClients, setFoundClients] = createSignal([])
+    const [clientSearchDone, setClientSearchDone] = createSignal(false)
+
+    const [deviceFields, setDeviceFields] = createSignal({
         type: 'Select...',
         make: '',
         model: '',
+        password: ''
     })
-    const [item, setItem] = createSignal({
+    const [itemFields, setItemFields] = createSignal({
         description: '',
+    })
+    const [findClientFields, setFindClientFields] = createSignal({
+        any_name: '',
+        any_phone: '',
+        any_email: '',
+        postcode: ''
     })
 
     function createClient() {
@@ -68,17 +81,33 @@ export function WorkshopTicketAddContextProvider() {
             })
     }
 
-    function findClient(where) {
-        rpc_find_client(
-            where
-        )
-            .then((rpc) => {
+    function findClient() {
+        const where = {
+            __limit__: 10
+        }
+        if (findClientFields().any_name !== '') {
+            where.any_name = findClientFields().any_name
+        }
+        if (findClientFields().any_phone !== '') {
+            where.any_phone = findClientFields().any_phone
+        }
+        if (findClientFields().any_email !== '') {
+            where.any_email = findClientFields().any_email
+        }
+        if (findClientFields().postcode !== '') {
+            where.postcode = findClientFields().postcode
+        }
+        rpc_find_client(where).then(
+            (rpc) => {
                 if (rpc.ok) {
-                    setClientAdd(rpc.data[0])
+                    setFoundClients(rpc.data)
+                    setClientSearchDone(true)
                 } else {
-                    ctxMain.showErrorToast(rpc.message)
+                    setFoundClients([])
+                    setClientSearchDone(true)
                 }
-            })
+            }
+        )
 
     }
 
@@ -100,39 +129,44 @@ export function WorkshopTicketAddContextProvider() {
     }
 
     function addDevice() {
-        if (device().type === '' || device().type === 'Select...' || device().make === '') {
-            ctxMain.showErrorToast('Device make and type are required')
+        if (deviceFields().type === '' || deviceFields().type === 'Select...') {
+            ctxMain.showErrorToast('Device type is required')
             return
         }
         const focus_el = document.getElementById('add-device-focus-field')
-        setDevices([...devices(), device()])
-        setDevice({
+        setDevices([...devices(), deviceFields()])
+        setDeviceFields({
             type: 'Select...',
             make: '',
             model: '',
+            password: '',
         })
         focus_el.focus()
     }
 
     function addItem() {
-        if (item().description === '') {
+        if (itemFields().description === '') {
             ctxMain.showErrorToast('Item description is required')
             return
         }
         const focus_el = document.getElementById('add-item-focus-field')
-        setItems([...items(), item()])
-        setItem({
+        setItems([...items(), itemFields()])
+        setItemFields({
             description: '',
         })
         focus_el.focus()
     }
 
     function updateDevice(name, value) {
-        setDevice({...device(), [name]: value})
+        setDeviceFields({...deviceFields(), [name]: value})
     }
 
     function updateItem(name, value) {
-        setItem({...item(), [name]: value})
+        setItemFields({...itemFields(), [name]: value})
+    }
+
+    function updateFindClient(name, value) {
+        setFindClientFields({...findClientFields(), [name]: value})
     }
 
     return (
@@ -145,15 +179,31 @@ export function WorkshopTicketAddContextProvider() {
             clientAddAddress: clientAddAddress,
             setClientAddAddress: setClientAddAddress,
             findClientWhere: findClientWhere,
-            device: device,
-            setDevice: setDevice,
-            item: item,
-            setItem: setItem,
+
+            addNewClient: addNewClient,
+            setAddNewClient: setAddNewClient,
+
+            deviceFields: deviceFields,
+            setDeviceFields: setDeviceFields,
+            itemFields: itemFields,
+            setItemFields: setItemFields,
+            findClientFields: findClientFields,
+            setFindClientFields: setFindClientFields,
 
             devices: devices,
             setDevices: setDevices,
             items: items,
             setItems: setItems,
+            foundClients: foundClients,
+            setFoundClients: setFoundClients,
+
+            clientSearchDone: clientSearchDone,
+            setClientSearchDone: setClientSearchDone,
+
+            clientIDSelected: clientIDSelected,
+            setClientIDSelected: setClientIDSelected,
+            clientSelected: clientSelected,
+            setClientSelected: setClientSelected,
 
             createClient: createClient,
             findClient: findClient,
@@ -161,7 +211,8 @@ export function WorkshopTicketAddContextProvider() {
             addDevice: addDevice,
             addItem: addItem,
             updateDevice: updateDevice,
-            updateItem: updateItem
+            updateItem: updateItem,
+            updateFindClient: updateFindClient
         }}>
             <Outlet/>
         </ContextWorkshopTicketAdd.Provider>

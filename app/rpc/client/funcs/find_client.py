@@ -15,7 +15,7 @@ def find_client(data):
         return RPCResponse.fail("Missing required data.", {"where": "{field: value}"})
 
     with GDBSession as s:
-        query = query_read_client(**where)
+        query = query_read_client(where)
 
         if query is None:
             return RPCResponse.fail(
@@ -31,7 +31,7 @@ def find_client(data):
                 {
                     **{k: v for k, v in r.__dict__.items() if not k.startswith("_")},
                     "__added_by": r.rel_system_user.display_name,
-                    "__address": condense_client_address(result),
+                    "__address": condense_client_address(r),
                     "__created": r.created.strftime("%a %-d %b") if r.created else "-",
                 }
                 for r in result
