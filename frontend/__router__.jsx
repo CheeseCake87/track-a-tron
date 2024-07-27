@@ -87,7 +87,7 @@ render(() => (
                                         <Route path="/add" component={WorkshopTicketAdd}/>
                                     </Route>
                                     <Route path="" component={WorkshopTicketContextProvider}>
-                                        <Route path="/:workshop_ticket_id" component={WorkshopTicket}/>
+                                        <Route path="/:workshop_tag" component={WorkshopTicket}/>
                                     </Route>
                                 </Route>
                             </Route>

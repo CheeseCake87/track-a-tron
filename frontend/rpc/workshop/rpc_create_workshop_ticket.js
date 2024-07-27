@@ -10,7 +10,7 @@ export default async function rpc_create_workshop_ticket(
     devices,
     items,
 ) {
-    const req = await fetch(API_URL + '/rpc/client/', {
+    const req = await fetch(API_URL + '/rpc/workshop/', {
         method: 'POST',
         credentials: 'include',
         headers: {

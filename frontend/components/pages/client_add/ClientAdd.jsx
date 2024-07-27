@@ -48,7 +48,7 @@ export default function ClientAdd() {
             .then((rpc) => {
                 if (rpc.ok) {
                     ctxMain.showSuccessToast('Client created')
-                    ctxMain.navigator(`/client/${rpc.data[0].client_id}`)
+                    ctxMain.navigator(`/clients/${rpc.data[0].client_id}`)
                 } else {
                     ctxMain.showErrorToast(rpc.message)
                 }

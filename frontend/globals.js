@@ -41,7 +41,13 @@ export const STATUS_CODES = {
 }
 
 export const CATEGORY_CODES = {
-    1: 'Repair',
-    2: 'Service',
-    3: 'Remote Support',
+    1: 'Drop-in',
+    2: 'Remote',
+    3: 'Callout',
+    4: 'Multiple',
 }
+
+export const CATEGORY_CODES_ARRAY = Object.entries(CATEGORY_CODES).map(
+    ([key, value]) => {
+        return {code: parseInt(key), label: value};
+    });

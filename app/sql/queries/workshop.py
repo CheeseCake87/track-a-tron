@@ -150,7 +150,7 @@ def query_page_workshop_tickets(
         .order_by(WorkshopTicket.created.desc())
     )
 
-    count = select(func.count()).select_from(WorkshopTicket).where(*wh_arg)
+    count = select(func.count()).select_from(WorkshopTicket).where(*wh_arg).order_by(WorkshopTicket.created)
 
     return se_, count
 

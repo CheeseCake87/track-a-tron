@@ -29,7 +29,7 @@ export default function WorkshopTicketCards() {
                                 </div>
                             </div>
                             <div className={'workshop-ticket-section'}>
-                                <small>Workshop Tag</small>
+                                <small>Tag</small>
                                 <div className={'workshop-ticket-pill'}>
                                     {ticket.workshop_tag}
                                 </div>
@@ -115,7 +115,7 @@ export default function WorkshopTicketCards() {
                     <div className={'workshop-ticket-end'}>
                         <div className={'flex justify-end'}>
                             <A className={'btn-confirm'} href={
-                                "/workshop/ticket/" + ticket.client_id
+                                "/workshop/ticket/" + ticket.workshop_tag
                             }>Open</A>
                         </div>
                         <div className={'workshop-ticket-group'}>

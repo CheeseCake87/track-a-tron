@@ -12,8 +12,8 @@ export default function Client() {
     const ctxClient = useContext(ContextClient)
 
     return (
-        <div className={'main-content-slim'}>
-            <div className={'field-group items-center sticky top-0 pb-5'}>
+        <div className={'main-content-slim gap-2'}>
+            <div className={'field-group items-center sticky top-0'}>
                 <button className={'btn'} onClick={() => {
                     ctxClients.deBounceGetPageClients(
                         200, ctxClients.page(), ctxClients.limit(), ctxClients.clientsWhere()
@@ -22,6 +22,13 @@ export default function Client() {
                 }}>
                     ← Back
                 </button>
+                <Show when={ctxClient.savingClient()}>
+                    <div className={'flex flex-row gap-2 items-center px-4'}>
+                        <SpinnerSmall/> Saving...
+                    </div>
+                </Show>
+            </div>
+            <div className={'sectioned-content flex flex-row gap-2 w-full'}>
                 <div className={'input-like'}>
                     <strong>Client ID:</strong> {ctxClient.client().client_id}
                 </div>
@@ -31,11 +38,6 @@ export default function Client() {
                 <div className={'input-like'}>
                     <strong>Added By:</strong> {ctxClient.client().__added_by}
                 </div>
-                <Show when={ctxClient.savingClient()}>
-                    <div className={'flex flex-row gap-2 items-center px-4'}>
-                        <SpinnerSmall/> Saving...
-                    </div>
-                </Show>
             </div>
             <div className={'sectioned-content w-full'}>
                 <form onSubmit={

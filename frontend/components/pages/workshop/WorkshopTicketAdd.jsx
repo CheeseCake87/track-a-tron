@@ -2,9 +2,8 @@ import {For, Show, useContext} from "solid-js";
 import {ContextMain} from "../../../contextManagers/ContextMain";
 import GetAddress from "../../services/GetAddress";
 import {ContextWorkshopTicketAdd} from "../../../contextManagers/ContextWorkshopTicketAdd";
-import {DEVICE_TYPES} from "../../../globals";
+import {CATEGORY_CODES_ARRAY, DEVICE_TYPES} from "../../../globals";
 import {LetterXIcon} from "../../globals/Icons";
-import {ContextWorkshop} from "../../../contextManagers/ContextWorkshop";
 
 export default function WorkshopTicketAdd() {
 
@@ -26,8 +25,29 @@ export default function WorkshopTicketAdd() {
             }>
                 <div className={'sectioned-content w-full'}>
                     <div className={'form-section'}>
+                        <label>Category</label>
+                        <div className={'flex flex-row gap-2'}>
+                            <For each={CATEGORY_CODES_ARRAY}>
+                                {(category, i) => (
+                                    <button
+                                        onClick={() => ctxWorkshopTicketAdd.setCategoryCode(category.code)}
+                                        className={ctxWorkshopTicketAdd.categoryCode() === category.code
+                                            ? 'btn-confirm'
+                                            : 'btn'}>
+                                        {category.label}
+                                    </button>
+                                )}
+                            </For>
+                        </div>
+                    </div>
+                    <div className={'form-section pt-2'}>
                         <label>Request</label>
-                        <textarea rows="3" tabIndex={1}></textarea>
+                        <textarea rows="3" tabIndex={1} onKeyUp={
+                            (e) => {
+                                ctxWorkshopTicketAdd.setRequest(e.target.value)
+                            }
+                        } value={ctxWorkshopTicketAdd.request()
+                        }></textarea>
                     </div>
                 </div>
             </form>
@@ -39,7 +59,6 @@ export default function WorkshopTicketAdd() {
             <div className={'field-group'}>
                 <button className={'btn'} onClick={() => ctxMain.navigator('/workshop')}>← Cancel</button>
                 <button className={'btn-good'}
-                        disabled={!ctxWorkshopTicketAdd.addTicketEnabled()}
                         onClick={ctxWorkshopTicketAdd.createWorkshopTicket}>
                     Create Ticket
                 </button>
@@ -259,29 +278,8 @@ function ItemSection() {
 }
 
 function FindClientSection() {
-    const ctxWorkshop = useContext(ContextWorkshop)
+
     const ctxWorkshopTicketAdd = useContext(ContextWorkshopTicketAdd)
-
-    function buildSelected(row) {
-        const displayName = ctxWorkshop.displayName(
-            row.business_name,
-            row.first_name,
-            row.last_name
-        )
-        const contact = ctxWorkshop.displayContact(
-            row.phone,
-            row.email_address,
-            row.alt_phone,
-            row.alt_email_address
-        )
-        const address = row.__address
-        return `${displayName ? displayName : '-'} | ${contact ? contact : '-'} | ${address}`
-    }
-
-    function setSelected(row) {
-        ctxWorkshopTicketAdd.setClientIDSelected(row.client_id)
-        ctxWorkshopTicketAdd.setClientSelected(buildSelected(row))
-    }
 
     return (
         <form onSubmit={
@@ -290,7 +288,9 @@ function FindClientSection() {
             }
         }>
             <div className={'form-section'}>
-                <label>Search Client</label>
+
+                <label>Search</label>
+
                 <div className={'field-group'}>
                     <div className={'inline-label'}>
                         <label>Name</label>
@@ -356,7 +356,7 @@ function FindClientSection() {
                         <For each={ctxWorkshopTicketAdd.foundClients()} fallback={
                             <div className={'flex'}>
                                 <div className={'workshop-ticket-pill'}>
-                                <Show when={ctxWorkshopTicketAdd.clientSearchDone()}
+                                    <Show when={ctxWorkshopTicketAdd.clientSearchDone()}
                                           children={'No clients found'}
                                           fallback={'Search for a client'}/>
                                 </div>
@@ -364,10 +364,10 @@ function FindClientSection() {
                         }>
                             {(foundClient, i) => (
                                 <div className={'workshop-ticket-pill'}>
-                                    {buildSelected(foundClient)}
+                                    {ctxWorkshopTicketAdd.buildSelectedClient(foundClient)}
                                     <button className={'btn-confirm btn-pill'}
                                             onClick={() => {
-                                                setSelected(foundClient)
+                                                ctxWorkshopTicketAdd.setSelectedClient(foundClient)
                                             }}>
                                         Select
                                     </button>
@@ -718,20 +718,6 @@ function AddClientSection() {
 function ClientSection() {
     const ctxWorkshopTicketAdd = useContext(ContextWorkshopTicketAdd)
 
-    function clearClientSearch() {
-        ctxWorkshopTicketAdd.setClientIDSelected(0)
-        ctxWorkshopTicketAdd.setClientSelected('')
-        ctxWorkshopTicketAdd.setAddNewClient(true)
-        ctxWorkshopTicketAdd.setClientSearchDone(false)
-        ctxWorkshopTicketAdd.setFoundClients([])
-        ctxWorkshopTicketAdd.setFindClientFields({
-            any_name: '',
-            any_phone: '',
-            any_email: '',
-            postcode: ''
-        })
-    }
-
     return (
         <div className={'sectioned-content w-full'}>
             <div className={'flex flex-row gap-2 mb-4'}>
@@ -744,7 +730,7 @@ function ClientSection() {
                 </button>
                 <button
                     onClick={() => {
-                        clearClientSearch()
+                        ctxWorkshopTicketAdd.clearClientSearch()
                     }}
                     className={!ctxWorkshopTicketAdd.addNewClient() ? 'btn' : 'btn-confirm'}>
                     Add New Client

@@ -4,6 +4,7 @@ from quart_rpc.version_1_1 import RPCResponse  # noqa
 
 from app.sql import GDBSession
 from app.sql.queries.workshop import query_read_workshop_ticket
+from app.utilities.condense_client_address import condense_client_address
 
 
 def get_workshop_ticket(data):
@@ -39,9 +40,11 @@ def get_workshop_ticket(data):
                     "email_address": r.rel_client.email_address,
                     "alt_phone": r.rel_client.alt_phone,
                     "alt_email_address": r.rel_client.alt_email_address,
+                    "__address": condense_client_address(r.rel_client)
                 },
                 "__devices": [
                     {
+                        "workshop_ticket_device_id": d.workshop_ticket_device_id,
                         "type": d.type,
                         "make": d.make,
                         "model": d.model,
@@ -50,6 +53,7 @@ def get_workshop_ticket(data):
                 ],
                 "__items": [
                     {
+                        "workshop_ticket_item_id": d.workshop_ticket_item_id,
                         "description": d.description,
                     }
                     for d in r.rel_items

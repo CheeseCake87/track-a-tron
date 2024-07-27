@@ -44,7 +44,7 @@ def create_workshop_ticket(data):
         new_ticket = s.execute(
             query_create_workshop_ticket(
                 user_id,
-                assigned_user_id,
+                user_id,
                 client_id,
                 workshop_tag,
                 category_code,
@@ -60,7 +60,7 @@ def create_workshop_ticket(data):
         for device in devices:
             s.execute(
                 query_create_workshop_ticket_device(
-                    new_ticket.ticket_id,
+                    new_ticket.workshop_ticket_id,
                     user_id,
                     type_=device.get("type"),
                     make=device.get("make"),
@@ -74,7 +74,7 @@ def create_workshop_ticket(data):
         for item in items:
             s.execute(
                 query_create_workshop_ticket_item(
-                    new_ticket.ticket_id,
+                    new_ticket.workshop_ticket_id,
                     user_id,
                     description=item.get("description"),
                 )
@@ -83,7 +83,7 @@ def create_workshop_ticket(data):
         s.commit()
 
         response = RPCResponse.success(
-            {"workshop_ticket_id": new_ticket.ticket_id},
+            {"workshop_ticket_id": new_ticket.workshop_ticket_id},
             "Workshop ticket created.",
         )
 

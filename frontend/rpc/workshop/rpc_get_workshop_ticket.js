@@ -2,27 +2,24 @@ import {API_URL} from "../../globals";
 import {weerpc} from "weerpcjs";
 import WRPCFetcher from "../../utilities/WRPCFetcher";
 
-export default function rpc_get_client(clientId) {
-
-    async function __fetch__() {
-        const req = await fetch(API_URL + '/rpc/client/', {
-            method: 'POST',
-            credentials: 'include',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: weerpc('get_workshop_ticket',
-                {
-                    client_id: clientId
+export default async function rpc_get_workshop_ticket(workshop_tag) {
+    const req = await fetch(API_URL + '/rpc/workshop/', {
+        method: 'POST',
+        credentials: 'include',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: weerpc('get_workshop_ticket',
+            {
+                where: {
+                    workshop_tag: workshop_tag
                 }
-            )
-        })
-        if (req.ok) {
-            return await req.json()
-        } else {
-            throw new Error('System error. Please try again later.')
-        }
+            }
+        )
+    })
+    if (req.ok) {
+        return await req.json()
+    } else {
+        throw new Error('System error. Please try again later.')
     }
-
-    return new WRPCFetcher(__fetch__)
 }
