@@ -136,33 +136,55 @@ export function WorkshopTicketAddContextProvider() {
     }
 
     function addDevice() {
-        if (deviceFields().type === '' || deviceFields().type === 'Select...') {
-            ctxMain.showErrorToast('Device type is required')
-            return
+        if (devices().length === 0) {
+            setDevices([
+                {...blankDeviceFields}
+            ])
+        } else {
+            setDevices([...devices(), {...blankDeviceFields}])
         }
-        const focus_el = document.getElementById('add-device-focus-field')
-        setDevices([...devices(), deviceFields()])
-        setDeviceFields(blankDeviceFields)
-        focus_el.focus()
-    }
-
-    function addItem() {
-        if (itemFields().description === '') {
-            ctxMain.showErrorToast('Item description is required')
-            return
-        }
-        const focus_el = document.getElementById('add-item-focus-field')
-        setItems([...items(), itemFields()])
-        setItemFields(blankItemFields)
-        focus_el.focus()
     }
 
     function updateDevice(name, value) {
         setDeviceFields({...deviceFields(), [name]: value})
     }
 
+    function updateDeviceArray(index, name, value) {
+        const newDevices = [...devices()]
+        newDevices[index][name] = value
+        setDevices(newDevices)
+    }
+
+    function removeDeviceArray(index) {
+        const newDevices = [...devices()]
+        newDevices.splice(index, 1)
+        setDevices(newDevices)
+    }
+
+    function addItem() {
+        if (items().length === 0) {
+            setItems([
+                {...blankItemFields}
+            ])
+        } else {
+            setItems([...items(), {...blankItemFields}])
+        }
+    }
+
     function updateItem(name, value) {
         setItemFields({...itemFields(), [name]: value})
+    }
+
+    function updateItemArray(index, name, value) {
+        const newItems = [...items()]
+        newItems[index][name] = value
+        setItems(newItems)
+    }
+
+    function removeItemArray(index) {
+        const newItems = [...items()]
+        newItems.splice(index, 1)
+        setItems(newItems)
     }
 
     function updateFindClient(name, value) {
@@ -295,10 +317,15 @@ export function WorkshopTicketAddContextProvider() {
 
             findClient: findClient,
             createWorkshopTicket: createWorkshopTicket,
+
             addDevice: addDevice,
+            updateDeviceArray: updateDeviceArray,
+            removeDeviceArray: removeDeviceArray,
+
             addItem: addItem,
-            updateDevice: updateDevice,
-            updateItem: updateItem,
+            updateItemArray: updateItemArray,
+            removeItemArray: removeItemArray,
+
             updateFindClient: updateFindClient,
             clearClientSearch: clearClientSearch,
             setSelectedClient: setSelectedClient,

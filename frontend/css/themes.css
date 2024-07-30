@@ -141,7 +141,11 @@
     --workshop-ticket-card-bg-color-hover: #efefef;
     --workshop-ticket-card-border-color-hover: #d1d1d1;
     --workshop-ticket-pill-bg-color: #ffffff;
-    --workshop-ticket-inner-pill-bg-color: #d9ebf8;
+    --workshop-ticket-inner-pill-bg-color: #e1eef8;
+    --workshop-ticket-labelled-pill-lebel-bg-color: #e4e4e4;
+    --workshop-ticket-labelled-pill-lebel-border-color: #cdcdcd;
+
+    --workshop-ticket-note-bg-color: #f4f4f4;
 
     --workshop-ticket-pill-remove-color: #ffffff;
     --workshop-ticket-inner-pill-remove-bg-color: #610c15;

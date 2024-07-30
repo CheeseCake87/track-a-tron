@@ -21,8 +21,10 @@ class WorkshopTicketNote(BaseModel):
     )
 
     # Data
-    html_note = s.Column(s.String, nullable=False)
+    html_note = s.Column(s.String, nullable=True)
     text_note = s.Column(s.String, nullable=False)
 
     # Tracking
     created = s.Column(s.DateTime, nullable=False)
+
+    rel_added_by = s.orm.relationship("SystemUser", foreign_keys=[fk_user_id])

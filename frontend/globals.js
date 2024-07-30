@@ -40,6 +40,11 @@ export const STATUS_CODES = {
     }
 }
 
+export const STATUS_CODES_ARRAY = Object.entries(STATUS_CODES).map(
+    ([key, value]) => {
+        return {code: parseInt(key), label: value.name};
+    });
+
 export const CATEGORY_CODES = {
     1: 'Drop-in',
     2: 'Remote',

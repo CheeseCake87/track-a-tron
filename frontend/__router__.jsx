@@ -27,7 +27,7 @@ import SystemLogs from "./components/pages/system/SystemLogs";
 import {WorkshopContextProvider} from "./contextManagers/ContextWorkshop";
 import {WorkshopTicketAddContextProvider} from "./contextManagers/ContextWorkshopTicketAdd";
 import WorkshopTicketAdd from "./components/pages/workshop/WorkshopTicketAdd";
-import WorkshopTicket from "./components/pages/workshop/WorkshopTicket";
+import WorkshopTicket from "./components/pages/workshop/WorkshopTicket/WorkshopTicket";
 import {WorkshopTicketContextProvider} from "./contextManagers/ContextWorkshopTicket";
 import Workshop from "./components/pages/workshop/Workshop";
 

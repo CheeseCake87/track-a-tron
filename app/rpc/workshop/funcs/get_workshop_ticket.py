@@ -31,6 +31,7 @@ def get_workshop_ticket(data):
                 **{k: v for k, v in r.__dict__.items() if not k.startswith("_")},
                 "__added_by": r.rel_added_by.display_name,
                 "__assigned_to": r.rel_assigned_to.display_name,
+                "__assigned_to_id": r.rel_assigned_to.user_id,
                 "__client": {
                     "client_id": r.rel_client.client_id,
                     "business_name": r.rel_client.business_name,
@@ -48,6 +49,7 @@ def get_workshop_ticket(data):
                         "type": d.type,
                         "make": d.make,
                         "model": d.model,
+                        "password": d.password,
                     }
                     for d in r.rel_devices
                 ],

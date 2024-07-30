@@ -142,3 +142,8 @@
     @apply p-4 rounded border;
     background: var(--attention-light-default-bg-color);
 }
+
+.sticky-top-buttons {
+    @apply top-0 flex sticky gap-2;
+    background: var(--html-body-bg-color);
+}

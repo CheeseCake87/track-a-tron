@@ -143,6 +143,11 @@ a.btn-danger {
     height: auto !important;
 }
 
+.btn-pill-sm {
+    @apply px-1 py-0.5 ml-2.5 shadow-none;
+    height: auto !important;
+}
+
 .btn-tab-group {
     @apply flex gap-1 w-full border-b px-1;
 }

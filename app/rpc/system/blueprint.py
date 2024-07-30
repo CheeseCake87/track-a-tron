@@ -15,6 +15,7 @@ rpc.functions_auto_name(
     functions=[
         funcs.create_user,
         funcs.get_all_users,
+        funcs.get_all_active_users,
         funcs.get_enabled_services,
         funcs.get_services,
         funcs.get_user,

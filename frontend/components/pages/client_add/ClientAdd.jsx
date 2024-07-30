@@ -56,9 +56,10 @@ export default function ClientAdd() {
     }
 
     return (
-        <div className={'main-content-slim gap-2'}>
-            <div className={'field-group'}>
+        <div className={'main-content-slim gap-2'} style={{"padding-top": 0}}>
+            <div className={'sticky-top-buttons py-2'}>
                 <button className={'btn'} onClick={() => ctxMain.navigator('/clients')}>← Cancel</button>
+                <button className={'btn-good'} onClick={createClient}>Create Client</button>
             </div>
             <form onsubmit={
                 (e) => {
@@ -371,10 +372,6 @@ export default function ClientAdd() {
                     </div>
                 </div>
             </form>
-            <div className={'field-group'}>
-                <button className={'btn'} onClick={() => ctxMain.navigator('/clients')}>← Cancel</button>
-                <button className={'btn-good'} onClick={createClient}>Create Client</button>
-            </div>
         </div>
     )
 }

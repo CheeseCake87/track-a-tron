@@ -14,28 +14,57 @@ export default function WorkshopTicketCards() {
             (ticket, i) =>
                 <div className={'workshop-ticket'}>
                     <div className={'workshop-ticket-start'}>
-                        <div className={'workshop-ticket-group'}>
-                            <div className={'workshop-ticket-section'}>
-                                <small>Status</small>
-                                <div className={'workshop-ticket-pill'}
+                        <div className={'workshop-ticket-group-slim'}>
+
+                            <div className={'workshop-ticket-labelled-pill'}>
+                                <div className={'workshop-ticket-labelled-pill-label'}>
+                                    Status
+                                </div>
+                                <div className={'workshop-ticket-labelled-pill-text'}
                                      style={ctxMain.statusCodeLookup(ticket.status_code).style}>
                                     {ctxMain.statusCodeLookup(ticket.status_code).name}
                                 </div>
                             </div>
-                            <div className={'workshop-ticket-section'}>
-                                <small>Category</small>
-                                <div className={'workshop-ticket-pill'}>
-                                    {ctxMain.categoryCodeLookup(ticket.category_code)}
+
+                            <div className={'workshop-ticket-labelled-pill'}>
+                                <div className={'workshop-ticket-labelled-pill-label'}>
+                                    Tag
                                 </div>
-                            </div>
-                            <div className={'workshop-ticket-section'}>
-                                <small>Tag</small>
-                                <div className={'workshop-ticket-pill'}>
+                                <div className={'workshop-ticket-labelled-pill-text'}>
                                     {ticket.workshop_tag}
                                 </div>
                             </div>
+
+                            <div className={'workshop-ticket-labelled-pill'}>
+                                <div className={'workshop-ticket-labelled-pill-label'}>
+                                    Category
+                                </div>
+                                <div className={'workshop-ticket-labelled-pill-text'}>
+                                    {ctxMain.categoryCodeLookup(ticket.category_code)}
+                                </div>
+                            </div>
+
+                            <div className={'workshop-ticket-labelled-pill'}>
+                                <div className={'workshop-ticket-labelled-pill-label'}>
+                                    Assigned To
+                                </div>
+                                <div className={'workshop-ticket-labelled-pill-text'}>
+                                    {ticket.__assigned_to}
+                                </div>
+                            </div>
+
+                            <div className={'workshop-ticket-labelled-pill'}>
+                                <div className={'workshop-ticket-labelled-pill-label'}>
+                                    Created
+                                </div>
+                                <div className={'workshop-ticket-labelled-pill-text'}>
+                                    {ticket.__created}
+                                </div>
+                            </div>
+
                         </div>
-                        <div className={'workshop-ticket-group'}>
+
+                        <div className={'workshop-ticket-group mt-2'}>
                             <div className={'workshop-ticket-section'}>
                                 <small>Client</small>
                                 <p>
@@ -59,6 +88,13 @@ export default function WorkshopTicketCards() {
                             </div>
                         </div>
 
+                        <div className={'workshop-ticket-group mb-2'}>
+                            <div className={'workshop-ticket-section'}>
+                                <small>Request</small>
+                                <p>{ticket.request}</p>
+                            </div>
+                        </div>
+
                         <Show when={ticket.__devices.length > 0 || ticket.__items.length > 0}>
                             <div className={'workshop-ticket-group'}>
                                 {
@@ -68,19 +104,31 @@ export default function WorkshopTicketCards() {
                                             <div className={'workshop-ticket-pill-group'}>
                                                 <For each={ticket.__devices}>
                                                     {(device, i) =>
-                                                        <div className={'workshop-ticket-pill'}>
-
-                                                            <div className={'workshop-ticket-inner-pill'}>
-                                                                {device.type}
-                                                            </div>
-                                                            <Show when={device.make !== ''}>
-                                                                {device.make}
+                                                        <div className={'workshop-ticket-labelled-pill'}>
+                                                            <Show
+                                                                when={device.make !== '' || device.model !== ''}
+                                                                fallback={
+                                                                    <div
+                                                                        className={'workshop-ticket-labelled-pill-device border-r rounded-md'}>
+                                                                        {device.type}
+                                                                    </div>
+                                                                }
+                                                            >
+                                                                <div
+                                                                    className={'workshop-ticket-labelled-pill-device'}>
+                                                                    {device.type}
+                                                                </div>
+                                                                <div
+                                                                    className={'workshop-ticket-labelled-pill-text'}>
+                                                                    <Show when={device.make !== ''}>
+                                                                        {device.make}
+                                                                    </Show>
+                                                                    <Show when={device.model !== ''}>
+                                                                        {device.make !== '' ? ' ' : ''}
+                                                                        {device.model}
+                                                                    </Show>
+                                                                </div>
                                                             </Show>
-                                                            <Show when={device.model !== ''}>
-                                                                {device.make !== '' ? ' ' : ''}
-                                                                {device.model}
-                                                            </Show>
-
                                                         </div>
                                                     }
                                                 </For>
@@ -90,12 +138,15 @@ export default function WorkshopTicketCards() {
                                 {
                                     ticket.__items.length > 0 ?
                                         <div className={'workshop-ticket-section'}>
-                                            <small>Items</small>
+                                            <small>Item(s)</small>
                                             <div className={'workshop-ticket-pill-group'}>
                                                 <For each={ticket.__items}>
                                                     {(device, i) =>
-                                                        <div className={'workshop-ticket-pill'}>
-                                                            {device.description}
+                                                        <div className={'workshop-ticket-labelled-pill'}>
+                                                            <div
+                                                                className={'workshop-ticket-labelled-pill-text rounded-md border-r'}>
+                                                                {device.description}
+                                                            </div>
                                                         </div>
                                                     }
                                                 </For>
@@ -104,12 +155,6 @@ export default function WorkshopTicketCards() {
                                 }
                             </div>
                         </Show>
-                        <div className={'workshop-ticket-group'}>
-                            <div className={'workshop-ticket-section'}>
-                                <small>Request</small>
-                                <p>{ticket.request}</p>
-                            </div>
-                        </div>
                     </div>
 
                     <div className={'workshop-ticket-end'}>
@@ -117,16 +162,6 @@ export default function WorkshopTicketCards() {
                             <A className={'btn-confirm'} href={
                                 "/workshop/ticket/" + ticket.workshop_tag
                             }>Open</A>
-                        </div>
-                        <div className={'workshop-ticket-group'}>
-                            <div>
-                                <small>Assigned To</small>
-                                <p>{ticket.__assigned_to}</p>
-                            </div>
-                            <div>
-                                <small>Created</small>
-                                <p>{ticket.__created}</p>
-                            </div>
                         </div>
                     </div>
                 </div>

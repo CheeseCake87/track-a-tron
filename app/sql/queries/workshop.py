@@ -1,25 +1,25 @@
 from datetime import datetime
 
-from sqlalchemy import update, insert, select, func
+from sqlalchemy import update, insert, select, func, delete
 
 from app.sql.tables import (
     WorkshopTicket,
     WorkshopTicketDevice,
-    WorkshopTicketItem,
+    WorkshopTicketItem, WorkshopTicketNote,
 )
 from app.utilities import DatetimeDeltaMC, DatetimeDeltaMCTZU
 
 
 def query_create_workshop_ticket(
-    user_id: int,
-    assigned_user_id: str,
-    client_id: int,
-    workshop_tag: str,
-    category_code: int,
-    status_code: int,
-    request: str,
-    no_due_datetime: bool,
-    due_datetime: datetime = None,
+        user_id: int,
+        assigned_user_id: str,
+        client_id: int,
+        workshop_tag: str,
+        category_code: int,
+        status_code: int,
+        request: str,
+        no_due_datetime: bool,
+        due_datetime: datetime = None,
 ):
     in_ = (
         insert(WorkshopTicket)
@@ -41,14 +41,14 @@ def query_create_workshop_ticket(
 
 
 def query_create_workshop_ticket_device(
-    workshop_ticket_id: int,
-    user_id: int,
-    type_: str = None,
-    make: str = None,
-    model: str = None,
-    serial_number: str = None,
-    power_adapter_included: bool = False,
-    additional_info: str = None,
+        workshop_ticket_id: int,
+        user_id: int,
+        type_: str = None,
+        make: str = None,
+        model: str = None,
+        serial_number: str = None,
+        power_adapter_included: bool = False,
+        additional_info: str = None,
 ):
     in_ = (
         insert(WorkshopTicketDevice)
@@ -69,9 +69,9 @@ def query_create_workshop_ticket_device(
 
 
 def query_create_workshop_ticket_item(
-    workshop_ticket_id: int,
-    user_id: int,
-    description: str,
+        workshop_ticket_id: int,
+        user_id: int,
+        description: str,
 ):
     in_ = (
         insert(WorkshopTicketItem)
@@ -82,6 +82,24 @@ def query_create_workshop_ticket_item(
             created=DatetimeDeltaMC().datetime,
         )
         .returning(WorkshopTicketItem)
+    )
+    return in_
+
+
+def query_create_workshop_ticket_note(
+        workshop_ticket_id: int,
+        user_id: int,
+        text_note: str,
+):
+    in_ = (
+        insert(WorkshopTicketNote)
+        .values(
+            fk_workshop_ticket_id=workshop_ticket_id,
+            fk_user_id=user_id,
+            text_note=text_note,
+            created=DatetimeDeltaMC().datetime,
+        )
+        .returning(WorkshopTicketNote)
     )
     return in_
 
@@ -101,10 +119,16 @@ def query_read_workshop_ticket(where: dict):
     return se_
 
 
+def query_read_workshop_ticket_notes(workshop_ticket_id):
+    wh_ = (WorkshopTicketNote.fk_workshop_ticket_id == workshop_ticket_id,)
+    se_ = select(WorkshopTicketNote).where(*wh_).order_by(WorkshopTicketNote.created.desc())
+    return se_
+
+
 def query_page_workshop_tickets(
-    where: dict,
-    limit: int = 10,
-    page: int = 1,
+        where: dict,
+        limit: int = 10,
+        page: int = 1,
 ) -> tuple[select, select]:
     if page == 0:
         page = 1
@@ -156,7 +180,7 @@ def query_page_workshop_tickets(
 
 
 def query_update_workshop_ticket(
-    workshop_ticket_id: int, values: dict, ignore_fields: list[str] = None
+        workshop_ticket_id: int, values: dict, ignore_fields: list[str] = None
 ):
     wh_ = (WorkshopTicket.workshop_ticket_id == workshop_ticket_id,)
     up_ = (
@@ -172,3 +196,11 @@ def query_update_workshop_ticket(
         .returning(WorkshopTicket)
     )
     return up_
+
+
+def query_delete_workshop_ticket_note(
+        workshop_ticket_note_id: int,
+):
+    wh_ = (WorkshopTicketNote.workshop_ticket_note_id == workshop_ticket_note_id,)
+    de_ = delete(WorkshopTicketNote).where(*wh_)
+    return de_

@@ -4,6 +4,7 @@
     min-height: 0;
 }
 
+
 .workshop-tickets {
     @apply flex flex-col w-full h-full rounded-md overflow-auto gap-1.5 p-1.5;
     background: var(--table-bg);
@@ -39,6 +40,10 @@
     @apply flex flex-row flex-wrap gap-6 justify-start w-full;
 }
 
+.workshop-ticket-group-slim {
+    @apply flex flex-row flex-wrap gap-2 justify-start w-full;
+}
+
 .workshop-ticket-section {
     @apply flex flex-col;
 }
@@ -62,6 +67,31 @@
     min-width: 0;
 }
 
+.workshop-ticket-labelled-pill {
+    @apply flex flex-row rounded-md items-center;
+}
+
+.workshop-ticket-labelled-pill-label {
+    @apply text-sm rounded-l-md px-3 py-1.5 border-l border-t border-b;
+    border-color: var(--workshop-ticket-labelled-pill-lebel-border-color);
+    color: var(--button-default-text-color);
+    background-color: var(--workshop-ticket-labelled-pill-lebel-bg-color);
+}
+
+.workshop-ticket-labelled-pill-device {
+    @apply text-sm rounded-l-md px-3 py-1.5 border-l border-t border-b;
+    border-color: var(--workshop-ticket-labelled-pill-lebel-border-color);
+    color: var(--button-default-text-color);
+    background-color: var(--workshop-ticket-inner-pill-bg-color);
+}
+
+.workshop-ticket-labelled-pill-text {
+    @apply text-sm rounded-r-md px-3 py-1.5 border;
+    border-color: var(--workshop-ticket-labelled-pill-lebel-border-color);
+    color: var(--button-default-text-color);
+    background-color: var(--workshop-ticket-pill-bg-color);
+}
+
 .workshop-ticket-pill {
     @apply flex flex-row rounded-md px-3 py-1.5 items-center;
     color: var(--button-default-text-color);
@@ -78,4 +108,25 @@
     @apply text-sm rounded-md px-2 py-1 ml-2;
     color: var(--workshop-ticket-pill-remove-color);
     background-color: var(--workshop-ticket-inner-pill-remove-bg-color);
+}
+
+.workshop-ticket-notes-bg-wrapper {
+    @apply rounded-md mt-2;
+    background: #e3e3e3;
+    min-height: 0;
+}
+
+.workshop-ticket-notes {
+    @apply flex flex-col-reverse w-full h-full rounded-md overflow-auto gap-1.5 p-1.5;
+    background: var(--table-bg);
+    max-height: 250px;
+}
+
+.workshop-ticket-note {
+    @apply p-2;
+    background-color: var(--workshop-ticket-note-bg-color);
+}
+
+.workshop-ticket-note-stats {
+    @apply text-xs mt-2;
 }

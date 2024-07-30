@@ -11,9 +11,13 @@ export default function WorkshopTicketAdd() {
     const ctxWorkshopTicketAdd = useContext(ContextWorkshopTicketAdd)
 
     return (
-        <div className={'main-content-slim gap-2'}>
-            <div className={'field-group'}>
+        <div className={'main-content-slim gap-2'} style={{"padding-top": 0}}>
+            <div className={'sticky-top-buttons py-2'}>
                 <button className={'btn'} onClick={() => ctxMain.navigator('/workshop')}>← Cancel</button>
+                <button className={'btn-good'}
+                        onClick={ctxWorkshopTicketAdd.createWorkshopTicket}>
+                    Create Ticket
+                </button>
             </div>
 
             <ClientSection/>
@@ -56,14 +60,90 @@ export default function WorkshopTicketAdd() {
 
             <ItemSection/>
 
-            <div className={'field-group'}>
-                <button className={'btn'} onClick={() => ctxMain.navigator('/workshop')}>← Cancel</button>
-                <button className={'btn-good'}
-                        onClick={ctxWorkshopTicketAdd.createWorkshopTicket}>
-                    Create Ticket
-                </button>
-            </div>
+        </div>
+    )
+}
 
+function DeviceForLoop(props) {
+    const ctxWorkshopTicketAdd = useContext(ContextWorkshopTicketAdd)
+
+    const index = props.index
+    const device = props.device
+
+    return (
+        <div className={'field-group'}>
+            <div className={'inline-label'}>
+                <label>Type</label>
+                <select
+                    id={`device-type-${index()}`}
+                    onChange={(e) => {
+                        const thisValue = document.getElementById(`device-type-${index()}`)
+                        ctxWorkshopTicketAdd.updateDeviceArray(
+                            index(), 'type', thisValue.options[e.target.selectedIndex].text
+                        )
+                    }}
+                >
+                    <option value={'Select...'}
+                            selected={device.type === 'Select...'}>
+                        Select...
+                    </option>
+                    <For each={DEVICE_TYPES}>
+                        {(deviceType, i) => (
+                            <option value={deviceType}
+                                    selected={
+                                        deviceType === device.type
+                                    }>
+                                {deviceType}
+                            </option>
+                        )}
+                    </For>
+                </select>
+            </div>
+            <div className={'inline-label'}>
+                <label>Make</label>
+                <input type={'text'}
+                       id={`device-make-${index()}`}
+                       className={'w-36'}
+                       onKeyUp={
+                           (e) => {
+                               ctxWorkshopTicketAdd.updateDeviceArray(
+                                   index(), 'make', e.target.value
+                               )
+                           }
+                       } value={device.make}/>
+            </div>
+            <div className={'inline-label'}>
+                <label>Model</label>
+                <input type={'text'}
+                       id={`device-model-${index()}`}
+                       className={'w-38'}
+                       onKeyUp={
+                           (e) => {
+                               ctxWorkshopTicketAdd.updateDeviceArray(
+                                   index(), 'model', e.target.value
+                               )
+                           }
+                       } value={device.model}/>
+            </div>
+            <div className={'inline-label'}>
+                <label>Password</label>
+                <input type={'text'}
+                       id={`device-password-${index()}`}
+                       onKeyUp={
+                           (e) => {
+                               ctxWorkshopTicketAdd.updateDeviceArray(
+                                   index(), 'password', e.target.value
+                               )
+                           }
+                       } value={device.password}/>
+            </div>
+            <button className={'btn-danger'}
+                    id={`remove-device-${index()}`}
+                    onClick={() => {
+                        ctxWorkshopTicketAdd.removeDeviceArray(index())
+                    }}>
+                Remove
+            </button>
         </div>
     )
 }
@@ -81,119 +161,32 @@ function DeviceSection() {
             onKeyDown={(e) => {
                 if (e.key === 'Enter') {
                     e.preventDefault()
-                    ctxWorkshopTicketAdd.addDevice()
                 }
             }}>
             <div className={'sectioned-content w-full'}>
-                <div className={'form-section'}>
-                    <label>Add Device</label>
-                    <div className={'field-group'}>
-                        <div className={'inline-label'}>
-                            <label>Type</label>
-                            <select
-                                tabIndex={2}
-                                id={'add-device-focus-field'}
-                                onChange={(e) => {
-                                    ctxWorkshopTicketAdd.updateDevice(
-                                        'type', e.target.options[e.target.selectedIndex].text
-                                    )
-                                }}
-                            >
-                                <option value={'Select...'}
-                                        selected={ctxWorkshopTicketAdd.deviceFields().type === 'Select...'}>
-                                    Select...
-                                </option>
-                                <For each={DEVICE_TYPES}>
-                                    {(deviceType, i) => (
-                                        <option value={deviceType}
-                                                selected={ctxWorkshopTicketAdd.deviceFields().type === deviceType}>
-                                            {deviceType}
-                                        </option>
-                                    )}
-                                </For>
-                            </select>
-                        </div>
-                        <div className={'inline-label'}>
-                            <label>Make</label>
-                            <input type={'text'}
-                                   tabIndex={3}
-                                   onKeyUp={
-                                       (e) => {
-                                           ctxWorkshopTicketAdd.updateDevice('make', e.target.value)
-                                       }
-                                   } value={ctxWorkshopTicketAdd.deviceFields().make}/>
-                        </div>
-                        <div className={'inline-label'}>
-                            <label>Model</label>
-                            <input type={'text'}
-                                   tabIndex={4}
-                                   onKeyUp={
-                                       (e) => {
-                                           ctxWorkshopTicketAdd.updateDevice('model', e.target.value)
-                                       }
-                                   } value={ctxWorkshopTicketAdd.deviceFields().model}/>
-                        </div>
-                        <div className={'inline-label'}>
-                            <label>Password</label>
-                            <input type={'text'}
-                                   tabIndex={5}
-                                   onKeyUp={
-                                       (e) => {
-                                           ctxWorkshopTicketAdd.updateDevice('password', e.target.value)
-                                       }
-                                   } value={ctxWorkshopTicketAdd.deviceFields().password}/>
-                        </div>
-
-
-                        <button className={'btn-confirm'}
-                                tabIndex={6}
-                                disabled={
-                                    ctxWorkshopTicketAdd.deviceFields().type === 'Select...'
-                                }
-                                onClick={
-                                    () => {
-                                        ctxWorkshopTicketAdd.addDevice()
-                                    }
-                                }>Add Device
-                        </button>
-                    </div>
-                </div>
                 <div className={'form-section pt-2'}>
-                    <label>Devices</label>
-                    <div className={'workshop-ticket-pill-group flex-wrap'}>
+                    <div className={'form-section'}>
                         <For each={ctxWorkshopTicketAdd.devices()} fallback={
                             <div className={'workshop-ticket-pill'}>
                                 No devices added
                             </div>
                         }>
                             {(device, i) => (
-                                <div className={'workshop-ticket-pill'}>
-                                    <div className={'workshop-ticket-inner-pill'}>
-                                        {device.type}
-                                    </div>
-
-                                    <Show when={device.make !== ''}>
-                                        {device.make}
-                                    </Show>
-                                    <Show when={device.model !== ''}>
-                                        {device.make !== '' ? ' ' : ''}
-                                        {device.model}
-                                    </Show>
-                                    <Show when={device.password !== ''}>
-                                        {' | Password: '}{device.password}
-                                    </Show>
-
-                                    <button className={'btn-danger btn-pill'}
-                                            onClick={() => {
-                                                const copy = [...ctxWorkshopTicketAdd.devices()]
-                                                copy.splice(i, 1)
-                                                ctxWorkshopTicketAdd.setDevices(copy)
-                                            }}>
-                                        <LetterXIcon size={18} strokeWidth={2}/>
-                                    </button>
-                                </div>
+                                <DeviceForLoop index={i} device={device}/>
                             )}
                         </For>
+                    </div>
+                    <div className={'form-section'} style={{"padding-bottom": 0}}>
+                        <div className={'field-group'}>
+                            <button className={'btn-confirm'}
+                                    tabIndex={6}
+                                    onClick={
+                                        () => {
+                                            ctxWorkshopTicketAdd.addDevice()
+                                        }
+                                    }>Add Device
+                            </button>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -202,73 +195,75 @@ function DeviceSection() {
 
 }
 
+
+function ItemForLoop(props) {
+    const ctxWorkshopTicketAdd = useContext(ContextWorkshopTicketAdd)
+
+    const index = props.index
+    const item = props.item
+
+    return (
+        <div className={'field-group'}>
+            <div className={'inline-label'}>
+                <label>Description</label>
+                <input type={'text'}
+                       className={'w-52'}
+                       id={`item-description-${index()}`}
+                       onKeyUp={
+                           (e) => {
+                               ctxWorkshopTicketAdd.updateItemArray(
+                                   index(), 'description', e.target.value
+                               )
+                           }
+                       } value={item.description}/>
+            </div>
+            <button className={'btn-danger'}
+                    id={`remove-device-${index()}`}
+                    onClick={() => {
+                        ctxWorkshopTicketAdd.removeItemArray(index())
+                    }}>
+                Remove
+            </button>
+        </div>
+    )
+}
+
 function ItemSection() {
     const ctxWorkshopTicketAdd = useContext(ContextWorkshopTicketAdd)
 
     return (
         <form
             onsubmit={(e) => {
-                console.log(e)
                 e.preventDefault()
             }}
             onKeyDown={(e) => {
                 if (e.key === 'Enter') {
                     e.preventDefault()
-                    ctxWorkshopTicketAdd.addItem()
                 }
             }}>
             <div className={'sectioned-content w-full'}>
-                <div className={'form-section'}>
-                    <label>Add Additional Item</label>
-                    <div className={'field-group'}>
-
-                        <div className={'inline-label'}>
-                            <label>Description</label>
-                            <input type={'text'}
-                                   tabIndex={7}
-                                   id={'add-item-focus-field'}
-                                   onKeyUp={
-                                       (e) => {
-                                           ctxWorkshopTicketAdd.updateItem('description', e.target.value)
-                                       }
-                                   } value={ctxWorkshopTicketAdd.itemFields().description}/>
-                        </div>
-
-                        <button className={'btn-confirm'}
-                                tabIndex={8}
-                                disabled={
-                                    ctxWorkshopTicketAdd.itemFields().description === ''
-                                }
-                                onClick={
-                                    () => {
-                                        ctxWorkshopTicketAdd.addItem()
-                                    }
-                                }>Add Item
-                        </button>
-                    </div>
-                </div>
                 <div className={'form-section pt-2'}>
-                    <label>Items</label>
-                    <div className={'workshop-ticket-pill-group'}>
+                    <div className={'form-section'}>
                         <For each={ctxWorkshopTicketAdd.items()} fallback={
                             <div className={'workshop-ticket-pill'}>
                                 No items added
                             </div>
                         }>
                             {(item, i) => (
-                                <div className={'workshop-ticket-pill'}>
-                                    {item.description}
-                                    <button className={'btn-danger btn-pill'}
-                                            onClick={() => {
-                                                const copy = [...ctxWorkshopTicketAdd.items()]
-                                                copy.splice(i, 1)
-                                                ctxWorkshopTicketAdd.setItems(copy)
-                                            }}>
-                                        <LetterXIcon size={18} strokeWidth={2}/>
-                                    </button>
-                                </div>
+                                <ItemForLoop index={i} item={item}/>
                             )}
                         </For>
+                    </div>
+                    <div className={'form-section'} style={{"padding-bottom": 0}}>
+                        <div className={'field-group'}>
+                            <button className={'btn-confirm'}
+                                    onClick={
+                                        () => {
+                                            ctxWorkshopTicketAdd.addItem()
+                                        }
+                                    }>Add Item
+                            </button>
+                        </div>
                     </div>
                 </div>
             </div>
