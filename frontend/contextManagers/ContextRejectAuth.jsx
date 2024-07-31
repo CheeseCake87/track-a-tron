@@ -10,7 +10,6 @@ export function RejectAuthContextProvider() {
 
     onMount(() => {
         if (ctxMain.loggedIn()) {
-            console.log('User is already logged in')
             ctxMain.navigator('/')
         }
     })

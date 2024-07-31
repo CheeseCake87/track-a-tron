@@ -8,7 +8,7 @@ export function FilterByDate(props) {
 
     return (
         <div className={'dialog-content-group'}>
-            <div className={'clients-filter-group'}>
+            <div className={'section-filter-group'}>
                 <small className={'font-bold'}>Specific</small>
                 <div className={'pt-1 pb-2'}>
                 <div className={'inline-label flex-1'}>

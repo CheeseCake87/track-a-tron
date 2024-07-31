@@ -7,6 +7,7 @@ import rpc_get_workshop_ticket_notes from "../rpc/workshop/rpc_get_workshop_tick
 import rpc_create_workshop_ticket_note from "../rpc/workshop/rpc_create_workshop_ticket_note";
 import rpc_delete_workshop_ticket_note from "../rpc/workshop/rpc_delete_workshop_ticket_note";
 import rpc_update_workshop_ticket from "../rpc/workshop/rpc_update_workshop_ticket_note";
+import {STATUS_CODES} from "../globals";
 
 export const ContextWorkshopTicket = createContext()
 
@@ -115,7 +116,6 @@ export function WorkshopTicketContextProvider() {
                     setClient({...rpc.data.__client})
                     setDevices([...rpc.data.__devices])
                     setItems([...rpc.data.__items])
-
                     getWorkshopTicketNotes(rpc.data.workshop_ticket_id)
                 } else {
                     ctxMain.showErrorToast('Ticket not found.')
@@ -126,7 +126,6 @@ export function WorkshopTicketContextProvider() {
 
     onMount(() => {
         getWorkshopTicket()
-        getAllActiveUsers()
     })
 
     return (

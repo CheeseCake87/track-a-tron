@@ -19,7 +19,6 @@ export default function GetAddress(props) {
         if (props.cachePostcode) {
             rpc_get_address_cache_find(getAddressPostcode()).then(
                 (rpc) => {
-                    console.log(rpc)
                     if (rpc.ok) {
                         setGetAddressResult(rpc.data.addresses)
                     } else {
@@ -30,7 +29,6 @@ export default function GetAddress(props) {
         } else {
             rpc_get_address_find(getAddressPostcode()).then(
                 (rpc) => {
-                    console.log(rpc)
                     if (rpc.ok) {
                         setGetAddressResult(rpc.data.addresses)
                     } else {

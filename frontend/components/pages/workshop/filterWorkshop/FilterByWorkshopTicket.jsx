@@ -1,5 +1,6 @@
 import {For, useContext} from "solid-js";
 import {ContextWorkshop} from "../../../../contextManagers/ContextWorkshop";
+import {CATEGORY_CODES_ARRAY, STATUS_CODES_ARRAY} from "../../../../globals";
 
 
 export function FilterByWorkshopTicket(props) {
@@ -10,10 +11,10 @@ export function FilterByWorkshopTicket(props) {
 
         <div className={'dialog-content-group'}>
 
-            <div className={'clients-filter-group'}>
+            <div className={'section-filter-group'}>
                 <div className={'inline-label flex-1'}>
                     <label>Workshop Tag</label>
-                    <input type="number"
+                    <input type="text"
                            value={ctxWorkshop.ticketsTempWhere().hasOwnProperty("workshop_tag")
                                ? ctxWorkshop.ticketsTempWhere().workshop_tag
                                : ''}
@@ -25,31 +26,55 @@ export function FilterByWorkshopTicket(props) {
                 </div>
 
                 <div className={'inline-label flex-1'}>
-                    <label>Status</label>
-                    <input className={'flex-1'}
-                           type="text"
-                           value={ctxWorkshop.ticketsTempWhere().hasOwnProperty("status_code")
-                               ? ctxWorkshop.ticketsTempWhere().status_code
-                               : ''}
-                           onKeyUp={(e) => {
-                               if (!props.keyDownHandler(e)) {
-                                   ctxWorkshop.ticketsTempWhereValue('status_code', e.target.value)
-                               }
-                           }}/>
+                    <label>Status&nbsp;{ctxWorkshop.ticketsTempWhere().status_code}</label>
+                    <select className={'w-full'} onChange={
+                        (e) => {
+                            ctxWorkshop.ticketsTempWhereValue(
+                                'status_code',
+                                e.target.options[e.target.selectedIndex].value
+                            )
+                        }
+                    }>
+                        <option value="0">
+                            All
+                        </option>
+                        <For each={STATUS_CODES_ARRAY}>
+                            {(status, index) =>
+                                <option
+                                    value={status.code}
+                                    selected={parseInt(ctxWorkshop.ticketsTempWhere().status_code) === status.code}>
+                                    {status.label}
+                                </option>
+                            }
+                        </For>
+                    </select>
                 </div>
 
                 <div className={'inline-label flex-1'}>
                     <label>Category</label>
-                    <input className={'flex-1'}
-                           type="text"
-                           value={ctxWorkshop.ticketsTempWhere().hasOwnProperty("category_code")
-                               ? ctxWorkshop.ticketsTempWhere().category_code
-                               : ''}
-                           onKeyUp={(e) => {
-                               if (!props.keyDownHandler(e)) {
-                                   ctxWorkshop.ticketsTempWhereValue('category_code', e.target.value)
-                               }
-                           }}/>
+                    <select className={'w-full'} onChange={
+                        (e) => {
+                            ctxWorkshop.ticketsTempWhereValue(
+                                'category_code',
+                                e.target.options[e.target.selectedIndex].value
+                            )
+                        }
+                    }>
+                        <option value="0">
+                            All
+                        </option>
+                        <For each={CATEGORY_CODES_ARRAY}>
+                            {(category, index) =>
+                                <option
+                                    selected={parseInt(ctxWorkshop.ticketsTempWhere().category_code) === category.code}
+                                    value={category.code}>
+                                    {category.label}
+                                </option>
+                            }
+                        </For>
+                    </select>
+
+
                 </div>
 
                 <div className={'inline-label flex-1'}>
@@ -62,11 +87,13 @@ export function FilterByWorkshopTicket(props) {
                             )
                         }
                     }>
-                        <option value="0" selected={ctxWorkshop.ticketsTempWhere().fk_assigned_user_id === 0}>All</option>
+                        <option value="0">
+                            All
+                        </option>
                         <For each={ctxWorkshop.users()}>
                             {(user, index) =>
                                 <option
-                                    selected={user.user_id === ctxWorkshop.ticketsTempWhere().fk_assigned_user_id}
+                                    selected={parseInt(ctxWorkshop.ticketsTempWhere().fk_assigned_user_id) === user.user_id}
                                     value={user.user_id}>
                                     {user.display_name}
                                 </option>

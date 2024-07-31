@@ -12,7 +12,7 @@ export default function WorkshopHeader(props) {
 
     return (
         <>
-            <div className={'clients-header'}>
+            <div className={'page-section-header'}>
                 <A className={'btn-good'} href={'/workshop/ticket/add'}>
                     <span>+</span> Add Ticket
                 </A>

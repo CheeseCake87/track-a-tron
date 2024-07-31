@@ -10,7 +10,7 @@ export function FilterByClientInfo(props) {
 
         <div className={'dialog-content-group'}>
 
-            <div className={'clients-filter-group'}>
+            <div className={'section-filter-group'}>
                 <div className={'inline-label flex-1'}>
                     <label>Client&nbsp;ID</label>
                     <input type="number"

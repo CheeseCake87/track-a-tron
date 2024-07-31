@@ -12,7 +12,7 @@ export default function ClientsHeader(props) {
 
     return (
         <>
-            <div className={'clients-header'}>
+            <div className={'page-section-header'}>
                 <A className={'btn-good'} href={'/clients/add'}>
                     <span>+</span> Add Client
                 </A>

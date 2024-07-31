@@ -1,9 +1,10 @@
 import {createContext, createEffect, createSignal, onCleanup, onMount, useContext} from "solid-js";
-import {Outlet, useParams} from "@solidjs/router";
+import {Outlet} from "@solidjs/router";
 import {ContextMain} from "./ContextMain";
 import {createStore} from "solid-js/store";
 import rpc_page_workshop_tickets from "../rpc/workshop/rpc_page_workshop_tickets";
 import rpc_get_all_active_users from "../rpc/system/rpc_get_all_active_users";
+import {CATEGORY_CODES, STATUS_CODES} from "../globals";
 
 export const ContextWorkshop = createContext()
 
@@ -98,7 +99,7 @@ export function WorkshopContextProvider() {
     }
 
     function ticketsTempWhereValue(key, value) {
-        if (value === '') {
+        if (value === '' || value === 0 || value === '0') {
             if (ticketsTempWhere().hasOwnProperty(key)) {
                 delete ticketsTempWhere()[key]
                 setTicketsTempWhere({
@@ -177,7 +178,7 @@ export function WorkshopContextProvider() {
     function getAllActiveUsers() {
         rpc_get_all_active_users().then((rpc) => {
             if (rpc.ok) {
-                setUsers([...rpc.data])
+                setUsers(rpc.data)
             } else {
                 ctxMain.showErrorToast('Error fetching users. ' + rpc.message)
             }
@@ -191,12 +192,10 @@ export function WorkshopContextProvider() {
 
     function fieldFilterKeyLookup(key) {
         let filterKey = {
-            'client_id': 'Client ID',
-            'business_name': 'Business Name',
-            'any_name': 'Name',
-            'any_email_address': 'Email Address',
-            'any_number': 'Phone Number',
-            'postcode': 'Postcode',
+            'workshop_tag': 'Tag',
+            'status_code': 'Status',
+            'category_code': 'Category',
+            'fk_assigned_user_id': 'Assigned To',
             'date_from': 'Date From',
             'date_to': 'Date To',
             'date_on': 'Date On'
@@ -248,7 +247,30 @@ export function WorkshopContextProvider() {
         const tempFieldNames = {}
 
         for (let [key, value] of Object.entries(displayWhere)) {
-            tempFieldNames[fieldFilterKeyLookup(key)] = value
+
+            switch (key) {
+                case 'status_code':
+                    if (STATUS_CODES.hasOwnProperty(value)) {
+                        tempFieldNames[fieldFilterKeyLookup(key)] = STATUS_CODES[value].name
+                    } else {
+                        tempFieldNames[fieldFilterKeyLookup(key)] = 'Error'
+                    }
+                    break
+                case 'category_code':
+                    if (CATEGORY_CODES.hasOwnProperty(value)) {
+                        tempFieldNames[fieldFilterKeyLookup(key)] = CATEGORY_CODES[value]
+                    } else {
+                        tempFieldNames[fieldFilterKeyLookup(key)] = 'Error'
+                    }
+                    break
+                case 'fk_assigned_user_id':
+                    const user = users().find((u) => u.user_id === parseInt(value))
+                    tempFieldNames[fieldFilterKeyLookup(key)] = user ? user.display_name : 'Error'
+                    break
+                default:
+                    tempFieldNames[fieldFilterKeyLookup(key)] = value
+            }
+
         }
 
         return {...tempFieldNames}

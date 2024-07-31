@@ -41,7 +41,7 @@ h6 {
     color: var(--h6-color)
 }
 
-.page-header {
+.section-header {
     @apply text-2xl font-semibold;
     margin-top: 0.2rem;
     margin-bottom: 0.8rem;

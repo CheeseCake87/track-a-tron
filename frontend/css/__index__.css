@@ -13,6 +13,8 @@
 @import "toast_bar.css";
 @import "cards.css";
 
+@import "components__filter.css";
+
 @import "pages__workshop_ticket_cards.css";
 @import "pages__install.css";
 @import "pages__auth.css";

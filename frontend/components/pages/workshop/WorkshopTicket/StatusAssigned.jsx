@@ -30,7 +30,7 @@ export default function StatusAssigned(props) {
                                 <For each={STATUS_CODES_ARRAY}>
                                     {(status, index) =>
                                         <option
-                                            selected={status.code === ctxWorkshopTicket.status().status_code}
+                                            selected={status.code === ctxWorkshopTicket.workshopTicket().status_code}
                                             value={status.code}>{status.label}
                                         </option>
                                     }
