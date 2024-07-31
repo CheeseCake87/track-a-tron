@@ -1,3 +1,67 @@
+export function HideMainMenu(props) {
+    if (props.size === undefined) {
+        props.size = 24
+    }
+
+    if (props.color === undefined) {
+        props.color = 'currentColor'
+    }
+
+    if (props.strokeWidth === undefined) {
+        props.strokeWidth = 1.5
+    }
+
+    return (
+        <svg xmlns="http://www.w3.org/2000/svg"
+             className={'p-0.5'}
+             width={props.size}
+             height={props.size}
+             viewBox="0 0 24 24"
+             fill="none"
+             stroke={props.color}
+             stroke-width={props.strokeWidth}
+             stroke-linecap="round"
+             stroke-linejoin="round">
+            <circle cx="12" cy="12" r="10"></circle>
+            <polyline points="12 8 8 12 12 16"></polyline>
+            <line x1="16" y1="12" x2="8" y2="12"></line>
+        </svg>
+    )
+}
+
+
+export function ShowMainMenu(props) {
+    if (props.size === undefined) {
+        props.size = 24
+    }
+
+    if (props.color === undefined) {
+        props.color = 'currentColor'
+    }
+
+    if (props.strokeWidth === undefined) {
+        props.strokeWidth = 1.5
+    }
+
+    return (
+        <svg xmlns="http://www.w3.org/2000/svg"
+             className={'p-0.5'}
+             width={props.size}
+             height={props.size}
+             viewBox="0 0 24 24"
+             fill="none"
+             stroke={props.color}
+             stroke-width={props.strokeWidth}
+             stroke-linecap="round"
+             stroke-linejoin="round">
+            <circle cx="12" cy="12" r="10"></circle>
+            <polyline points="12 16 16 12 12 8"></polyline>
+            <line x1="8" y1="12" x2="16" y2="12"></line>
+        </svg>
+    )
+}
+
+
 export function EyeOpenIcon(props) {
     if (props.size === undefined) {
         props.size = 24
@@ -848,7 +912,7 @@ export function LetterXIcon(props) {
         props.size = 24
     }
 
-    if (props.color ===  undefined) {
+    if (props.color === undefined) {
         props.color = 'currentColor'
     }
 
@@ -869,6 +933,37 @@ export function LetterXIcon(props) {
              stroke-linejoin="round">
             <line x1="18" y1="6" x2="6" y2="18"></line>
             <line x1="6" y1="6" x2="18" y2="18"></line>
+        </svg>
+    )
+}
+
+export function ExternalLink(props) {
+    if (props.size === undefined) {
+        props.size = 24
+    }
+
+    if (props.color === undefined) {
+        props.color = 'currentColor'
+    }
+
+    if (props.strokeWidth === undefined) {
+        props.strokeWidth = 1.5
+    }
+
+    return (
+        <svg xmlns="http://www.w3.org/2000/svg"
+             className={'p-0.5'}
+             width={props.size}
+             height={props.size}
+             viewBox="0 0 24 24"
+             fill="none"
+             stroke={props.color}
+             stroke-width={props.strokeWidth}
+             stroke-linecap="round"
+             stroke-linejoin="round">
+            <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+            <polyline points="15 3 21 3 21 9"></polyline>
+            <line x1="10" y1="14" x2="21" y2="3"></line>
         </svg>
     )
 }

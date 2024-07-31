@@ -3,6 +3,7 @@ import {Outlet, useParams} from "@solidjs/router";
 import {ContextMain} from "./ContextMain";
 import {createStore} from "solid-js/store";
 import rpc_page_workshop_tickets from "../rpc/workshop/rpc_page_workshop_tickets";
+import rpc_get_all_active_users from "../rpc/system/rpc_get_all_active_users";
 
 export const ContextWorkshop = createContext()
 
@@ -29,6 +30,8 @@ export function WorkshopContextProvider() {
     const [ticketsWhereAnnex, setTicketsWhereAnnex] = createSignal({})
     const [ticketsTempWhere, setTicketsTempWhere] = createSignal({})
     const [ticketsWherePills, setTicketsWherePills] = createSignal({})
+
+    const [users, setUsers] = createSignal([])
 
 
     const windowResizeHandler = (_) => {
@@ -171,6 +174,16 @@ export function WorkshopContextProvider() {
         }
     }
 
+    function getAllActiveUsers() {
+        rpc_get_all_active_users().then((rpc) => {
+            if (rpc.ok) {
+                setUsers([...rpc.data])
+            } else {
+                ctxMain.showErrorToast('Error fetching users. ' + rpc.message)
+            }
+        })
+    }
+
     function changeLimit(value) {
         setPage(1)
         setLimit(value)
@@ -263,6 +276,7 @@ export function WorkshopContextProvider() {
             setWindowHeight(window.innerHeight)
             setTicketsInnerTableHeight(windowHeight() - 150)
             deBounceGetPageTickets(200, page(), limit(), ticketsWhere())
+            getAllActiveUsers()
         } else {
             ctxMain.navigator('/login')
         }
@@ -277,6 +291,9 @@ export function WorkshopContextProvider() {
             {
                 workshopLayout: workshopLayout,
                 setWorkshopLayout: setWorkshopLayout,
+
+                users: users,
+                setUsers: setUsers,
 
                 loadingTickets: loadingTickets,
                 setLoadingTickets: setLoadingTickets,
@@ -319,6 +336,7 @@ export function WorkshopContextProvider() {
                 displayName: displayName,
                 displayContact: displayContact,
                 displayDevice: displayDevice,
+                getAllActiveUsers: getAllActiveUsers,
 
                 dialogFilterTicketsRef: dialogFilterTicketsRef,
             }

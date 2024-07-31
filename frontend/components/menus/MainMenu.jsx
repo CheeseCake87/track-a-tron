@@ -1,5 +1,13 @@
-import {useContext} from "solid-js";
-import {ClientIcon, LogoutIcon, PurchaseOrderIcon, SettingsIcon, UserIcon, WorkshopIcon} from "../globals/Icons";
+import {Show, useContext} from "solid-js";
+import {
+    ClientIcon,
+    HideMainMenu,
+    LogoutIcon,
+    SettingsIcon,
+    ShowMainMenu,
+    UserIcon,
+    WorkshopIcon
+} from "../globals/Icons";
 import {ContextMain} from "../../contextManagers/ContextMain";
 import {A} from "@solidjs/router";
 
@@ -15,7 +23,7 @@ export function MainMenu() {
     }
 
     return (
-        <div className={'main-menu'}>
+        <div className={'main-menu'} style={{width: ctxMain.showMainMenu() ? '250px' : `${ctxMain.iconSize() + 55}px`}}>
             <div>
 
                 {/*
@@ -87,17 +95,6 @@ export function MainMenu() {
                     <p>Assets</p>
                 </div>
 
-                */}
-
-                <A href="/workshop" activeClass="main-menu-icon-active" inactiveClass="main-menu-icon">
-                    <span><WorkshopIcon size={ctxMain.iconSize()}/></span>
-                    <p>Workshop</p>
-                </A>
-                <A href='/clients' activeClass="main-menu-icon-active" inactiveClass="main-menu-icon">
-                    <span><ClientIcon size={ctxMain.iconSize()}/></span>
-                    <p>Clients</p>
-                </A>
-
                 <div className={
                     ctxMain.mainMenuLocation() === 'assets'
                         ? 'main-menu-icon-active'
@@ -110,36 +107,61 @@ export function MainMenu() {
                     <p>Purchase&nbsp;Orders</p>
                 </div>
 
+                */}
+
+                <A href="/workshop" activeClass="main-menu-icon-active" inactiveClass="main-menu-icon">
+                    <WorkshopIcon size={ctxMain.iconSize()}/>
+                    <Show when={ctxMain.showMainMenu()}>
+                        <p>Workshop</p>
+                    </Show>
+                </A>
+                <A href='/clients' activeClass="main-menu-icon-active" inactiveClass="main-menu-icon">
+                    <ClientIcon size={ctxMain.iconSize()}/>
+                    <Show when={ctxMain.showMainMenu()}>
+                        <p>Clients</p>
+                    </Show>
+                </A>
 
             </div>
 
             <div>
-                <div className={
-                    ctxMain.mainMenuLocation() === 'account'
-                        ? 'main-menu-icon-active'
-                        : 'main-menu-icon'}
-                     onClick={() => {
-                         ctxMain.setMainMenuLocation('account')
-                         ctxMain.navigator('/account')
-                     }}>
-                    <div><UserIcon size={ctxMain.iconSize()}/></div>
-                    <p>Account</p>
-                </div>
-                <div className={
-                    ctxMain.mainMenuLocation() === 'system'
-                        ? 'main-menu-icon-active'
-                        : 'main-menu-icon'}
-                     onClick={() => {
-                         ctxMain.setMainMenuLocation('system')
-                         ctxMain.navigator('/system')
-                     }}>
-                    <div><SettingsIcon size={ctxMain.iconSize()}/></div>
-                    <p>System</p>
-                </div>
+                <A href='/account' activeClass="main-menu-icon-active" inactiveClass="main-menu-icon">
+                    <UserIcon size={ctxMain.iconSize()}/>
+                    <Show when={ctxMain.showMainMenu()}>
+                        <p>Account</p>
+                    </Show>
+                </A>
+
+                <A href='/system' activeClass="main-menu-icon-active" inactiveClass="main-menu-icon">
+                    <SettingsIcon size={ctxMain.iconSize()}/>
+                    <Show when={ctxMain.showMainMenu()}>
+                        <p>System</p>
+                    </Show>
+                </A>
+
+                <Show when={ctxMain.showMainMenu()} fallback={
+                    <div className={'main-menu-icon'}
+                         onClick={() => {
+                             ctxMain.setShowMainMenu(true)
+                         }}>
+                        <ShowMainMenu size={ctxMain.iconSize()}/>
+                    </div>
+                }>
+                    <div className={'main-menu-icon'}
+                         onClick={() => {
+                             ctxMain.setShowMainMenu(false)
+                         }}>
+                        <HideMainMenu size={ctxMain.iconSize()}/>
+                        <p>Hide&nbsp;Menu</p>
+                    </div>
+                </Show>
+
                 <div className={'main-menu-icon'}
                      onClick={() => ctxMain.logout()}>
-                    <div><LogoutIcon size={ctxMain.iconSize()}/></div>
-                    <p>Logout</p>
+                    <LogoutIcon size={ctxMain.iconSize()}/>
+                    <Show when={ctxMain.showMainMenu()}>
+                        <p>Logout</p>
+                    </Show>
                 </div>
             </div>
         </div>

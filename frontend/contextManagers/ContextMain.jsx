@@ -36,6 +36,7 @@ export function MainContextProvider(props) {
     const [userType, setUserType] = createSignal(null)
     const [loaded, setLoaded] = createSignal(false)
 
+    const [showMainMenu, setShowMainMenu] = createSignal(true)
     const [mainMenuLocation, setMainMenuLocation] = createSignal('workshop')
 
     function statusCodeLookup(statusCode) {
@@ -104,6 +105,9 @@ export function MainContextProvider(props) {
     return (
         <ContextMain.Provider value={
             {
+                showMainMenu: showMainMenu,
+                setShowMainMenu: setShowMainMenu,
+
                 session: session,
                 navigator: navigator,
                 location: location,

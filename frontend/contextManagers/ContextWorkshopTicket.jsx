@@ -6,6 +6,7 @@ import rpc_get_all_active_users from "../rpc/system/rpc_get_all_active_users";
 import rpc_get_workshop_ticket_notes from "../rpc/workshop/rpc_get_workshop_ticket_notes";
 import rpc_create_workshop_ticket_note from "../rpc/workshop/rpc_create_workshop_ticket_note";
 import rpc_delete_workshop_ticket_note from "../rpc/workshop/rpc_delete_workshop_ticket_note";
+import rpc_update_workshop_ticket from "../rpc/workshop/rpc_update_workshop_ticket_note";
 
 export const ContextWorkshopTicket = createContext()
 
@@ -22,7 +23,6 @@ export function WorkshopTicketContextProvider() {
     const [devices, setDevices] = createSignal([])
     const [items, setItems] = createSignal([])
 
-    const [users, setUsers] = createSignal([])
     const [status, setStatus] = createSignal({})
     const [notes, setNotes] = createSignal([])
 
@@ -30,31 +30,23 @@ export function WorkshopTicketContextProvider() {
 
     let updateDebounceTimer;
 
-    function saveWorkshopTicket() {
-        /*
+    function updateWorkshopTicket(values) {
         setSavingWorkshopTicket(true)
-        if (updateDebounceTimer) {
-            clearTimeout(updateDebounceTimer)
-        }
-        updateDebounceTimer = setTimeout(() => {
-            rpc_update_client(workshopTicket().workshop_ticket_id, workshopTicket()).then((rpc) => {
-                getClientFetcher.refetch()
-                setSavingClient(false)
-            })
-        }, 500)
-        */
-    }
-
-    function getAllActiveUsers() {
-        rpc_get_all_active_users().then((rpc) => {
+        rpc_update_workshop_ticket(
+            workshopTicket().workshop_ticket_id,
+            values
+        ).then((rpc) => {
             if (rpc.ok) {
-                setUsers([...rpc.data])
+                setSavingWorkshopTicket(false)
+                getWorkshopTicket()
+                ctxMain.showSuccessToast('Ticket updated.')
             } else {
-                ctxMain.showErrorToast('Error fetching users. ' + rpc.message)
+                ctxMain.showErrorToast('Error updating ticket. ' + rpc.message)
             }
         })
     }
 
+    // NOTES
     function getWorkshopTicketNotes(workshop_ticket_id) {
 
         rpc_get_workshop_ticket_notes(
@@ -148,9 +140,6 @@ export function WorkshopTicketContextProvider() {
             status: status,
             setStatus: setStatus,
 
-            users: users,
-            setUsers: setUsers,
-
             client: client,
             setClient: setClient,
 
@@ -164,7 +153,7 @@ export function WorkshopTicketContextProvider() {
             note: note,
             setNote: setNote,
 
-            getAllActiveUsers: getAllActiveUsers,
+            updateWorkshopTicket: updateWorkshopTicket,
             addWorkshopTicketNote: addWorkshopTicketNote,
             deleteWorkshopTicketNote: deleteWorkshopTicketNote,
         }}>

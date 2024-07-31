@@ -1,10 +1,10 @@
-import {NoClientsIcon} from "../../globals/Icons";
-import {ContextWorkshop} from "../../../contextManagers/ContextWorkshop";
+import {NoClientsIcon} from "../../../globals/Icons";
+import {ContextClients} from "../../../../contextManagers/ContextClients";
 import {useContext} from "solid-js";
 
 
-export default function WorkshopNoTickets() {
-    const ctxWorkshop = useContext(ContextWorkshop)
+export default function ClientsNoClients() {
+    const ctxClients = useContext(ContextClients)
     return (
         <div className={'flex justify-center items-center w-full h-full min-h-0'}>
             <div className={'flex flex-col items-center'}>

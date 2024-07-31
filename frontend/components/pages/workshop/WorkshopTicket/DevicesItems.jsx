@@ -8,7 +8,7 @@ export default function DevicesItems() {
     return (
         <Show when={ctxWorkshopTicket.devices().length > 0 || ctxWorkshopTicket.items().length > 0}>
             <div className={'py-3'}>
-                <div className={'workshop-ticket-group'}>
+                <div className={'card-group'}>
                     {ctxWorkshopTicket.devices().length > 0 ?
                         <LoopDevices devices={ctxWorkshopTicket.devices()}/> : ''}
                     {ctxWorkshopTicket.items().length > 0 ?
@@ -24,27 +24,27 @@ function LoopDevices(props) {
     const devices = props.devices
 
     return (
-        <div className={'workshop-ticket-section'}>
+        <div className={'card-section'}>
             <small>Device(s)</small>
-            <div className={'workshop-ticket-pill-group'}>
+            <div className={'card-pill-group'}>
                 <For each={devices}>
                     {(device, i) =>
-                        <div className={'workshop-ticket-labelled-pill'}>
+                        <div className={'card-labelled-pill'}>
                             <Show
                                 when={device.make !== '' || device.model !== ''}
                                 fallback={
                                     <div
-                                        className={'workshop-ticket-labelled-pill-device border-r rounded-md'}>
+                                        className={'card-labelled-pill-device border-r rounded-md'}>
                                         {device.type}
                                     </div>
                                 }
                             >
                                 <div
-                                    className={'workshop-ticket-labelled-pill-device'}>
+                                    className={'card-labelled-pill-device'}>
                                     {device.type}
                                 </div>
                                 <div
-                                    className={'workshop-ticket-labelled-pill-text'}>
+                                    className={'card-labelled-pill-text'}>
                                     <Show when={device.make !== ''}>
                                         {device.make}
                                     </Show>
@@ -71,14 +71,14 @@ function LoopItems(props) {
     const items = props.items
 
     return (
-        <div className={'workshop-ticket-section'}>
+        <div className={'card-section'}>
             <small>Item(s)</small>
-            <div className={'workshop-ticket-pill-group'}>
+            <div className={'card-pill-group'}>
                 <For each={items}>
                     {(device, i) =>
-                        <div className={'workshop-ticket-labelled-pill'}>
+                        <div className={'card-labelled-pill'}>
                             <div
-                                className={'workshop-ticket-labelled-pill-text rounded-md border-r'}>
+                                className={'card-labelled-pill-text rounded-md border-r'}>
                                 {device.description}
                             </div>
                         </div>

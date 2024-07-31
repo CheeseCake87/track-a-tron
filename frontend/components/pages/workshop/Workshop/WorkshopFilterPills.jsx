@@ -1,6 +1,6 @@
 import {For, Show, useContext} from "solid-js";
-import {ContextWorkshop} from "../../../contextManagers/ContextWorkshop";
-import {FilterClearIcon} from "../../globals/Icons";
+import {ContextWorkshop} from "../../../../contextManagers/ContextWorkshop";
+import {FilterClearIcon} from "../../../globals/Icons";
 
 export default function WorkshopFilterPills() {
 

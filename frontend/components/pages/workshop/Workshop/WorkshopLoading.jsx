@@ -1,4 +1,4 @@
-import {SpinnerWithMessage} from "../../globals/Spinner";
+import {SpinnerWithMessage} from "../../../globals/Spinner";
 
 
 export default function WorkshopLoading() {

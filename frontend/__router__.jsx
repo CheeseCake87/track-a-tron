@@ -7,14 +7,14 @@ import ForgotPassword from "./components/pages/auth/ForgotPassword";
 import VerificationCode from "./components/pages/auth/VerificationCode";
 import ChangePassword from "./components/pages/auth/ChangePassword";
 import {ClientsContextProvider} from "./contextManagers/ContextClients";
-import Clients from "./components/pages/clients/Clients";
+import Clients from "./components/pages/clients/Clients/Clients";
 import {MainContextProvider} from "./contextManagers/ContextMain";
 import {SystemContextProvider} from "./contextManagers/ContextSystem";
 import {AccountContextProvider} from "./contextManagers/ContextAccount";
 import Account from "./components/pages/account/Account";
 import {ClientAddContextProvider} from "./contextManagers/ContextClientAdd";
-import ClientAdd from "./components/pages/client_add/ClientAdd";
-import Client from "./components/pages/client/Client";
+import ClientAdd from "./components/pages/clients/ClientAdd/ClientAdd";
+import Client from "./components/pages/clients/Client/Client";
 import {ClientContextProvider} from "./contextManagers/ContextClient";
 import Installer from "./components/pages/installer/Installer";
 import SystemInformation from "./components/pages/system/SystemInformation";
@@ -26,10 +26,10 @@ import {RequireAdminContextProvider} from "./contextManagers/ContextRequireAdmin
 import SystemLogs from "./components/pages/system/SystemLogs";
 import {WorkshopContextProvider} from "./contextManagers/ContextWorkshop";
 import {WorkshopTicketAddContextProvider} from "./contextManagers/ContextWorkshopTicketAdd";
-import WorkshopTicketAdd from "./components/pages/workshop/WorkshopTicketAdd";
+import WorkshopTicketAdd from "./components/pages/workshop/WorkshopTicketAdd/WorkshopTicketAdd";
 import WorkshopTicket from "./components/pages/workshop/WorkshopTicket/WorkshopTicket";
 import {WorkshopTicketContextProvider} from "./contextManagers/ContextWorkshopTicket";
-import Workshop from "./components/pages/workshop/Workshop";
+import Workshop from "./components/pages/workshop/Workshop/Workshop";
 
 const root = document.getElementById('root')
 

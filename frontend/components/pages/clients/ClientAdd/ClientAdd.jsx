@@ -1,138 +1,154 @@
-import {Show, useContext} from "solid-js";
-import {ContextClients} from "../../../contextManagers/ContextClients";
-import {ContextClient} from "../../../contextManagers/ContextClient";
-import {ContextMain} from "../../../contextManagers/ContextMain";
-import {SpinnerSmall} from "../../globals/Spinner";
+import {createSignal, Show, useContext} from "solid-js";
+import {ContextMain} from "../../../../contextManagers/ContextMain";
+import GetAddress from "../../../services/GetAddress";
+import rpc_create_client from "../../../../rpc/client/rpc_create_client";
 
 
-export default function Client() {
+export default function ClientAdd() {
 
     const ctxMain = useContext(ContextMain)
-    const ctxClients = useContext(ContextClients)
-    const ctxClient = useContext(ContextClient)
+
+    const [addAddressManually, setAddAddressManually] = createSignal(false)
+
+    const [client, setClient] = createSignal({
+        business_name: '',
+        first_name: '',
+        last_name: '',
+        phone: '',
+        alt_phone: '',
+        email_address: '',
+        alt_email_address: '',
+        phone_dnc: false,
+        email_address_dnc: false
+    })
+
+    const [clientAddress, setClientAddress] = createSignal({
+        building_number: '',
+        sub_building_number: '',
+        building_name: '',
+        sub_building_name: '',
+        address_line_1: '',
+        address_line_2: '',
+        address_line_3: '',
+        locality: '',
+        town_or_city: '',
+        county: '',
+        district: '',
+        postcode: '',
+        country: ''
+    })
+
+    function createClient() {
+        rpc_create_client(
+            ctxMain.userId(),
+            {
+                ...client(),
+                ...clientAddress()
+            })
+            .then((rpc) => {
+                if (rpc.ok) {
+                    ctxMain.showSuccessToast('Client created')
+                    ctxMain.navigator(`/clients/${rpc.data[0].client_id}`)
+                } else {
+                    ctxMain.showErrorToast(rpc.message)
+                }
+            })
+    }
 
     return (
-        <div className={'main-content-slim gap-2'}>
-            <div className={'field-group items-center sticky top-0'}>
-                <button className={'btn'} onClick={() => {
-                    ctxClients.deBounceGetPageClients(
-                        200, ctxClients.page(), ctxClients.limit(), ctxClients.clientsWhere()
-                    )
-                    ctxMain.navigator('/clients')
-                }}>
-                    ← Back
-                </button>
-                <Show when={ctxClient.savingClient()}>
-                    <div className={'flex flex-row gap-2 items-center px-4'}>
-                        <SpinnerSmall/> Saving...
-                    </div>
-                </Show>
+        <div className={'main-content-stretch gap-2'}>
+            <div className={'sticky-top-buttons'}>
+                <button className={'btn'} onClick={() => ctxMain.navigator('/clients')}>← Cancel</button>
+                <button className={'btn-good'} onClick={createClient}>Create Client</button>
             </div>
-            <div className={'sectioned-content flex flex-row gap-2 w-full'}>
-                <div className={'input-like'}>
-                    <strong>Client ID:</strong> {ctxClient.client().client_id}
-                </div>
-                <div className={'input-like'}>
-                    <strong>Created:</strong> {ctxClient.client().__created}
-                </div>
-                <div className={'input-like'}>
-                    <strong>Added By:</strong> {ctxClient.client().__added_by}
-                </div>
-            </div>
-            <div className={'sectioned-content w-full'}>
-                <form onSubmit={
-                    (e) => {
-                        e.preventDefault()
-                    }
-                }>
+            <form onsubmit={
+                (e) => {
+                    e.preventDefault()
+                }
+            }>
+                <div className={'sectioned-content w-full'}>
                     <div className={'form-section'}>
                         <div className={'field-group'}>
                             <div className={'py-2'}>
                                 <label>First Name</label>
                                 <input type={'text'} onKeyUp={
                                     (e) => {
-                                        ctxClient.setClient({
-                                            ...ctxClient.client(),
+                                        setClient({
+                                            ...client(),
                                             first_name: e.target.value
                                         })
-                                        ctxClient.saveClient()
                                     }
-                                } value={ctxClient.client().first_name}/>
+                                } value={client().first_name}/>
                             </div>
                             <div className={'py-2'}>
                                 <label>Last Name</label>
                                 <input type={'text'} onKeyUp={
                                     (e) => {
-                                        ctxClient.setClient({
-                                            ...ctxClient.client(),
+                                        setClient({
+                                            ...client(),
                                             last_name: e.target.value
                                         })
-                                        ctxClient.saveClient()
                                     }
-                                } value={ctxClient.client().last_name}/>
+                                } value={client().last_name}/>
                             </div>
                             <div className={'py-2'}>
                                 <label>Business Name</label>
                                 <input type={'text'} onKeyUp={
                                     (e) => {
-                                        ctxClient.setClient({
-                                            ...ctxClient.client(),
+                                        setClient({
+                                            ...client(),
                                             business_name: e.target.value
                                         })
-                                        ctxClient.saveClient()
                                     }
-                                } value={ctxClient.client().business_name}/>
+                                } value={client().business_name}/>
                             </div>
                         </div>
                     </div>
-                    <div className={'form-section pb-0'}>
-                        <div className={'field-group mb-2'}>
+                    <div className={'form-section'}>
+                        <div className={'field-group'}>
                             <div className={'py-2'}>
                                 <label>Phone</label>
                                 <input type={'text'} onKeyUp={
                                     (e) => {
-                                        ctxClient.setClient({
-                                            ...ctxClient.client(),
+                                        setClient({
+                                            ...client(),
                                             phone: e.target.value
                                         })
-                                        ctxClient.saveClient()
                                     }
-                                } value={ctxClient.client().phone}/>
+                                } value={client().phone}/>
                             </div>
                             <div className={'py-2'}>
                                 <label>Email Address</label>
                                 <input type={'text'} onKeyUp={
                                     (e) => {
-                                        ctxClient.setClient({
-                                            ...ctxClient.client(),
+                                        setClient({
+                                            ...client(),
                                             email_address: e.target.value
                                         })
                                     }
-                                } value={ctxClient.client().email_address}/>
+                                } value={client().email_address}/>
                             </div>
                             <div className={'py-2'}>
                                 <label>Alternative Phone</label>
                                 <input type={'text'} onKeyUp={
                                     (e) => {
-                                        ctxClient.setClient({
-                                            ...ctxClient.client(),
+                                        setClient({
+                                            ...client(),
                                             alt_phone: e.target.value
                                         })
-                                        ctxClient.saveClient()
                                     }
-                                } value={ctxClient.client().alt_phone}/>
+                                } value={client().alt_phone}/>
                             </div>
                             <div className={'py-2'}>
                                 <label>Alternative Email Address</label>
                                 <input type={'text'} onKeyUp={
                                     (e) => {
-                                        ctxClient.setClient({
-                                            ...ctxClient.client(),
+                                        setClient({
+                                            ...client(),
                                             alt_email_address: e.target.value
                                         })
-                                        ctxClient.saveClient()
                                     }
-                                } value={ctxClient.client().alt_email_address}/>
+                                } value={client().alt_email_address}/>
                             </div>
                         </div>
                         <div className={'form-section'}>
@@ -141,16 +157,13 @@ export default function Client() {
                                     <input type={'checkbox'}
                                            id={'add_client_phone_dnc'}
                                            name={'add_client_phone_dnc'}
-                                           checked={ctxClient.client().phone_dnc}
-                                           onChange={(e) => {
-                                               ctxClient.setClient(
-                                                   {
-                                                       ...ctxClient.client(),
-                                                       phone_dnc: e.target.checked
-                                                   }
-                                               )
-                                               ctxClient.saveClient()
-                                           }}
+                                           checked={client().phone_dnc}
+                                           onChange={(e) => setClient(
+                                               {
+                                                   ...client(),
+                                                   phone_dnc: e.target.checked
+                                               }
+                                           )}
                                     />
                                     <label htmlFor={'add_client_phone_dnc'}>
                                         Do not send SMS updates or messages
@@ -161,16 +174,13 @@ export default function Client() {
                                     <input type={'checkbox'}
                                            id={'add_client_email_address_dnc'}
                                            name={'add_client_email_address_dnc'}
-                                           checked={ctxClient.client().email_address_dnc}
-                                           onChange={(e) => {
-                                               ctxClient.setClient(
-                                                   {
-                                                       ...ctxClient.client(),
-                                                       email_address_dnc: e.target.checked
-                                                   }
-                                               )
-                                               ctxClient.saveClient()
-                                           }}
+                                           checked={client().email_address_dnc}
+                                           onChange={(e) => setClient(
+                                               {
+                                                   ...client(),
+                                                   email_address_dnc: e.target.checked
+                                               }
+                                           )}
                                     />
                                     <label htmlFor={'add_client_email_address_dnc'}>
                                         Do not send email updates or messages
@@ -180,44 +190,40 @@ export default function Client() {
                         </div>
                     </div>
                     <div className={'form-section'}>
-
-                        <div className={'field-group'}>
-                            <div className={'pb-4 w-full'}>
-                                <label>Address</label>
-                                <input type={'text'} className={'w-full'} style={{'max-width': '600px'}}
-                                       value={ctxClient.client().__address} readonly={true}/>
+                        <Show when={ctxMain.enabledServices().includes('get_address')}>
+                            <GetAddress cachePostcode={true} setAddress={setClientAddress}/>
+                            <div className={'field-group'}>
+                                <a className={'no-underline'} onClick={(e) => {
+                                    e.preventDefault()
+                                    setAddAddressManually(!addAddressManually())
+                                }}>Add Address Manually {addAddressManually() ? '▾' : '▸'}</a>
                             </div>
-                        </div>
-
-                        <div className={'field-group'}>
-                            <a className={'no-underline'} onClick={(e) => {
-                                ctxClient.setShowAddress(!ctxClient.showAddress())
-                                e.preventDefault()
-                            }}>Show Address Fields {ctxClient.showAddress() ? '▾' : '▸'}</a>
-                        </div>
-
-                        <Show when={ctxClient.showAddress()}>
+                        </Show>
+                        <div className={
+                            ctxMain.enabledServices().includes('get_address') && !addAddressManually()
+                                ? 'hidden'
+                                : 'block'
+                        }>
                             <div className={'field-group'}>
                                 <div className={'py-2'}>
                                     <label>Building Number</label>
-                                    <input type={'text'} value={ctxClient.client().building_number}
+                                    <input type={'text'} value={clientAddress().building_number}
                                            onKeyUp={
                                                (e) => {
-                                                   ctxClient.setClient({
-                                                       ...ctxClient.client(),
+                                                   setClientAddress({
+                                                       ...clientAddress(),
                                                        building_number: e.target.value
                                                    })
-                                                   ctxClient.saveClient()
                                                }
                                            }/>
                                 </div>
                                 <div className={'py-2'}>
                                     <label>Sub Building Number</label>
-                                    <input type={'text'} value={ctxClient.client().sub_building_number}
+                                    <input type={'text'} value={clientAddress().sub_building_number}
                                            onKeyUp={
                                                (e) => {
-                                                   ctxClient.setClient({
-                                                       ...ctxClient.client(),
+                                                   setClientAddress({
+                                                       ...clientAddress(),
                                                        sub_building_number: e.target.value
                                                    })
                                                }
@@ -225,27 +231,25 @@ export default function Client() {
                                 </div>
                                 <div className={'py-2'}>
                                     <label>Building Name</label>
-                                    <input type={'text'} value={ctxClient.client().building_name}
+                                    <input type={'text'} value={clientAddress().building_name}
                                            onKeyUp={
                                                (e) => {
-                                                   ctxClient.setClient({
-                                                       ...ctxClient.client(),
+                                                   setClientAddress({
+                                                       ...clientAddress(),
                                                        building_name: e.target.value
                                                    })
-                                                   ctxClient.saveClient()
                                                }
                                            }/>
                                 </div>
                                 <div className={'py-2'}>
                                     <label>Sub Building Name</label>
-                                    <input type={'text'} value={ctxClient.client().sub_building_name}
+                                    <input type={'text'} value={clientAddress().sub_building_name}
                                            onKeyUp={
                                                (e) => {
-                                                   ctxClient.setClient({
-                                                       ...ctxClient.client(),
+                                                   setClientAddress({
+                                                       ...clientAddress(),
                                                        sub_building_name: e.target.value
                                                    })
-                                                   ctxClient.saveClient()
                                                }
                                            }/>
                                 </div>
@@ -253,24 +257,23 @@ export default function Client() {
                             <div className={'field-group'}>
                                 <div className={'py-2'}>
                                     <label>Address Line 1</label>
-                                    <input type={'text'} value={ctxClient.client().address_line_1}
+                                    <input type={'text'} value={clientAddress().address_line_1}
                                            onKeyUp={
                                                (e) => {
-                                                   ctxClient.setClient({
-                                                       ...ctxClient.client(),
+                                                   setClientAddress({
+                                                       ...clientAddress(),
                                                        address_line_1: e.target.value
                                                    })
-                                                   ctxClient.saveClient()
                                                }
                                            }/>
                                 </div>
                                 <div className={'py-2'}>
                                     <label>Address Line 2</label>
-                                    <input type={'text'} value={ctxClient.client().address_line_2}
+                                    <input type={'text'} value={clientAddress().address_line_2}
                                            onKeyUp={
                                                (e) => {
-                                                   ctxClient.setClient({
-                                                       ...ctxClient.client(),
+                                                   setClientAddress({
+                                                       ...clientAddress(),
                                                        address_line_2: e.target.value
                                                    })
                                                }
@@ -278,24 +281,23 @@ export default function Client() {
                                 </div>
                                 <div className={'py-2'}>
                                     <label>Address Line 3</label>
-                                    <input type={'text'} value={ctxClient.client().address_line_3}
+                                    <input type={'text'} value={clientAddress().address_line_3}
                                            onKeyUp={
                                                (e) => {
-                                                   ctxClient.setClient({
-                                                       ...ctxClient.client(),
+                                                   setClientAddress({
+                                                       ...clientAddress(),
                                                        address_line_3: e.target.value
                                                    })
-                                                   ctxClient.saveClient()
                                                }
                                            }/>
                                 </div>
                                 <div className={'py-2'}>
                                     <label>Locality</label>
-                                    <input type={'text'} value={ctxClient.client().locality}
+                                    <input type={'text'} value={clientAddress().locality}
                                            onKeyUp={
                                                (e) => {
-                                                   ctxClient.setClient({
-                                                       ...ctxClient.client(),
+                                                   setClientAddress({
+                                                       ...clientAddress(),
                                                        locality: e.target.value
                                                    })
                                                }
@@ -305,24 +307,23 @@ export default function Client() {
                             <div className={'field-group'}>
                                 <div className={'py-2'}>
                                     <label>Town / City</label>
-                                    <input type={'text'} value={ctxClient.client().town_or_city}
+                                    <input type={'text'} value={clientAddress().town_or_city}
                                            onKeyUp={
                                                (e) => {
-                                                   ctxClient.setClient({
-                                                       ...ctxClient.client(),
+                                                   setClientAddress({
+                                                       ...clientAddress(),
                                                        town_or_city: e.target.value
                                                    })
-                                                   ctxClient.saveClient()
                                                }
                                            }/>
                                 </div>
                                 <div className={'py-2'}>
                                     <label>County</label>
-                                    <input type={'text'} value={ctxClient.client().county}
+                                    <input type={'text'} value={clientAddress().county}
                                            onKeyUp={
                                                (e) => {
-                                                   ctxClient.setClient({
-                                                       ...ctxClient.client(),
+                                                   setClientAddress({
+                                                       ...clientAddress(),
                                                        county: e.target.value
                                                    })
                                                }
@@ -330,14 +331,13 @@ export default function Client() {
                                 </div>
                                 <div className={'py-2'}>
                                     <label>District</label>
-                                    <input type={'text'} value={ctxClient.client().district}
+                                    <input type={'text'} value={clientAddress().district}
                                            onKeyUp={
                                                (e) => {
-                                                   ctxClient.setClient({
-                                                       ...ctxClient.client(),
+                                                   setClientAddress({
+                                                       ...clientAddress(),
                                                        district: e.target.value
                                                    })
-                                                   ctxClient.saveClient()
                                                }
                                            }/>
                                 </div>
@@ -345,37 +345,33 @@ export default function Client() {
                             <div className={'field-group'}>
                                 <div className={'py-2'}>
                                     <label>Postcode</label>
-                                    <input type={'text'} value={ctxClient.client().postcode}
+                                    <input type={'text'} value={clientAddress().postcode}
                                            onKeyUp={
                                                (e) => {
-                                                   ctxClient.setClient({
-                                                       ...ctxClient.client(),
+                                                   setClientAddress({
+                                                       ...clientAddress(),
                                                        postcode: e.target.value
                                                    })
-                                                   ctxClient.saveClient()
                                                }
                                            }/>
                                 </div>
                                 <div className={'py-2'}>
                                     <label>Country</label>
-                                    <input type={'text'} value={ctxClient.client().country}
+                                    <input type={'text'} value={clientAddress().country}
                                            onKeyUp={
                                                (e) => {
-                                                   ctxClient.setClient({
-                                                       ...ctxClient.client(),
+                                                   setClientAddress({
+                                                       ...clientAddress(),
                                                        country: e.target.value
                                                    })
-                                                   ctxClient.saveClient()
                                                }
                                            }/>
                                 </div>
                             </div>
-                        </Show>
+                        </div>
                     </div>
-
-                </form>
-            </div>
-
+                </div>
+            </form>
         </div>
     )
 }

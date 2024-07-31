@@ -1,5 +1,5 @@
-import {FilterIcon, FirstPageIcon, LastPageIcon, NextPageIcon, PrevPageIcon} from "../../globals/Icons";
-import {ContextClients} from "../../../contextManagers/ContextClients";
+import {FilterIcon, FirstPageIcon, LastPageIcon, NextPageIcon, PrevPageIcon} from "../../../globals/Icons";
+import {ContextClients} from "../../../../contextManagers/ContextClients";
 import {useContext} from "solid-js";
 
 

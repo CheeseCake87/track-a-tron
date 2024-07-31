@@ -1,6 +1,6 @@
 import {createSignal, onCleanup, onMount, useContext} from "solid-js";
 import {ContextWorkshop} from "../../../../contextManagers/ContextWorkshop";
-import {FilterByClientInfo} from "./FilterByClientInfo";
+import {FilterByWorkshopTicket} from "./FilterByWorkshopTicket";
 import {FilterByDate} from "./FilterByDate";
 
 
@@ -61,7 +61,7 @@ export function DialogFilterTickets() {
                     onClick={
                         () => setFilterTab('client-info')
                     }>
-                    Client Info
+                    Workshop Ticket
                 </button>
                 <button
                     className={filterTab() === 'date'
@@ -74,12 +74,12 @@ export function DialogFilterTickets() {
                 </button>
             </div>
 
-            {/*<div className={filterTab() === 'client-info'*/}
-            {/*    ? 'dialog-content'*/}
-            {/*    : 'hidden'}>*/}
-            {/*    <FilterByTicket keyDownHandler={keyDownHandler}*/}
-            {/*                    setFilterTab={setFilterTab}/>*/}
-            {/*</div>*/}
+            <div className={filterTab() === 'client-info'
+                ? 'dialog-content'
+                : 'hidden'}>
+                <FilterByWorkshopTicket keyDownHandler={keyDownHandler}
+                                setFilterTab={setFilterTab}/>
+            </div>
 
             <div className={filterTab() === 'date'
                 ? 'dialog-content'

@@ -1,10 +1,10 @@
 import {useContext} from "solid-js";
-import {ContextClients} from "../../../contextManagers/ContextClients";
-import ClientsInnerTable from "./ClientsInnerTable";
+import {ContextClients} from "../../../../contextManagers/ContextClients";
 import ClientsHeader from "./ClientsHeader";
-import ClientsInnerTableNoClients from "./ClientsInnerTableNoClients";
-import ClientsInnerTableLoading from "./ClientsInnerTableLoading";
+import ClientsNoClients from "./ClientsNoClients";
+import ClientsLoading from "./ClientsLoading";
 import ClientsFilterPills from "./ClientsFilterPills";
+import ClientsCards from "./ClientsCards";
 
 export default function Clients() {
 
@@ -16,16 +16,16 @@ export default function Clients() {
 
             <ClientsFilterPills/>
 
-            <div className={'-flex-table-bg-wrapper'}>
+            <div className={'cards-bg-wrapper'}>
 
-                <div className={'-table'}>
+                <div className={'cards'}>
 
                     {
                         ctxClients.loadingClients()
-                            ? <ClientsInnerTableLoading/>
+                            ? <ClientsLoading/>
                             : ctxClients.clients.length > 0
-                                ? <ClientsInnerTable/>
-                                : <ClientsInnerTableNoClients/>
+                                ? <ClientsCards/>
+                                : <ClientsNoClients/>
                     }
 
                 </div>

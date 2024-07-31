@@ -1,8 +1,8 @@
 import {Show, useContext} from "solid-js";
-import {SpinnerSmall} from "../../globals/Spinner";
-import {ContextWorkshop} from "../../../contextManagers/ContextWorkshop";
+import {SpinnerSmall} from "../../../globals/Spinner";
+import {ContextWorkshop} from "../../../../contextManagers/ContextWorkshop";
 import WorkshopPageControls from "./WorkshopPageControls";
-import {DialogFilterTickets} from "./filterWorkshop/DialogFilterTickets";
+import {DialogFilterTickets} from "../filterWorkshop/DialogFilterTickets";
 import {A} from "@solidjs/router";
 
 

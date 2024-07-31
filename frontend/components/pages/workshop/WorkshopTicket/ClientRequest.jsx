@@ -1,6 +1,8 @@
 import {useContext} from "solid-js";
 import {ContextWorkshopTicket} from "../../../../contextManagers/ContextWorkshopTicket";
 import {ContextWorkshop} from "../../../../contextManagers/ContextWorkshop";
+import {A} from "@solidjs/router";
+import {ExternalLink} from "../../../globals/Icons";
 
 export default function ClientRequest() {
     const ctxWorkshop = useContext(ContextWorkshop)
@@ -8,9 +10,9 @@ export default function ClientRequest() {
 
     return (
         <div className={'flex flex-col gap-6 w-full py-4'}>
-            <div className={'workshop-ticket-group'}>
+            <div className={'card-group'}>
 
-                <div className={'workshop-ticket-section'}>
+                <div className={'card-section'}>
                     <small>Client</small>
                     <p>
                         {ctxWorkshopTicket.client() ? ctxWorkshop.displayName(
@@ -21,7 +23,7 @@ export default function ClientRequest() {
                     </p>
                 </div>
 
-                <div className={'workshop-ticket-section'}>
+                <div className={'card-section'}>
                     <small>Contact</small>
                     <p>
                         {ctxWorkshopTicket.client() ? ctxWorkshop.displayContact(
@@ -33,7 +35,7 @@ export default function ClientRequest() {
                     </p>
                 </div>
 
-                <div className={'workshop-ticket-section'}>
+                <div className={'card-section'}>
                     <small>Address</small>
                     <p>
                         {ctxWorkshopTicket.client()
@@ -43,8 +45,15 @@ export default function ClientRequest() {
                 </div>
 
             </div>
-            <div className={'workshop-ticket-group'}>
-                <div className={'workshop-ticket-section'}>
+            <div className={'card-group'}>
+                <A className={'btn-confirm btn-a btn-slim'}
+                   target={'_blank'}
+                   href={'/clients/' + ctxWorkshopTicket.client().client_id}>
+                    Open Client <ExternalLink size={16}/>
+                </A>
+            </div>
+            <div className={'card-group'}>
+                <div className={'card-section'}>
                     <small>Request</small>
                     {ctxWorkshopTicket.workshopTicket().request}
                 </div>

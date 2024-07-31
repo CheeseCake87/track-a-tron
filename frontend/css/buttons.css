@@ -55,7 +55,7 @@ a.btn-danger {
 }
 
 .btn-a:hover {
-    @apply underline;
+    @apply no-underline;
 }
 
 .btn-a:disabled {
