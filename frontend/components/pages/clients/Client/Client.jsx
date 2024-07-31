@@ -5,6 +5,7 @@ import {ContextMain} from "../../../../contextManagers/ContextMain";
 import {SpinnerSmall} from "../../../globals/Spinner";
 import StatusPills from "./StatusPills";
 import ClientData from "./ClientData";
+import WorkshopTicketCards from "./WorkshopTicketCards";
 
 
 export default function Client() {
@@ -34,6 +35,13 @@ export default function Client() {
 
                 <StatusPills/>
                 <ClientData/>
+
+            </div>
+
+            <div className={'sectioned-content flex flex-col w-full gap-2'}>
+                <label>Tickets</label>
+
+                <WorkshopTicketCards/>
 
             </div>
 

@@ -83,7 +83,10 @@ def create_workshop_ticket(data):
         s.commit()
 
         response = RPCResponse.success(
-            {"workshop_ticket_id": new_ticket.workshop_ticket_id},
+            {
+                "workshop_ticket_id": new_ticket.workshop_ticket_id,
+                "workshop_tag": workshop_tag
+            },
             "Workshop ticket created.",
         )
 

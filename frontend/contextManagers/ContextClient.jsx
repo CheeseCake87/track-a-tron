@@ -3,6 +3,7 @@ import {Outlet, useParams} from "@solidjs/router";
 import rpc_get_client from "../rpc/client/rpc_get_client";
 import {ContextMain} from "./ContextMain";
 import rpc_update_client from "../rpc/client/rpc_update_client";
+import rpc_get_workshop_tickets from "../rpc/workshop/rpc_get_workshop_tickets";
 
 export const ContextClient = createContext()
 
@@ -31,6 +32,8 @@ export function ClientContextProvider() {
         }
     )
 
+    const [workshopTickets, setWorkshopTickets] = createSignal([])
+
     let updateDebounceTimer;
 
     function saveClient() {
@@ -46,9 +49,18 @@ export function ClientContextProvider() {
         }, 500)
     }
 
+    function getClientWorkshopTickets() {
+        rpc_get_workshop_tickets({fk_client_id: client().client_id}).then((rpc) => {
+            setWorkshopTickets(rpc.data)
+        })
+    }
+
     createEffect(() => {
         if (!getClientFetcher.store.loading) {
             setClient({...getClientFetcher.data()})
+            if (client().client_id !== 0) {
+                getClientWorkshopTickets()
+            }
         }
     })
 
@@ -60,6 +72,9 @@ export function ClientContextProvider() {
             getClientFetcher: getClientFetcher,
             showAddress: showAddress,
             setShowAddress: setShowAddress,
+
+            workshopTickets: workshopTickets,
+            setWorkshopTickets: setWorkshopTickets,
 
             saveClient: saveClient
         }}>

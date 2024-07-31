@@ -1,15 +1,14 @@
 import {Show, useContext} from "solid-js";
-import {ContextWorkshop} from "../../../../contextManagers/ContextWorkshop";
 import {ContextMain} from "../../../../contextManagers/ContextMain";
 import {A} from "@solidjs/router";
 import WorkshopTicketCardDevices from "./WorkshopTicketCardDevices";
 import WorkshopTicketCardItems from "./WorkshopTicketCardItems";
+import {displayContact, displayName} from "../../../../utilities/general";
 
 
 export default function WorkshopTicketCard(props) {
 
     const ctxMain = useContext(ContextMain)
-    const ctxWorkshop = useContext(ContextWorkshop)
 
     const ticket = props.ticket
 
@@ -70,7 +69,7 @@ export default function WorkshopTicketCard(props) {
                     <div className={'card-section'}>
                         <small>Client</small>
                         <p>
-                            {ctxWorkshop.displayName(
+                            {displayName(
                                 ticket.__client.business_name,
                                 ticket.__client.first_name,
                                 ticket.__client.last_name
@@ -80,7 +79,7 @@ export default function WorkshopTicketCard(props) {
                     <div className={'card-section'}>
                         <small>Contact</small>
                         <p>
-                            {ctxWorkshop.displayContact(
+                            {displayContact(
                                 ticket.__client.phone,
                                 ticket.__client.email_address,
                                 ticket.__client.alt_phone,

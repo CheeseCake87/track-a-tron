@@ -152,7 +152,6 @@
 
 .sticky-top-buttons {
     @apply top-0 flex sticky gap-2;
-    background: var(--html-body-bg-color);
 }
 
 .page-section-header {

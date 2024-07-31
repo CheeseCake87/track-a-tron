@@ -1,6 +1,6 @@
 from datetime import datetime
 
-from sqlalchemy import update, insert, select, func, delete
+from sqlalchemy import update, insert, select, func, delete, Select
 
 from app.sql.tables import (
     WorkshopTicket,
@@ -109,13 +109,13 @@ def query_count_workshop_tickets():
     return se_
 
 
-def query_read_workshop_ticket(where: dict):
+def query_read_workshop_ticket(where: dict) -> Select | None:
     wh_ = []
     for k, v in where.items():
         wh_.append(getattr(WorkshopTicket, k) == v)
     if not wh_:
         return None
-    se_ = select(WorkshopTicket).where(*wh_)
+    se_ = select(WorkshopTicket).where(*wh_).order_by(WorkshopTicket.created.desc())
     return se_
 
 

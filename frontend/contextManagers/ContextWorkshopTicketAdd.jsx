@@ -266,7 +266,7 @@ export function WorkshopTicketAddContextProvider() {
         ).then((rpc) => {
             if (rpc.ok) {
                 ctxMain.showSuccessToast(rpc.message)
-                ctxMain.navigate('/workshop/tickets')
+                ctxMain.navigator('/workshop/ticket/' + rpc.data.workshop_tag)
             } else {
                 ctxMain.showErrorToast(rpc.message)
             }
