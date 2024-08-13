@@ -1,8 +1,6 @@
 import {createSignal, onMount, Show, useContext} from "solid-js";
 import {ContextMain} from "../../../contextManagers/ContextMain";
-import check_if_setup from "../../../api/system/check_if_setup";
 import {EyeClosedIcon, EyeOpenIcon} from "../../globals/Icons";
-import system_install from "../../../api/system/system_install";
 
 
 export default function Installer() {
@@ -43,14 +41,6 @@ export default function Installer() {
     })
     const [enableSmtpService, setEnableSmtpService] = createSignal(false)
     const [showSmtpPassword, setShowSmtpPassword] = createSignal(false)
-
-    function install(admin_username, admin_password, services) {
-        system_install(admin_username, admin_password, services).then((rpc) => {
-            if (rpc.ok) {
-                ctxMain.navigator('/login')
-            }
-        })
-    }
 
     function checkValuesBeforeInstall() {
         if (username().length < 1) {
@@ -99,26 +89,38 @@ export default function Installer() {
                 return
             }
         }
-        install(username(), password(), {
-            get_address: {
-                enabled: enableGetAddressService(),
-                name: 'get_address',
-                category: 'Postcode Lookup',
-                data: getAddressService()
-            },
-            zepto: {
-                enabled: enableZeptoService(),
-                name: 'zepto',
-                category: 'Transactional Email',
-                data: zeptoService()
-            },
-            smtp: {
-                enabled: enableSmtpService(),
-                name: 'smtp',
-                category: 'SMTP Email',
-                data: smtpService()
+
+        api.post('/system/install', {
+            admin_username: username(),
+            admin_password: password(),
+            services: {
+                get_address: {
+                    enabled: enableGetAddressService(),
+                    name: 'get_address',
+                    category: 'Postcode Lookup',
+                    data: getAddressService()
+                },
+                zepto: {
+                    enabled: enableZeptoService(),
+                    name: 'zepto',
+                    category: 'Transactional Email',
+                    data: zeptoService()
+                },
+                smtp: {
+                    enabled: enableSmtpService(),
+                    name: 'smtp',
+                    category: 'SMTP Email',
+                    data: smtpService()
+                }
+            }
+        }).then((res) => {
+            if (res.ok) {
+                ctxMain.navigator('/login')
+            } else {
+                setError(res.message)
             }
         })
+
     }
 
     onMount(() => {
