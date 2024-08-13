@@ -1,8 +1,8 @@
 import {createSignal, onMount, Show, useContext} from "solid-js";
 import {ContextMain} from "../../../contextManagers/ContextMain";
-import rpc_check_if_setup from "../../../rpc/system/rpc_check_if_setup";
+import check_if_setup from "../../../api/system/check_if_setup";
 import {EyeClosedIcon, EyeOpenIcon} from "../../globals/Icons";
-import rpc_system_install from "../../../rpc/system/rpc_system_install";
+import system_install from "../../../api/system/system_install";
 
 
 export default function Installer() {
@@ -45,7 +45,7 @@ export default function Installer() {
     const [showSmtpPassword, setShowSmtpPassword] = createSignal(false)
 
     function install(admin_username, admin_password, services) {
-        rpc_system_install(admin_username, admin_password, services).then((rpc) => {
+        system_install(admin_username, admin_password, services).then((rpc) => {
             if (rpc.ok) {
                 ctxMain.navigator('/login')
             }
@@ -122,12 +122,15 @@ export default function Installer() {
     }
 
     onMount(() => {
-        rpc_check_if_setup().then((rpc) => {
-            if (rpc.ok) {
-                ctxMain.navigator('/login')
-            } else {
-                // remove any session data that may exist
-                ctxMain.logout()
+        api.get(
+            '/system/checks'
+        ).then((re) => {
+            if (re.ok) {
+                if (re.data.system_setup) {
+                    ctxMain.navigator('/login')
+                } else {
+                    ctxMain.logout()
+                }
             }
         })
     })

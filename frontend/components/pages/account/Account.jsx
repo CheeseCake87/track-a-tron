@@ -1,13 +1,12 @@
 import {createSignal, onMount, useContext} from "solid-js";
 import {ContextMain} from "../../../contextManagers/ContextMain";
-import rpc_get_system_user from "../../../rpc/system/rpc_get_system_user";
-import rpc_update_system_user from "../../../rpc/system/rpc_update_system_user";
-import rpc_change_system_user_password from "../../../rpc/system/rpc_change_system_user_password";
+import API from "../../../utilities/API";
 
 
 export default function Account() {
 
     const ctxMain = useContext(ContextMain)
+    const api = new API()
 
     const blankSystemUser = {
         username: '',
@@ -28,15 +27,15 @@ export default function Account() {
             ctxMain.showErrorToast('Display Name cannot be empty.')
             return
         }
-        rpc_update_system_user(ctxMain.userId(), {
+        api.post(`/update/user/${ctxMain.userId()}`, {
             display_name: systemUser().display_name,
             email: systemUser().email,
             sms: systemUser().sms
-        }).then((rpc) => {
-            if (rpc.ok) {
+        }).then((res) => {
+            if (res.ok) {
                 ctxMain.showSuccessToast('Account updated.')
             } else {
-                ctxMain.showErrorToast(rpc.message)
+                ctxMain.showErrorToast('Error updating account. ' + res.message)
             }
         })
     }
@@ -59,36 +58,39 @@ export default function Account() {
             ctxMain.showErrorToast('Passwords do not match.')
             return
         }
-        rpc_change_system_user_password(
-            ctxMain.userId(),
-            currentPassword(),
-            newPassword()
-        ).then((rpc) => {
-            if (rpc.ok) {
+
+        api.post(`/update/user/${ctxMain.userId()}/password`, {
+            current_password: currentPassword(),
+            new_password: newPassword()
+        }).then((res) => {
+            if (res.ok) {
                 ctxMain.showSuccessToast('Password updated.')
             } else {
-                ctxMain.showErrorToast(rpc.message)
+                ctxMain.showErrorToast('Error updating password. ' + res.message)
             }
         })
+
     }
 
     onMount(() => {
         ctxMain.setMainMenuLocation('account')
-        rpc_get_system_user({where: {user_id: ctxMain.userId()}}).then((rpc) => {
-            if (rpc.ok) {
+
+        api.get(`/system/user/${ctxMain.userId()}`).then((res) => {
+            if (res.ok) {
                 setSystemUser({
-                    username: rpc.data.username,
-                    display_name: rpc.data.display_name,
-                    email: rpc.data.email,
-                    sms: rpc.data.sms
+                    username: res.data.username,
+                    display_name: res.data.display_name,
+                    email: res.data.email,
+                    sms: res.data.sms
                 })
                 setNewPassword('')
                 setCurrentPassword('')
                 setConfirmNewPassword('')
             } else {
-                ctxMain.showErrorToast(rpc.message)
+                ctxMain.showErrorToast(res.message)
             }
         })
+
     })
 
     return (
@@ -148,9 +150,10 @@ export default function Account() {
                             </div>
                         </div>
                     </div>
-                    <button className={'btn-confirm'} onClick={() =>{
+                    <button className={'btn-confirm'} onClick={() => {
                         updateSystemUser()
-                    }}>Update</button>
+                    }}>Update
+                    </button>
                 </form>
             </div>
             <div className={'sectioned-content w-full'}>
@@ -194,9 +197,10 @@ export default function Account() {
                             </div>
                         </div>
                     </div>
-                    <button className={'btn-confirm'} onClick={() =>{
+                    <button className={'btn-confirm'} onClick={() => {
                         changePassword()
-                    }}>Change Password</button>
+                    }}>Change Password
+                    </button>
                 </form>
             </div>
         </div>

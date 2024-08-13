@@ -1,14 +1,14 @@
-import requests as r
+import typing as t
 
-from app.sql.queries.system_service_get_address_cache import (
+import requests as r
+from app.api.system.query.system_cache_service_get_address import (
     query_create_cache_entry,
     query_read_cache_entry,
     query_update_cache_entry,
 )
-from app.sql.sessions import GDBSession
-from app.utilities.system_log import system_log_in_session, system_log
+from app.api.system.query.system_service import query_read_service
 from .settings import GetAddressSettings
-from ...sql.queries.system_service import query_read_service
+from ... import logging
 
 
 class GetAddressService:
@@ -21,110 +21,88 @@ class GetAddressService:
         else:
             self.settings = self._load_service_settings()
 
-    def find(self, postcode: str) -> tuple[bool, str, dict | None]:
+    def find(self, postcode: str, refresh_cache: bool = False) -> tuple[bool, t.Union[str, dict]]:
         postcode = postcode.replace(" ", "").upper()
 
         if not self.settings.disabled:
-            resp = r.get(
-                self.base_url.format(postcode=postcode, api_key=self.settings.api_key)
+            cache_found, cache = self._search_cache(postcode)
+
+            # Cache found, return cache
+            if cache_found:
+
+                # Refresh requested
+                if refresh_cache:
+                    successful, data = self._do_request(postcode)
+
+                    if successful:
+                        query_update_cache_entry(postcode, data)
+                        return True, data
+
+                    return False, data
+
+                return True, cache
+
+            # Cache not found, make request
+            successful, data = self._do_request(postcode)
+            if successful:
+                query_create_cache_entry(postcode, data)
+                return True, data
+
+            return False, data
+
+        logging.system_database_log("Postcode Lookup Service", "Service is disabled")
+        return False, "Service is disabled"
+
+    @staticmethod
+    def _search_cache(postcode: str) -> t.Tuple[bool, t.Union[dict, str]]:
+        search_cache = query_read_cache_entry(postcode)
+
+        if search_cache:
+            return True, search_cache.cache
+
+        return False, "Cache not found"
+
+    def _do_request(self, postcode: str) -> t.Tuple[bool, t.Union[dict, str]]:
+        resp = r.get(
+            self.base_url.format(postcode=postcode, api_key=self.settings.api_key)
+        )
+
+        if resp.status_code == 429:
+            logging.system_database_log(
+                "Postcode Lookup Service", "Rate limit exceeded"
             )
+            return False, "Rate limit exceeded"
 
-            if resp.status_code == 429:
-                system_log(
-                    "getAddress.io : Rate limit exceeded",
-                    "getAddress.io : Rate limit exceeded",
-                )
+        if resp.status_code != 200:
+            logging.system_database_log(
+                "Postcode Lookup Service", f"Error: {resp.content.decode('utf-8')}"
+            )
+            return False, resp.content.decode("utf-8")
 
-                return False, "Rate limit exceeded", None
-
-            if resp.status_code != 200:
-                system_log(
-                    "getAddress.io : Error with request", resp.content.decode("utf-8")
-                )
-
-                return False, "Error with request", None
-
-            data = resp.json()
-
-            return True, "Data found", data
-
-        system_log(
-            "getAddress.io service is disabled",
-            "getAddress.io service is disabled",
-        )
-        return False, "Service is disabled", None
-
-    def cache_find(
-        self, postcode: str, refresh_cache: bool = False
-    ) -> tuple[bool, str, dict | None]:
-        postcode = postcode.replace(" ", "").upper()
-
-        if not self.settings.disabled:
-            if refresh_cache:
-                successful, message, data = self.find(postcode)
-
-                if successful:
-                    with GDBSession as s:
-                        result = s.execute(
-                            query_read_cache_entry(postcode)
-                        ).scalar_one_or_none()
-                        if result:
-                            s.execute(query_update_cache_entry(postcode, data))
-                            return True, "Data found", data
-
-                        s.execute(query_create_cache_entry(postcode, data))
-                        s.commit()
-                        return True, "Data found", data
-
-                return successful, message, data
-
-            with GDBSession as s:
-                result = s.execute(
-                    query_read_cache_entry(postcode)
-                ).scalar_one_or_none()
-                if result:
-                    return True, "Data found", result.cache
-
-                successful, message, data = self.find(postcode)
-
-                if successful:
-                    s.execute(query_create_cache_entry(postcode, data))
-                    s.commit()
-                    return True, "Data found", data
-
-                return successful, message, data
-
-        system_log(
-            "getAddress.io service is disabled",
-            "getAddress.io service is disabled",
-        )
-        return False, "Service is disabled", None
+        return True, resp.json()
 
     def _load_service_settings(self) -> GetAddressSettings:
-        with GDBSession as s:
-            result = s.execute(query_read_service("get_address")).scalar_one_or_none()
+        get_address_service = query_read_service("get_address")
 
-            if not result:
-                system_log_in_session(
-                    s,
-                    "getAddress.io service not found",
-                    "getAddress.io service not found",
-                )
-                return self._disabled_service
+        if not get_address_service:
+            logging.system_database_log(
+                "getAddress.io",
+                "getAddress.io service not found",
+            )
+            return self._disabled_service
 
-            try:
-                return GetAddressSettings(
-                    api_key=result.data["api_key"],
-                    administration_key=result.data["administration_key"],
-                    disabled=False,
-                )
-            except KeyError:
-                system_log_in_session(
-                    s,
-                    "getAddress.io service key error",
-                    "getAddress.io service settings is missing keys needed for operation",
-                )
-                return self._disabled_service
+        try:
+            return GetAddressSettings(
+                api_key=get_address_service.data["api_key"],
+                administration_key=get_address_service.data["administration_key"],
+                disabled=False,
+            )
+        except KeyError:
+            logging.system_database_log(
+                "getAddress.io",
+                "getAddress.io service settings is missing keys needed for operation",
+            )
+            return self._disabled_service
 
     @property
     def _disabled_service(self) -> GetAddressSettings:

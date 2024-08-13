@@ -1,25 +1,26 @@
-import {createContext, createEffect, createSignal, onMount} from 'solid-js'
+import {createContext, createSignal, onMount} from 'solid-js'
 import {Outlet, useLocation, useNavigate} from '@solidjs/router'
 import AuthLoading from "../components/pages/auth/AuthLoading";
-
-import rpc_auth_get_session from "../rpc/auth/rpc_auth_get_session";
-import rpc_auth_logout from "../rpc/auth/rpc_auth_logout";
-import rpc_auth_login from "../rpc/auth/rpc_auth_login";
 import {MainMenu} from "../components/menus/MainMenu";
-import rpc_check_if_setup from "../rpc/system/rpc_check_if_setup";
 import ToastBar from "../components/globals/ToastBar";
-import rpc_get_enabled_services from "../rpc/system/rpc_get_enabled_services";
 import {CATEGORY_CODES, STATUS_CODES} from "../globals";
+import API from "../utilities/API";
 
 
 export const ContextMain = createContext()
 
 export function MainContextProvider(props) {
 
-    const session = rpc_auth_get_session()
+    const api = new API()
+
     const navigator = useNavigate()
     const location = useLocation()
 
+    const [session, setSession] = createSignal({
+        logged_in: false,
+        user_id: 0,
+        user_type: null,
+    })
     const [enabledServices, setEnabledServices] = createSignal([])
 
     // Toast Bar // Toast Bar
@@ -58,8 +59,8 @@ export function MainContextProvider(props) {
     }
 
     function logout() {
-        rpc_auth_logout().then((rpc) => {
-            if (rpc.ok) {
+        api.get('/system/auth/logout').then((re) => {
+            if (re.ok) {
                 setUserId(null)
                 setUserType(null)
                 setLoggedIn(false)
@@ -69,35 +70,45 @@ export function MainContextProvider(props) {
     }
 
     function login(username, password) {
-        rpc_auth_login(username, password).then((rpc) => {
-            if (rpc.ok) {
-                setUserId(rpc.data.user_id)
-                setUserType(rpc.data.user_type)
-                setLoggedIn(rpc.data.logged_in)
+        api.post('system/auth/login', {
+            username: username,
+            password: password
+        }).then((re) => {
+            if (re.ok) {
+                setSession(re.data)
+                setLoggedIn(re.data.logged_in)
+                setUserId(re.data.user_id)
+                setUserType(re.data.user_type)
             } else {
-                showErrorToast(rpc.message)
+                showErrorToast(re.message)
             }
         })
     }
 
-    createEffect(() => {
-        if (!session.store.loading) {
-            setLoaded(true)
-            setLoggedIn(session.data('logged_in', false))
-            setUserId(session.data('user_id', 0))
-            setUserType(session.data('user_type', null))
-        }
-    })
-
-    onMount(() => {
-        rpc_check_if_setup().then((rpc) => {
-            if (!rpc.ok) {
-                navigator('/install')
+    function fetch_session() {
+        api.get('/system/auth/session').then((re) => {
+            if (re.ok) {
+                setSession(re.data)
+                setLoggedIn(re.data.logged_in)
+                setUserId(re.data.user_id)
+                setUserType(re.data.user_type)
             }
         })
-        rpc_get_enabled_services().then((rpc) => {
-            if (rpc.ok) {
-                setEnabledServices(rpc.data.enabled_services)
+    }
+
+    onMount(() => {
+        setLoaded(false)
+        api.get(
+            '/system/checks'
+        ).then((re) => {
+            if (re.ok) {
+                if (!re.data.system_setup) {
+                    navigator('/install')
+                } else {
+                    setEnabledServices(re.data.enabled_services)
+                    fetch_session()
+                    setLoaded(true)
+                }
             }
         })
     })
@@ -108,7 +119,6 @@ export function MainContextProvider(props) {
                 showMainMenu: showMainMenu,
                 setShowMainMenu: setShowMainMenu,
 
-                session: session,
                 navigator: navigator,
                 location: location,
                 enabledServices: enabledServices,
@@ -131,6 +141,7 @@ export function MainContextProvider(props) {
                 mainMenuLocation: mainMenuLocation,
                 setMainMenuLocation: setMainMenuLocation,
 
+                fetch_session: fetch_session,
                 login: login,
                 logout: logout,
 

@@ -53,7 +53,8 @@ export default function ChangePassword() {
                             <input type="submit"
                                    className={'btn-confirm'}
                                    value="Update Password"
-                                   onClick={() => {}}/>
+                                   onClick={() => {
+                                   }}/>
                         </div>
                     </form>
 

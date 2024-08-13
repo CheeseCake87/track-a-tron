@@ -47,11 +47,11 @@ export default function WorkshopTicket() {
             </div>
 
             <div className={'sectioned-content'}>
-            <StatusPills status={status()}/>
-            <ClientRequest/>
-            <DevicesItems/>
-            <StatusAssigned/>
-            <Notes/>
+                <StatusPills status={status()}/>
+                <ClientRequest/>
+                <DevicesItems/>
+                <StatusAssigned/>
+                <Notes/>
             </div>
 
         </div>

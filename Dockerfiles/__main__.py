@@ -10,11 +10,7 @@ class ArgumentParser(argparse.ArgumentParser):
         super(ArgumentParser, self).__init__(*args, **kwargs)
 
     def print_help(self, file=None):
-        print(
-            "\n\r"
-            "Usage: python3 Dockerfiles build / rebuild"
-            "\n\r"
-        )
+        print("\n\r" "Usage: python3 Dockerfiles build / rebuild" "\n\r")
 
 
 class DockerCommander:
@@ -54,9 +50,9 @@ build_parser.set_defaults(remove=False)
 args = pars.parse_args()
 
 if (
-        not hasattr(args, "build")
-        and not hasattr(args, "rebuild")
-        and not hasattr(args, "remove")
+    not hasattr(args, "build")
+    and not hasattr(args, "rebuild")
+    and not hasattr(args, "remove")
 ):
     arg_override = input("Enter 'build', 'rebuild' or 'remove': ")
 else:

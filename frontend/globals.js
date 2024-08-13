@@ -1,4 +1,4 @@
-export const API_URL = import.meta.env.DEV ? 'http://127.0.0.1:7070' : ''
+export const API_V1_URL = import.meta.env.DEV ? 'http://127.0.0.1:7070/v1/api' : ''
 
 export const DEVICE_TYPES = [
     'All-in-One',

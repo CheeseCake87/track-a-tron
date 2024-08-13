@@ -1,10 +1,10 @@
 import {createEffect, createSignal, onMount, Show, useContext} from "solid-js";
 import {EyeClosedIcon, EyeOpenIcon} from "../../globals/Icons";
-import rpc_get_services from "../../../rpc/system/rpc_get_services";
+import get_services from "../../../api/system/get_services";
 import {ContextMain} from "../../../contextManagers/ContextMain";
-import rpc_update_service from "../../../rpc/system/rpc_update_service";
+import update_service from "../../../api/system/update_service";
 import {ContextSystem} from "../../../contextManagers/ContextSystem";
-import rpc_get_enabled_services from "../../../rpc/system/rpc_get_enabled_services";
+import get_enabled_services from "../../../api/system/get_enabled_services";
 
 export default function SystemServices() {
 
@@ -40,7 +40,7 @@ export default function SystemServices() {
     const [showSmtpPassword, setShowSmtpPassword] = createSignal(false)
 
     function refreshEnabledServices() {
-        rpc_get_enabled_services().then((rpc) => {
+        get_enabled_services().then((rpc) => {
             ctxMain.setEnabledServices(rpc.data.enabled_services)
         })
     }
@@ -52,7 +52,7 @@ export default function SystemServices() {
                 return
             }
         }
-        rpc_update_service({
+        update_service({
             name: 'get_address',
             data: getAddressService(),
             enabled: enableGetAddressService()
@@ -81,7 +81,7 @@ export default function SystemServices() {
                 return
             }
         }
-        rpc_update_service({
+        update_service({
             name: 'zepto',
             data: zeptoService(),
             enabled: enableZeptoService()
@@ -114,7 +114,7 @@ export default function SystemServices() {
                 return
             }
         }
-        rpc_update_service({
+        update_service({
             name: 'smtp',
             data: smtpService(),
             enabled: enableSmtpService()
@@ -373,7 +373,7 @@ export default function SystemServices() {
 
     createEffect(() => {
         if (ctxSystem.systemSection() === 'services') {
-            rpc_get_services().then((rpc) => {
+            get_services().then((rpc) => {
                 if (rpc.ok) {
                     for (let service of rpc.data.services) {
                         if (service.name === 'get_address') {

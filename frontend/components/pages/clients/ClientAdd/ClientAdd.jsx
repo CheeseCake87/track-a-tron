@@ -1,12 +1,13 @@
 import {createSignal, Show, useContext} from "solid-js";
 import {ContextMain} from "../../../../contextManagers/ContextMain";
 import GetAddress from "../../../services/GetAddress";
-import rpc_create_client from "../../../../rpc/client/rpc_create_client";
+import API from "../../../../utilities/API";
 
 
 export default function ClientAdd() {
 
     const ctxMain = useContext(ContextMain)
+    const api = new API()
 
     const [addAddressManually, setAddAddressManually] = createSignal(false)
 
@@ -39,20 +40,18 @@ export default function ClientAdd() {
     })
 
     function createClient() {
-        rpc_create_client(
-            ctxMain.userId(),
-            {
-                ...client(),
-                ...clientAddress()
-            })
-            .then((rpc) => {
-                if (rpc.ok) {
-                    ctxMain.showSuccessToast('Client created')
-                    ctxMain.navigator(`/clients/${rpc.data[0].client_id}`)
-                } else {
-                    ctxMain.showErrorToast(rpc.message)
-                }
-            })
+        api.post('/clients/create', {
+            fk_user_id: ctxMain.user().user_id,
+            ...client(),
+            ...clientAddress()
+        }).then((res) => {
+            if (res.ok) {
+                ctxMain.showSuccessToast(res.message)
+                ctxMain.navigator(`/clients/${res.data.client_id}`)
+            } else {
+                ctxMain.showErrorToast(res.message)
+            }
+        })
     }
 
     return (
@@ -191,7 +190,7 @@ export default function ClientAdd() {
                     </div>
                     <div className={'form-section'}>
                         <Show when={ctxMain.enabledServices().includes('get_address')}>
-                            <GetAddress cachePostcode={true} setAddress={setClientAddress}/>
+                            <GetAddress setAddress={setClientAddress}/>
                             <div className={'field-group'}>
                                 <a className={'no-underline'} onClick={(e) => {
                                     e.preventDefault()

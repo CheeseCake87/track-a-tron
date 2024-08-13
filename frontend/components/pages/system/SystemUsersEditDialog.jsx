@@ -1,7 +1,7 @@
 import {For, Show, useContext} from "solid-js";
 import {ContextSystem} from "../../../contextManagers/ContextSystem";
-import rpc_update_system_user from "../../../rpc/system/rpc_update_system_user";
-import rpc_get_system_user from "../../../rpc/system/rpc_get_system_user";
+import update_system_user from "../../../api/system/update_system_user";
+import get_system_user from "../../../api/system/get_system_user";
 import {ContextMain} from "../../../contextManagers/ContextMain";
 
 
@@ -19,7 +19,7 @@ export default function SystemUsersEditDialog() {
             ctxSystem.setSystemUsersDialogError('Display name cannot be blank')
             return
         }
-        rpc_get_system_user({where: {username: ctxSystem.tempEditSystemUser().username}})
+        get_system_user({where: {username: ctxSystem.tempEditSystemUser().username}})
             .then((rpc) => {
                 if (rpc.ok) {
                     if (rpc.data.user_id === ctxSystem.tempEditSystemUser().user_id) {
@@ -29,7 +29,7 @@ export default function SystemUsersEditDialog() {
                         return
                     }
                 }
-                rpc_update_system_user(
+                update_system_user(
                     ctxSystem.tempEditSystemUser().user_id,
                     {
                         username: ctxSystem.tempEditSystemUser().username,

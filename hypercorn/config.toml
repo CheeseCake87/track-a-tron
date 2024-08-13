@@ -1,3 +1,0 @@
-accesslog = "logs/hypercorn.access.log"
-errorlog = "logs/hypercorn.error.log"
-bind = "0.0.0.0:7070"

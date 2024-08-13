@@ -3,8 +3,8 @@ from typing import Literal, Optional, List
 
 
 def clean_string(
-    string: str,
-    remove_these: Optional[List[Literal["new_line", "tab", "dead_space"]]] = None,
+        string: str,
+        remove_these: Optional[List[Literal["new_line", "tab", "dead_space"]]] = None,
 ) -> str:
     """
     Used to remove escapes like \n and \t in a string value.
