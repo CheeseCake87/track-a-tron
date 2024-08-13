@@ -22,7 +22,8 @@ export default function ForgotPassword() {
                             <input type="submit"
                                    className={'btn-confirm'}
                                    value="Send Password Reset"
-                                   onClick={() => {}}/>
+                                   onClick={() => {
+                                   }}/>
                             <a className={'btn'} href="/login">
                                 Back to Login
                             </a>

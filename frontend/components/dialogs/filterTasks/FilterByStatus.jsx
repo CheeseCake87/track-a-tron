@@ -16,7 +16,7 @@ export function FilterByStatus() {
                     <div>
 
                         <small className={'font-bold'}>{available.team_name}</small>
-                            <div className={'flex flex-col gap-1 pt-1.5 pb-2'}>
+                        <div className={'flex flex-col gap-1 pt-1.5 pb-2'}>
                             <For each={available.statuses}>{(status) =>
                                 <label className={'checkbox'}>
 

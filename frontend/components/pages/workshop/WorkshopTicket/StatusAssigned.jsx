@@ -80,7 +80,8 @@ export default function StatusAssigned(props) {
                                     fk_user_id: user()
                                 })
                             }
-                        }>Update</button>
+                        }>Update
+                        </button>
                     </div>
                 </div>
 

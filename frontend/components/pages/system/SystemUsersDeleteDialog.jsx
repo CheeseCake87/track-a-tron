@@ -1,6 +1,6 @@
 import {Show, useContext} from "solid-js";
 import {ContextSystem} from "../../../contextManagers/ContextSystem";
-import rpc_delete_system_user from "../../../rpc/system/rpc_delete_system_user";
+import delete_system_user from "../../../api/system/delete_system_user";
 import {ContextMain} from "../../../contextManagers/ContextMain";
 
 
@@ -10,7 +10,7 @@ export default function SystemUsersDeleteDialog() {
     const ctxSystem = useContext(ContextSystem)
 
     function deleteSystemUser() {
-        rpc_delete_system_user(
+        delete_system_user(
             ctxSystem.tempDeleteSystemUser().user_id,
             ctxSystem.tempDeleteSystemUser().username,
             ctxSystem.tempDeleteSystemUser().display_name

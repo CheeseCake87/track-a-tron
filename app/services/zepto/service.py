@@ -1,9 +1,6 @@
 import requests as r
-
-from app.sql import GDBSession
-from app.sql.queries.system_service import query_read_service
-from app.sql.queries.system_service_zepto_log import query_create_zepto_log
-from app.sql.queries.system_log import query_create_system_log
+from app import logging
+from app.api.system.query.system_service import query_read_service
 from .settings import ZeptoSettings
 
 
@@ -17,7 +14,7 @@ class ZeptoService:
             self.settings = self._load_service_settings()
 
     def send(
-        self, recipients: list[str], subject: str, html_body: str, reply_to: str = None
+            self, recipients: list[str], subject: str, html_body: str, reply_to: str = None
     ) -> bool:
         if not self.settings.disabled:
             response = r.request(
@@ -43,71 +40,49 @@ class ZeptoService:
             )
 
             if response.status_code == 200:
-                with GDBSession as s:
-                    s.execute(
-                        query_create_zepto_log(
-                            to=", ".join(recipients),
-                            reply_to=reply_to,
-                            from_=self.settings.sender,
-                            subject=subject,
-                            body=html_body,
-                            response=response.json(),
-                        )
-                    )
-                    s.commit()
+                logging.zepto_database_log(
+                    to=", ".join(recipients),
+                    reply_to=reply_to,
+                    from_=self.settings.sender,
+                    subject=subject,
+                    body=html_body,
+                    response=response.json(),
+                )
                 return True
 
-            with GDBSession as s:
-                s.execute(
-                    query_create_system_log(
-                        "Zepto service error",
-                        response.content.decode("utf-8"),
-                    )
-                )
-                s.commit()
-                return False
-
-        with GDBSession as s:
-            s.execute(
-                query_create_system_log(
-                    "Zepto service is disabled",
-                    "Zepto service is disabled",
-                )
+            logging.system_database_log(
+                "Zepto",
+                f"Error: {response.content.decode('utf-8')}",
             )
-            s.commit()
+            return False
 
+        logging.system_database_log(
+            "Zepto",
+            "Zepto service is disabled",
+        )
         return False
 
     def _load_service_settings(self):
-        with GDBSession as s:
-            result = s.execute(query_read_service("zepto")).scalar_one_or_none()
+        zepto_service = query_read_service("zepto")
 
-            if not result:
-                s.execute(
-                    query_create_system_log(
-                        "Zepto service not found", "Zepto service not found"
-                    )
-                )
-                s.commit()
-
-                return self._disabled_service
+        if not zepto_service:
+            logging.system_database_log(
+                "Zepto",
+                "Zepto service not found",
+            )
+            return self._disabled_service
 
         try:
             return ZeptoSettings(
-                sender=result.data["sender"],
-                api_url=result.data["api_url"],
-                token=result.data["token"],
+                sender=zepto_service.data["sender"],
+                api_url=zepto_service.data["api_url"],
+                token=zepto_service.data["token"],
             )
         except KeyError:
-            with GDBSession as s:
-                s.execute(
-                    query_create_system_log(
-                        "Zepto service key error",
-                        "Zepto service settings are missing keys needed for operation",
-                    )
-                )
-                s.commit()
-
+            logging.system_database_log(
+                "Zepto",
+                "Zepto service settings are missing keys needed for operation",
+            )
             return self._disabled_service
 
     @property

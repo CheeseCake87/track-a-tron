@@ -1,7 +1,7 @@
 import {For, Show, useContext} from "solid-js";
 import {ContextSystem} from "../../../contextManagers/ContextSystem";
-import rpc_get_system_user from "../../../rpc/system/rpc_get_system_user";
-import rpc_create_system_user from "../../../rpc/system/rpc_create_system_user";
+import get_system_user from "../../../api/system/get_system_user";
+import create_system_user from "../../../api/system/create_system_user";
 import {ContextMain} from "../../../contextManagers/ContextMain";
 
 
@@ -11,7 +11,7 @@ export default function SystemUsersAddDialog() {
     const ctxSystem = useContext(ContextSystem)
 
     function addSystemUser() {
-        rpc_get_system_user({where: {username: ctxSystem.tempAddSystemUser().username}})
+        get_system_user({where: {username: ctxSystem.tempAddSystemUser().username}})
             .then((rpc) => {
                 if (rpc.ok) {
                     ctxSystem.setSystemUsersDialogError('Username already exists, please choose another')
@@ -33,7 +33,7 @@ export default function SystemUsersAddDialog() {
                     ctxSystem.setSystemUsersDialogError('Display name cannot be blank')
                     return
                 }
-                rpc_create_system_user(ctxSystem.tempAddSystemUser()).then((rpc) => {
+                create_system_user(ctxSystem.tempAddSystemUser()).then((rpc) => {
                     if (rpc.ok) {
                         ctxSystem.setSystemUsersDialogError('')
                         ctxSystem.setTempAddSystemUser(ctxSystem.blankSystemUser)

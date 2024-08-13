@@ -1,10 +1,8 @@
 import {createContext, createSignal, useContext} from "solid-js";
 import {Outlet} from "@solidjs/router";
 import {ContextMain} from "./ContextMain";
-import rpc_create_client from "../rpc/client/rpc_create_client";
-import rpc_find_client from "../rpc/client/rpc_find_client";
 import {ContextWorkshop} from "./ContextWorkshop";
-import rpc_create_workshop_ticket from "../rpc/workshop/rpc_create_workshop_ticket";
+import API from "../utilities/API";
 
 export const ContextWorkshopTicketAdd = createContext()
 
@@ -12,6 +10,7 @@ export function WorkshopTicketAddContextProvider() {
 
     const ctxMain = useContext(ContextMain)
     const ctxWorkshop = useContext(ContextWorkshop)
+    const api = new API()
 
     const blankClientAdd = {
         business_name: '',
@@ -62,6 +61,7 @@ export function WorkshopTicketAddContextProvider() {
 
     const [addNewClient, setAddNewClient] = createSignal(false)
     const [addAddressManually, setAddAddressManually] = createSignal(false)
+
     const [clientAdd, setClientAdd] = createSignal(blankClientAdd)
     const [clientAddAddress, setClientAddAddress] = createSignal(blankClientAddAddress)
 
@@ -106,7 +106,7 @@ export function WorkshopTicketAddContextProvider() {
         setClientSelected(buildSelectedClient(row))
     }
 
-    function findClient() {
+    function searchClient() {
         const where = {
             __limit__: 10
         }
@@ -122,17 +122,14 @@ export function WorkshopTicketAddContextProvider() {
         if (findClientFields().postcode !== '') {
             where.postcode = findClientFields().postcode
         }
-        rpc_find_client(where).then(
-            (rpc) => {
-                if (rpc.ok) {
-                    setFoundClients(rpc.data)
-                    setClientSearchDone(true)
-                } else {
-                    setFoundClients([])
-                    setClientSearchDone(true)
-                }
+
+        api.post('/client/search', {where: where}).then((res) => {
+            if (res.ok) {
+                setFoundClients(res.data)
+                setClientSearchDone(true)
             }
-        )
+        })
+
     }
 
     function addDevice() {
@@ -143,10 +140,6 @@ export function WorkshopTicketAddContextProvider() {
         } else {
             setDevices([...devices(), {...blankDeviceFields}])
         }
-    }
-
-    function updateDevice(name, value) {
-        setDeviceFields({...deviceFields(), [name]: value})
     }
 
     function updateDeviceArray(index, name, value) {
@@ -171,10 +164,6 @@ export function WorkshopTicketAddContextProvider() {
         }
     }
 
-    function updateItem(name, value) {
-        setItemFields({...itemFields(), [name]: value})
-    }
-
     function updateItemArray(index, name, value) {
         const newItems = [...items()]
         newItems[index][name] = value
@@ -192,20 +181,18 @@ export function WorkshopTicketAddContextProvider() {
     }
 
     function createClient() {
-        rpc_create_client(
-            ctxMain.userId(),
-            {
-                ...clientAdd(),
-                ...clientAddAddress()
-            })
-            .then((rpc) => {
-                if (rpc.ok) {
-                    return [true, rpc.message, rpc.data[0].client_id]
-                } else {
-                    return [false, rpc.message, 0]
-                }
-            })
-        return [false, '', 0]
+        api.post('/clients/create', {
+            fk_user_id: ctxMain.user().user_id,
+            ...clientAdd(),
+            ...clientAddAddress()
+        }).then((res) => {
+            if (res.ok) {
+                ctxMain.showSuccessToast(res.message)
+                setSelectedClient(res.data)
+            } else {
+                ctxMain.showErrorToast(res.message)
+            }
+        })
     }
 
     function checkNewTicket() {
@@ -245,32 +232,27 @@ export function WorkshopTicketAddContextProvider() {
             return
         }
 
-        if (addNewClient()) {
-            const [createClientResult, createClientResultMessage, clientId] = createClient()
-            if (!createClientResult) {
-                ctxMain.showErrorToast(createClientResultMessage)
-                return
+        api.post('/workshop/create/ticket', {
+            ticket: {
+                user_id: ctxMain.userId(),
+                assigned_user_id: 0,
+                client_id: clientIDSelected(),
+                category_code: categoryCode(),
+                status_code: statusCode(),
+                request: request(),
+                no_due_datetime: true,
+            },
+            devices: devices(),
+            items: items()
+        }).then((res) => {
+            if (res.ok) {
+                ctxMain.showSuccessToast(res.message)
+                ctxMain.navigator('/workshop/ticket/' + res.data.workshop_tag)
             } else {
-                setClientIDSelected(clientId)
-            }
-        }
-
-        rpc_create_workshop_ticket(
-            ctxMain.userId(),
-            clientIDSelected(),
-            categoryCode(),
-            statusCode(),
-            request(),
-            devices(),
-            items()
-        ).then((rpc) => {
-            if (rpc.ok) {
-                ctxMain.showSuccessToast(rpc.message)
-                ctxMain.navigator('/workshop/ticket/' + rpc.data.workshop_tag)
-            } else {
-                ctxMain.showErrorToast(rpc.message)
+                ctxMain.showErrorToast(res.message)
             }
         })
+
     }
 
     return (
@@ -315,7 +297,8 @@ export function WorkshopTicketAddContextProvider() {
             categoryCode: categoryCode,
             setCategoryCode: setCategoryCode,
 
-            findClient: findClient,
+            createClient: createClient,
+            findClient: searchClient,
             createWorkshopTicket: createWorkshopTicket,
 
             addDevice: addDevice,

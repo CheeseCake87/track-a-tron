@@ -1,15 +1,15 @@
 import {createContext, createSignal, useContext} from "solid-js";
 import {Outlet} from "@solidjs/router";
 import SystemSubMenu from "../components/menus/SystemSubMenu";
-import rpc_get_all_users from "../rpc/system/rpc_get_all_users";
-import rpc_get_logs from "../rpc/system/rpc_get_logs";
 import {ContextMain} from "./ContextMain";
+import API from "../utilities/API";
 
 export const ContextSystem = createContext()
 
 export function SystemContextProvider() {
 
     const ctxMain = useContext(ContextMain)
+    const api = new API()
 
     const [systemSection, setSystemSection] = createSignal('information')
 
@@ -43,21 +43,18 @@ export function SystemContextProvider() {
     let refSystemUserDeleteDialog;
 
     function getAllSystemUsers() {
-        rpc_get_all_users().then((rpc) => {
-            if (rpc.ok) {
-                setSystemUsers(rpc.data)
-            } else {
-                ctxMain.showErrorToast("Error getting users")
+        api.get('/system/get/users').then((res) => {
+            if (res.ok) {
+                setSystemUsers(res.data)
             }
         })
     }
 
     function getAllSystemLogs() {
-        rpc_get_logs().then((rpc) => {
-            if (rpc.ok) {
-                setSystemLogs(rpc.data)
-            } else {
-                ctxMain.showErrorToast("Error getting logs")
+
+        api.get('/system/get/logs').then((res) => {
+            if (res.ok) {
+                setSystemLogs(res.data)
             }
         })
     }

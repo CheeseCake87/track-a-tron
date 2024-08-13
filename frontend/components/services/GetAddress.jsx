@@ -1,42 +1,32 @@
 import {createSignal, For, Show, useContext} from "solid-js";
 import {createStore} from "solid-js/store";
-import {rpc_get_address_cache_find, rpc_get_address_find} from "../../rpc/services/get_address";
 import {ContextMain} from "../../contextManagers/ContextMain";
+import API from "../../utilities/API";
 
 export default function GetAddress(props) {
 
     const ctxMain = useContext(ContextMain)
 
+    const api = new API()
+
     const [getAddressResult, setGetAddressResult] = createStore([])
     const [getAddressPostcode, setGetAddressPostcode] = createSignal('')
     const [lookupDone, setLookupDone] = createSignal(false)
 
-    function do_lookup() {
+    function do_lookup(refresh_cache = false) {
         if (getAddressPostcode().length < 5) {
             ctxMain.showErrorToast('Postcode is too short')
             return
         }
-        if (props.cachePostcode) {
-            rpc_get_address_cache_find(getAddressPostcode()).then(
-                (rpc) => {
-                    if (rpc.ok) {
-                        setGetAddressResult(rpc.data.addresses)
-                    } else {
-                        ctxMain.showErrorToast(rpc.message)
-                    }
-                }
-            )
-        } else {
-            rpc_get_address_find(getAddressPostcode()).then(
-                (rpc) => {
-                    if (rpc.ok) {
-                        setGetAddressResult(rpc.data.addresses)
-                    } else {
-                        ctxMain.showErrorToast(rpc.message)
-                    }
-                }
-            )
-        }
+
+        api.post(`/system/postcode/lookup`, {
+            postcode: getAddressPostcode(),
+            refresh_cache: refresh_cache
+        }).then((res) => {
+            if (res.ok) {
+                setGetAddressResult(res.data.addresses)
+            }
+        })
     }
 
     function setAddressFromIndex(index, postcode) {
@@ -127,25 +117,14 @@ export default function GetAddress(props) {
                         </select>
                     </div>
                 </div>
+                <Show when={getAddressResult.length > 0}>
+                    <div className={'field-group'}>
+                        <div className={'py-2'}>
+                            <button className={'btn-confirm'} onClick={() => do_lookup(true)}>Refresh Cache</button>
+                        </div>
+                    </div>
+                </Show>
             </div>
         </>
     )
 }
-
-/*
-{
-building_number: address.building_number,
-sub_building_number: address.sub_building_number,
-building_name: address.building_name,
-sub_building_name: address.sub_building_name,
-address_line_1: address.thoroughfare,
-address_line_2: address.line_2,
-address_line_3: address.line_3,
-locality: address.locality,
-town_or_city: address.town_or_city,
-county: address.county,
-district: address.district,
-postcode: address.postcode,
-country: address.country
-}
-*/

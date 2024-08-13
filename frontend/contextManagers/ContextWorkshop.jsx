@@ -2,15 +2,15 @@ import {createContext, createEffect, createSignal, onCleanup, onMount, useContex
 import {Outlet} from "@solidjs/router";
 import {ContextMain} from "./ContextMain";
 import {createStore} from "solid-js/store";
-import rpc_page_workshop_tickets from "../rpc/workshop/rpc_page_workshop_tickets";
-import rpc_get_all_active_users from "../rpc/system/rpc_get_all_active_users";
 import {CATEGORY_CODES, STATUS_CODES} from "../globals";
+import API from "../utilities/API";
 
 export const ContextWorkshop = createContext()
 
 export function WorkshopContextProvider() {
 
     const ctxMain = useContext(ContextMain)
+    const api = new API()
 
     const [workshopLayout, setWorkshopLayout] = createSignal('cards')
 
@@ -176,11 +176,11 @@ export function WorkshopContextProvider() {
     }
 
     function getAllActiveUsers() {
-        rpc_get_all_active_users().then((rpc) => {
-            if (rpc.ok) {
-                setUsers(rpc.data)
+        api.get('/system/get/active/users').then((res) => {
+            if (res.ok) {
+                setUsers(res.data)
             } else {
-                ctxMain.showErrorToast('Error fetching users. ' + rpc.message)
+                ctxMain.showErrorToast('Error fetching users. ' + res.message)
             }
         })
     }
@@ -215,13 +215,16 @@ export function WorkshopContextProvider() {
 
         clearTimeout(deBounceGetPageTicketsTimer)
         deBounceGetPageTicketsTimer = setTimeout(() => {
-            rpc_page_workshop_tickets(
-                ctxMain.userId(), page, limit, where
-            ).then((rpc) => {
-                if (rpc.ok) {
-                    setTotalTickets(rpc.data.total_tickets)
-                    setTotalPages(rpc.data.total_pages)
-                    setTickets(rpc.data.tickets)
+
+            api.post('/workshop/paged', {
+                page: page,
+                limit: limit,
+                where: where
+            }).then((res) => {
+                if (res.ok) {
+                    setTotalTickets(res.data.total_tickets)
+                    setTotalPages(res.data.total_pages)
+                    setTickets(res.data.tickets)
                     setSmallLoadingTickets(false)
                     scrollToTop()
                     if (loadingTickets()) {

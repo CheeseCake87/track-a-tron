@@ -1,15 +1,15 @@
 import {createContext, createEffect, createSignal, onCleanup, onMount, useContext} from 'solid-js'
 import {Outlet} from '@solidjs/router'
 import {createStore} from "solid-js/store";
-import rpc_page_clients from "../rpc/client/rpc_page_clients";
 import {ContextMain} from "./ContextMain";
-
+import API from "../utilities/API";
 
 export const ContextClients = createContext()
 
 export function ClientsContextProvider() {
 
     const ctxMain = useContext(ContextMain)
+    const api = new API()
 
     const [loadingClients, setLoadingClients] = createSignal(true)
     const [smallLoadingClients, setSmallLoadingClients] = createSignal(false)
@@ -146,13 +146,16 @@ export function ClientsContextProvider() {
 
         clearTimeout(deBounceGetPageClientsTimer)
         deBounceGetPageClientsTimer = setTimeout(() => {
-            rpc_page_clients(
-                ctxMain.userId(), page, limit, where
-            ).then((rpc) => {
-                if (rpc.ok) {
-                    setTotalClients(rpc.data.total_clients)
-                    setTotalPages(rpc.data.total_pages)
-                    setClients(rpc.data.clients)
+
+            api.post('/clients/paged', {
+                page: page,
+                limit: limit,
+                where: where
+            }).then((res) => {
+                if (res.ok) {
+                    setTotalClients(res.data.total_clients)
+                    setTotalPages(res.data.total_pages)
+                    setClients(res.data.clients)
                     setSmallLoadingClients(false)
                     scrollToTop()
                     if (loadingClients()) {
@@ -170,8 +173,8 @@ export function ClientsContextProvider() {
             })
 
             setClientsWhereAnnex(where)
-        }, delay)
 
+        }, delay)
     }
 
     function buildDisplayWherePills(displayWhere) {

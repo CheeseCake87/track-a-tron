@@ -1,7 +1,7 @@
 import {Show, useContext} from "solid-js";
 import {ContextClient} from "../../../../contextManagers/ContextClient";
 
-    export default function ClientData() {
+export default function ClientData() {
     const ctxClient = useContext(ContextClient)
 
     return (

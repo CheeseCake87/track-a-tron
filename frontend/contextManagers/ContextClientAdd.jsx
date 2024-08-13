@@ -1,4 +1,4 @@
-import {createContext, createSignal, onMount, useContext} from "solid-js";
+import {createContext, onMount, useContext} from "solid-js";
 import {Outlet} from "@solidjs/router";
 import {ContextMain} from "./ContextMain";
 

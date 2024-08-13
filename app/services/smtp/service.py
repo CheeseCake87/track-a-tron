@@ -6,9 +6,8 @@ from email.mime.text import MIMEText
 from smtplib import SMTP
 from ssl import create_default_context
 
-from app.sql import GDBSession
-from app.sql.queries.system_service import query_read_service
-from app.utilities.system_log import system_log_in_session, system_log
+from app import logging
+from app.api.system.query.system_service import query_read_service
 from .settings import SMTPSettings
 
 
@@ -73,15 +72,15 @@ class SMTPService:
         )
 
     def subject(
-        self,
-        subject: str,
+            self,
+            subject: str,
     ) -> "SMTPService":
         self._subject = subject
         return self
 
     def body(
-        self,
-        body: str,
+            self,
+            body: str,
     ) -> "SMTPService":
         self._msg_body = MIMEText(body)
         self._msg_body.set_type("text/html")
@@ -174,38 +173,35 @@ class SMTPService:
                     self._msg.as_string(),
                 )
         except Exception as error:
-            system_log("SMTP service error", str(error))
+            logging.system_database_log("SMTP service error", f"Error: {error}")
             return {"ok": False, "message": "Error sending email"}
 
         self._reset_values()
         return {"ok": True, "message": "Email sent"}
 
     def _load_service_settings(self) -> SMTPSettings:
-        with GDBSession as s:
-            result = s.execute(query_read_service("smtp")).scalar_one_or_none()
+        smtp_service = query_read_service("smtp")
 
-            if not result:
-                system_log_in_session(
-                    s, "SMTP service not found", "SMTP service not found"
-                )
-                return self._disabled_service
+        if not smtp_service:
+            logging.system_database_log(
+                "SMTP",
+                "SMTP service not found",
+            )
+            return self._disabled_service
 
-            try:
-                return SMTPSettings(
-                    username=result.data["username"],
-                    password=result.data["password"],
-                    server=result.data["server"],
-                    port=result.data["port"],
-                    disabled=False,
-                )
-
-            except KeyError:
-                system_log_in_session(
-                    s,
-                    "SMTP service key error",
-                    "SMTP service settings is missing keys needed for operation",
-                )
-
+        try:
+            return SMTPSettings(
+                username=smtp_service.data["username"],
+                password=smtp_service.data["password"],
+                server=smtp_service.data["server"],
+                port=smtp_service.data["port"],
+                disabled=False,
+            )
+        except KeyError:
+            logging.system_database_log(
+                "SMTP",
+                "SMTP service settings is missing keys needed for operation",
+            )
             return self._disabled_service
 
     @property

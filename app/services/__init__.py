@@ -1,21 +1,15 @@
-# Keys mark as True are required, False are optional
+import logging
 
-AVAILABLE_SERVICES = {
-    "smtp": {
-        "username": {"type": str, "required": True},
-        "password": {"type": str, "required": True},
-        "server": {"type": str, "required": True},
-        "port": {"type": int, "required": True},
-    },
-    "zepto": {
-        "sender": {"type": str, "required": True},
-        "api_url": {"type": str, "required": True},
-        "token": {"type": str, "required": True},
-    },
-    "get_address": {
-        "api_key": {"type": str, "required": True},
-        "administration_key": {"type": str, "required": False},
-    },
-}
+from .get_address import GetAddressService, GetAddressSettings
+from .smtp import SMTPService, SMTPSettings
+from .zepto import ZeptoService, ZeptoSettings
 
-__all__ = ["AVAILABLE_SERVICES"]
+__all__ = [
+    "ZeptoSettings",
+    "ZeptoService",
+    "SMTPService",
+    "SMTPSettings",
+    "GetAddressService",
+    "GetAddressSettings",
+    "logging",
+]

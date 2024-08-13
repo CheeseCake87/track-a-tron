@@ -78,7 +78,7 @@ export function DialogFilterTickets() {
                 ? 'dialog-content'
                 : 'hidden'}>
                 <FilterByWorkshopTicket keyDownHandler={keyDownHandler}
-                                setFilterTab={setFilterTab}/>
+                                        setFilterTab={setFilterTab}/>
             </div>
 
             <div className={filterTab() === 'date'

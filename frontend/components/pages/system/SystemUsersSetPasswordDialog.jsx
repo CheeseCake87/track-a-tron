@@ -1,6 +1,6 @@
 import {Show, useContext} from "solid-js";
 import {ContextSystem} from "../../../contextManagers/ContextSystem";
-import rpc_update_system_user_password from "../../../rpc/system/rpc_update_system_user_password";
+import update_system_user_password from "../../../api/system/update_system_user_password";
 import {ContextMain} from "../../../contextManagers/ContextMain";
 
 
@@ -10,7 +10,7 @@ export default function SystemUsersSetPasswordDialog() {
     const ctxSystem = useContext(ContextSystem)
 
     function updateSystemUserPassword() {
-        rpc_update_system_user_password(
+        update_system_user_password(
             ctxSystem.systemUserSelected(),
             ctxSystem.resetSystemUserPassword()
         ).then((rpc) => {
