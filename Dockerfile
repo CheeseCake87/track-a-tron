@@ -33,4 +33,4 @@ RUN pip install --upgrade pip
 RUN pip install -r requirements/production.txt
 
 # START
-ENTRYPOINT ["supervisord"]
+ENTRYPOINT ["supervisord", "-c", "supervisord.conf"]
