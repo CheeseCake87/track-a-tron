@@ -9,6 +9,8 @@ Future goals will be to adapt the app to be used in other types of businesses.
 
 ## Setup
 
+Create a `.env` file from the `env.example` file
+
 Setup the virtual environment
 
 ```bash
