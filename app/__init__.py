@@ -7,7 +7,7 @@ __version__ = "0.1.0"
 
 
 def create_app():
-    app = Flask(__name__, static_url_path="/")
+    app = Flask(__name__)
     app.json = OrjsonProvider(app)
     flask_config.init_app(app)
 
