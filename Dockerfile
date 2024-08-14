@@ -1,12 +1,15 @@
 FROM python:3.12-alpine
 WORKDIR /track_a_tron
 
-# Copy files:
+# Copy folders:
 COPY app app
-COPY gunicorn gunicorn
 COPY requirements requirements
-COPY supervisor supervisor
+
+# Config files:
 COPY .env .env
+COPY gunicorn.conf.py gunicorn.conf.py
+COPY supervisord.conf supervisord.conf
+COPY supervisor.apps.ini supervisor.apps.ini
 
 # Create logs directory:
 RUN mkdir -p /track_a_tron/logs
@@ -30,4 +33,4 @@ RUN pip install --upgrade pip
 RUN pip install -r requirements/production.txt
 
 # START
-ENTRYPOINT ["supervisord", "-c", "supervisor/supervisord.conf"]
+ENTRYPOINT ["supervisord"]
