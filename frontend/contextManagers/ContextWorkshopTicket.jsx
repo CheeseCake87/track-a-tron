@@ -1,7 +1,6 @@
 import {createContext, createSignal, onMount, useContext} from "solid-js";
 import {Outlet, useParams} from "@solidjs/router";
 import {ContextMain} from "./ContextMain";
-import API from "../utilities/API";
 import {ContextWorkshop} from "./ContextWorkshop";
 
 export const ContextWorkshopTicket = createContext()
@@ -10,7 +9,6 @@ export function WorkshopTicketContextProvider() {
 
     const ctxMain = useContext(ContextMain)
     const ctxWorkshop = useContext(ContextWorkshop)
-    const api = new API()
 
     const params = useParams()
 
@@ -34,7 +32,7 @@ export function WorkshopTicketContextProvider() {
             clearTimeout(updateDebounceTimer)
         }
         updateDebounceTimer = setTimeout(() => {
-            api.post(
+            ctxMain.api.post(
                 '/workshop/update/ticket' + workshopTicket().workshop_ticket_id,
                 values
             ).then((res) => {
@@ -58,7 +56,7 @@ export function WorkshopTicketContextProvider() {
     }
 
     function getWorkshopTicket() {
-        api.get('/workshop/ticket/tag/' + params.workshop_tag).then((res) => {
+        ctxMain.api.get('/workshop/ticket/tag/' + params.workshop_tag).then((res) => {
             if (res.ok) {
                 setWorkshopTicket({
                     workshop_ticket_id: res.data.workshop_ticket_id,
@@ -82,7 +80,7 @@ export function WorkshopTicketContextProvider() {
     }
 
     function deleteWorkshopTicket() {
-        api.get('/workshop/ticket/delete/' + workshopTicket().workshop_ticket_id).then((res) => {
+        ctxMain.api.get('/workshop/ticket/delete/' + workshopTicket().workshop_ticket_id).then((res) => {
             if (res.ok) {
                 ctxWorkshop.deBounceGetPageTickets(
                     200, ctxWorkshop.page(), ctxWorkshop.limit(), ctxWorkshop.ticketsWhere()
@@ -97,7 +95,7 @@ export function WorkshopTicketContextProvider() {
 
     // NOTES
     function getWorkshopTicketNotes() {
-        api.get(`/workshop/get/ticket/${workshopTicket().workshop_ticket_id}/notes/`).then((res) => {
+        ctxMain.api.get(`/workshop/get/ticket/${workshopTicket().workshop_ticket_id}/notes/`).then((res) => {
             if (res.ok) {
                 setNotes([...res.data])
             } else {
@@ -112,7 +110,7 @@ export function WorkshopTicketContextProvider() {
 
         if (note().length > 0) {
 
-            api.post(`/workshop/ticket/${workshopTicket().workshop_ticket_id}/add/note`, {
+            ctxMain.api.post(`/workshop/ticket/${workshopTicket().workshop_ticket_id}/add/note`, {
                 user_id: ctxMain.userId(),
                 note: note(),
             }).then((res) => {
@@ -133,7 +131,7 @@ export function WorkshopTicketContextProvider() {
 
     function deleteWorkshopTicketNote(workshop_ticket_note_id) {
 
-        api.get(`/ticket/delete/note/${workshop_ticket_note_id}`).then((res) => {
+        ctxMain.api.get(`/ticket/delete/note/${workshop_ticket_note_id}`).then((res) => {
             if (res.ok) {
                 setNotes([...notes().filter(note => note.workshop_ticket_note_id !== workshop_ticket_note_id)])
             } else {

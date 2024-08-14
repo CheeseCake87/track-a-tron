@@ -6,7 +6,7 @@ from ..query.system_service import query_update_service
 
 
 @rest.get("/update/system/service")
-@api_login_check("logged_in", [True], APIResponse.fail("You need to be logged in to access this."))
+@api_login_check("logged_in", True, {"navigate": "/login"})
 @limit_to_json
 def update_system_service(json):
 

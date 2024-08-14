@@ -1,13 +1,10 @@
 import {createSignal, For, Show, useContext} from "solid-js";
 import {createStore} from "solid-js/store";
 import {ContextMain} from "../../contextManagers/ContextMain";
-import API from "../../utilities/API";
 
 export default function GetAddress(props) {
 
     const ctxMain = useContext(ContextMain)
-
-    const api = new API()
 
     const [getAddressResult, setGetAddressResult] = createStore([])
     const [getAddressPostcode, setGetAddressPostcode] = createSignal('')
@@ -19,7 +16,7 @@ export default function GetAddress(props) {
             return
         }
 
-        api.post(`/system/postcode/lookup`, {
+        ctxMain.api.post(`/system/postcode/lookup`, {
             postcode: getAddressPostcode(),
             refresh_cache: refresh_cache
         }).then((res) => {

@@ -1,7 +1,6 @@
 import {createContext, createSignal, onMount, useContext} from "solid-js";
 import {Outlet, useParams} from "@solidjs/router";
 import {ContextMain} from "./ContextMain";
-import API from "../utilities/API";
 import {ContextClients} from "./ContextClients";
 
 export const ContextClient = createContext()
@@ -10,7 +9,6 @@ export function ClientContextProvider() {
 
     const ctxMain = useContext(ContextMain)
     const ctxClients = useContext(ContextClients)
-    const api = new API()
 
     const params = useParams()
 
@@ -38,13 +36,13 @@ export function ClientContextProvider() {
     let updateDebounceTimer;
 
     function getClientWorkshopTickets() {
-        api.get(`/workshop/get/client/${client().client_id}/tickets`).then((res) => {
+        ctxMain.api.get(`/workshop/get/client/${client().client_id}/tickets`).then((res) => {
             setWorkshopTickets(res.data)
         })
     }
 
     function getClient() {
-        api.get('/clients/get/' + params.client_id).then((res) => {
+        ctxMain.api.get('/clients/get/' + params.client_id).then((res) => {
             if (res.ok) {
                 setClient({
                     client_id: res.data.client_id,
@@ -71,7 +69,7 @@ export function ClientContextProvider() {
             clearTimeout(updateDebounceTimer)
         }
         updateDebounceTimer = setTimeout(() => {
-            api.post(
+            ctxMain.api.post(
                 '/clients/update/' + client().client_id,
                 client()
             ).then((res) => {
@@ -81,7 +79,7 @@ export function ClientContextProvider() {
     }
 
     function deleteClient() {
-        api.get('/clients/delete/' + params.client_id).then((res) => {
+        ctxMain.api.get('/clients/delete/' + params.client_id).then((res) => {
             if (res.ok) {
                 ctxClients.deBounceGetPageClients(
                     200, ctxClients.page(), ctxClients.limit(), ctxClients.clientsWhere()

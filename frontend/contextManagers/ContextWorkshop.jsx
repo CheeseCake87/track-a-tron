@@ -3,14 +3,12 @@ import {Outlet} from "@solidjs/router";
 import {ContextMain} from "./ContextMain";
 import {createStore} from "solid-js/store";
 import {CATEGORY_CODES, STATUS_CODES} from "../globals";
-import API from "../utilities/API";
 
 export const ContextWorkshop = createContext()
 
 export function WorkshopContextProvider() {
 
     const ctxMain = useContext(ContextMain)
-    const api = new API()
 
     const [workshopLayout, setWorkshopLayout] = createSignal('cards')
 
@@ -176,7 +174,7 @@ export function WorkshopContextProvider() {
     }
 
     function getAllActiveUsers() {
-        api.get('/system/get/active/users').then((res) => {
+        ctxMain.api.get('/system/get/active/users').then((res) => {
             if (res.ok) {
                 setUsers(res.data)
             } else {
@@ -216,7 +214,7 @@ export function WorkshopContextProvider() {
         clearTimeout(deBounceGetPageTicketsTimer)
         deBounceGetPageTicketsTimer = setTimeout(() => {
 
-            api.post('/workshop/paged', {
+            ctxMain.api.post('/workshop/paged', {
                 page: page,
                 limit: limit,
                 where: where

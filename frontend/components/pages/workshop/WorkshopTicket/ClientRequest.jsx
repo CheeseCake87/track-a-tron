@@ -1,8 +1,6 @@
 import {useContext} from "solid-js";
 import {ContextWorkshopTicket} from "../../../../contextManagers/ContextWorkshopTicket";
 import {ContextWorkshop} from "../../../../contextManagers/ContextWorkshop";
-import {A} from "@solidjs/router";
-import {ExternalLink} from "../../../globals/Icons";
 
 export default function ClientRequest() {
     const ctxWorkshop = useContext(ContextWorkshop)

@@ -2,14 +2,12 @@ import {createContext, createEffect, createSignal, onCleanup, onMount, useContex
 import {Outlet} from '@solidjs/router'
 import {createStore} from "solid-js/store";
 import {ContextMain} from "./ContextMain";
-import API from "../utilities/API";
 
 export const ContextClients = createContext()
 
 export function ClientsContextProvider() {
 
     const ctxMain = useContext(ContextMain)
-    const api = new API()
 
     const [loadingClients, setLoadingClients] = createSignal(true)
     const [smallLoadingClients, setSmallLoadingClients] = createSignal(false)
@@ -147,7 +145,7 @@ export function ClientsContextProvider() {
         clearTimeout(deBounceGetPageClientsTimer)
         deBounceGetPageClientsTimer = setTimeout(() => {
 
-            api.post('/clients/paged', {
+            ctxMain.api.post('/clients/paged', {
                 page: page,
                 limit: limit,
                 where: where

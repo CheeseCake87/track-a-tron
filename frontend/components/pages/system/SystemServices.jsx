@@ -2,13 +2,11 @@ import {createEffect, createSignal, onMount, Show, useContext} from "solid-js";
 import {EyeClosedIcon, EyeOpenIcon} from "../../globals/Icons";
 import {ContextMain} from "../../../contextManagers/ContextMain";
 import {ContextSystem} from "../../../contextManagers/ContextSystem";
-import API from "../../../utilities/API";
 
 export default function SystemServices() {
 
     const ctxMain = useContext(ContextMain)
     const ctxSystem = useContext(ContextSystem)
-    const api = new API()
 
     // GetAddress
     const [getAddressService, setAddressService] = createSignal({
@@ -40,7 +38,7 @@ export default function SystemServices() {
 
     function refreshEnabledServices() {
 
-        api.get('/system/get/enabled/services').then((res) => {
+        ctxMain.api.get('/system/get/enabled/services').then((res) => {
             if (res.ok) {
                 ctxMain.setEnabledServices(res.data)
             } else {
@@ -58,7 +56,7 @@ export default function SystemServices() {
             }
         }
 
-        api.post('/system/update/service', {
+        ctxMain.api.post('/system/update/service', {
             name: 'get_address',
             data: getAddressService(),
             enabled: enableGetAddressService()
@@ -89,7 +87,7 @@ export default function SystemServices() {
             }
         }
 
-        api.post('/system/update/service', {
+        ctxMain.api.post('/system/update/service', {
             name: 'zepto',
             data: zeptoService(),
             enabled: enableZeptoService()
@@ -124,7 +122,7 @@ export default function SystemServices() {
             }
         }
 
-        api.post('/system/update/service', {
+        ctxMain.api.post('/system/update/service', {
             name: 'smtp',
             data: smtpService(),
             enabled: enableSmtpService()
@@ -385,7 +383,7 @@ export default function SystemServices() {
     createEffect(() => {
         if (ctxSystem.systemSection() === 'services') {
 
-            api.get('/system/services').then((res) => {
+            ctxMain.api.get('/system/services').then((res) => {
                 if (res.ok) {
                     for (let service of res.data) {
                         if (service.name === 'get_address') {

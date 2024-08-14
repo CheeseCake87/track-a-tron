@@ -1,13 +1,11 @@
 import {createSignal, onMount, Show, useContext} from "solid-js";
 import {ContextMain} from "../../../contextManagers/ContextMain";
 import {EyeClosedIcon, EyeOpenIcon} from "../../globals/Icons";
-import API from "../../../utilities/API";
 
 
 export default function Installer() {
 
     const ctxMain = useContext(ContextMain)
-    const api = new API()
 
     const [error, setError] = createSignal('')
 
@@ -92,7 +90,7 @@ export default function Installer() {
             }
         }
 
-        api.post('/system/install', {
+        ctxMain.api.post('/system/install', {
             admin_username: username(),
             admin_password: password(),
             services: {
@@ -126,7 +124,7 @@ export default function Installer() {
     }
 
     onMount(() => {
-        api.get(
+        ctxMain.api.get(
             '/system/checks'
         ).then((re) => {
             if (re.ok) {

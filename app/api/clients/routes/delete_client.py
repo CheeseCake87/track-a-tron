@@ -5,7 +5,7 @@ from ..query.client import query_delete_client
 
 
 @rest.get("/delete/<int:client_id>")
-@api_login_check("logged_in", [True], APIResponse.fail("You need to be logged in to access this."))
+@api_login_check("logged_in", True, {"navigate": "/login"})
 def delete_client(client_id):
     delete = query_delete_client(client_id)
 

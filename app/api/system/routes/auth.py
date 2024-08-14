@@ -1,14 +1,15 @@
-from app.api.system.query.system_user import query_read_system_user_by_username
-from app.decorators import limit_to_json
-from app.utilities import APIResponse
 from flask import session
 from flask_imp.auth import authenticate_password
 from flask_imp.security import api_login_check
+
+from app.api.system.query.system_user import query_read_system_user_by_username
+from app.decorators import limit_to_json
+from app.utilities import APIResponse
 from .. import rest
 
 
 @rest.post("/auth/login")
-@api_login_check("logged_in", [False], APIResponse.fail("You are already logged in."))
+@api_login_check("logged_in", False, {"navigate": "/workshop"})
 @limit_to_json
 def auth_login(json):
     username = json.get("username")

@@ -6,7 +6,7 @@ from .. import rest
 
 
 @rest.post("/postcode/lookup")
-@api_login_check("logged_in", [True], APIResponse.fail("You need to be logged in to access this."))
+@api_login_check("logged_in", True, {"navigate": "/login"})
 @limit_to_json
 def postcode_lookup(json):
     postcode = json.get("postcode")

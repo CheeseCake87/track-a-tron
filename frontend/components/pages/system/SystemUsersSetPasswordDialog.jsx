@@ -1,18 +1,16 @@
 import {Show, useContext} from "solid-js";
 import {ContextSystem} from "../../../contextManagers/ContextSystem";
 import {ContextMain} from "../../../contextManagers/ContextMain";
-import API from "../../../utilities/API";
 
 
 export default function SystemUsersSetPasswordDialog() {
 
     const ctxMain = useContext(ContextMain)
     const ctxSystem = useContext(ContextSystem)
-    const api = new API()
 
     function updateSystemUserPassword() {
 
-        api.post(`/system/update/user/${ctxSystem.systemUserSelected()}/password`, {
+        ctxMain.api.post(`/system/update/user/${ctxSystem.systemUserSelected()}/password`, {
             new_password: ctxSystem.resetSystemUserPassword(),
             forced: true
         }).then((res) => {

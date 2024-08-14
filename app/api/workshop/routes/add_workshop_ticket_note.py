@@ -8,7 +8,7 @@ from ..query.workshop_ticket import (
 
 
 @rest.post("/ticket/<int:workshop_ticket_id>/add/note")
-@api_login_check("logged_in", [True], APIResponse.fail("You need to be logged in to access this."))
+@api_login_check("logged_in", True, {"navigate": "/login"})
 @limit_to_json
 def add_workshop_ticket_note(json, workshop_ticket_id):
 

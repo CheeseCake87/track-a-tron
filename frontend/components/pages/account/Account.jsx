@@ -1,12 +1,10 @@
 import {createSignal, onMount, useContext} from "solid-js";
 import {ContextMain} from "../../../contextManagers/ContextMain";
-import API from "../../../utilities/API";
 
 
 export default function Account() {
 
     const ctxMain = useContext(ContextMain)
-    const api = new API()
 
     const blankSystemUser = {
         username: '',
@@ -27,7 +25,7 @@ export default function Account() {
             ctxMain.showErrorToast('Display Name cannot be empty.')
             return
         }
-        api.post(`/update/user/${ctxMain.userId()}`, {
+        ctxMain.api.post(`/update/user/${ctxMain.userId()}`, {
             display_name: systemUser().display_name,
             email: systemUser().email,
             sms: systemUser().sms
@@ -59,7 +57,7 @@ export default function Account() {
             return
         }
 
-        api.post(`/update/user/${ctxMain.userId()}/password`, {
+        ctxMain.api.post(`/update/user/${ctxMain.userId()}/password`, {
             current_password: currentPassword(),
             new_password: newPassword()
         }).then((res) => {
@@ -75,7 +73,7 @@ export default function Account() {
     onMount(() => {
         ctxMain.setMainMenuLocation('account')
 
-        api.get(`/system/user/${ctxMain.userId()}`).then((res) => {
+        ctxMain.api.get(`/system/user/${ctxMain.userId()}`).then((res) => {
             if (res.ok) {
                 setSystemUser({
                     username: res.data.username,
