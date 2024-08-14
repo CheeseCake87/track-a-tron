@@ -1,10 +1,12 @@
 from app.decorators import limit_to_json
 from app.utilities import APIResponse
+from flask_imp.security import api_login_check
 from .. import rest
 from ..query.system_service import query_update_service
 
 
 @rest.get("/update/system/service")
+@api_login_check("logged_in", [True], APIResponse.fail("You need to be logged in to access this."))
 @limit_to_json
 def update_system_service(json):
 

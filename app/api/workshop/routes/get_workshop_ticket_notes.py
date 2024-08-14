@@ -1,4 +1,5 @@
 from app.utilities import APIResponse
+from flask_imp.security import api_login_check
 from .. import rest
 from ..query.workshop_ticket import (
     query_read_workshop_ticket_notes,
@@ -6,6 +7,7 @@ from ..query.workshop_ticket import (
 
 
 @rest.get("/get/ticket/<int:workshop_ticket_id>/notes")
+@api_login_check("logged_in", [True], APIResponse.fail("You need to be logged in to access this."))
 def get_workshop_ticket_notes(workshop_ticket_id):
     notes = query_read_workshop_ticket_notes(workshop_ticket_id)
     if not notes:

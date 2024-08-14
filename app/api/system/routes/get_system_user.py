@@ -1,4 +1,5 @@
 from app.utilities import APIResponse
+from flask_imp.security import api_login_check
 from .. import rest
 from ..query.system_user import (
     query_read_system_user_by_user_id,
@@ -6,6 +7,7 @@ from ..query.system_user import (
 
 
 @rest.get("/user/<int:user_id>")
+@api_login_check("logged_in", [True], APIResponse.fail("You need to be logged in to access this."))
 def get_system_user(user_id):
     system_user = query_read_system_user_by_user_id(user_id)
     if not system_user:

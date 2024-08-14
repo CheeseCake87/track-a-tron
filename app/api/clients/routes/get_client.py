@@ -1,9 +1,11 @@
 from app.utilities import APIResponse, condense_client_address
+from flask_imp.security import api_login_check
 from .. import rest
 from ..query.client import query_read_client_using_client_id
 
 
 @rest.get("/get/<int:client_id>")
+@api_login_check("logged_in", [True], APIResponse.fail("You need to be logged in to access this."))
 def get_(client_id):
     client = query_read_client_using_client_id(client_id)
     if not client:
