@@ -1,5 +1,6 @@
 from app.decorators import limit_to_json
 from app.utilities import APIResponse
+from flask_imp.security import api_login_check
 from .. import rest
 from ..query.system_user import (
     query_read_system_user,
@@ -7,6 +8,7 @@ from ..query.system_user import (
 
 
 @rest.post("/search/user")
+@api_login_check("logged_in", [True], APIResponse.fail("You need to be logged in to access this."))
 @limit_to_json
 def search_system_user(json):
 

@@ -1,10 +1,12 @@
 from app.decorators import limit_to_json
 from app.services import GetAddressService
 from app.utilities import APIResponse
+from flask_imp.security import api_login_check
 from .. import rest
 
 
 @rest.post("/postcode/lookup")
+@api_login_check("logged_in", [True], APIResponse.fail("You need to be logged in to access this."))
 @limit_to_json
 def postcode_lookup(json):
     postcode = json.get("postcode")

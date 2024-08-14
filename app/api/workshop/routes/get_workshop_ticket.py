@@ -1,4 +1,5 @@
 from app.utilities import APIResponse, condense_client_address
+from flask_imp.security import api_login_check
 from .. import rest
 from ..query.workshop_ticket import (
     query_read_workshop_ticket_using_pk,
@@ -55,6 +56,7 @@ def _build_ticket_data(ticket: any):
 
 
 @rest.get("/ticket/tag/<string:workshop_tag>")
+@api_login_check("logged_in", [True], APIResponse.fail("You need to be logged in to access this."))
 def get_workshop_ticket_using_tag(workshop_tag):
     ticket = query_read_workshop_ticket_using_tag(workshop_tag)
     if not ticket:
@@ -69,6 +71,7 @@ def get_workshop_ticket_using_tag(workshop_tag):
 
 
 @rest.get("/ticket/<int:workshop_ticket_id>")
+@api_login_check("logged_in", [True], APIResponse.fail("You need to be logged in to access this."))
 def get_workshop_ticket_using_pk(workshop_ticket_id):
     ticket = query_read_workshop_ticket_using_pk(workshop_ticket_id)
     if not ticket:

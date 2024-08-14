@@ -1,4 +1,5 @@
 from app.utilities import APIResponse
+from flask_imp.security import api_login_check
 from .. import rest
 from ..query.system_user import (
     query_read_all_system_users,
@@ -7,6 +8,7 @@ from ..query.system_user import (
 
 
 @rest.get("/get/active/users")
+@api_login_check("logged_in", [True], APIResponse.fail("You need to be logged in to access this."))
 def get_active_system_users():
     system_users = query_read_all_active_system_users()
     if not system_users:
@@ -33,6 +35,7 @@ def get_active_system_users():
 
 
 @rest.get("/get/users")
+@api_login_check("logged_in", [True], APIResponse.fail("You need to be logged in to access this."))
 def get_system_users():
     system_users = query_read_all_system_users()
     if not system_users:

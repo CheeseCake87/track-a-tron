@@ -1,5 +1,6 @@
 from app.decorators import limit_to_json
 from app.utilities import APIResponse
+from flask_imp.security import api_login_check
 from .. import rest
 from ..query.workshop_ticket import query_update_workshop_ticket
 
@@ -15,6 +16,7 @@ def _build_ticket_data(ticket: any):
 
 
 @rest.post("/update/ticket/<int:workshop_ticket_id>")
+@api_login_check("logged_in", [True], APIResponse.fail("You need to be logged in to access this."))
 @limit_to_json
 def update_workshop_ticket(json, workshop_ticket_id):
     update_ticket = query_update_workshop_ticket(workshop_ticket_id, json.get("data", {}))

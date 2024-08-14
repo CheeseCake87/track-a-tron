@@ -1,10 +1,12 @@
 from app.decorators import limit_to_json
 from app.utilities import APIResponse, condense_client_address
+from flask_imp.security import api_login_check
 from .. import rest
 from ..query.client import query_search_client
 
 
 @rest.post("/search")
+@api_login_check("logged_in", [True], APIResponse.fail("You need to be logged in to access this."))
 @limit_to_json
 def search_(json):
     clients = query_search_client(json.get("where", {}))

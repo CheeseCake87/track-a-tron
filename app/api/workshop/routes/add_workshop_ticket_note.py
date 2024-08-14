@@ -1,5 +1,6 @@
 from app.decorators import limit_to_json
 from app.utilities import APIResponse
+from flask_imp.security import api_login_check
 from .. import rest
 from ..query.workshop_ticket import (
     query_create_workshop_ticket_note,
@@ -7,6 +8,7 @@ from ..query.workshop_ticket import (
 
 
 @rest.post("/ticket/<int:workshop_ticket_id>/add/note")
+@api_login_check("logged_in", [True], APIResponse.fail("You need to be logged in to access this."))
 @limit_to_json
 def add_workshop_ticket_note(json, workshop_ticket_id):
 

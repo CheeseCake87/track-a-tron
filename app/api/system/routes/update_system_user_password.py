@@ -1,6 +1,7 @@
 from app.decorators import limit_to_json
 from app.utilities import APIResponse
 from flask_imp.auth import authenticate_password, encrypt_password, generate_salt
+from flask_imp.security import api_login_check
 from .. import rest
 from ..query.system_user import (
     query_read_system_user_by_user_id,
@@ -9,6 +10,7 @@ from ..query.system_user import (
 
 
 @rest.get("/update/user/<int:user_id>/password")
+@api_login_check("logged_in", [True], APIResponse.fail("You need to be logged in to access this."))
 @limit_to_json
 def update_system_user_password(json, user_id):
 
