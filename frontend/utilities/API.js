@@ -1,18 +1,34 @@
 import {API_V1_URL} from "../globals";
 
 export default class API {
-    constructor(apiUrl = API_V1_URL) {
+
+    constructor(
+        {
+            navigator = null,
+            apiUrl = API_V1_URL,
+        } = {}
+    ) {
+        this.navigator = navigator;
         this.apiUrl = apiUrl;
     }
 
+    setNavigator(navigator) {
+        this.navigator = navigator;
+    }
+
     async get(url) {
+
         const req = await fetch(this.apiUrl + url, {
             method: 'GET',
             credentials: 'include',
         })
         if (req.ok) {
             const json = await req.json()
-            console.log(json)
+
+            if (json.navigate) {
+                this.navigator(json.navigate)
+            }
+
             return await json
         } else {
             throw new Error('System error. Please try again later.')
@@ -20,6 +36,7 @@ export default class API {
     }
 
     async post(url, data) {
+
         const req = await fetch(this.apiUrl + url, {
             method: 'POST',
             credentials: 'include',
@@ -30,14 +47,17 @@ export default class API {
         });
         if (req.ok) {
             const json = await req.json()
+
             console.log(json)
+
+            if (json.navigate) {
+                this.navigator(json.navigate)
+            }
+
             return await json
         } else {
             throw new Error('System error. Please try again later.')
         }
     }
 
-    resource() {
-
-    }
 }

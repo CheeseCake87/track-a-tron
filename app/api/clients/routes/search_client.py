@@ -6,7 +6,7 @@ from ..query.client import query_search_client
 
 
 @rest.post("/search")
-@api_login_check("logged_in", [True], APIResponse.fail("You need to be logged in to access this."))
+@api_login_check("logged_in", True, {"navigate": "/login"})
 @limit_to_json
 def search_(json):
     clients = query_search_client(json.get("where", {}))

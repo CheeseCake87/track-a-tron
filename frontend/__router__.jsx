@@ -3,9 +3,6 @@ import {render} from 'solid-js/web'
 import {Navigate, Route, Router, Routes} from '@solidjs/router'
 import AllElements from './components/pages/AllElements'
 import Login from './components/pages/auth/Login'
-import ForgotPassword from "./components/pages/auth/ForgotPassword";
-import VerificationCode from "./components/pages/auth/VerificationCode";
-import ChangePassword from "./components/pages/auth/ChangePassword";
 import {ClientsContextProvider} from "./contextManagers/ContextClients";
 import Clients from "./components/pages/clients/Clients/Clients";
 import {MainContextProvider} from "./contextManagers/ContextMain";
@@ -52,15 +49,15 @@ render(() => (
 
                     <Route path="" component={RejectAuthContextProvider}>
                         <Route path="/login" component={Login}/>
-                        <Route path="/forgot-password" component={ForgotPassword}/>
-                        <Route path="/verification-code">
-                            <Route path="/" component={() => <Navigate href={'/login'}/>}/>
-                            <Route path="/:account_id" component={VerificationCode}/>
-                        </Route>
-                        <Route path="/change-password">
-                            <Route path="/" component={() => <Navigate href={'/login'}/>}/>
-                            <Route path="/:account_id" component={ChangePassword}/>
-                        </Route>
+                        {/*<Route path="/forgot-password" component={ForgotPassword}/>*/}
+                        {/*<Route path="/verification-code">*/}
+                        {/*    <Route path="/" component={() => <Navigate href={'/login'}/>}/>*/}
+                        {/*    <Route path="/:account_id" component={VerificationCode}/>*/}
+                        {/*</Route>*/}
+                        {/*<Route path="/change-password">*/}
+                        {/*    <Route path="/" component={() => <Navigate href={'/login'}/>}/>*/}
+                        {/*    <Route path="/:account_id" component={ChangePassword}/>*/}
+                        {/*</Route>*/}
                     </Route>
 
                     <Route path="" component={RequireAuthContextProvider}>

@@ -5,7 +5,7 @@ from ..query.system_service import query_read_all_enabled_services
 
 
 @rest.get("/get/enabled/services")
-@api_login_check("logged_in", [True], APIResponse.fail("You need to be logged in to access this."))
+@api_login_check("logged_in", True, {"navigate": "/login"})
 def get_system_services_enabled():
     enabled_system_services = query_read_all_enabled_services()
 

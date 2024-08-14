@@ -1,13 +1,11 @@
 import {createSignal, Show, useContext} from "solid-js";
 import {ContextMain} from "../../../../contextManagers/ContextMain";
 import GetAddress from "../../../services/GetAddress";
-import API from "../../../../utilities/API";
 
 
 export default function ClientAdd() {
 
     const ctxMain = useContext(ContextMain)
-    const api = new API()
 
     const [addAddressManually, setAddAddressManually] = createSignal(false)
 
@@ -40,7 +38,7 @@ export default function ClientAdd() {
     })
 
     function createClient() {
-        api.post('/clients/create', {
+        ctxMain.api.post('/clients/create', {
             fk_user_id: ctxMain.user().user_id,
             ...client(),
             ...clientAddress()

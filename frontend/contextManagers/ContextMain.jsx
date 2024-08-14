@@ -3,7 +3,7 @@ import {Outlet, useLocation, useNavigate} from '@solidjs/router'
 import AuthLoading from "../components/pages/auth/AuthLoading";
 import {MainMenu} from "../components/menus/MainMenu";
 import ToastBar from "../components/globals/ToastBar";
-import {CATEGORY_CODES, STATUS_CODES} from "../globals";
+import {API_V1_URL, CATEGORY_CODES, STATUS_CODES} from "../globals";
 import API from "../utilities/API";
 
 
@@ -11,10 +11,12 @@ export const ContextMain = createContext()
 
 export function MainContextProvider(props) {
 
-    const api = new API()
-
     const navigator = useNavigate()
     const location = useLocation()
+
+    const api = new API(
+        {navigator: navigator, apiUrl: API_V1_URL}
+    )
 
     const [session, setSession] = createSignal({
         logged_in: false,
@@ -60,8 +62,10 @@ export function MainContextProvider(props) {
     }
 
     function logout() {
-        api.get('/system/auth/logout').then((re) => {
-            if (re.ok) {
+        api.get('/system/auth/logout').then((res) => {
+            if (res.ok) {
+                navigator('/')
+
                 setUserId(null)
                 setUserType(null)
                 setLoggedIn(false)
@@ -70,10 +74,10 @@ export function MainContextProvider(props) {
         })
     }
 
-    function login(username, password) {
+    function login(username, password, setPassword) {
         api.post('/system/auth/login', {
-            username: username,
-            password: password
+            username: username(),
+            password: password(),
         }).then((res) => {
             if (res.ok) {
                 setSession(res.data)
@@ -82,8 +86,8 @@ export function MainContextProvider(props) {
                 setUserId(res.data.user_id)
                 setUserType(res.data.user_type)
 
-                console.log(res.data)
             } else {
+                setPassword('')
                 showErrorToast(res.message)
             }
         })
@@ -99,6 +103,8 @@ export function MainContextProvider(props) {
             }
         })
     }
+
+
 
     onMount(() => {
 
@@ -129,6 +135,8 @@ export function MainContextProvider(props) {
     return (
         <ContextMain.Provider value={
             {
+                api: api,
+
                 systemVersion: systemVersion,
 
                 showMainMenu: showMainMenu,

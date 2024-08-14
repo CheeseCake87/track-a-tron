@@ -2,14 +2,12 @@ import {createContext, createSignal, useContext} from "solid-js";
 import {Outlet} from "@solidjs/router";
 import SystemSubMenu from "../components/menus/SystemSubMenu";
 import {ContextMain} from "./ContextMain";
-import API from "../utilities/API";
 
 export const ContextSystem = createContext()
 
 export function SystemContextProvider() {
 
     const ctxMain = useContext(ContextMain)
-    const api = new API()
 
     const [systemSection, setSystemSection] = createSignal('information')
 
@@ -43,7 +41,7 @@ export function SystemContextProvider() {
     let refSystemUserDeleteDialog;
 
     function getAllSystemUsers() {
-        api.get('/system/get/users').then((res) => {
+        ctxMain.api.get('/system/get/users').then((res) => {
             if (res.ok) {
                 setSystemUsers(res.data)
             }
@@ -52,7 +50,7 @@ export function SystemContextProvider() {
 
     function getAllSystemLogs() {
 
-        api.get('/system/get/logs').then((res) => {
+        ctxMain.api.get('/system/get/logs').then((res) => {
             if (res.ok) {
                 setSystemLogs(res.data)
             }

@@ -1,14 +1,12 @@
 import {For, Show, useContext} from "solid-js";
 import {ContextSystem} from "../../../contextManagers/ContextSystem";
 import {ContextMain} from "../../../contextManagers/ContextMain";
-import API from "../../../utilities/API";
 
 
 export default function SystemUsersEditDialog() {
 
     const ctxMain = useContext(ContextMain)
     const ctxSystem = useContext(ContextSystem)
-    const api = new API()
 
     function updateSystemUser() {
         if (ctxSystem.tempEditSystemUser().username === '') {
@@ -20,7 +18,7 @@ export default function SystemUsersEditDialog() {
             return
         }
 
-        api.post(
+        ctxMain.api.post(
             '/system/search/user',
             {where: {username: ctxSystem.tempEditSystemUser().username}}
         ).then((res) => {
@@ -33,7 +31,7 @@ export default function SystemUsersEditDialog() {
                     return
                 }
 
-                api.post(
+                ctxMain.api.post(
                     `/system/update/user/${ctxSystem.tempEditSystemUser().user_id}`,
                     {
                         username: ctxSystem.tempEditSystemUser().username,

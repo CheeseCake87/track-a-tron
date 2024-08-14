@@ -1,18 +1,16 @@
 import {For, Show, useContext} from "solid-js";
 import {ContextSystem} from "../../../contextManagers/ContextSystem";
 import {ContextMain} from "../../../contextManagers/ContextMain";
-import API from "../../../utilities/API";
 
 
 export default function SystemUsersAddDialog() {
 
     const ctxMain = useContext(ContextMain)
     const ctxSystem = useContext(ContextSystem)
-    const api = new API()
 
     function addSystemUser() {
 
-        api.post('/system/search/user',
+        ctxMain.api.post('/system/search/user',
             {
                 where: {
                     username: ctxSystem.tempAddSystemUser().username
@@ -39,7 +37,7 @@ export default function SystemUsersAddDialog() {
                 return
             }
 
-            api.post('/system/create/user', ctxSystem.tempAddSystemUser()).then((res) => {
+            ctxMain.api.post('/system/create/user', ctxSystem.tempAddSystemUser()).then((res) => {
                 if (res.ok) {
                     ctxSystem.setSystemUsersDialogError('')
                     ctxSystem.setTempAddSystemUser(ctxSystem.blankSystemUser)

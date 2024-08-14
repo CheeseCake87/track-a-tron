@@ -2,7 +2,6 @@ import {createContext, createSignal, useContext} from "solid-js";
 import {Outlet} from "@solidjs/router";
 import {ContextMain} from "./ContextMain";
 import {ContextWorkshop} from "./ContextWorkshop";
-import API from "../utilities/API";
 
 export const ContextWorkshopTicketAdd = createContext()
 
@@ -10,7 +9,6 @@ export function WorkshopTicketAddContextProvider() {
 
     const ctxMain = useContext(ContextMain)
     const ctxWorkshop = useContext(ContextWorkshop)
-    const api = new API()
 
     const blankClientAdd = {
         business_name: '',
@@ -123,7 +121,7 @@ export function WorkshopTicketAddContextProvider() {
             where.postcode = findClientFields().postcode
         }
 
-        api.post('/clients/search', {where: where}).then((res) => {
+        ctxMain.api.post('/clients/search', {where: where}).then((res) => {
             if (res.ok) {
                 setFoundClients(res.data)
                 setClientSearchDone(true)
@@ -184,7 +182,7 @@ export function WorkshopTicketAddContextProvider() {
     }
 
     function createClient() {
-        api.post('/clients/create', {
+        ctxMain.api.post('/clients/create', {
             fk_user_id: ctxMain.userId(),
             ...clientAdd(),
             ...clientAddAddress()
@@ -235,7 +233,7 @@ export function WorkshopTicketAddContextProvider() {
             return
         }
 
-        api.post('/workshop/create/ticket', {
+        ctxMain.api.post('/workshop/create/ticket', {
             ticket: {
                 user_id: ctxMain.userId(),
                 assigned_user_id: ctxMain.userId(),

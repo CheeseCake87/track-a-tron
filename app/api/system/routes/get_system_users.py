@@ -8,7 +8,7 @@ from ..query.system_user import (
 
 
 @rest.get("/get/active/users")
-@api_login_check("logged_in", [True], APIResponse.fail("You need to be logged in to access this."))
+@api_login_check("logged_in", True, {"navigate": "/login"})
 def get_active_system_users():
     system_users = query_read_all_active_system_users()
     if not system_users:
@@ -35,7 +35,7 @@ def get_active_system_users():
 
 
 @rest.get("/get/users")
-@api_login_check("logged_in", [True], APIResponse.fail("You need to be logged in to access this."))
+@api_login_check("logged_in", True, {"navigate": "/login"})
 def get_system_users():
     system_users = query_read_all_system_users()
     if not system_users:

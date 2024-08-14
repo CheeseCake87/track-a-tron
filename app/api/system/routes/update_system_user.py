@@ -8,7 +8,7 @@ from ..query.system_user import (
 
 
 @rest.post("/update/user/<int:user_id>")
-@api_login_check("logged_in", [True], APIResponse.fail("You need to be logged in to access this."))
+@api_login_check("logged_in", True, {"navigate": "/login"})
 @limit_to_json
 def update_system_user(json, user_id):
 

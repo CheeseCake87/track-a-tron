@@ -5,7 +5,7 @@ from ..query.workshop_ticket import query_read_workshop_ticket_using_client_id
 
 
 @rest.get("/get/client/<int:client_id>/tickets")
-@api_login_check("logged_in", [True], APIResponse.fail("You need to be logged in to access this."))
+@api_login_check("logged_in", True, {"navigate": "/login"})
 def get_client_workshop_tickets(client_id):
     tickets = query_read_workshop_ticket_using_client_id(client_id)
     if not tickets:

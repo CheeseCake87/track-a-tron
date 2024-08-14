@@ -7,7 +7,7 @@ from ..query.workshop_ticket import (
 
 
 @rest.get("/ticket/delete/note/<int:workshop_ticket_note_id>")
-@api_login_check("logged_in", [True], APIResponse.fail("You need to be logged in to access this."))
+@api_login_check("logged_in", True, {"navigate": "/login"})
 def delete_workshop_ticket_note(workshop_ticket_note_id):
     query_delete_workshop_ticket_note(workshop_ticket_note_id)
 

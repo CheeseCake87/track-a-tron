@@ -1,18 +1,16 @@
 import {Show, useContext} from "solid-js";
 import {ContextSystem} from "../../../contextManagers/ContextSystem";
 import {ContextMain} from "../../../contextManagers/ContextMain";
-import API from "../../../utilities/API";
 
 
 export default function SystemUsersDeleteDialog() {
 
     const ctxMain = useContext(ContextMain)
     const ctxSystem = useContext(ContextSystem)
-    const api = new API()
 
     function deleteSystemUser() {
 
-        api.get(
+        ctxMain.api.get(
             `/system/delete/user
             /${ctxSystem.tempDeleteSystemUser().username}
             /${ctxSystem.tempDeleteSystemUser().user_id}`

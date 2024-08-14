@@ -7,7 +7,7 @@ from ..query.system_user import (
 
 
 @rest.get("/delete/user/<string:username>/<int:user_id>")
-@api_login_check("logged_in", [True], APIResponse.fail("You need to be logged in to access this."))
+@api_login_check("logged_in", True, {"navigate": "/login"})
 def delete_system_user(username, user_id):
     deleted_user = query_delete_system_user(
         username=username,

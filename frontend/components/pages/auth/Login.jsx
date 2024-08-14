@@ -54,11 +54,12 @@ export default function Login() {
                            className={'btn-confirm'}
                            value="Login"
                            onClick={() => {
-                               ctxMain.login(username(), password())
+                               // pass signal values to function
+                               ctxMain.login(username, password, setPassword)
                            }}/>
-                    <p className={'text-sm text-center'}>
-                        <a href="/forgot-password">Forgot Password</a>
-                    </p>
+                    {/*<p className={'text-sm text-center'}>*/}
+                    {/*    <a href="/forgot-password">Forgot Password</a>*/}
+                    {/*</p>*/}
                 </div>
 
             </form>
