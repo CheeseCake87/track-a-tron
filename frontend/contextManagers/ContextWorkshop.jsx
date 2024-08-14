@@ -32,7 +32,6 @@ export function WorkshopContextProvider() {
 
     const [users, setUsers] = createSignal([])
 
-
     const windowResizeHandler = (_) => {
         setWindowHeight(window.innerHeight)
     };
@@ -213,7 +212,7 @@ export function WorkshopContextProvider() {
 
         clearTimeout(deBounceGetPageTicketsTimer)
         deBounceGetPageTicketsTimer = setTimeout(() => {
-
+            
             ctxMain.api.post('/workshop/paged', {
                 page: page,
                 limit: limit,

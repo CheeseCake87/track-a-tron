@@ -6,17 +6,27 @@ export default class API {
         {
             navigator = null,
             apiUrl = API_V1_URL,
+            session: session = null,
         } = {}
     ) {
         this.navigator = navigator;
         this.apiUrl = apiUrl;
+        this.session = session;
     }
 
-    setNavigator(navigator) {
-        this.navigator = navigator;
-    }
+    async get(url, ignoreIfUnauthorized = true) {
 
-    async get(url) {
+        if (ignoreIfUnauthorized) {
+            if (typeof this.session === 'function') {
+                if (!this.session().logged_in) {
+                   if (import.meta.env.DEV) {
+                        console.log("GET SKIPPED")
+                        console.log(url)
+                    }
+                    return {ok: false, message: 'Unauthorized'}
+                }
+            }
+        }
 
         const req = await fetch(this.apiUrl + url, {
             method: 'GET',
@@ -24,6 +34,11 @@ export default class API {
         })
         if (req.ok) {
             const json = await req.json()
+
+            if (import.meta.env.DEV) {
+                console.log(url)
+                console.log(json)
+            }
 
             if (json.navigate) {
                 this.navigator(json.navigate)
@@ -35,7 +50,20 @@ export default class API {
         }
     }
 
-    async post(url, data) {
+    async post(url, data, ignoreIfUnauthorized = true) {
+
+        if (ignoreIfUnauthorized) {
+            if (typeof this.session === 'function') {
+                if (!this.session().logged_in) {
+                   if (import.meta.env.DEV) {
+                        console.log("POST SKIPPED")
+                        console.log(url)
+                        console.log(data)
+                    }
+                    return {ok: false, message: 'Unauthorized'}
+                }
+            }
+        }
 
         const req = await fetch(this.apiUrl + url, {
             method: 'POST',
@@ -48,6 +76,12 @@ export default class API {
         if (req.ok) {
             const json = await req.json()
 
+            if (import.meta.env.DEV) {
+                console.log(url)
+                console.log(data)
+                console.log(json)
+            }
+
             if (json.navigate) {
                 this.navigator(json.navigate)
             }
@@ -56,6 +90,7 @@ export default class API {
         } else {
             throw new Error('System error. Please try again later.')
         }
+
     }
 
 }

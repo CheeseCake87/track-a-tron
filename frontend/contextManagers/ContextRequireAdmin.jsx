@@ -10,8 +10,10 @@ export function RequireAdminContextProvider() {
 
     onMount(() => {
         if (ctxMain.userType() !== 'admin') {
-            ctxMain.navigator('/')
-            ctxMain.showErrorToast('You must be an admin to access this page')
+            if (ctxMain.loggedIn()) {
+                ctxMain.navigator('/')
+                ctxMain.showErrorToast('You must be an admin to access this page')
+            }
         }
     })
 

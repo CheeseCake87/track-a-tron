@@ -14,15 +14,16 @@ export function MainContextProvider(props) {
     const navigator = useNavigate()
     const location = useLocation()
 
-    const api = new API(
-        {navigator: navigator, apiUrl: API_V1_URL}
-    )
-
     const [session, setSession] = createSignal({
         logged_in: false,
         user_id: 0,
         user_type: null,
     })
+
+    const api = new API(
+        {navigator: navigator, apiUrl: API_V1_URL, session: session}
+    )
+
     const [enabledServices, setEnabledServices] = createSignal([])
 
     // Toast Bar // Toast Bar
@@ -62,14 +63,15 @@ export function MainContextProvider(props) {
     }
 
     function logout() {
-        api.get('/system/auth/logout').then((res) => {
+        api.get('/system/auth/logout', false).then((res) => {
             if (res.ok) {
-                navigator('/')
-
-                setUserId(null)
-                setUserType(null)
+                navigator('/login')
                 setLoggedIn(false)
-                setMainMenuLocation('clients')
+                setSession({
+                    logged_in: false,
+                    user_id: 0,
+                    user_type: null,
+                })
             }
         })
     }
@@ -78,14 +80,13 @@ export function MainContextProvider(props) {
         api.post('/system/auth/login', {
             username: username(),
             password: password(),
-        }).then((res) => {
+        }, false).then((res) => {
             if (res.ok) {
                 setSession(res.data)
 
                 setLoggedIn(res.data.logged_in)
                 setUserId(res.data.user_id)
                 setUserType(res.data.user_type)
-
             } else {
                 setPassword('')
                 showErrorToast(res.message)
@@ -94,24 +95,25 @@ export function MainContextProvider(props) {
     }
 
     function fetch_session() {
-        api.get('/system/auth/session').then((res) => {
+        api.get('/system/auth/session', false).then((res) => {
             if (res.ok) {
                 setSession(res.data)
                 setLoggedIn(res.data.logged_in)
                 setUserId(res.data.user_id)
                 setUserType(res.data.user_type)
+
+                return res.data
             }
         })
+        return null
     }
-
-
 
     onMount(() => {
 
         setLoaded(false)
 
         api.get(
-            '/system/checks'
+            '/system/checks', false
         ).then((res) => {
             if (res.ok) {
                 if (!res.data.system_setup) {

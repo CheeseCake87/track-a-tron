@@ -6,7 +6,7 @@ from flask_imp.config import ImpConfig, FlaskConfig, SQLiteDatabaseConfig
 load_dotenv()
 
 database_configs = {
-    "development": SQLiteDatabaseConfig(name="database"),
+    "main": SQLiteDatabaseConfig(name="database"),
 }
 
 flask_config = FlaskConfig(
@@ -20,5 +20,5 @@ imp_config = ImpConfig(
         "user_type": None,
         "display_name": None,
     },
-    database_main=database_configs["development"],
+    database_main=database_configs["main"],
 )

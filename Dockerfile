@@ -19,14 +19,14 @@ ENV TZ=Europe/London
 RUN apk add --update --no-cache linux-headers tzdata
 
 # Install weasyprint requirements:
-RUN apk add py3-pip gcc musl-dev  \
-    python3-dev pango zlib-dev jpeg-dev  \
-    openjpeg-dev g++ libffi-dev
+#RUN apk add py3-pip gcc musl-dev  \
+#    python3-dev pango zlib-dev jpeg-dev  \
+#    openjpeg-dev g++ libffi-dev
 
 # Install weasyprint fonts:
-RUN apk add --update --upgrade --no-cache  \
-    fontconfig ttf-freefont font-noto  \
-    terminus-font && fc-cache -f && fc-list | sort
+#RUN apk add --update --upgrade --no-cache  \
+#    fontconfig ttf-freefont font-noto  \
+#    terminus-font && fc-cache -f && fc-list | sort
 
 # Install pip requirements:
 RUN pip install --upgrade pip

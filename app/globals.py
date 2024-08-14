@@ -1,3 +1,13 @@
+VITE_ROUTES = (
+    "/",
+    "/login",
+    "/clients",
+    "/workshop",
+    "/system",
+    "/account",
+    "/install",
+)
+
 AVAILABLE_SERVICES = {
     "smtp": {
         "username": {"type": str, "required": True},

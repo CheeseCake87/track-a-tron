@@ -39,8 +39,6 @@ render(() => (
         <Router>
             <Routes>
 
-                <Route path="/all" component={AllElements}/>
-
                 <Route path="" component={MainContextProvider}>
 
                     <Route path="" component={RequireAuthContextProvider}>
@@ -109,9 +107,10 @@ render(() => (
                         </Route>
                     </Route>
 
-                    <Route path="/install" component={Installer}/>
-
                 </Route>
+
+                <Route path="/install" component={Installer}/>
+
             </Routes>
         </Router>
     ),

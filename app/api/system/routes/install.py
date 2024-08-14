@@ -2,7 +2,6 @@ from flask_imp.auth import encrypt_password, generate_salt, generate_private_key
 
 from app.decorators import limit_to_json
 from app.utilities import APIResponse
-from flask_imp.security import api_login_check
 from .. import rest
 from ..query.system import query_read_system, query_create_system
 from ..query.system_service import query_create_service
@@ -10,7 +9,6 @@ from ..query.system_user import query_create_system_user
 
 
 @rest.post("/install")
-@api_login_check("logged_in", [False], APIResponse.fail("You are already logged in."))
 @limit_to_json
 def install(json):
     admin_username = json.get("admin_username")

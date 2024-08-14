@@ -10,12 +10,6 @@ export function RequireAuthContextProvider() {
 
     onMount(() => {
         if (!ctxMain.loggedIn()) {
-            if (ctxMain.userId()) {
-                ctxMain.setUserId(null)
-            }
-            if (ctxMain.userType()) {
-                ctxMain.setUserType(null)
-            }
             ctxMain.navigator('/login')
         }
     })

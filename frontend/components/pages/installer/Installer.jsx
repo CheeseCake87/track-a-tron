@@ -1,11 +1,17 @@
-import {createSignal, onMount, Show, useContext} from "solid-js";
-import {ContextMain} from "../../../contextManagers/ContextMain";
+import {createSignal, onMount, Show} from "solid-js";
 import {EyeClosedIcon, EyeOpenIcon} from "../../globals/Icons";
+import {useNavigate} from "@solidjs/router";
+import API from "../../../utilities/API";
+import {API_V1_URL} from "../../../globals";
 
 
 export default function Installer() {
 
-    const ctxMain = useContext(ContextMain)
+    const navigator = useNavigate()
+
+    const api = new API(
+        {navigator: navigator, apiUrl: API_V1_URL}
+    )
 
     const [error, setError] = createSignal('')
 
@@ -90,7 +96,7 @@ export default function Installer() {
             }
         }
 
-        ctxMain.api.post('/system/install', {
+        api.post('/system/install', {
             admin_username: username(),
             admin_password: password(),
             services: {
@@ -115,7 +121,7 @@ export default function Installer() {
             }
         }).then((res) => {
             if (res.ok) {
-                ctxMain.navigator('/login')
+                navigator('/login')
             } else {
                 setError(res.message)
             }
@@ -123,15 +129,21 @@ export default function Installer() {
 
     }
 
+    function clearSession() {
+        api.get('/system/auth/logout').then((res) => {
+            // Clear session data
+        })
+    }
+
     onMount(() => {
-        ctxMain.api.get(
+        api.get(
             '/system/checks'
         ).then((re) => {
             if (re.ok) {
                 if (re.data.system_setup) {
-                    ctxMain.navigator('/login')
+                    navigator('/login')
                 } else {
-                    ctxMain.logout()
+                    clearSession()
                 }
             }
         })
