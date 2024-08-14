@@ -46,13 +46,6 @@ export default function ClientRequest() {
 
             </div>
             <div className={'card-group'}>
-                <A className={'btn-confirm btn-a btn-slim'}
-                   target={'_blank'}
-                   href={'/clients/' + ctxWorkshopTicket.client().client_id}>
-                    Open Client <ExternalLink size={16}/>
-                </A>
-            </div>
-            <div className={'card-group'}>
                 <div className={'card-section'}>
                     <small>Request</small>
                     {ctxWorkshopTicket.workshopTicket().request}

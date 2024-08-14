@@ -8,11 +8,7 @@ export default function AddClientSection() {
     const ctxWorkshopTicketAdd = useContext(ContextWorkshopTicketAdd)
 
     return (
-        <form onSubmit={
-            (e) => {
-                e.preventDefault()
-            }
-        }>
+        <>
             <div className={'form-section'}>
                 <div className={'field-group'}>
                     <div className={'py-2'}>
@@ -316,6 +312,17 @@ export default function AddClientSection() {
                     </div>
                 </div>
             </div>
-        </form>
+            <div className={'form-section'}>
+                <div>
+                    <button
+                        onClick={() => {
+                            ctxWorkshopTicketAdd.createClient()
+                        }}
+                        className={'btn-good'}>
+                        Create &amp; Select Client
+                    </button>
+                </div>
+            </div>
+        </>
     )
 }

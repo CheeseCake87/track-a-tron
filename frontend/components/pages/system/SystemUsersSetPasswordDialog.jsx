@@ -1,20 +1,22 @@
 import {Show, useContext} from "solid-js";
 import {ContextSystem} from "../../../contextManagers/ContextSystem";
-import update_system_user_password from "../../../api/system/update_system_user_password";
 import {ContextMain} from "../../../contextManagers/ContextMain";
+import API from "../../../utilities/API";
 
 
 export default function SystemUsersSetPasswordDialog() {
 
     const ctxMain = useContext(ContextMain)
     const ctxSystem = useContext(ContextSystem)
+    const api = new API()
 
     function updateSystemUserPassword() {
-        update_system_user_password(
-            ctxSystem.systemUserSelected(),
-            ctxSystem.resetSystemUserPassword()
-        ).then((rpc) => {
-            if (rpc.ok) {
+
+        api.post(`/system/update/user/${ctxSystem.systemUserSelected()}/password`, {
+            new_password: ctxSystem.resetSystemUserPassword(),
+            forced: true
+        }).then((res) => {
+            if (res.ok) {
                 ctxSystem.refSystemUserResetPasswordDialog.close()
                 ctxSystem.setSystemUsersDialogError('')
                 ctxSystem.setResetSystemUserPassword('')
@@ -22,6 +24,7 @@ export default function SystemUsersSetPasswordDialog() {
                 ctxSystem.setSystemUsersDialogError(`Error updating password (${rpc.message})`)
             }
         })
+
     }
 
     return (

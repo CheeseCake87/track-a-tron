@@ -14,6 +14,8 @@ export default function Client() {
     const ctxClients = useContext(ContextClients)
     const ctxClient = useContext(ContextClient)
 
+    let dialogDeleteClientsRef;
+
     return (
         <div className={'main-content-slim gap-2'}>
             <div className={'field-group items-center sticky top-0'}>
@@ -25,6 +27,15 @@ export default function Client() {
                 }}>
                     ← Back
                 </button>
+
+
+                <button className={'btn-danger'} onClick={() => {
+                    dialogDeleteClientsRef.showModal()
+                }}>
+                    Delete Client
+                </button>
+
+
                 <Show when={ctxClient.savingClient()}>
                     <div className={'flex flex-row gap-2 items-center px-4'}>
                         <SpinnerSmall/> Saving...
@@ -44,6 +55,25 @@ export default function Client() {
                 <WorkshopTicketCards/>
 
             </div>
+
+            <dialog className={'dialog'} ref={dialogDeleteClientsRef}>
+                <div className={'dialog-content text-center'} style={{height: '100px'}}>
+                    <p>Are you sure you would like to delete this client?</p>
+                    <p>Please note that this action is irreversible.</p>
+                </div>
+                <div className={'dialog-footer'}>
+                    <button className={'btn'} onClick={() => {
+                        dialogDeleteClientsRef.close()
+                    }}>
+                        Cancel
+                    </button>
+                    <button className={'btn-danger'} onClick={() => {
+                        ctxClient.deleteClient()
+                    }}>
+                        Confirm Delete
+                    </button>
+                </div>
+            </dialog>
 
         </div>
     )

@@ -1,4 +1,5 @@
 from app.utilities import APIResponse
+from flask import session
 from .. import rest
 from ..query.system import query_read_system
 from ..query.system_service import query_read_all_services
@@ -14,5 +15,6 @@ def checks():
         data={
             "system_setup": True if system else False,
             "enabled_services": [s.name for s in services if s.enabled],
+            "session": {k: v for k, v in session.items() if not k.startswith("_")},
         },
     )

@@ -7,8 +7,7 @@ from ..query.client import query_search_client
 @rest.post("/search")
 @limit_to_json
 def search_(json):
-    data = json.data
-    clients = query_search_client(data.get("where", {}))
+    clients = query_search_client(json.get("where", {}))
 
     if not clients:
         return APIResponse.fail(

@@ -10,8 +10,8 @@ def _build_ticket_data(ticket: any):
     return {
         **{k: v for k, v in ticket.__dict__.items() if not k.startswith("_")},
         "__added_by": ticket.rel_added_by.display_name,
-        "__assigned_to": ticket.rel_assigned_to.display_name,
-        "__assigned_to_id": ticket.rel_assigned_to.user_id,
+        "__assigned_to": ticket.rel_assigned_to.display_name if ticket.rel_assigned_to else "-",
+        "__assigned_to_id": ticket.rel_assigned_to.user_id if ticket.rel_assigned_to else "-",
         "__client": {
             "client_id": ticket.rel_client.client_id,
             "business_name": ticket.rel_client.business_name,
@@ -54,7 +54,7 @@ def _build_ticket_data(ticket: any):
     }
 
 
-@rest.get("/get/ticket/tag/<string:workshop_tag>")
+@rest.get("/ticket/tag/<string:workshop_tag>")
 def get_workshop_ticket_using_tag(workshop_tag):
     ticket = query_read_workshop_ticket_using_tag(workshop_tag)
     if not ticket:
@@ -68,7 +68,7 @@ def get_workshop_ticket_using_tag(workshop_tag):
     )
 
 
-@rest.get("/get/ticket/<int:workshop_ticket_id>")
+@rest.get("/ticket/<int:workshop_ticket_id>")
 def get_workshop_ticket_using_pk(workshop_ticket_id):
     ticket = query_read_workshop_ticket_using_pk(workshop_ticket_id)
     if not ticket:

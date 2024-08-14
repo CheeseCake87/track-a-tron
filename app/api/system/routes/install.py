@@ -1,6 +1,7 @@
+from flask_imp.auth import encrypt_password, generate_salt, generate_private_key
+
 from app.decorators import limit_to_json
 from app.utilities import APIResponse
-from flask_imp.auth import encrypt_password, generate_salt, generate_private_key
 from .. import rest
 from ..query.system import query_read_system, query_create_system
 from ..query.system_service import query_create_service
@@ -10,11 +11,14 @@ from ..query.system_user import query_create_system_user
 @rest.post("/install")
 @limit_to_json
 def install(json):
-    data = json.data
+    admin_username = json.get("admin_username")
+    admin_password = json.get("admin_password")
+    services = json.get("services", {})
 
-    admin_username = data.get("admin_username")
-    admin_password = data.get("admin_password")
-    services = data.get("services", {})
+    if not admin_username or not admin_password:
+        return APIResponse.fail(
+            "Admin username and password are required.",
+        )
 
     current_system = query_read_system()
 
@@ -45,3 +49,5 @@ def install(json):
         private_key=private_key,
         user_type="admin",
     )
+
+    return APIResponse.success("System installed.")

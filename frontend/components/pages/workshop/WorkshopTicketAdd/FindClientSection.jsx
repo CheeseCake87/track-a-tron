@@ -1,17 +1,16 @@
 import {For, Show, useContext} from "solid-js";
 import {ContextWorkshopTicketAdd} from "../../../../contextManagers/ContextWorkshopTicketAdd";
-import {LetterXIcon} from "../../../globals/Icons";
+import {ExternalLink} from "../../../globals/Icons";
+import {ContextMain} from "../../../../contextManagers/ContextMain";
+import {A} from "@solidjs/router";
 
 export default function FindClientSection() {
 
+    const ctxMain = useContext(ContextMain)
     const ctxWorkshopTicketAdd = useContext(ContextWorkshopTicketAdd)
 
     return (
-        <form onSubmit={
-            (e) => {
-                e.preventDefault()
-            }
-        }>
+        <>
             <div className={'form-section'}>
 
                 <label>Search</label>
@@ -23,6 +22,9 @@ export default function FindClientSection() {
                                className={'w-36'}
                                onKeyUp={
                                    (e) => {
+                                       if (e.key === 'Enter') {
+                                           ctxWorkshopTicketAdd.findClient()
+                                       }
                                        ctxWorkshopTicketAdd.updateFindClient('any_name', e.target.value)
                                    }
                                } value={ctxWorkshopTicketAdd.findClientFields().any_name}/>
@@ -33,6 +35,9 @@ export default function FindClientSection() {
                                className={'w-36'}
                                onKeyUp={
                                    (e) => {
+                                       if (e.key === 'Enter') {
+                                           ctxWorkshopTicketAdd.findClient()
+                                       }
                                        ctxWorkshopTicketAdd.updateFindClient('any_phone', e.target.value)
                                    }
                                } value={ctxWorkshopTicketAdd.findClientFields().any_phone}/>
@@ -42,6 +47,9 @@ export default function FindClientSection() {
                         <input type={'text'}
                                onKeyUp={
                                    (e) => {
+                                       if (e.key === 'Enter') {
+                                           ctxWorkshopTicketAdd.findClient()
+                                       }
                                        ctxWorkshopTicketAdd.updateFindClient('any_email', e.target.value)
                                    }
                                } value={ctxWorkshopTicketAdd.findClientFields().any_email}/>
@@ -52,6 +60,9 @@ export default function FindClientSection() {
                                className={'w-28'}
                                onKeyUp={
                                    (e) => {
+                                       if (e.key === 'Enter') {
+                                           ctxWorkshopTicketAdd.findClient()
+                                       }
                                        ctxWorkshopTicketAdd.updateFindClient('postcode', e.target.value)
                                    }
                                } value={ctxWorkshopTicketAdd.findClientFields().postcode}/>
@@ -72,53 +83,40 @@ export default function FindClientSection() {
                     </button>
                 </div>
             </div>
-            <Show when={ctxWorkshopTicketAdd.clientSelected() === ''}>
-                <div className={'form-section pt-2'}>
-                    <label>
-                        Clients Found
-                    </label>
-                    <div className={'card-pill-group'}>
-                        <For each={ctxWorkshopTicketAdd.foundClients()} fallback={
-                            <div className={'flex'}>
-                                <div className={'card-pill'}>
-                                    <Show when={ctxWorkshopTicketAdd.clientSearchDone()}
-                                          children={'No clients found'}
-                                          fallback={'Search for a client'}/>
-                                </div>
+            <div className={'form-section pt-2'}>
+                <label>
+                    Clients Found
+                </label>
+                <div className={'card-pill-group'}>
+                    <For each={ctxWorkshopTicketAdd.foundClients()} fallback={
+                        <div className={'flex'}>
+                            <div className={'card-pill'}>
+                                <Show when={ctxWorkshopTicketAdd.clientSearchDone()}
+                                      children={'No clients found'}
+                                      fallback={'Search for a client'}/>
                             </div>
-                        }>
-                            {(foundClient, i) => (
-                                <div className={'card-pill'}>
-                                    {ctxWorkshopTicketAdd.buildSelectedClient(foundClient)}
-                                    <button className={'btn-confirm btn-pill'}
-                                            onClick={() => {
-                                                ctxWorkshopTicketAdd.setSelectedClient(foundClient)
-                                            }}>
-                                        Select
-                                    </button>
-                                </div>
-                            )}
-                        </For>
-                    </div>
-                </div>
-            </Show>
-            <Show when={ctxWorkshopTicketAdd.clientSelected() !== ''}>
-                <div className={'form-section pt-2'}>
-                    <label>Client Selected</label>
-                    <div className={'card-pill-group'}>
-                        <div className={'card-pill'}>
-                            {ctxWorkshopTicketAdd.clientSelected()}
-                            <button className={'btn-danger btn-pill'}
-                                    onClick={() => {
-                                        ctxWorkshopTicketAdd.setClientIDSelected(0)
-                                        ctxWorkshopTicketAdd.setClientSelected('')
-                                    }}>
-                                <LetterXIcon size={18} strokeWidth={2}/>
-                            </button>
                         </div>
-                    </div>
+                    }>
+                        {(foundClient, i) => (
+                            <div className={'card-pill'}>
+                                {ctxWorkshopTicketAdd.buildSelectedClient(foundClient)}
+                                <A href={`/clients/${foundClient.client_id}`}
+                                   target={'_blank'}
+                                   className={'btn-confirm btn-pill'}>
+                                    Open <ExternalLink size={14}/>
+                                </A>
+                                <button className={'btn-good btn-pill'}
+                                        role={'button'}
+                                        onClick={() => {
+                                            ctxWorkshopTicketAdd.setSelectedClient(foundClient)
+                                        }}>
+                                    Select
+                                </button>
+                            </div>
+                        )}
+                    </For>
                 </div>
-            </Show>
-        </form>
+            </div>
+        </>
     )
 }

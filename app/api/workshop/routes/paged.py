@@ -7,10 +7,10 @@ from ..query.workshop_ticket import query_all_paged
 @rest.post("/paged")
 @limit_to_json
 def paged(json):
-    data = json.data
-    limit = data.get("limit", 10)
-    page = data.get("page", 1)
-    where = data.get("where", {})
+
+    limit = json.get("limit", 10)
+    page = json.get("page", 1)
+    where = json.get("where", {})
 
     tickets, ticket_count, pages = query_all_paged(limit=limit, page=page, where=where)
 
@@ -25,7 +25,7 @@ def paged(json):
                 {
                     **{k: v for k, v in row.__dict__.items() if not k.startswith("_")},
                     "__added_by": row.rel_added_by.display_name,
-                    "__assigned_to": row.rel_assigned_to.display_name,
+                    "__assigned_to": row.rel_assigned_to.display_name if row.rel_assigned_to else "-",
                     "__client": {
                         "client_id": row.rel_client.client_id,
                         "business_name": row.rel_client.business_name,

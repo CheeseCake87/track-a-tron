@@ -6,14 +6,13 @@ from ..query.system_user import (
 )
 
 
-@rest.get("/update/user/<int:user_id>")
+@rest.post("/update/user/<int:user_id>")
 @limit_to_json
 def update_system_user(json, user_id):
-    data = json.data
 
     updated_system_user = query_update_system_user(
         user_id=user_id,
-        values=data,
+        values=json,
     )
     if not updated_system_user:
         return APIResponse.fail(

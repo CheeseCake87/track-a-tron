@@ -9,9 +9,8 @@ from .. import rest
 @rest.post("/auth/login")
 @limit_to_json
 def auth_login(json):
-    data = json.data
-    username = data.get("username")
-    password = data.get("password")
+    username = json.get("username")
+    password = json.get("password")
 
     user = query_read_system_user_by_username(username=username)
     if not user:
@@ -30,7 +29,7 @@ def auth_login(json):
     )
 
 
-@rest.post("/auth/logout")
+@rest.get("/auth/logout")
 def auth_logout():
     session["logged_in"] = False
     session["user_id"] = None

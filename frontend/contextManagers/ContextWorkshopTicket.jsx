@@ -2,12 +2,14 @@ import {createContext, createSignal, onMount, useContext} from "solid-js";
 import {Outlet, useParams} from "@solidjs/router";
 import {ContextMain} from "./ContextMain";
 import API from "../utilities/API";
+import {ContextWorkshop} from "./ContextWorkshop";
 
 export const ContextWorkshopTicket = createContext()
 
 export function WorkshopTicketContextProvider() {
 
     const ctxMain = useContext(ContextMain)
+    const ctxWorkshop = useContext(ContextWorkshop)
     const api = new API()
 
     const params = useParams()
@@ -56,7 +58,7 @@ export function WorkshopTicketContextProvider() {
     }
 
     function getWorkshopTicket() {
-        api.get('/workshop/get/ticket/tag/' + params.workshop_tag).then((res) => {
+        api.get('/workshop/ticket/tag/' + params.workshop_tag).then((res) => {
             if (res.ok) {
                 setWorkshopTicket({
                     workshop_ticket_id: res.data.workshop_ticket_id,
@@ -71,10 +73,24 @@ export function WorkshopTicketContextProvider() {
                 setClient({...res.data.__client})
                 setDevices([...res.data.__devices])
                 setItems([...res.data.__items])
-                setNotes([...rpc.data.__notes])
+                setNotes([...res.data.__notes])
             } else {
                 ctxMain.showErrorToast('Ticket not found.')
                 ctxMain.navigate('/workshop')
+            }
+        })
+    }
+
+    function deleteWorkshopTicket() {
+        api.get('/workshop/ticket/delete/' + workshopTicket().workshop_ticket_id).then((res) => {
+            if (res.ok) {
+                ctxWorkshop.deBounceGetPageTickets(
+                    200, ctxWorkshop.page(), ctxWorkshop.limit(), ctxWorkshop.ticketsWhere()
+                )
+                ctxMain.showSuccessToast('Ticket deleted.')
+                ctxMain.navigate('/workshop')
+            } else {
+                ctxMain.showErrorToast('Error deleting ticket. ' + res.message)
             }
         })
     }
@@ -158,6 +174,8 @@ export function WorkshopTicketContextProvider() {
             updateWorkshopTicket: updateWorkshopTicket,
             addWorkshopTicketNote: addWorkshopTicketNote,
             deleteWorkshopTicketNote: deleteWorkshopTicketNote,
+
+            deleteWorkshopTicket: deleteWorkshopTicket,
         }}>
             <Outlet/>
         </ContextWorkshopTicket.Provider>

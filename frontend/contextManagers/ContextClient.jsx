@@ -2,12 +2,14 @@ import {createContext, createSignal, onMount, useContext} from "solid-js";
 import {Outlet, useParams} from "@solidjs/router";
 import {ContextMain} from "./ContextMain";
 import API from "../utilities/API";
+import {ContextClients} from "./ContextClients";
 
 export const ContextClient = createContext()
 
 export function ClientContextProvider() {
 
     const ctxMain = useContext(ContextMain)
+    const ctxClients = useContext(ContextClients)
     const api = new API()
 
     const params = useParams()
@@ -25,7 +27,9 @@ export function ClientContextProvider() {
             alt_phone: '',
             alt_email_address: '',
             phone_dnc: false,
-            email_address_dnc: false
+            email_address_dnc: false,
+            __added_by: '',
+            __created: ''
         }
     )
 
@@ -52,7 +56,9 @@ export function ClientContextProvider() {
                     alt_phone: res.data.alt_phone,
                     alt_email_address: res.data.alt_email_address,
                     phone_dnc: res.data.phone_dnc,
-                    email_address_dnc: res.data.email_address_dnc
+                    email_address_dnc: res.data.email_address_dnc,
+                    __added_by: res.data.__added_by,
+                    __created: res.data.__created
                 })
             }
             getClientWorkshopTickets()
@@ -74,6 +80,18 @@ export function ClientContextProvider() {
         }, 500)
     }
 
+    function deleteClient() {
+        api.get('/clients/delete/' + params.client_id).then((res) => {
+            if (res.ok) {
+                ctxClients.deBounceGetPageClients(
+                    200, ctxClients.page(), ctxClients.limit(), ctxClients.clientsWhere()
+                )
+                ctxMain.showSuccessToast('Client Deleted')
+                ctxMain.navigator('/clients')
+            }
+        })
+    }
+
     onMount(() => {
         getClient()
     })
@@ -89,7 +107,8 @@ export function ClientContextProvider() {
             workshopTickets: workshopTickets,
             setWorkshopTickets: setWorkshopTickets,
 
-            saveClient: updateClient
+            saveClient: updateClient,
+            deleteClient: deleteClient
         }}>
             <Outlet/>
         </ContextClient.Provider>

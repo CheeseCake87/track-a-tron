@@ -16,7 +16,7 @@ def create_app():
     # https://github.com/CheeseCake87/flask-imp
     imp.init_app(app, imp_config)
     imp.import_app_resources()
-    imp.import_blueprints("api")
+    imp.import_blueprint("api")
     imp.import_models("models")
 
     # https://github.com/CheeseCake87/vite-transporter

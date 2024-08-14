@@ -70,47 +70,57 @@ export function MainContextProvider(props) {
     }
 
     function login(username, password) {
-        api.post('system/auth/login', {
+        api.post('/system/auth/login', {
             username: username,
             password: password
-        }).then((re) => {
-            if (re.ok) {
-                setSession(re.data)
-                setLoggedIn(re.data.logged_in)
-                setUserId(re.data.user_id)
-                setUserType(re.data.user_type)
+        }).then((res) => {
+            if (res.ok) {
+                setSession(res.data)
+
+                setLoggedIn(res.data.logged_in)
+                setUserId(res.data.user_id)
+                setUserType(res.data.user_type)
+
+                console.log(res.data)
             } else {
-                showErrorToast(re.message)
+                showErrorToast(res.message)
             }
         })
     }
 
     function fetch_session() {
-        api.get('/system/auth/session').then((re) => {
-            if (re.ok) {
-                setSession(re.data)
-                setLoggedIn(re.data.logged_in)
-                setUserId(re.data.user_id)
-                setUserType(re.data.user_type)
+        api.get('/system/auth/session').then((res) => {
+            if (res.ok) {
+                setSession(res.data)
+                setLoggedIn(res.data.logged_in)
+                setUserId(res.data.user_id)
+                setUserType(res.data.user_type)
             }
         })
     }
 
     onMount(() => {
+
         setLoaded(false)
+
         api.get(
             '/system/checks'
-        ).then((re) => {
-            if (re.ok) {
-                if (!re.data.system_setup) {
+        ).then((res) => {
+            if (res.ok) {
+                if (!res.data.system_setup) {
+                    setLoaded(true)
                     navigator('/install')
                 } else {
-                    setEnabledServices(re.data.enabled_services)
-                    fetch_session()
+                    setEnabledServices(res.data.enabled_services)
+                    setSession(res.data.session)
+                    setLoggedIn(res.data.session.logged_in)
+                    setUserId(res.data.session.user_id)
+                    setUserType(res.data.session.user_type)
                     setLoaded(true)
                 }
             }
         })
+
     })
 
     return (

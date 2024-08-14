@@ -7,8 +7,7 @@ from ..query.client import query_update_client
 @rest.post("/update/<int:client_id>")
 @limit_to_json
 def update_(json, client_id):
-    data = json.data
-    updated_client = query_update_client(client_id, data)
+    updated_client = query_update_client(client_id, json)
 
     if not updated_client:
         return APIResponse.fail(

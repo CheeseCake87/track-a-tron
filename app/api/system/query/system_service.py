@@ -35,6 +35,13 @@ def query_read_all_services() -> t.List[SystemService]:
     return re_
 
 
+def query_read_all_enabled_services() -> t.List[SystemService]:
+    wh_ = (SystemService.enabled == True,)  # noqa
+    se_ = s.select(SystemService).where(*wh_)
+    re_ = db.session.execute(se_).scalars().all()
+    return re_
+
+
 def query_read_service(name: str) -> SystemService | None:
     wh_ = (SystemService.name == name,)
     se_ = s.select(SystemService).where(*wh_)

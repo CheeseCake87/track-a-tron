@@ -1,15 +1,14 @@
 import {createEffect, createSignal, onMount, Show, useContext} from "solid-js";
 import {EyeClosedIcon, EyeOpenIcon} from "../../globals/Icons";
-import get_services from "../../../api/system/get_services";
 import {ContextMain} from "../../../contextManagers/ContextMain";
-import update_service from "../../../api/system/update_service";
 import {ContextSystem} from "../../../contextManagers/ContextSystem";
-import get_enabled_services from "../../../api/system/get_enabled_services";
+import API from "../../../utilities/API";
 
 export default function SystemServices() {
 
     const ctxMain = useContext(ContextMain)
     const ctxSystem = useContext(ContextSystem)
+    const api = new API()
 
     // GetAddress
     const [getAddressService, setAddressService] = createSignal({
@@ -40,9 +39,15 @@ export default function SystemServices() {
     const [showSmtpPassword, setShowSmtpPassword] = createSignal(false)
 
     function refreshEnabledServices() {
-        get_enabled_services().then((rpc) => {
-            ctxMain.setEnabledServices(rpc.data.enabled_services)
+
+        api.get('/system/get/enabled/services').then((res) => {
+            if (res.ok) {
+                ctxMain.setEnabledServices(res.data)
+            } else {
+                ctxMain.showErrorToast(res.message)
+            }
         })
+
     }
 
     function updateGetAddressService() {
@@ -52,18 +57,20 @@ export default function SystemServices() {
                 return
             }
         }
-        update_service({
+
+        api.post('/system/update/service', {
             name: 'get_address',
             data: getAddressService(),
             enabled: enableGetAddressService()
-        }).then((rpc) => {
-            if (rpc.ok) {
+        }).then((res) => {
+            if (res.ok) {
                 ctxMain.showSuccessToast('GetAddress service updated.')
                 refreshEnabledServices()
             } else {
-                ctxMain.showErrorToast('There was an error updating GetAddress service.')
+                ctxMain.showErrorToast('There was an error updating the GetAddress service.')
             }
         })
+
     }
 
     function updateZeptoService() {
@@ -81,18 +88,20 @@ export default function SystemServices() {
                 return
             }
         }
-        update_service({
+
+        api.post('/system/update/service', {
             name: 'zepto',
             data: zeptoService(),
             enabled: enableZeptoService()
-        }).then((rpc) => {
-            if (rpc.ok) {
+        }).then((res) => {
+            if (res.ok) {
                 ctxMain.showSuccessToast('Zepto service updated.')
                 refreshEnabledServices()
             } else {
-                ctxMain.showErrorToast('There was an error updating Zepto service.')
+                ctxMain.showErrorToast('There was an error updating the Zepto service.')
             }
         })
+
     }
 
     function updateSmtpService() {
@@ -114,18 +123,20 @@ export default function SystemServices() {
                 return
             }
         }
-        update_service({
+
+        api.post('/system/update/service', {
             name: 'smtp',
             data: smtpService(),
             enabled: enableSmtpService()
-        }).then((rpc) => {
-            if (rpc.ok) {
+        }).then((res) => {
+            if (res.ok) {
                 ctxMain.showSuccessToast('SMTP service updated.')
                 refreshEnabledServices()
             } else {
-                ctxMain.showErrorToast('There was an error updating SMTP service.')
+                ctxMain.showErrorToast('There was an error updating the SMTP service.')
             }
         })
+
     }
 
     function GetAddressService() {
@@ -373,9 +384,10 @@ export default function SystemServices() {
 
     createEffect(() => {
         if (ctxSystem.systemSection() === 'services') {
-            get_services().then((rpc) => {
-                if (rpc.ok) {
-                    for (let service of rpc.data.services) {
+
+            api.get('/system/services').then((res) => {
+                if (res.ok) {
+                    for (let service of res.data) {
                         if (service.name === 'get_address') {
                             setAddressService(service.data)
                             setEnableGetAddressService(service.enabled)
@@ -391,6 +403,7 @@ export default function SystemServices() {
                     }
                 }
             })
+
         }
     })
 
