@@ -1,31 +1,33 @@
 import {Show, useContext} from "solid-js";
 import {ContextSystem} from "../../../contextManagers/ContextSystem";
-import delete_system_user from "../../../api/system/delete_system_user";
 import {ContextMain} from "../../../contextManagers/ContextMain";
+import API from "../../../utilities/API";
 
 
 export default function SystemUsersDeleteDialog() {
 
     const ctxMain = useContext(ContextMain)
     const ctxSystem = useContext(ContextSystem)
+    const api = new API()
 
     function deleteSystemUser() {
-        delete_system_user(
-            ctxSystem.tempDeleteSystemUser().user_id,
-            ctxSystem.tempDeleteSystemUser().username,
-            ctxSystem.tempDeleteSystemUser().display_name
-        )
-            .then((rpc) => {
-                if (rpc.ok) {
-                    ctxSystem.setSystemUsersDialogError('')
-                    ctxSystem.setTempDeleteSystemUser(ctxSystem.blankSystemUser)
-                    ctxSystem.refSystemUserDeleteDialog.close()
-                    ctxSystem.getAllSystemUsers()
-                    ctxMain.showSuccessToast('User deleted')
-                } else {
-                    ctxSystem.setSystemUsersDialogError(`Error deleting user (${rpc.message})`)
-                }
-            })
+
+        api.get(
+            `/system/delete/user
+            /${ctxSystem.tempDeleteSystemUser().username}
+            /${ctxSystem.tempDeleteSystemUser().user_id}`
+        ).then((res) => {
+            if (res.ok) {
+                ctxSystem.setSystemUsersDialogError('')
+                ctxSystem.setTempDeleteSystemUser(ctxSystem.blankSystemUser)
+                ctxSystem.refSystemUserDeleteDialog.close()
+                ctxSystem.getAllSystemUsers()
+                ctxMain.showSuccessToast('User deleted')
+            } else {
+                ctxSystem.setSystemUsersDialogError(`Error deleting user (${rpc.message})`)
+            }
+        })
+
     }
 
     return (

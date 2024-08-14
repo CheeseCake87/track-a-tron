@@ -1,13 +1,18 @@
+from app.decorators import limit_to_json
 from app.utilities import APIResponse
 from .. import rest
 from ..query.system_user import (
-    query_read_system_user_by_user_id,
+    query_read_system_user,
 )
 
 
-@rest.get("/user/<int:user_id>")
-def get_system_user(user_id):
-    system_user = query_read_system_user_by_user_id(user_id)
+@rest.post("/search/user")
+@limit_to_json
+def search_system_user(json):
+
+    where = json.get("where")
+
+    system_user = query_read_system_user(where)
     if not system_user:
         return APIResponse.fail(
             "No system user found.",

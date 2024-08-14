@@ -15,8 +15,8 @@ def get_(client_id):
         "Client found.",
         {
             **{k: v for k, v in client.__dict__.items() if not k.startswith("_")},
-            "__added_by": client.rel_system_user.display_name,
+            "__added_by": client.rel_system_user.display_name if client.rel_system_user else "-",
             "__address": condense_client_address(client),
-            "__created": client.created.strftime("%a %-d %b"),
+            "__created": client.created.strftime("%a %-d %b") if client.created else "-",
         },
     )

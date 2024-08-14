@@ -11,7 +11,9 @@ export default class API {
             credentials: 'include',
         })
         if (req.ok) {
-            return await req.json()
+            const json = await req.json()
+            console.log(json)
+            return await json
         } else {
             throw new Error('System error. Please try again later.')
         }
@@ -27,7 +29,9 @@ export default class API {
             body: JSON.stringify(data)
         });
         if (req.ok) {
-            return await req.json()
+            const json = await req.json()
+            console.log(json)
+            return await json
         } else {
             throw new Error('System error. Please try again later.')
         }

@@ -1,11 +1,13 @@
 import {createSignal, onMount, Show, useContext} from "solid-js";
 import {ContextMain} from "../../../contextManagers/ContextMain";
 import {EyeClosedIcon, EyeOpenIcon} from "../../globals/Icons";
+import API from "../../../utilities/API";
 
 
 export default function Installer() {
 
     const ctxMain = useContext(ContextMain)
+    const api = new API()
 
     const [error, setError] = createSignal('')
 
@@ -410,7 +412,6 @@ export default function Installer() {
                           }}>
 
                         <div className={'install-form-group'}>
-
 
                             <p className={'text-2xl pb-4'}>🤖 Track-a-tron Installer</p>
 

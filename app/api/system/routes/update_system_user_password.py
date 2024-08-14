@@ -11,14 +11,16 @@ from ..query.system_user import (
 @rest.get("/update/user/<int:user_id>/password")
 @limit_to_json
 def update_system_user_password(json, user_id):
-    data = json.data
-    current_password = data.get("current_password")
-    new_password = data.get("new_password")
 
-    system_user = query_read_system_user_by_user_id(user_id=user_id)
+    current_password = json.get("current_password")
+    new_password = json.get("new_password")
+    forced = json.get("forced", False)
 
-    if not authenticate_password(current_password, system_user.password, system_user.salt):
-        return APIResponse.fail("Invalid current password.")
+    if not forced:
+        system_user = query_read_system_user_by_user_id(user_id=user_id)
+
+        if not authenticate_password(current_password, system_user.password, system_user.salt):
+            return APIResponse.fail("Invalid current password.")
 
     salt = generate_salt()
     password_hash = encrypt_password(new_password, salt)

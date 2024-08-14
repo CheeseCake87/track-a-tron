@@ -1,6 +1,7 @@
 import typing as t
 
 import sqlalchemy as s
+
 from app.api.clients.models import Client
 from app.extensions import db
 from app.utilities import DatetimeDeltaMC
@@ -63,7 +64,9 @@ def query_all_paged(
     pages = client_count // limit + 1
 
     clients = (
-        s.execute(s.select(Client).where(*wh_).limit(limit).offset((page - 1) * limit))
+        db.session.execute(
+            s.select(Client).where(*wh_).limit(limit).offset((page - 1) * limit)
+        )
         .scalars()
         .all()
     )
@@ -126,15 +129,19 @@ def query_create_client_auto_date(values: dict, _auto_commit: bool = True, _flus
 
 def query_create_client(values: dict, _auto_commit: bool = True, _flush: bool = True) -> Client | None:
     ignore_fields = {"client_id"}
+
+    apply_values = {
+        k: v
+        for k, v in values.items()
+        if hasattr(Client, k) and k not in ignore_fields and v != ""
+    }
+
+    if "created" not in apply_values:
+        apply_values["created"] = DatetimeDeltaMC().datetime
+
     in_ = (
         s.insert(Client)
-        .values(
-            **{
-                k: v
-                for k, v in values.items()
-                if hasattr(Client, k) and k not in ignore_fields and v != ""
-            }
-        )
+        .values(**apply_values)
         .returning(Client)
     )
     re_ = db.session.execute(in_).scalar()
@@ -175,3 +182,41 @@ def query_update_client(
             db.session.flush()
 
     return re_
+
+
+def query_delete_client(client_id: int, _auto_commit: bool = True, _flush: bool = True) -> bool:
+    from app.api.workshop.models import WorkshopTicket, WorkshopTicketDevice, WorkshopTicketItem, WorkshopTicketNote
+
+    client_tickets = db.session.execute(
+        s.select(WorkshopTicket).where(WorkshopTicket.fk_client_id == client_id)  # noqa
+    ).scalars().all()
+
+    if client_tickets:
+        for ticket in client_tickets:
+            db.session.execute(
+                s.delete(WorkshopTicketDevice).where(WorkshopTicketDevice.fk_workshop_ticket_id == ticket.workshop_ticket_id),  # noqa
+            )
+
+            db.session.execute(
+                s.delete(WorkshopTicketItem).where(WorkshopTicketItem.fk_workshop_ticket_id == ticket.workshop_ticket_id),  # noqa
+            )
+
+            db.session.execute(
+                s.delete(WorkshopTicketNote).where(WorkshopTicketNote.fk_workshop_ticket_id == ticket.workshop_ticket_id),  # noqa
+            )
+
+        db.session.execute(
+            s.delete(WorkshopTicket).where(WorkshopTicket.fk_client_id == client_id),  # noqa
+        )
+
+    wh_ = (Client.client_id == client_id,)
+    de_ = s.delete(Client).where(*wh_)
+    db.session.execute(de_)
+
+    if _auto_commit:
+        db.session.commit()
+    else:
+        if _flush:
+            db.session.flush()
+
+    return True

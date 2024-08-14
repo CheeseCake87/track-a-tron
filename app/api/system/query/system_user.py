@@ -63,9 +63,9 @@ def query_read_system_user_by_username(username: str) -> SystemUser | None:
 
 
 def query_read_system_user(where: dict) -> SystemUser | None:
-    wh_ = []
+    wh_ = set()
     for k, v in where.items():
-        wh_.append(getattr(SystemUser, k) == v)
+        wh_.add(getattr(SystemUser, k) == v)
 
     se_ = s.select(SystemUser).where(*wh_)
     re_ = db.session.execute(se_).scalar()
@@ -124,6 +124,31 @@ def query_update_system_user_password(
         .where(*wh_)
         .values({"password": password, "salt": salt})
         .returning(SystemUser)
+    )
+    re_ = db.session.execute(up_).scalar()
+
+    if _auto_commit:
+        db.session.commit()
+    else:
+        if _flush:
+            db.session.flush()
+
+    return re_
+
+
+def query_delete_system_user(username: str, user_id: int, _auto_commit: bool = True, _flush: bool = True) -> int | None:
+    wh_ = (SystemUser.user_id == user_id, SystemUser.username == username)
+    up_ = (
+        s.update(SystemUser)
+        .where(*wh_)
+        .values(
+            {
+                "display_name": "Deleted User",
+                "username": f"__deleted__.{username}",
+                "deleted": True,
+                "disabled": True
+            }
+        ).returning(SystemUser.user_id)
     )
     re_ = db.session.execute(up_).scalar()
 

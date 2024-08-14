@@ -17,7 +17,7 @@ def _build_ticket_data(ticket: any):
 @rest.post("/update/ticket/<int:workshop_ticket_id>")
 @limit_to_json
 def update_workshop_ticket(json, workshop_ticket_id):
-    update_ticket = query_update_workshop_ticket(workshop_ticket_id, json.data)
+    update_ticket = query_update_workshop_ticket(workshop_ticket_id, json.get("data", {}))
     if not update_ticket:
         return APIResponse.fail(
             "Unable to update ticket.",

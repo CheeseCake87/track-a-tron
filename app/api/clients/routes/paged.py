@@ -7,10 +7,9 @@ from ..query.client import query_all_paged
 @rest.post("/paged")
 @limit_to_json
 def paged(json):
-    data = json.data
-    limit = data.get("limit", 10)
-    page = data.get("page", 1)
-    where = data.get("where", {})
+    limit = json.get("limit", 10)
+    page = json.get("page", 1)
+    where = json.get("where", {})
 
     clients, client_count, pages = query_all_paged(limit=limit, page=page, where=where)
 

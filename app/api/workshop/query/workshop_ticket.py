@@ -67,8 +67,8 @@ def query_all_paged(
     pages = ticket_count // limit + 1
 
     tickets = (
-        s.execute(
-            s.select(WorkshopTicket).where(*wh_).limit(limit).offset((page - 1) * limit)
+        db.session.execute(
+            s.select(WorkshopTicket).where(*wh_).limit(limit).offset((page - 1) * limit).order_by(WorkshopTicket.created.desc())
         )
         .scalars()
         .all()
@@ -216,9 +216,10 @@ def query_create_workshop_ticket_note(
     return re_
 
 
-def query_count_workshop_tickets():
+def query_count_workshop_tickets() -> int:
     se_ = s.select(s.func.count(WorkshopTicket.workshop_ticket_id))
-    return se_
+    re_ = db.session.execute(se_).scalar()
+    return re_
 
 
 def query_read_workshop_ticket_using_pk(
@@ -297,6 +298,35 @@ def query_update_workshop_ticket(
 
     return re_
 
+
+def query_delete_workshop_ticket(
+        workshop_ticket_id: int,
+        _auto_commit: bool = True,
+        _flush: bool = True,
+):
+    db.session.execute(
+        s.delete(WorkshopTicketDevice).where(WorkshopTicketDevice.fk_workshop_ticket_id == workshop_ticket_id),  # noqa
+    )
+
+    db.session.execute(
+        s.delete(WorkshopTicketItem).where(WorkshopTicketItem.fk_workshop_ticket_id == workshop_ticket_id),  # noqa
+    )
+
+    db.session.execute(
+        s.delete(WorkshopTicketNote).where(WorkshopTicketNote.fk_workshop_ticket_id == workshop_ticket_id),  # noqa
+    )
+
+    wh_ = (WorkshopTicket.workshop_ticket_id == workshop_ticket_id,)
+    de_ = s.delete(WorkshopTicket).where(*wh_)
+    db.session.execute(de_)
+
+    if _auto_commit:
+        db.session.commit()
+    else:
+        if _flush:
+            db.session.flush()
+
+    return de_
 
 def query_delete_workshop_ticket_note(
         workshop_ticket_note_id: int,

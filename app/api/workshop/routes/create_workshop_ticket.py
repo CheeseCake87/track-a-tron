@@ -11,10 +11,9 @@ from ..query.workshop_ticket import (
 @rest.post("/create/ticket")
 @limit_to_json
 def create_ticket(json):
-    data = json.data
-    ticket = data.get("ticket", {})
-    devices = data.get("devices", [])
-    items = data.get("items", [])
+    ticket = json.get("ticket", {})
+    devices = json.get("devices", [])
+    items = json.get("items", [])
 
     new_ticket = query_create_workshop_ticket(
         user_id=ticket.get("user_id"),

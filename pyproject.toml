@@ -8,6 +8,7 @@ serve_app = "app"
 vite_apps = ["frontend"]
 
 [tool.pyqwe]
+run-backend = "*:flask run --port 7070 --debug"
 run-frontend = "*(frontend):npx vite --host 127.0.0.1 --port 6262"
 build-frontend = "*(frontend):npx vite build"
 install-frontend = "*(frontend):npm install"

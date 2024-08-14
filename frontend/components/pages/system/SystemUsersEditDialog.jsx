@@ -1,14 +1,14 @@
 import {For, Show, useContext} from "solid-js";
 import {ContextSystem} from "../../../contextManagers/ContextSystem";
-import update_system_user from "../../../api/system/update_system_user";
-import get_system_user from "../../../api/system/get_system_user";
 import {ContextMain} from "../../../contextManagers/ContextMain";
+import API from "../../../utilities/API";
 
 
 export default function SystemUsersEditDialog() {
 
     const ctxMain = useContext(ContextMain)
     const ctxSystem = useContext(ContextSystem)
+    const api = new API()
 
     function updateSystemUser() {
         if (ctxSystem.tempEditSystemUser().username === '') {
@@ -19,18 +19,22 @@ export default function SystemUsersEditDialog() {
             ctxSystem.setSystemUsersDialogError('Display name cannot be blank')
             return
         }
-        get_system_user({where: {username: ctxSystem.tempEditSystemUser().username}})
-            .then((rpc) => {
-                if (rpc.ok) {
-                    if (rpc.data.user_id === ctxSystem.tempEditSystemUser().user_id) {
-                        // This is the same user, so it's OK
-                    } else {
-                        ctxSystem.setSystemUsersDialogError('Username already exists, please choose another')
-                        return
-                    }
+
+        api.post(
+            '/system/search/user',
+            {where: {username: ctxSystem.tempEditSystemUser().username}}
+        ).then((res) => {
+            if (res.ok) {
+
+                if (res.data.user_id === ctxSystem.tempEditSystemUser().user_id) {
+                    // This is the same user, so it's OK
+                } else {
+                    ctxSystem.setSystemUsersDialogError('Username already exists, please choose another')
+                    return
                 }
-                update_system_user(
-                    ctxSystem.tempEditSystemUser().user_id,
+
+                api.post(
+                    `/system/update/user/${ctxSystem.tempEditSystemUser().user_id}`,
                     {
                         username: ctxSystem.tempEditSystemUser().username,
                         display_name: ctxSystem.tempEditSystemUser().display_name,
@@ -38,18 +42,20 @@ export default function SystemUsersEditDialog() {
                         sms: ctxSystem.tempEditSystemUser().sms,
                         user_type: ctxSystem.tempEditSystemUser().user_type,
                     }
-                ).then((rpc) => {
-                    if (rpc.ok) {
+                ).then((ires) => {
+                    if (ires.ok) {
                         ctxSystem.setSystemUsersDialogError('')
                         ctxSystem.setTempEditSystemUser(ctxSystem.blankSystemUser)
                         ctxSystem.refSystemUserEditDialog.close()
                         ctxSystem.getAllSystemUsers()
                         ctxMain.showSuccessToast('User updated')
                     } else {
-                        ctxSystem.setSystemUsersDialogError(`Error updating user ${rpc.message}`)
+                        ctxSystem.setSystemUsersDialogError(`Error updating user ${ires.message}`)
                     }
                 })
-            })
+
+            }
+        })
     }
 
     return (

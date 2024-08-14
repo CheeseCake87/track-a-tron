@@ -8,6 +8,8 @@ import ClientRequest from "./ClientRequest";
 import StatusPills from "./StatusPills";
 import StatusAssigned from "./StatusAssigned";
 import Notes from "./Notes";
+import {ExternalLink} from "../../../globals/Icons";
+import {A} from "@solidjs/router";
 
 
 export default function WorkshopTicket() {
@@ -20,6 +22,8 @@ export default function WorkshopTicket() {
         'Name': '',
         'Style': {}
     })
+
+    let dialogDeleteTicketRef;
 
     createEffect(() => {
         if (ctxWorkshopTicket.workshopTicket().status_code) {
@@ -39,6 +43,22 @@ export default function WorkshopTicket() {
                 }}>
                     ← Back
                 </button>
+
+                <A className={'btn-confirm btn-a btn-slim'}
+                   target={'_blank'}
+                   href={'/clients/' + ctxWorkshopTicket.client().client_id}>
+                    Open Client <ExternalLink size={16}/>
+                </A>
+
+                <button className={'btn-danger'} onClick={() => {
+                    ctxWorkshop.deBounceGetPageTickets(
+                        200, ctxWorkshop.page(), ctxWorkshop.limit(), ctxWorkshop.ticketsWhere()
+                    )
+                    ctxMain.navigator('/workshop')
+                }}>
+                    Delete Ticket
+                </button>
+
                 <Show when={ctxWorkshopTicket.savingWorkshopTicket()}>
                     <div className={'flex flex-row gap-2 items-center px-4'}>
                         <SpinnerSmall/> Saving...
@@ -53,6 +73,25 @@ export default function WorkshopTicket() {
                 <StatusAssigned/>
                 <Notes/>
             </div>
+
+            <dialog className={'dialog'} ref={dialogDeleteTicketRef}>
+                <div className={'dialog-content text-center'} style={{height: '100px'}}>
+                    <p>Are you sure you would like to delete this ticket?</p>
+                    <p>Please note that this action is irreversible.</p>
+                </div>
+                <div className={'dialog-footer'}>
+                    <button className={'btn'} onClick={() => {
+                        dialogDeleteTicketRef.close()
+                    }}>
+                        Cancel
+                    </button>
+                    <button className={'btn-danger'} onClick={() => {
+                        ctxWorkshopTicket.deleteWorkshopTicket()
+                    }}>
+                        Confirm Delete
+                    </button>
+                </div>
+            </dialog>
 
         </div>
     )

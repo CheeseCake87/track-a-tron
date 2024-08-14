@@ -1,53 +1,61 @@
 import {For, Show, useContext} from "solid-js";
 import {ContextSystem} from "../../../contextManagers/ContextSystem";
-import get_system_user from "../../../api/system/get_system_user";
-import create_system_user from "../../../api/system/create_system_user";
 import {ContextMain} from "../../../contextManagers/ContextMain";
+import API from "../../../utilities/API";
 
 
 export default function SystemUsersAddDialog() {
 
     const ctxMain = useContext(ContextMain)
     const ctxSystem = useContext(ContextSystem)
+    const api = new API()
 
     function addSystemUser() {
-        get_system_user({where: {username: ctxSystem.tempAddSystemUser().username}})
-            .then((rpc) => {
-                if (rpc.ok) {
-                    ctxSystem.setSystemUsersDialogError('Username already exists, please choose another')
-                    return
+
+        api.post('/system/search/user',
+            {
+                where: {
+                    username: ctxSystem.tempAddSystemUser().username
                 }
-                if (ctxSystem.tempAddSystemUser().username === '') {
-                    ctxSystem.setSystemUsersDialogError('Username cannot be blank')
-                    return
+            }).then((res) => {
+            if (res.ok) {
+                ctxSystem.setSystemUsersDialogError('Username already exists, please choose another')
+                return
+            }
+            if (ctxSystem.tempAddSystemUser().username === '') {
+                ctxSystem.setSystemUsersDialogError('Username cannot be blank')
+                return
+            }
+            if (ctxSystem.tempAddSystemUser().password === '') {
+                ctxSystem.setSystemUsersDialogError('Password cannot be blank')
+                return
+            }
+            if (ctxSystem.tempAddSystemUser().password.length < 8) {
+                ctxSystem.setSystemUsersDialogError('Password must be at least 8 characters')
+                return
+            }
+            if (ctxSystem.tempAddSystemUser().display_name === '') {
+                ctxSystem.setSystemUsersDialogError('Display name cannot be blank')
+                return
+            }
+
+            api.post('/system/create/user', ctxSystem.tempAddSystemUser()).then((res) => {
+                if (res.ok) {
+                    ctxSystem.setSystemUsersDialogError('')
+                    ctxSystem.setTempAddSystemUser(ctxSystem.blankSystemUser)
+                    ctxSystem.refSystemUserAddDialog.close()
+                    ctxSystem.getAllSystemUsers()
+                    ctxMain.showSuccessToast('User created')
+                } else {
+                    ctxSystem.setSystemUsersDialogError('')
+                    ctxSystem.setTempAddSystemUser(ctxSystem.blankSystemUser)
+                    ctxSystem.refSystemUserAddDialog.close()
+                    ctxSystem.setSystemUsersDialogError(`Error creating user ${res.message}`)
                 }
-                if (ctxSystem.tempAddSystemUser().password === '') {
-                    ctxSystem.setSystemUsersDialogError('Password cannot be blank')
-                    return
-                }
-                if (ctxSystem.tempAddSystemUser().password.length < 8) {
-                    ctxSystem.setSystemUsersDialogError('Password must be at least 8 characters')
-                    return
-                }
-                if (ctxSystem.tempAddSystemUser().display_name === '') {
-                    ctxSystem.setSystemUsersDialogError('Display name cannot be blank')
-                    return
-                }
-                create_system_user(ctxSystem.tempAddSystemUser()).then((rpc) => {
-                    if (rpc.ok) {
-                        ctxSystem.setSystemUsersDialogError('')
-                        ctxSystem.setTempAddSystemUser(ctxSystem.blankSystemUser)
-                        ctxSystem.refSystemUserAddDialog.close()
-                        ctxSystem.getAllSystemUsers()
-                        ctxMain.showSuccessToast('User created')
-                    } else {
-                        ctxSystem.setSystemUsersDialogError('')
-                        ctxSystem.setTempAddSystemUser(ctxSystem.blankSystemUser)
-                        ctxSystem.refSystemUserAddDialog.close()
-                        ctxSystem.setSystemUsersDialogError(`Error creating user ${rpc.message}`)
-                    }
-                })
             })
+
+        })
+
     }
 
     return (

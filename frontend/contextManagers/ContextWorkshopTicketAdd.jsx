@@ -123,10 +123,13 @@ export function WorkshopTicketAddContextProvider() {
             where.postcode = findClientFields().postcode
         }
 
-        api.post('/client/search', {where: where}).then((res) => {
+        api.post('/clients/search', {where: where}).then((res) => {
             if (res.ok) {
                 setFoundClients(res.data)
                 setClientSearchDone(true)
+            } else {
+                setClientSearchDone(true)
+                setFoundClients([])
             }
         })
 
@@ -182,7 +185,7 @@ export function WorkshopTicketAddContextProvider() {
 
     function createClient() {
         api.post('/clients/create', {
-            fk_user_id: ctxMain.user().user_id,
+            fk_user_id: ctxMain.userId(),
             ...clientAdd(),
             ...clientAddAddress()
         }).then((res) => {
@@ -235,7 +238,7 @@ export function WorkshopTicketAddContextProvider() {
         api.post('/workshop/create/ticket', {
             ticket: {
                 user_id: ctxMain.userId(),
-                assigned_user_id: 0,
+                assigned_user_id: ctxMain.userId(),
                 client_id: clientIDSelected(),
                 category_code: categoryCode(),
                 status_code: statusCode(),

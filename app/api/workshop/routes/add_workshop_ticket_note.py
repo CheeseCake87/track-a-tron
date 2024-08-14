@@ -9,9 +9,9 @@ from ..query.workshop_ticket import (
 @rest.post("/ticket/<int:workshop_ticket_id>/add/note")
 @limit_to_json
 def add_workshop_ticket_note(json, workshop_ticket_id):
-    data = json.data
-    user_id = data.get("user_id")
-    text_note = data.get("text_note")
+
+    user_id = json.get("user_id")
+    text_note = json.get("text_note")
     new_note = query_create_workshop_ticket_note(workshop_ticket_id, user_id, text_note)
 
     if not new_note:
