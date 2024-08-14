@@ -48,8 +48,6 @@ export default class API {
         if (req.ok) {
             const json = await req.json()
 
-            console.log(json)
-
             if (json.navigate) {
                 this.navigator(json.navigate)
             }

@@ -29,8 +29,6 @@ def create_client(json):
 
     new_client = query_create_client(json)
 
-    print(new_client)
-
     if not new_client:
         return APIResponse.fail(
             "Unable to create client.",
