@@ -32,6 +32,7 @@ export function MainContextProvider(props) {
 
     const [iconSize, setIconSize] = createSignal(24)
 
+    const [systemVersion, setSystemVersion] = createSignal('')
     const [loggedIn, setLoggedIn] = createSignal(false)
     const [userId, setUserId] = createSignal(null)
     const [userType, setUserType] = createSignal(null)
@@ -109,8 +110,10 @@ export function MainContextProvider(props) {
             if (res.ok) {
                 if (!res.data.system_setup) {
                     setLoaded(true)
+                    setSystemVersion(res.data.system_version)
                     navigator('/install')
                 } else {
+                    setSystemVersion(res.data.system_version)
                     setEnabledServices(res.data.enabled_services)
                     setSession(res.data.session)
                     setLoggedIn(res.data.session.logged_in)
@@ -126,6 +129,8 @@ export function MainContextProvider(props) {
     return (
         <ContextMain.Provider value={
             {
+                systemVersion: systemVersion,
+
                 showMainMenu: showMainMenu,
                 setShowMainMenu: setShowMainMenu,
 

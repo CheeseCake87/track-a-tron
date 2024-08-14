@@ -24,7 +24,7 @@ def create_app():
         app,
         cors_allowed_hosts=[
             "http://127.0.0.1:6262",
-        ],
+        ] if app.debug else None,
     )
 
     db.init_app(app)

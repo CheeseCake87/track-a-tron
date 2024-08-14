@@ -27,19 +27,19 @@ pip install -r requirements/development.txt
 Install and update the Frontend (Node) requirements
 
 ```bash
-pyqwe vite-install && pyqwe vite-update
+pyqwe install-frontend && pyqwe update-frontend
 ```
 
 Terminal 1 : Run Quart
 
 ```bash
-pyqwe quart-dev
+pyqwe run-backend
 ```
 
 Terminal 2 : Run Vite w/ SolidJS
 
 ```bash
-pyqwe vite-run
+pyqwe run-frontend
 ```
 
 Now visit http://localhost:6262 - this will display the installer page.

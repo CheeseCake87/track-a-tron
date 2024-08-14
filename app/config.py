@@ -1,11 +1,16 @@
+import os
+
+from dotenv import load_dotenv
 from flask_imp.config import ImpConfig, FlaskConfig, SQLiteDatabaseConfig
+
+load_dotenv()
 
 database_configs = {
     "development": SQLiteDatabaseConfig(name="database"),
 }
 
 flask_config = FlaskConfig(
-    secret_key="8aa7205c5c2f09d16b418d5a2df0d21d381e7220c8fa04b0"
+    secret_key=os.environ.get("SECRET_KEY"),
 )
 
 imp_config = ImpConfig(
