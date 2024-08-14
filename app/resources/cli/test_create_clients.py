@@ -1,7 +1,6 @@
 import random
 
 import click
-from faker import Faker
 from flask import current_app as app
 
 
@@ -10,6 +9,7 @@ from flask import current_app as app
 def create_clients(amount):
     from app.api.clients.query.client import query_create_client
     from app.utilities import DatetimeDeltaMC
+    from faker import Faker
 
     f = Faker()
     client_list = []

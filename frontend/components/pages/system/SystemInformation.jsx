@@ -21,7 +21,7 @@ export default function SystemInformation() {
                 target={'_blank'}
                 href="https://github.com/CheeseCake87/track-a-tron"
             >GitHub</a></p>
-            <p className={'pt-2'}><small>Version: 1000</small></p>
+            <p className={'pt-2'}><small>Version: {ctxMain.systemVersion()}</small></p>
             <p><small>© 2024 David Carmichael, licensed under GNU AFFERO
                 GENERAL PUBLIC LICENSE Version 3 (19 November 2007)</small></p>
             <p><small>A copy of this license can be <a
