@@ -47,5 +47,13 @@ Now visit http://localhost:6262 - this will display the installer page.
 Load the database
 
 ```bash
-pyqwe load-test-data
+flask create-test-admin
+```
+
+```bash
+flask create-clients 10
+```
+
+```bash
+flask create-tickets 10
 ```
