@@ -1,7 +1,0 @@
-flask-imp==5.3.4
-flask-orjson==2.0.0
-vite-transporter==0.8.4
-pytz
-python-dotenv
-requests
-huey
