@@ -1,3 +1,3 @@
 # 🤖 track-a-tron
 
-Track-a-tron has changed to [MorphBLS](https://github.com/CheeseCake87/MorphBLS)
+Track-a-tron has changed to [FlexBLS](https://github.com/CheeseCake87/FlexBLS)
